@@ -1,0 +1,22 @@
+{
+	"BUILD_DIR" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/dzs/Downloads/HoverLogAnalyzer",
+	"CMAKE_SOURCE_DIR" : "/Users/dzs/Downloads/HoverLogAnalyzer",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Unix Makefiles",
+	"INCLUDE_DIR" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/include",
+	"INPUTS" : [ "/Users/dzs/Downloads/HoverLogAnalyzer/logo.icns" ],
+	"LOCK_FILE" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "icon" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_icon.cpp",
+	"RCC_EXECUTABLE" : "/Users/dzs/Qt-5.15.10/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/dzs/Downloads/HoverLogAnalyzer/icon.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}
