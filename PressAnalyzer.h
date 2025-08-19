@@ -1,0 +1,103 @@
+#ifndef PRESSANALYZER_H
+#define PRESSANALYZER_H
+
+#include <QMainWindow>
+#include <QListWidget>
+#include <QPlainTextEdit>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QDateTime>
+#include <QStringList>
+#include <QDockWidget>
+#include <QToolBar>
+#include <QStatusBar>
+#include <QMenu>
+#include <QTextBlock>
+
+struct EventItem {
+    int lineNumber;    // 日志行号
+    QString display;   // 显示文本
+    QTextBlock block;  // 对应 viewLog 的文本块
+};
+
+class PressAnalyzer : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit PressAnalyzer(QWidget *parent = nullptr);
+
+private slots:
+    // 文件操作
+    void loadAndAnalyzeLog();
+    void loadAndAnalyzeLogs();
+    void saveEventListToFile();
+    void clearWindow();
+
+    // 事件列表操作
+    void addEventToList(int triggerCount, int lineNumber, const QString &display);
+    void onEventClicked(QListWidgetItem *item);
+
+    // 搜索功能
+    void searchAll();
+    void goToPrevSearch();
+    void goToNextSearch();
+    void onSearchResultClicked(QListWidgetItem *item);
+    void onCameraEventClicked(QListWidgetItem *item);
+private:
+    // 日志解析
+    void analyzeFile(const QString &filePath,
+                     int &lineNumber,
+                     QDateTime &currentTakeoffTime,
+                     QStringList &lines,
+                     bool &inRecvException,
+                     QStringList &recvExceptionLines);
+
+    // 高亮
+    void highlightAllEvents();
+    void highlightLine(int lineNumber, const QString &eventType);
+    void highlightSearchResults(int index);
+    void jumpToSearchIndex(int index);
+    void parseCameraStatus(int lineNumber,const QString &line);
+private:
+    // ==================== 工具栏控件 ====================
+    QPushButton *dirloadButton;
+    QPushButton *fileloadButton;
+    QPushButton *saveButton;
+    QPushButton *clearButton;
+
+    QLineEdit *searchEdit;
+    QPushButton *searchAllButton;
+    QPushButton *searchPrevButton;
+    QPushButton *searchNextButton;
+
+    // ==================== Dock 控件 ====================
+    QDockWidget *eventDock;
+    QListWidget *eventList;
+
+    QDockWidget *searchDock;
+    QListWidget *searchResultList;
+    QPushButton *clearSearchButton;
+    QPushButton *closeSearchButton;
+
+    // ==================== 中心控件 ====================
+    QPlainTextEdit *logView;
+    // ==================== 状态栏控件 ====================
+    QStatusBar *statusBar;          // 状态栏
+    // ==================== 数据 ====================
+    QList<EventItem> allEvents;
+    QStringList allLogLines;
+
+    QList<int> searchResults;
+    int currentSearchIndex;
+
+    int triggerCount;
+    int flightCount;
+    // ==================== camera ====================
+    QDockWidget *cameraDock;
+    QListWidget *cameraEventList;
+    QPushButton *cameraButton;   // 工具栏按钮
+    QList<EventItem> cameraEvents;
+};
+
+#endif // PRESSANALYZER_H
