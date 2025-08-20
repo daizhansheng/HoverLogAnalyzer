@@ -40,37 +40,29 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     searchResultList = new QListWidget(this);
     searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    // 清除和关闭按钮（竖排文字）
-    clearSearchButton = new QPushButton("C\nL\nE\nA\nR", this);
-    closeSearchButton = new QPushButton("C\nL\nO\nS\nE", this);
-    QFont btnFont = clearSearchButton->font();
-    btnFont.setPointSize(9);
-    clearSearchButton->setFont(btnFont);
-    closeSearchButton->setFont(btnFont);
-
-    clearSearchButton->setFixedWidth(30);
-    closeSearchButton->setFixedWidth(30);
-
-    QWidget *searchButtonWidget = new QWidget(this);
-    QVBoxLayout *buttonLayout = new QVBoxLayout(searchButtonWidget);
-    buttonLayout->setContentsMargins(2, 2, 2, 2);
-    buttonLayout->setSpacing(2);
-    buttonLayout->addWidget(clearSearchButton, 0, Qt::AlignTop);
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(closeSearchButton, 0, Qt::AlignBottom);
-
-    QWidget *searchResultWidget = new QWidget(this);
-    QHBoxLayout *searchResultLayout = new QHBoxLayout(searchResultWidget);
-    searchResultLayout->setContentsMargins(0, 0, 0, 0);
-    searchResultLayout->setSpacing(0);
-    searchResultLayout->addWidget(searchResultList);
-    searchResultLayout->addWidget(searchButtonWidget);
-
     QDockWidget *searchDock = new QDockWidget(this);
-    searchDock->setWidget(searchResultWidget);
+    searchDock->setWidget(searchResultList);
     searchDock->setMinimumHeight(150);
     addDockWidget(Qt::BottomDockWidgetArea, searchDock);
     searchDock->hide();
+
+    // 设置右键菜单
+    searchDock->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(searchDock, &QDockWidget::customContextMenuRequested, this, [=](const QPoint &pos){
+        QMenu menu;
+        QAction *clearAction = menu.addAction("Clear");
+        QAction *closeAction = menu.addAction("Close");
+
+        QAction *selected = menu.exec(searchDock->mapToGlobal(pos));
+        if (selected == clearAction) {
+            searchResults.clear();
+            currentSearchIndex = 0;
+            searchResultList->clear();
+            highlightSearchResults(currentSearchIndex);
+        } else if (selected == closeAction) {
+            searchDock->hide();
+        }
+    });
 
     // ==================== 工具栏 ====================
     QToolBar *toolBar = addToolBar("主工具栏");
@@ -115,14 +107,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     connect(searchPrevButton, &QPushButton::clicked, this, &PressAnalyzer::goToPrevSearch);
     connect(searchNextButton, &QPushButton::clicked, this, &PressAnalyzer::goToNextSearch);
     connect(searchResultList, &QListWidget::itemClicked, this, &PressAnalyzer::onSearchResultClicked);
-
-    connect(clearSearchButton, &QPushButton::clicked, this, [this](){
-        searchResults.clear();
-        currentSearchIndex = 0;
-        searchResultList->clear();
-        highlightSearchResults(currentSearchIndex);
-    });
-    connect(closeSearchButton, &QPushButton::clicked, searchDock, &QDockWidget::hide);
 
     // ==================== Camera按钮 ====================
     cameraButton = new QPushButton("Camera状态", this);
