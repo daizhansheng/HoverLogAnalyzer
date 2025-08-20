@@ -76,7 +76,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     QToolBar *toolBar = addToolBar("主工具栏");
     dirloadButton = new QPushButton("选择Log目录分析", this);
     fileloadButton = new QPushButton("选择Log文件分析", this);
-    cameraButton = new QPushButton("Camera状态", this);
     saveButton = new QPushButton("保存分析结果", this);
     clearButton = new QPushButton("清除窗口", this);
 
@@ -88,7 +87,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     toolBar->addWidget(dirloadButton);
     toolBar->addWidget(fileloadButton);
-    toolBar->addWidget(cameraButton);
     toolBar->addWidget(saveButton);
     toolBar->addWidget(clearButton);
     toolBar->addSeparator();
@@ -126,17 +124,35 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     });
     connect(closeSearchButton, &QPushButton::clicked, searchDock, &QDockWidget::hide);
 
-    // ==================== camera信息 ====================
+    // ==================== Camera按钮 ====================
+    cameraButton = new QPushButton("Camera状态", this);
+    toolBar->addWidget(cameraButton);
+
     cameraEventList = new QListWidget(this);
     cameraDock = new QDockWidget("Camera状态", this);
     cameraDock->setWidget(cameraEventList);
     cameraDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, cameraDock);
-    cameraDock->hide();   // 默认隐藏
+    cameraDock->hide();
     connect(cameraButton, &QPushButton::clicked, this, [this](){
         cameraDock->setVisible(!cameraDock->isVisible());
     });
     connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
+    // ==================== RPC按钮 ====================
+    rpcButton = new QPushButton("RPC调用", this);
+    toolBar->addWidget(rpcButton);
+
+    rpcEventList = new QListWidget(this);
+    rpcDock = new QDockWidget("RPC调用", this);
+    rpcDock->setWidget(rpcEventList);
+    rpcDock->setAllowedAreas(Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, rpcDock);
+    rpcDock->hide();
+    connect(rpcButton, &QPushButton::clicked, this, [this](){
+        rpcDock->setVisible(!rpcDock->isVisible());
+    });
+    connect(rpcEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onRpcEventClicked);
+    splitDockWidget(cameraDock, rpcDock, Qt::Horizontal);
 }
 
 // typeToString 函数保持不变
@@ -360,6 +376,8 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
 
         // ==================== camera status ====================
         parseCameraStatus(lineNumber, line);
+        // ==================== rpc 调用 status ====================
+        parseRpcEvent(lineNumber, line);
     }
 }
 
@@ -548,6 +566,7 @@ void PressAnalyzer::highlightAllEvents()
     // 合并 allEvents 和 cameraEvents 并按行号排序
     QList<EventItem> mergedEvents = allEvents;
     mergedEvents += cameraEvents;  // 合并两个列表
+    mergedEvents += rpcEvents;  // 合并两个列表
 
     // 按 lineNumber 升序排序
     std::sort(mergedEvents.begin(), mergedEvents.end(),
@@ -634,20 +653,88 @@ void PressAnalyzer::clearWindow()
 }
 
 // =================== 搜索相关 ===================
+// 用于转义正则元字符，按字面匹配
+QString escapeRegExp(const QString &text) {
+    QString escaped = text;
+    const QString specialChars = R"(\.^$|()[]*+?{})";
+    for (int i = 0; i < specialChars.size(); ++i) {
+        escaped.replace(specialChars[i], "\\" + QString(specialChars[i]));
+    }
+    return escaped;
+}
+
 void PressAnalyzer::searchAll()
 {
     searchResults.clear();
     currentSearchIndex = -1;
     searchResultList->clear();
 
-    QString pattern = searchEdit->text().trimmed();
-    if (pattern.isEmpty()) return;
+    QString text = searchEdit->text().trimmed();
+    if (text.isEmpty()) return;
 
-    QRegExp rx(pattern, Qt::CaseInsensitive);  // 支持正则
-    for (int i = 0; i < allLogLines.size(); i++) {
-        if (rx.indexIn(allLogLines[i]) != -1) {
+    // 分割多关键字，用 | 分隔
+    QStringList keys = text.split('|', Qt::SkipEmptyParts);
+
+    // 自动转义每个关键字的正则元字符
+    for (int i = 0; i < keys.size(); ++i) {
+        keys[i] = escapeRegExp(keys[i]);
+    }
+
+    // 准备颜色池，前两个关键字固定颜色，其余随机亮色
+    QVector<QColor> colorPool = {
+        QColor(255, 182, 193), // light pink
+        QColor(173, 216, 230), // light blue
+        QColor(144, 238, 144), // light green
+        QColor(255, 255, 150), // light yellow
+        QColor(255, 160, 122), // light salmon
+        QColor(255, 228, 181), // moccasin
+        QColor(221, 160, 221), // plum
+        QColor(176, 224, 230), // powder blue
+        QColor(152, 251, 152), // pale green
+        QColor(240, 230, 140)  // khaki
+    };
+
+    QVector<QPair<QRegExp, QColor>> patterns;
+    for (int i = 0; i < keys.size(); ++i) {
+        QRegExp rx(keys[i], Qt::CaseInsensitive);
+
+        QColor color;
+        if (i == 0)
+            color = Qt::yellow;
+        else if (i == 1)
+            color = Qt::green;
+        else
+            color = colorPool[qrand() % colorPool.size()];
+
+        patterns.append(qMakePair(rx, color));
+    }
+
+    // 设置高亮 delegate（复用已有的）
+    auto *delegate = qobject_cast<HighlightDelegate*>(searchResultList->itemDelegate());
+    if (delegate) {
+        delegate->setPatterns(patterns);
+        searchResultList->viewport()->update();
+    } else {
+        delegate = new HighlightDelegate(patterns, searchResultList);
+        searchResultList->setItemDelegate(delegate);
+    }
+
+    // 遍历日志行，匹配关键字
+    for (int i = 0; i < allLogLines.size(); ++i) {
+        bool matched = false;
+        for (auto &p : patterns) {
+            if (p.first.indexIn(allLogLines[i]) != -1) {
+                matched = true;
+                break;
+            }
+        }
+
+        if (matched) {
             searchResults.push_back(i);
-            searchResultList->addItem(QString("%1 | %2").arg(i+1, 6, 10, QChar(' ')).arg(allLogLines[i]));
+            QString itemText = QString("%1 | %2")
+                                   .arg(i+1, 6, 10, QChar(' '))
+                                   .arg(allLogLines[i]);
+            searchResultList->addItem(new QListWidgetItem(itemText));
         }
     }
 
@@ -657,7 +744,6 @@ void PressAnalyzer::searchAll()
     }
 
     searchResultList->show();
-    // highlightSearchResults();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
 }
@@ -667,19 +753,43 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
 {
     if (searchResults.isEmpty()) return;
 
-    // 定义搜索结果高亮格式
-    QTextCharFormat fmt;
-    fmt.setBackground(QColor(255, 255, 0)); // 黄色
-    fmt.setForeground(Qt::black);
-
     QTextDocument* doc = logView->document();
+
+    // 多关键字高亮（这里假设 keys 已经存储了搜索关键字）
+    // 并且 colors 对应每个关键字的颜色
+    QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
+
+    QVector<QColor> colors;
+    for (int i = 0; i < keys.size(); ++i) {
+        if (i == 0)
+            colors.append(Qt::yellow);
+        else if (i == 1)
+            colors.append(Qt::green);
+        else
+            colors.append(QColor(173 + qrand() % 80, 216 + qrand() % 39, 230 + qrand() % 25)); // 随机亮色
+    }
+
+    // 对每行搜索匹配词
     for (int lineNumber : searchResults) {
         QTextBlock block = doc->findBlockByNumber(lineNumber);
-        if (block.isValid()) {
-            QTextCursor cursor(block);
-            cursor.movePosition(QTextCursor::StartOfBlock);
-            cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-            cursor.setCharFormat(fmt); // 只添加黄色高亮，不清除原来颜色
+        if (!block.isValid()) continue;
+
+        QString lineText = block.text();
+        for (int k = 0; k < keys.size(); ++k) {
+            QRegExp rx(keys[k], Qt::CaseInsensitive);
+            int pos = 0;
+            while ((pos = rx.indexIn(lineText, pos)) != -1) {
+                QTextCursor cursor(block);
+                cursor.setPosition(block.position() + pos);
+                cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, rx.cap(0).length());
+
+                QTextCharFormat fmt;
+                fmt.setBackground(colors[k]);
+                fmt.setForeground(Qt::black);
+                cursor.setCharFormat(fmt);
+
+                pos += rx.cap(0).length(); // 移动到下一个匹配
+            }
         }
     }
 
@@ -798,6 +908,50 @@ void PressAnalyzer::parseCameraStatus(int lineNumber, const QString &line)
     }
 }
 
+void PressAnalyzer::parseRpcEvent(int lineNumber, const QString &line)
+{
+    QRegExp rx("\\[rpc\\] Req:\\d+ - \\{id: \\d+\\s+(\\w+)");
+    if (rx.indexIn(line) == -1) return;
+
+    QString rpcName = rx.cap(1);
+
+    // ---------------- 心跳特殊处理 ----------------
+    if (rpcName == "heartbeat_info_request") { // 心跳
+        if (!heartbeatActive) {
+            // 心跳开始
+            QString display = QString("%1 | 心跳开始").arg(lineNumber);
+            QListWidgetItem *item = new QListWidgetItem(display);
+            item->setBackground(QColor(173, 216, 230)); // 浅蓝色
+            rpcEventList->addItem(item);
+            heartbeatActive = true;
+        }
+        lastHeartbeatLine = lineNumber;
+        return; // 不显示每条心跳
+    }
+
+    // ---------------- 检测心跳断开 ----------------
+    if (heartbeatActive && lineNumber - lastHeartbeatLine > 2) { // 超过2行没有心跳
+        QString display = QString("%1 | 心跳断开").arg(lastHeartbeatLine);
+        QListWidgetItem *item = new QListWidgetItem(display);
+        item->setBackground(QColor(255, 182, 193)); // 浅红色
+        rpcEventList->addItem(item);
+        heartbeatActive = false;
+    }
+
+    // ---------------- 普通 RPC 显示 ----------------
+    QString display = QString("%1 | %2").arg(lineNumber).arg(rpcName);
+    QListWidgetItem *item = new QListWidgetItem(display);
+    item->setBackground(Qt::white);
+
+    EventItem rpcEvent;
+    rpcEvent.lineNumber = lineNumber;
+    rpcEvent.display = display;
+    rpcEvent.block = logView->document()->findBlockByNumber(lineNumber - 1);
+    rpcEvents.push_back(rpcEvent);
+
+    rpcEventList->addItem(item);
+}
+
 void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
 {
     highlightAllEvents();
@@ -805,6 +959,20 @@ void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
     if (row < 0 || row >= cameraEvents.size()) return;
 
     int lineNumber = cameraEvents[row].lineNumber;
+    QTextBlock block = logView->document()->findBlockByNumber(lineNumber - 1);
+    if (!block.isValid()) return;
+
+    QTextCursor cursor(block);
+    logView->setTextCursor(cursor);
+    logView->centerCursor();  // 居中显示
+}
+void PressAnalyzer::onRpcEventClicked(QListWidgetItem *item)
+{
+    highlightAllEvents();
+    int row = rpcEventList->row(item);
+    if (row < 0 || row >= rpcEvents.size()) return;
+
+    int lineNumber =  rpcEvents[row].lineNumber;
     QTextBlock block = logView->document()->findBlockByNumber(lineNumber - 1);
     if (!block.isValid()) return;
 

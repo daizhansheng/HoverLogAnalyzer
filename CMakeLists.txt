@@ -44,6 +44,7 @@ else()
         add_executable(HoverLogAnalyzer
             ${PROJECT_SOURCES}
             ${APP_ICON_MACOS}
+            HighlightDelegate.h
             # 加入 Dock 图标
         )
     endif()

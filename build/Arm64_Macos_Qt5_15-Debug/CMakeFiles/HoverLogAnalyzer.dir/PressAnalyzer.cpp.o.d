@@ -954,6 +954,14 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenu.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyledItemDelegate \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleditemdelegate.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpainter.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QVector \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QVBoxLayout \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qboxlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlayout.h \
@@ -975,7 +983,6 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCursor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCharFormat \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDebug \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdebug.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcontiguouscache.h \

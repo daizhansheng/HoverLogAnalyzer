@@ -954,6 +954,14 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenu.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyledItemDelegate \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleditemdelegate.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpainter.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QVector \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \

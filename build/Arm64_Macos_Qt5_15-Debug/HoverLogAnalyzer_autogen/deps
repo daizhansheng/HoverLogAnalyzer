@@ -100,6 +100,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/CMakeLists.txt \
+	/Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp \
 	/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/.qtc/package-manager/auto-setup.cmake \
@@ -109,7 +110,10 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Downloads/HoverLogAnalyzer/icon.qrc \
 	/Users/dzs/Downloads/HoverLogAnalyzer/main.cpp \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
+	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
+	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
+	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
@@ -177,6 +181,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
@@ -193,6 +198,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
@@ -223,6 +229,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
+	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
@@ -246,6 +253,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
+	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
@@ -288,83 +296,24 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
 	/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
 	/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
 	/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
