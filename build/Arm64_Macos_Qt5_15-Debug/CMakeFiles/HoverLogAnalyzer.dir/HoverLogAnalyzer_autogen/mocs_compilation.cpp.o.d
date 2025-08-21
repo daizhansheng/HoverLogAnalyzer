@@ -1,6 +1,6 @@
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o: \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp \
-  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryWidget.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/memory \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__config_site \
@@ -484,7 +484,7 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/forward_like.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__variant/monostate.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/stdexcept \
-  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../BatteryChartWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../BatteryWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
@@ -968,4 +968,6 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenu \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenu.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h

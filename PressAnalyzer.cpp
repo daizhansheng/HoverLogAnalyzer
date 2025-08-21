@@ -14,7 +14,7 @@
 #include <QDebug>
 #include <QProcess>
 #include <QRandomGenerator>
-#include <QLabel>
+
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1)
 {
@@ -135,7 +135,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     vLayout->setSpacing(0); // 控件紧挨着
 
     // 心跳超时标题
-    QLabel *titleLabel = new QLabel("心跳超时次数", statusContainer);
+    titleLabel = new QLabel(statusContainer);
     QFont font = titleLabel->font();
     font.setBold(true);
     font.setPointSize(12);
@@ -146,12 +146,13 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // 状态面板列表
     statusEventList = new QListWidget(statusContainer);
-    statusEventList->setFixedSize(500, 100);
+    statusEventList->setMaximumHeight(50);
+    statusEventList->setMaximumWidth(700);
     vLayout->addWidget(statusEventList);
 
     // 电池图表
-    batteryChart = new BatteryChartWidget(statusContainer);
-    batteryChart->setFixedSize(500, 250);
+    batteryChart = new BatteryWidget(statusContainer);
+    batteryChart->setMaximumWidth(700);
     vLayout->addWidget(batteryChart);
 
     // 添加伸展，让底部空间自适应
@@ -164,6 +165,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     statusDock->setWidget(statusContainer);
     statusDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, statusDock);
+    statusDock->setMinimumWidth(800);
     statusDock->hide();
 
     // 状态按钮控制 Dock 显示隐藏
@@ -235,7 +237,14 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
                                    .arg(lineNumber, 6, 10, QChar(' '))
                                    .arg(line);
         lines << numberedLine;
+        // ==================== drone SN ====================
+        if (line.contains("[I|System]: SN:", Qt::CaseInsensitive)) {
+            int idx = line.indexOf("[I|System]: SN:");
+            if (idx != -1) {
+                sn = line.mid(idx + QString("[I|System]: SN:").length()).trimmed();
 
+            }
+        }
         // ==================== press once power key ====================
         if (line.contains("press once power key", Qt::CaseInsensitive)) {
             triggerCount++;
@@ -416,6 +425,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     cameraEvents.clear();
     eventList->clear();
     statusEventList->clear();
+    statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
     searchResultList->clear();
@@ -432,8 +442,9 @@ void PressAnalyzer::loadAndAnalyzeLog()
     analyzeFile(filePath, lineNumber, currentTakeoffTime, lines, inRecvException, recvExceptionLines);
 
     logView->setPlainText(lines.join("\n"));
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
-    setWindowTitle(QString("请求起飞次数: %1 | 成功起飞次数: %2").arg(triggerCount).arg(flightCount));
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
 }
 void PressAnalyzer::loadAndAnalyzeLogs()
 {
@@ -523,6 +534,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     cameraEvents.clear();
     eventList->clear();
     statusEventList->clear();
+    statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
     searchResultList->clear();
@@ -541,8 +553,9 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     }
 
     logView->setPlainText(lines.join("\n"));
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
-    setWindowTitle(QString("请求起飞次数: %1 | 成功起飞次数: %2").arg(triggerCount).arg(flightCount));
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
 }
 // 高亮事件行
 void PressAnalyzer::highlightLine(int lineNumber, const QString &eventType)
@@ -676,6 +689,7 @@ void PressAnalyzer::clearWindow()
     cameraEventList->clear();
     cameraDock->hide();
     statusEventList->clear();
+    statusEvents.clear();
     batteryChart->clear();
     statusDock->hide();
     batteryinfo.clear();

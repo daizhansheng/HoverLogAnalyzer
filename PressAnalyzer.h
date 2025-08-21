@@ -13,8 +13,9 @@
 #include <QStatusBar>
 #include <QMenu>
 #include <QTextBlock>
+#include <QLabel>
 #include "HighlightDelegate.h"
-#include "BatteryChartWidget.h"
+#include "BatteryWidget.h"
 
 struct EventItem {
     int lineNumber;    // 日志行号
@@ -110,8 +111,10 @@ private:
 
     // ==================== battery ====================
     QWidget *statusContainer;
-    BatteryChartWidget *batteryChart;
+    BatteryWidget *batteryChart;
     QVector<BatteryInfo> batteryinfo;
+    QLabel *titleLabel;
+    QString sn;
 };
 
 #endif // PRESSANALYZER_H

@@ -100,7 +100,7 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryWidget.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
@@ -217,6 +217,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
@@ -237,6 +238,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
