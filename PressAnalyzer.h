@@ -14,6 +14,8 @@
 #include <QMenu>
 #include <QTextBlock>
 #include "HighlightDelegate.h"
+#include "BatteryChartWidget.h"
+
 struct EventItem {
     int lineNumber;    // 日志行号
     QString display;   // 显示文本
@@ -44,7 +46,7 @@ private slots:
     void goToNextSearch();
     void onSearchResultClicked(QListWidgetItem *item);
     void onCameraEventClicked(QListWidgetItem *item);
-    void onRpcEventClicked(QListWidgetItem *item);
+    void onStatusEventClicked(QListWidgetItem *item);
 private:
     // 日志解析
     void analyzeFile(const QString &filePath,
@@ -60,7 +62,7 @@ private:
     void highlightSearchResults(int index);
     void jumpToSearchIndex(int index);
     void parseCameraStatus(int lineNumber,const QString &line);
-    void parseRpcEvent(int lineNumber, const QString &line);
+    void parseStatusEvent(int lineNumber, const QString &line);
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *dirloadButton;
@@ -100,14 +102,16 @@ private:
     QListWidget *cameraEventList;
     QPushButton *cameraButton;   // 工具栏按钮
     QList<EventItem> cameraEvents;
-    // ==================== rpc ====================
-    QDockWidget *rpcDock;
-    QListWidget *rpcEventList;
-    QPushButton *rpcButton;   // 工具栏按钮
-    QList<EventItem> rpcEvents;
+    // ==================== status ====================
+    QDockWidget *statusDock;
+    QListWidget *statusEventList;
+    QPushButton *statusButton;   // 工具栏按钮
+    QList<EventItem> statusEvents;
 
-    int lastHeartbeatLine = -1;
-    bool heartbeatActive = false;
+    // ==================== battery ====================
+    QWidget *statusContainer;
+    BatteryChartWidget *batteryChart;
+    QVector<BatteryInfo> batteryinfo;
 };
 
 #endif // PRESSANALYZER_H

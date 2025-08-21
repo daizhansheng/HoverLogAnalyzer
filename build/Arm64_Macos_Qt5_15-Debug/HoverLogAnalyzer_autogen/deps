@@ -99,6 +99,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
+	/Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/CMakeLists.txt \
 	/Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp \
@@ -112,6 +113,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
+	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
@@ -181,6 +183,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
@@ -231,6 +234,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
+	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
 	/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \

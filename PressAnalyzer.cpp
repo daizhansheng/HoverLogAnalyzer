@@ -13,7 +13,8 @@
 #include <QRegExp>
 #include <QDebug>
 #include <QProcess>
-
+#include <QRandomGenerator>
+#include <QLabel>
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1)
 {
@@ -40,7 +41,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     searchResultList = new QListWidget(this);
     searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QDockWidget *searchDock = new QDockWidget(this);
+    searchDock = new QDockWidget(this);
     searchDock->setWidget(searchResultList);
     searchDock->setMinimumHeight(150);
     addDockWidget(Qt::BottomDockWidgetArea, searchDock);
@@ -100,7 +101,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     connect(eventList, &QListWidget::itemClicked, this, &PressAnalyzer::onEventClicked);
     connect(eventList, &QListWidget::itemDoubleClicked, this, &PressAnalyzer::onEventClicked);
 
-    connect(searchAllButton, &QPushButton::clicked, this, [this, searchDock](){
+    connect(searchAllButton, &QPushButton::clicked, this, [this](){
         searchAll();
         if (!searchResults.isEmpty()) searchDock->show();
     });
@@ -122,21 +123,59 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
         cameraDock->setVisible(!cameraDock->isVisible());
     });
     connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
-    // ==================== RPC按钮 ====================
-    rpcButton = new QPushButton("RPC调用", this);
-    toolBar->addWidget(rpcButton);
+    // ==================== 状态面板 ====================
+    // 状态按钮
+    statusButton = new QPushButton("状态面板", this);
+    toolBar->addWidget(statusButton);
 
-    rpcEventList = new QListWidget(this);
-    rpcDock = new QDockWidget("RPC调用", this);
-    rpcDock->setWidget(rpcEventList);
-    rpcDock->setAllowedAreas(Qt::RightDockWidgetArea);
-    addDockWidget(Qt::RightDockWidgetArea, rpcDock);
-    rpcDock->hide();
-    connect(rpcButton, &QPushButton::clicked, this, [this](){
-        rpcDock->setVisible(!rpcDock->isVisible());
+    // 容器
+    statusContainer = new QWidget(this);
+    QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
+    vLayout->setContentsMargins(5, 5, 5, 5);
+    vLayout->setSpacing(0); // 控件紧挨着
+
+    // 心跳超时标题
+    QLabel *titleLabel = new QLabel("心跳超时次数", statusContainer);
+    QFont font = titleLabel->font();
+    font.setBold(true);
+    font.setPointSize(12);
+    titleLabel->setFont(font);
+    titleLabel->setAlignment(Qt::AlignLeft);
+    titleLabel->setStyleSheet("color: red;");   // 红色
+    vLayout->addWidget(titleLabel);
+
+    // 状态面板列表
+    statusEventList = new QListWidget(statusContainer);
+    statusEventList->setFixedSize(500, 100);
+    vLayout->addWidget(statusEventList);
+
+    // 电池图表
+    batteryChart = new BatteryChartWidget(statusContainer);
+    batteryChart->setFixedSize(500, 250);
+    vLayout->addWidget(batteryChart);
+
+    // 添加伸展，让底部空间自适应
+    vLayout->addStretch(1);
+
+    statusContainer->setLayout(vLayout);
+
+    // 创建 Dock 并设置容器
+    statusDock = new QDockWidget("状态面板", this);
+    statusDock->setWidget(statusContainer);
+    statusDock->setAllowedAreas(Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, statusDock);
+    statusDock->hide();
+
+    // 状态按钮控制 Dock 显示隐藏
+    connect(statusButton, &QPushButton::clicked, this, [this](){
+        statusDock->setVisible(!statusDock->isVisible());
     });
-    connect(rpcEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onRpcEventClicked);
-    splitDockWidget(cameraDock, rpcDock, Qt::Horizontal);
+
+    // 事件列表点击
+    connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
+
+    // 横向拆分 Dock
+    splitDockWidget(cameraDock, statusDock, Qt::Horizontal);
 }
 
 // typeToString 函数保持不变
@@ -361,7 +400,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
         // ==================== camera status ====================
         parseCameraStatus(lineNumber, line);
         // ==================== rpc 调用 status ====================
-        parseRpcEvent(lineNumber, line);
+        parseStatusEvent(lineNumber, line);
     }
 }
 
@@ -374,7 +413,13 @@ void PressAnalyzer::loadAndAnalyzeLog()
     statusBar->showMessage(QString("路径: %1").arg(filePath));
     allLogLines.clear();
     allEvents.clear();
+    cameraEvents.clear();
     eventList->clear();
+    statusEventList->clear();
+    batteryChart->clear();
+    searchResults.clear();
+    searchResultList->clear();
+    batteryinfo.clear();
     triggerCount = 0;
     flightCount = 0;
 
@@ -387,6 +432,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     analyzeFile(filePath, lineNumber, currentTakeoffTime, lines, inRecvException, recvExceptionLines);
 
     logView->setPlainText(lines.join("\n"));
+    batteryChart->setData(batteryinfo);
     setWindowTitle(QString("请求起飞次数: %1 | 成功起飞次数: %2").arg(triggerCount).arg(flightCount));
 }
 void PressAnalyzer::loadAndAnalyzeLogs()
@@ -476,6 +522,11 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
+    statusEventList->clear();
+    batteryChart->clear();
+    searchResults.clear();
+    searchResultList->clear();
+    batteryinfo.clear();
     triggerCount = 0;
     flightCount = 0;
 
@@ -490,6 +541,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     }
 
     logView->setPlainText(lines.join("\n"));
+    batteryChart->setData(batteryinfo);
     setWindowTitle(QString("请求起飞次数: %1 | 成功起飞次数: %2").arg(triggerCount).arg(flightCount));
 }
 // 高亮事件行
@@ -549,9 +601,8 @@ void PressAnalyzer::highlightAllEvents()
 {
     // 合并 allEvents 和 cameraEvents 并按行号排序
     QList<EventItem> mergedEvents = allEvents;
-    mergedEvents += cameraEvents;  // 合并两个列表
-    mergedEvents += rpcEvents;  // 合并两个列表
-
+    mergedEvents += cameraEvents;   // 合并列表
+    mergedEvents += statusEvents; // 合并列表
     // 按 lineNumber 升序排序
     std::sort(mergedEvents.begin(), mergedEvents.end(),
               [](const EventItem &a, const EventItem &b) {
@@ -618,16 +669,16 @@ void PressAnalyzer::clearWindow()
     searchResultList->clear();
     searchResultList->hide();
     searchResults.clear();
+    searchDock->hide();
     currentSearchIndex = -1;
     triggerCount = 0;
     flightCount = 0;
     cameraEventList->clear();
     cameraDock->hide();
-    // 隐藏搜索结果窗口
-    QDockWidget* searchDock = qobject_cast<QDockWidget*>(searchResultList->parentWidget()->parentWidget());
-    if (searchDock) {
-        searchDock->hide();
-    }
+    statusEventList->clear();
+    batteryChart->clear();
+    statusDock->hide();
+    batteryinfo.clear();
     logView->moveCursor(QTextCursor::Start);   // 光标移到开头
     QTextCursor cursor = logView->textCursor();
     cursor.clearSelection();                    // 取消选中
@@ -688,7 +739,7 @@ void PressAnalyzer::searchAll()
         else if (i == 1)
             color = Qt::green;
         else
-            color = colorPool[qrand() % colorPool.size()];
+            color = colorPool[QRandomGenerator::global()->bounded(colorPool.size())];
 
         patterns.append(qMakePair(rx, color));
     }
@@ -750,7 +801,11 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
         else if (i == 1)
             colors.append(Qt::green);
         else
-            colors.append(QColor(173 + qrand() % 80, 216 + qrand() % 39, 230 + qrand() % 25)); // 随机亮色
+            colors.append(QColor(
+                173 + QRandomGenerator::global()->bounded(80),
+                216 + QRandomGenerator::global()->bounded(39),
+                230 + QRandomGenerator::global()->bounded(25)
+                ));
     }
 
     // 对每行搜索匹配词
@@ -891,49 +946,62 @@ void PressAnalyzer::parseCameraStatus(int lineNumber, const QString &line)
         cameraEventList->addItem(item);
     }
 }
-
-void PressAnalyzer::parseRpcEvent(int lineNumber, const QString &line)
+BatteryInfo parseBatteryInfo(const QString &line)
 {
-    QRegExp rx("\\[rpc\\] Req:\\d+ - \\{id: \\d+\\s+(\\w+)");
-    if (rx.indexIn(line) == -1) return;
+    BatteryInfo info;
 
-    QString rpcName = rx.cap(1);
+    // 查找 "battery info:" 的位置
+    int idx = line.indexOf("battery info:");
+    if (idx == -1) return info; // 没找到就返回默认值
 
-    // ---------------- 心跳特殊处理 ----------------
-    if (rpcName == "heartbeat_info_request") { // 心跳
-        if (!heartbeatActive) {
-            // 心跳开始
-            QString display = QString("%1 | 心跳开始").arg(lineNumber);
-            QListWidgetItem *item = new QListWidgetItem(display);
-            item->setBackground(QColor(173, 216, 230)); // 浅蓝色
-            rpcEventList->addItem(item);
-            heartbeatActive = true;
-        }
-        lastHeartbeatLine = lineNumber;
-        return; // 不显示每条心跳
+    // 去掉前面的日志前缀
+    QString data = line.mid(idx + QString("battery info:").length()).trimmed();
+
+    // 使用正则匹配 key=value 或 key: value，忽略空格
+    QRegularExpression re(R"(\b(\w+)\s*[:=]\s*([^\s,]+))");
+    QRegularExpressionMatchIterator i = re.globalMatch(data);
+
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
+        QString key = match.captured(1).trimmed();
+        QString value = match.captured(2).trimmed();
+
+        if (key == "soc") info.soc = value.toInt();
+        else if (key == "current") info.current = value.toInt();
+        else if (key == "voltage") info.voltage = value.toInt();
+        else if (key == "temp") info.temp = value.toDouble();
+        else if (key == "is_abnormal") info.is_abnormal = value.toInt();
+        else if (key == "is_charging") info.is_charging = value.toInt();
+        else if (key == "heating") info.heating = value.toInt();
+        else if (key == "can_heat") info.can_heat = value.toInt();
+        else if (key == "battery_sn") info.battery_sn = value;
+        else if (key == "battery_cycles_count") info.battery_cycles_count = value.toInt();
+        else if (key == "battery_health") info.battery_health = value.toInt();
     }
 
-    // ---------------- 检测心跳断开 ----------------
-    if (heartbeatActive && lineNumber - lastHeartbeatLine > 2) { // 超过2行没有心跳
-        QString display = QString("%1 | 心跳断开").arg(lastHeartbeatLine);
+    return info;
+}
+void PressAnalyzer::parseStatusEvent(int lineNumber, const QString &line)
+{
+    // ---------------- 检查 APP/RC 超时 ----------------
+    if (line.contains("APP heart timeout delay", Qt::CaseInsensitive)) {
+        QString display = QString("%1 | App/RC 连接超时10s").arg(lineNumber);
         QListWidgetItem *item = new QListWidgetItem(display);
-        item->setBackground(QColor(255, 182, 193)); // 浅红色
-        rpcEventList->addItem(item);
-        heartbeatActive = false;
+        item->setBackground(QColor(255, 182, 193));
+        EventItem stEvent;
+        stEvent.lineNumber = lineNumber;
+        stEvent.display = display;
+        stEvent.block = logView->document()->findBlockByNumber(lineNumber - 1);
+        statusEvents.push_back(stEvent);
+        statusEventList->addItem(item);
+        return;
     }
 
-    // ---------------- 普通 RPC 显示 ----------------
-    QString display = QString("%1 | %2").arg(lineNumber).arg(rpcName);
-    QListWidgetItem *item = new QListWidgetItem(display);
-    item->setBackground(Qt::white);
-
-    EventItem rpcEvent;
-    rpcEvent.lineNumber = lineNumber;
-    rpcEvent.display = display;
-    rpcEvent.block = logView->document()->findBlockByNumber(lineNumber - 1);
-    rpcEvents.push_back(rpcEvent);
-
-    rpcEventList->addItem(item);
+    // ---------------- 解析电池信息 ----------------
+    if (line.contains("battery info", Qt::CaseInsensitive)) {
+        BatteryInfo info = parseBatteryInfo(line);
+        batteryinfo.push_back(info);
+    }
 }
 
 void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
@@ -950,14 +1018,14 @@ void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
     logView->setTextCursor(cursor);
     logView->centerCursor();  // 居中显示
 }
-void PressAnalyzer::onRpcEventClicked(QListWidgetItem *item)
+void PressAnalyzer::onStatusEventClicked(QListWidgetItem *item)
 {
     highlightAllEvents();
-    int row = rpcEventList->row(item);
-    if (row < 0 || row >= rpcEvents.size()) return;
+    int row = statusEventList->row(item);
+    if (row < 0 || row >= statusEvents.size()) return;
 
-    int lineNumber =  rpcEvents[row].lineNumber;
-    QTextBlock block = logView->document()->findBlockByNumber(lineNumber - 1);
+    int lineNumber =  statusEvents[row].lineNumber;
+    QTextBlock block = logView->document()->findBlockByNumber(lineNumber);
     if (!block.isValid()) return;
 
     QTextCursor cursor(block);

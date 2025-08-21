@@ -81,6 +81,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h",
+			"MU",
+			"EWIEGA46WW/moc_BatteryChartWidget.cpp",
+			null
+		],
+		[
 			"/Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h",
 			"MU",
 			"EWIEGA46WW/moc_HighlightDelegate.cpp",

@@ -37,13 +37,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 73,
+				"line" : 74,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 53,
+				"line" : 54,
 				"parent" : 0
 			},
 			{
@@ -172,7 +172,7 @@
 				0,
 				1,
 				2,
-				10
+				11
 			]
 		}
 	],
@@ -255,7 +255,7 @@
 				0,
 				1,
 				2,
-				10
+				11
 			]
 		},
 		{
@@ -264,7 +264,8 @@
 			[
 				3,
 				7,
-				8
+				8,
+				9
 			]
 		},
 		{
@@ -286,15 +287,15 @@
 			"sourceIndexes" : 
 			[
 				6,
-				9
+				10
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				11,
-				12
+				12,
+				13
 			]
 		}
 	],
@@ -342,6 +343,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "HighlightDelegate.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BatteryChartWidget.h",
 			"sourceGroupIndex" : 1
 		},
 		{

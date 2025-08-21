@@ -45,6 +45,7 @@ else()
             ${PROJECT_SOURCES}
             ${APP_ICON_MACOS}
             HighlightDelegate.h
+            BatteryChartWidget.h
             # 加入 Dock 图标
         )
     endif()
@@ -80,3 +81,4 @@ install(TARGETS HoverLogAnalyzer
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(HoverLogAnalyzer)
 endif()
+

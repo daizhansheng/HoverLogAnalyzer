@@ -1,4 +1,4 @@
-/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.h \
+/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryWidget.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/BatteryWidget.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/moc_predefs.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
@@ -9,10 +9,7 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
@@ -50,7 +47,6 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
@@ -71,13 +67,11 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
@@ -90,25 +84,15 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
@@ -120,24 +104,17 @@
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
@@ -153,9 +130,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
@@ -170,25 +145,16 @@
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
@@ -199,62 +165,16 @@
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h
