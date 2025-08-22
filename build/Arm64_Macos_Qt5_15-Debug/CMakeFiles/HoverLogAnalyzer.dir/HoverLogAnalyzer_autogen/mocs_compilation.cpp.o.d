@@ -906,6 +906,8 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfiledevice.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtouchdevice.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_HighlightDelegate.cpp \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../HighlightDelegate.h \
@@ -954,8 +956,6 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractbutton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
@@ -970,4 +970,7 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../SocTempWidget.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SocTempWidget.cpp

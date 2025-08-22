@@ -104,6 +104,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp \
 	/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.h \
+	/Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/.qtc/package-manager/auto-setup.cmake \
 	/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
 	/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/3.31.2/CMakeSystem.cmake \
@@ -183,6 +184,7 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \

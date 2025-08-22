@@ -16,6 +16,7 @@
 #include <QLabel>
 #include "HighlightDelegate.h"
 #include "BatteryWidget.h"
+#include "SocTempWidget.h"
 
 struct EventItem {
     int lineNumber;    // 日志行号
@@ -63,7 +64,9 @@ private:
     void highlightSearchResults(int index);
     void jumpToSearchIndex(int index);
     void parseCameraStatus(int lineNumber,const QString &line);
-    void parseStatusEvent(int lineNumber, const QString &line);
+    void parseStatusHeartbeat(int lineNumber, const QString &line);
+    void parseStatusBattery(int lineNumber, const QString &line);
+    void parseStatusSocTemp(int lineNumber, const QString &line);
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *dirloadButton;
@@ -108,13 +111,16 @@ private:
     QListWidget *statusEventList;
     QPushButton *statusButton;   // 工具栏按钮
     QList<EventItem> statusEvents;
-
+    QString sn;      //飞机sn号
     // ==================== battery ====================
     QWidget *statusContainer;
     BatteryWidget *batteryChart;
-    QVector<BatteryInfo> batteryinfo;
+    QVector<BatteryTimeInfo> batteryinfo;
     QLabel *titleLabel;
-    QString sn;
+
+    // ==================== Soc temp ====================
+    SocTempChart *socChart;
+    QVector<SocTempInfo> soctmp;
 };
 
 #endif // PRESSANALYZER_H

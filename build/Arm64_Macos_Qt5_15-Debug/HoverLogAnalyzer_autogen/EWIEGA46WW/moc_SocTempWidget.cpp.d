@@ -1,4 +1,4 @@
-/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryWidget.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/BatteryWidget.h \
+/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SocTempWidget.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/moc_predefs.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
@@ -101,7 +101,6 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
@@ -166,6 +165,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \

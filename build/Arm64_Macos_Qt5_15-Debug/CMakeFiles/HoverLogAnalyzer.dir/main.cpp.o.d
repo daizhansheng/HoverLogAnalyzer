@@ -968,6 +968,8 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \

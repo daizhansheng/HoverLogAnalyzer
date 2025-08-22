@@ -97,6 +97,12 @@
 			"MU",
 			"EWIEGA46WW/moc_PressAnalyzer.cpp",
 			null
+		],
+		[
+			"/Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h",
+			"MU",
+			"EWIEGA46WW/moc_SocTempWidget.cpp",
+			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],

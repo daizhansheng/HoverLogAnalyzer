@@ -46,6 +46,7 @@ else()
             ${APP_ICON_MACOS}
             HighlightDelegate.h
             BatteryWidget.h
+            SocTempWidget.h
             # 加入 Dock 图标
         )
     endif()

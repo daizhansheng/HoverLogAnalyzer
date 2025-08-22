@@ -37,13 +37,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 74,
+				"line" : 75,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 54,
+				"line" : 55,
 				"parent" : 0
 			},
 			{
@@ -172,18 +172,18 @@
 				0,
 				1,
 				2,
-				11
+				12
 			]
 		}
 	],
 	"dependencies" : 
 	[
 		{
-			"id" : "HoverLogAnalyzer_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 0,
 			"id" : "HoverLogAnalyzer_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "HoverLogAnalyzer_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "HoverLogAnalyzer::@6890427a1f51a3e7e1df",
@@ -255,7 +255,7 @@
 				0,
 				1,
 				2,
-				11
+				12
 			]
 		},
 		{
@@ -265,7 +265,8 @@
 				3,
 				7,
 				8,
-				9
+				9,
+				10
 			]
 		},
 		{
@@ -287,15 +288,15 @@
 			"sourceIndexes" : 
 			[
 				6,
-				10
+				11
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				12,
-				13
+				13,
+				14
 			]
 		}
 	],
@@ -347,7 +348,12 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BatteryChartWidget.h",
+			"path" : "BatteryWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "SocTempWidget.h",
 			"sourceGroupIndex" : 1
 		},
 		{

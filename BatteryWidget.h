@@ -3,6 +3,7 @@
 #include <QVector>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QDateTime>
 #include <QString>
 
 struct BatteryInfo {
@@ -19,6 +20,11 @@ struct BatteryInfo {
     int battery_health = 0;      // 电池健康
 };
 
+struct BatteryTimeInfo {
+    QDateTime timestamp;
+    BatteryInfo info;
+};
+
 class BatteryWidget : public QWidget {
     Q_OBJECT
 public:
@@ -28,7 +34,7 @@ public:
         setMinimumSize(500, 400);
     }
 
-    void setData(const QVector<BatteryInfo> &data) {
+    void setData(const QVector<BatteryTimeInfo> &data) {
         batteryData = data;
         update();
     }
@@ -45,7 +51,6 @@ protected:
 
         if (batteryData.isEmpty()) return;
 
-        // 固定图表参数
         int marginLeft   = 60;
         int marginRight  = 60;
         int marginTop    = 30;
@@ -58,43 +63,41 @@ protected:
         int chart1Top = marginTop;
         int chart2Top = chart1Top + chartHeight + chartSpacing;
 
-        // 绘制 SOC 图
         drawSocChart(painter, marginLeft, chart1Top, chartWidth, chartHeight, n);
-
-        // 绘制 Temp 图
         drawTempChart(painter, marginLeft, chart2Top, chartWidth, chartHeight, n);
 
-        // 十字线及悬浮框
+        // SOC 和 Temp 十字线
         if (hoverIndex >= 0 && hoverIndex < n) {
             int x = marginLeft + hoverIndex * chartWidth / double(n - 1);
-
-            // 时间显示
-            int sec = hoverIndex * 2;
-            QString timeStr = QString("%1:%2").arg(sec / 60, 2, 10, QChar('0')).arg(sec % 60, 2, 10, QChar('0'));
+            QDateTime ts = batteryData[hoverIndex].timestamp;
             painter.setPen(Qt::black);
-            painter.drawText(x - 15, marginTop - 5, timeStr);
 
-            // 竖向十字线覆盖两图
+            // 上面 SOC 图上方显示时间
+            painter.drawText(x, chart1Top - 2, ts.toString("HH:mm:ss"));
+
+            // 下面 Temp 图上方显示时间
+            painter.drawText(x, chart2Top - 2, ts.toString("HH:mm:ss"));
+
+            // 竖线覆盖两图
             painter.setPen(QPen(Qt::DashLine));
             painter.drawLine(x, chart1Top, x, chart2Top + chartHeight);
 
             // SOC水平虚线
-            int ySoc = chart1Top + chartHeight - batteryData[hoverIndex].soc * chartHeight / 100.0;
+            int ySoc = chart1Top + chartHeight - batteryData[hoverIndex].info.soc * chartHeight / 100.0;
             painter.drawLine(marginLeft, ySoc, marginLeft + chartWidth, ySoc);
 
             // Temp水平虚线
-            double temp = batteryData[hoverIndex].temp;
+            double temp = batteryData[hoverIndex].info.temp;
             double tempMin = -20, tempMax = 80;
             int yTemp = chart2Top + (tempMax - temp) * chartHeight / (tempMax - tempMin);
             painter.drawLine(marginLeft, yTemp, marginLeft + chartWidth, yTemp);
 
-            // 绘制悬浮值
-            painter.setPen(Qt::black);
-            drawHoverText(painter, QString("%1%").arg(batteryData[hoverIndex].soc), QPointF(x, ySoc));
+            // 悬浮数值
+            drawHoverText(painter, QString("%1%").arg(batteryData[hoverIndex].info.soc), QPointF(x, ySoc));
             drawHoverText(painter, QString("%1°C").arg(temp, 0, 'f', 1), QPointF(x, yTemp));
 
-            // 绘制右侧完整 BatteryInfo 气泡
-            drawHoverInfo(painter, batteryData[hoverIndex], QPointF(width() + 10, chart1Top));
+            // 右侧完整信息
+            drawHoverInfo(painter, batteryData[hoverIndex].info, QPointF(width() , chart1Top));
         }
     }
 
@@ -105,7 +108,7 @@ protected:
         }
 
         int marginLeft = 60;
-        int chartWidth = 500; // 固定宽度
+        int chartWidth = width() - 60 - 60;
 
         int n = batteryData.size();
         int x = event->pos().x();
@@ -122,7 +125,7 @@ protected:
     }
 
 private:
-    QVector<BatteryInfo> batteryData;
+    QVector<BatteryTimeInfo> batteryData;
     int hoverIndex = -1;
 
     void drawSocChart(QPainter &p, int left, int top, int w, int h, int n) {
@@ -130,7 +133,7 @@ private:
         p.drawRect(left, top, w, h);
         p.drawText(left + w - 60, top + 15, "电池电量");
 
-        // Y轴刻度和虚线
+        // Y轴刻度
         for (int i = 0; i <= 10; ++i) {
             int y = top + h - i * h / 10;
             p.setPen(Qt::black);
@@ -147,23 +150,28 @@ private:
             }
         }
 
-        // X轴刻度
-        int step = qMax(1, n / 10);
+        // X轴刻度，自动稀疏
+        QFontMetrics fm(p.font());
+        int textWidth = fm.horizontalAdvance("00:00:00") + 10;
+        int maxLabels = w / textWidth;
+        int step = qMax(1, n / maxLabels);
+        // step *= 2; // 再稀疏一倍
+
         for (int i = 0; i < n; i += step) {
             int x = left + i * w / double(n - 1);
-            int sec = i * 2;
+            QDateTime ts = batteryData[i].timestamp;
             p.setPen(Qt::black);
             p.drawLine(x, top + h, x, top + h + 5);
-            p.drawText(x - 10, top + h + 20, QString("%1s").arg(sec));
+            p.drawText(x-10 , top + h + 20, ts.toString("HH:mm:ss"));
         }
 
         // SOC曲线
         p.setPen(QPen(Qt::green, 2));
         for (int i = 0; i < n - 1; ++i) {
             double x1 = left + i * w / double(n - 1);
-            double y1 = top + h - batteryData[i].soc * h / 100.0;
+            double y1 = top + h - batteryData[i].info.soc * h / 100.0;
             double x2 = left + (i + 1) * w / double(n - 1);
-            double y2 = top + h - batteryData[i + 1].soc * h / 100.0;
+            double y2 = top + h - batteryData[i + 1].info.soc * h / 100.0;
             p.drawLine(QPointF(x1, y1), QPointF(x2, y2));
         }
     }
@@ -175,7 +183,7 @@ private:
 
         double tempMin = -20, tempMax = 80;
 
-        // Y轴刻度和虚线
+        // Y轴刻度
         for (int i = 0; i <= 10; ++i) {
             int y = top + i * h / 10;
             double t = tempMax - i * (tempMax - tempMin) / 10;
@@ -193,27 +201,31 @@ private:
             }
         }
 
-        // X轴刻度
-        int step = qMax(1, n / 10);
+        // X轴刻度，自动稀疏
+        QFontMetrics fm(p.font());
+        int textWidth = fm.horizontalAdvance("00:00:00") + 10;
+        int maxLabels = w / textWidth;
+        int step = qMax(1, n / maxLabels);
+        // step *= 2; // 再稀疏一倍
+
         for (int i = 0; i < n; i += step) {
             int x = left + i * w / double(n - 1);
-            int sec = i * 2;
+            QDateTime ts = batteryData[i].timestamp;
             p.setPen(Qt::black);
             p.drawLine(x, top + h, x, top + h + 5);
-            p.drawText(x - 10, top + h + 20, QString("%1s").arg(sec));
+            p.drawText(x-10, top + h + 20, ts.toString("HH:mm:ss"));
         }
 
         // Temp曲线
         p.setPen(QPen(Qt::red, 2));
         for (int i = 0; i < n - 1; ++i) {
             double x1 = left + i * w / double(n - 1);
-            double y1 = top + (tempMax - batteryData[i].temp) * h / (tempMax - tempMin);
+            double y1 = top + (tempMax - batteryData[i].info.temp) * h / (tempMax - tempMin);
             double x2 = left + (i + 1) * w / double(n - 1);
-            double y2 = top + (tempMax - batteryData[i + 1].temp) * h / (tempMax - tempMin);
+            double y2 = top + (tempMax - batteryData[i + 1].info.temp) * h / (tempMax - tempMin);
             p.drawLine(QPointF(x1, y1), QPointF(x2, y2));
         }
     }
-
     void drawHoverText(QPainter &p, const QString &text, const QPointF &pos) {
         QFontMetrics fm(p.font());
         QRect rect = fm.boundingRect(text).adjusted(-4, -2, 4, 2);
@@ -241,23 +253,16 @@ private:
 
         QFontMetrics fm(p.font());
         QRect rect = fm.boundingRect(0, 0, 200, 200, Qt::TextWordWrap, text);
-        rect.adjust(-6, -4, 6, 4); // 边距
+        // rect.adjusted(4, 2, -4, -2);
 
         QPointF pos(mousePos);
         int hoverOffset = 20;
 
-        // 默认靠右显示
         pos.setX(mousePos.x() + hoverOffset);
-
-        // 超出右边界 → 靠左
         if (pos.x() + rect.width() > width() - 10)
             pos.setX(mousePos.x() - rect.width() - hoverOffset);
-
-        // 超出底部 → 向上
         if (pos.y() + rect.height() > height() - 10)
             pos.setY(height() - rect.height() - 10);
-
-        // 超出顶部 → 下移
         if (pos.y() < 10) pos.setY(10);
 
         rect.moveTopLeft(pos.toPoint());

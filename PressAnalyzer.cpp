@@ -155,6 +155,10 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     batteryChart->setMaximumWidth(700);
     vLayout->addWidget(batteryChart);
 
+    // Soc温度表
+    socChart = new SocTempChart(statusContainer);
+    socChart->setMaximumSize(700, 400);
+    vLayout->addWidget(socChart);
     // 添加伸展，让底部空间自适应
     vLayout->addStretch(1);
 
@@ -408,8 +412,10 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
 
         // ==================== camera status ====================
         parseCameraStatus(lineNumber, line);
-        // ==================== rpc 调用 status ====================
-        parseStatusEvent(lineNumber, line);
+        // ==================== status 面板 ====================
+        parseStatusHeartbeat(lineNumber, line);
+        parseStatusBattery(lineNumber, line);
+        parseStatusSocTemp(lineNumber, line);
     }
 }
 
@@ -444,6 +450,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     logView->setPlainText(lines.join("\n"));
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
+    socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
 }
 void PressAnalyzer::loadAndAnalyzeLogs()
@@ -555,6 +562,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     logView->setPlainText(lines.join("\n"));
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
+    socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
 }
 // 高亮事件行
@@ -995,7 +1003,7 @@ BatteryInfo parseBatteryInfo(const QString &line)
 
     return info;
 }
-void PressAnalyzer::parseStatusEvent(int lineNumber, const QString &line)
+void PressAnalyzer::parseStatusHeartbeat(int lineNumber, const QString &line)
 {
     // ---------------- 检查 APP/RC 超时 ----------------
     if (line.contains("APP heart timeout delay", Qt::CaseInsensitive)) {
@@ -1011,10 +1019,27 @@ void PressAnalyzer::parseStatusEvent(int lineNumber, const QString &line)
         return;
     }
 
+}
+void PressAnalyzer::parseStatusBattery(int lineNumber, const QString &line)
+{
     // ---------------- 解析电池信息 ----------------
     if (line.contains("battery info", Qt::CaseInsensitive)) {
-        BatteryInfo info = parseBatteryInfo(line);
-        batteryinfo.push_back(info);
+        BatteryTimeInfo timeinfo;
+        // 提取时间戳和日期时间
+        QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+        if (rxTimestamp.indexIn(line) != -1) {
+            QString tsStr = rxTimestamp.cap(1);   // 9733.000
+            QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
+
+            timeinfo.timestamp = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
+
+            // 补上毫秒部分
+            double tsDouble = tsStr.toDouble();
+            int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+            timeinfo.timestamp = timeinfo.timestamp.addMSecs(msecs);
+        }
+        timeinfo.info = parseBatteryInfo(line);
+        batteryinfo.push_back(timeinfo);
     }
 }
 
@@ -1045,4 +1070,46 @@ void PressAnalyzer::onStatusEventClicked(QListWidgetItem *item)
     QTextCursor cursor(block);
     logView->setTextCursor(cursor);
     logView->centerCursor();  // 居中显示
+}
+
+void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
+{
+    // 如果行中不包含关键字，直接跳过
+    if (!line.contains("get soc max temp")) {
+        return;
+    }
+
+    SocTempInfo info;
+
+    // 提取时间戳和日期时间
+    QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+    if (rxTimestamp.indexIn(line) != -1) {
+        QString tsStr = rxTimestamp.cap(1);   // 9733.000
+        QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
+
+        info.timestamp = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
+
+        // 补上毫秒部分
+        double tsDouble = tsStr.toDouble();
+        int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+        info.timestamp = info.timestamp.addMSecs(msecs);
+    }
+
+    // 提取 max temp
+    QRegExp rxMax("get soc max temp\\s*:\\s*(\\d+)");
+    if (rxMax.indexIn(line) != -1) {
+        info.maxTemp = rxMax.cap(1).toInt();
+    }
+
+    // 提取 core temp
+    QRegExp rxCore("core temp\\s*:\\s*([0-9:]+)");
+    if (rxCore.indexIn(line) != -1) {
+        QStringList temps = rxCore.cap(1).split(":");
+        for (const QString &t : temps) {
+            info.coreTemps.append(t.toInt());
+        }
+    }
+
+    // 保存到成员 QVector
+    soctmp.append(info);
 }

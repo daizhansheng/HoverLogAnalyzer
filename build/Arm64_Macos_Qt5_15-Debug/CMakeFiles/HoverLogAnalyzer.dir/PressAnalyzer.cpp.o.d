@@ -968,6 +968,8 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QVBoxLayout \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qboxlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlayout.h \
@@ -988,7 +990,6 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qsplitter.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCursor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDebug \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdebug.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcontiguouscache.h \

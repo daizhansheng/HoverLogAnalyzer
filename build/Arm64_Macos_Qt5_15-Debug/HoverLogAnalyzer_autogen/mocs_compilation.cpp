@@ -2,3 +2,4 @@
 #include "EWIEGA46WW/moc_BatteryWidget.cpp"
 #include "EWIEGA46WW/moc_HighlightDelegate.cpp"
 #include "EWIEGA46WW/moc_PressAnalyzer.cpp"
+#include "EWIEGA46WW/moc_SocTempWidget.cpp"

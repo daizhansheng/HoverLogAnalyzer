@@ -84,8 +84,8 @@ clean: CMakeFiles/HoverLogAnalyzer_autogen.dir/clean
 # Target rules for target CMakeFiles/HoverLogAnalyzer.dir
 
 # All Build rule for target.
-CMakeFiles/HoverLogAnalyzer.dir/all: CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/all
 CMakeFiles/HoverLogAnalyzer.dir/all: CMakeFiles/HoverLogAnalyzer_autogen.dir/all
+CMakeFiles/HoverLogAnalyzer.dir/all: CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target HoverLogAnalyzer"
@@ -103,8 +103,8 @@ HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/rule
 .PHONY : HoverLogAnalyzer
 
 # codegen rule for target.
-CMakeFiles/HoverLogAnalyzer.dir/codegen: CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/all
 CMakeFiles/HoverLogAnalyzer.dir/codegen: CMakeFiles/HoverLogAnalyzer_autogen.dir/all
+CMakeFiles/HoverLogAnalyzer.dir/codegen: CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/codegen
 .PHONY : CMakeFiles/HoverLogAnalyzer.dir/codegen
 
