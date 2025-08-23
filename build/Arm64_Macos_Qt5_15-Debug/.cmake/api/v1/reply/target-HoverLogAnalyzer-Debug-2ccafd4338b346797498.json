@@ -37,13 +37,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 74,
+				"line" : 76,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 54,
+				"line" : 56,
 				"parent" : 0
 			},
 			{
@@ -172,7 +172,7 @@
 				0,
 				1,
 				2,
-				11
+				13
 			]
 		}
 	],
@@ -255,7 +255,7 @@
 				0,
 				1,
 				2,
-				11
+				13
 			]
 		},
 		{
@@ -265,7 +265,9 @@
 				3,
 				7,
 				8,
-				9
+				9,
+				10,
+				11
 			]
 		},
 		{
@@ -287,15 +289,15 @@
 			"sourceIndexes" : 
 			[
 				6,
-				10
+				12
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				12,
-				13
+				14,
+				15
 			]
 		}
 	],
@@ -348,6 +350,16 @@
 		{
 			"backtrace" : 1,
 			"path" : "BatteryWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "SocTempWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "EventToggleButton.h",
 			"sourceGroupIndex" : 1
 		},
 		{

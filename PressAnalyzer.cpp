@@ -16,7 +16,7 @@
 #include <QRandomGenerator>
 
 PressAnalyzer::PressAnalyzer(QWidget *parent)
-    : QMainWindow(parent), currentSearchIndex(-1)
+    : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
     setWindowTitle("Hover日志分析助手");
     setWindowIcon(QIcon(":/new/image/logo.icns"));
@@ -31,12 +31,16 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // ==================== 事件列表 Dock ====================
     eventList = new QListWidget(this);
-    QDockWidget *eventDock = new QDockWidget("分析结果列表", this);
+    QDockWidget *eventDock = new QDockWidget(this);
     eventDock->setWidget(eventList);
     eventDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures); // 禁止浮动
+    eventDock->setTitleBarWidget(new QWidget()); // 去掉标题栏
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
-
+    // ==================== EventToggleButton 控制事件列表 Dock ====================
+    toggleBtn = new EventToggleButton(eventDock, this);
+    toggleBtn->move(0, (height() - toggleBtn->height()) / 2);
+    toggleBtn->show();
     // ==================== 搜索结果 Dock ====================
     searchResultList = new QListWidget(this);
     searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -92,6 +96,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     statusBar = new QStatusBar(this);
     setStatusBar(statusBar);
     statusBar->showMessage("就绪"); // 初始状态消息
+
     // ==================== 信号连接 ====================
     connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
     connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
@@ -123,6 +128,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
         cameraDock->setVisible(!cameraDock->isVisible());
     });
     connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
+
     // ==================== 状态面板 ====================
     // 状态按钮
     statusButton = new QPushButton("状态面板", this);
@@ -159,9 +165,9 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     socChart = new SocTempChart(statusContainer);
     socChart->setMaximumSize(700, 400);
     vLayout->addWidget(socChart);
+
     // 添加伸展，让底部空间自适应
     vLayout->addStretch(1);
-
     statusContainer->setLayout(vLayout);
 
     // 创建 Dock 并设置容器

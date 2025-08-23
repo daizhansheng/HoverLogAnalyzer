@@ -909,6 +909,14 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_EventToggleButton.cpp \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../EventToggleButton.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPushButton \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qpushbutton.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractbutton.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qicon.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_HighlightDelegate.cpp \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../HighlightDelegate.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyledItemDelegate \
@@ -919,7 +927,6 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractspinbox.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvalidator.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qicon.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qslider.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractslider.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyle.h \
@@ -951,14 +958,9 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qglyphrun.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrawfont.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractbutton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlineedit.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QToolBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtoolbar.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qaction.h \

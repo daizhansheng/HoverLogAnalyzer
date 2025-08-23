@@ -17,7 +17,7 @@
 #include "HighlightDelegate.h"
 #include "BatteryWidget.h"
 #include "SocTempWidget.h"
-
+#include "EventToggleButton.h"
 struct EventItem {
     int lineNumber;    // 日志行号
     QString display;   // 显示文本
@@ -87,7 +87,7 @@ private:
     QListWidget *searchResultList;
     QPushButton *clearSearchButton;
     QPushButton *closeSearchButton;
-
+    EventToggleButton *toggleBtn;
     // ==================== 中心控件 ====================
     QPlainTextEdit *logView;
     // ==================== 状态栏控件 ====================

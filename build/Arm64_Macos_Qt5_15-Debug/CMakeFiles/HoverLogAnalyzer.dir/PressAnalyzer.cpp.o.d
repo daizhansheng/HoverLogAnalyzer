@@ -970,6 +970,7 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
   /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
+  /Users/dzs/Downloads/HoverLogAnalyzer/EventToggleButton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QVBoxLayout \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qboxlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlayout.h \

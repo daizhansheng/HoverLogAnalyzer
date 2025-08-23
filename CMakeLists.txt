@@ -47,6 +47,7 @@ else()
             HighlightDelegate.h
             BatteryWidget.h
             SocTempWidget.h
+            EventToggleButton.h
             # 加入 Dock 图标
         )
     endif()
