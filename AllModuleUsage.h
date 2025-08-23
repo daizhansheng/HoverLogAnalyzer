@@ -141,24 +141,25 @@ protected:
             }
             p.setPen(QPen(colors[m%colors.size()],2));
             p.drawPolyline(cpuPoly);
-            p.setPen(QPen(colors[m%colors.size()],1,Qt::DashLine));
-            p.drawPolyline(memPoly);
+            // p.setPen(QPen(colors[m%colors.size()],1,Qt::DashLine));
+            // p.drawPolyline(memPoly);
         }
 
         // ---------------- 绘制 X 轴刻度 (时间) ----------------
         QFontMetrics fm(p.font());
-        int textWidth = fm.horizontalAdvance("00:00:00") + 10; // 每个刻度占据的最小宽度
-        int maxLabels = chartWidth / textWidth;                 // 最大刻度数量
+        int textWidth = fm.horizontalAdvance("00:00:00") + 10;
+        int maxLabels = qMin(chartWidth / textWidth, 7);   // 最多显示 7 个刻度
         int stepLabel = n > maxLabels ? n / maxLabels : 1;
 
-        for(int i=0; i<n; i+=stepLabel) {
-            int px = marginLeft + i * chartWidth / double(n-1);
-            QString tStr = allData[i].timestamp.toString("HH:mm:ss");
-            p.setPen(Qt::black);
-            p.drawText(px - textWidth/2, marginTop + chartHeight + 20, tStr);
-            p.drawLine(px, marginTop + chartHeight, px, marginTop + chartHeight + 5);
+        for (int i = 0; i < n; i += stepLabel) {
+            if (i == 0 || i == n-1 || i % stepLabel == 0) {
+                int px = marginLeft + i * chartWidth / double(n-1);
+                QString tStr = allData[i].timestamp.toString("HH:mm:ss");
+                p.setPen(Qt::black);
+                p.drawText(px - textWidth/2, marginTop + chartHeight + 20, tStr);
+                p.drawLine(px, marginTop + chartHeight, px, marginTop + chartHeight + 5);
+            }
         }
-
         // ---------------- 绘制十字线 ----------------
         if(mousePos.x()>=marginLeft && mousePos.x()<=marginLeft+chartWidth) {
             int idx = qBound(0,int((mousePos.x()-marginLeft)*(n-1)/double(chartWidth)),n-1);
@@ -176,7 +177,7 @@ protected:
             p.setPen(QPen(Qt::darkGray,1,Qt::DashLine));
             p.drawLine(x,marginTop,x,marginTop+chartHeight);
             p.drawLine(marginLeft,yCpu,marginLeft+chartWidth,yCpu);
-            p.drawLine(marginLeft,yMem,marginLeft+chartWidth,yMem);
+            // p.drawLine(marginLeft,yMem,marginLeft+chartWidth,yMem);
 
             p.setPen(Qt::black);
             QString timeStr = allData[idx].timestamp.toString("HH:mm:ss");
@@ -185,28 +186,6 @@ protected:
             p.drawText(marginLeft+chartWidth+1, yCpu+5, QString("MEM:%1%").arg(memVal,0,'f',1));
         }
 
-        // ---------------- 绘制图例 ----------------
-        // int legendX = marginLeft + chartWidth + 10;
-        // int legendY = marginTop;
-        // int colorIndex = 0;
-
-        // for (int m = 0; m < moduleNames.size(); ++m) {
-        //     const QString &name = moduleNames[m];
-        //     if (!moduleVisible[name]) continue;
-
-        //     // 限制文字长度
-        //     QString displayName = name;
-        //     if (displayName.length() > 12)
-        //         displayName = displayName.left(9) + "...";
-
-        //     // 使用模块对应颜色
-        //     p.setPen(colors[m % colors.size()]);  // 这里用 m 而不是 colorIndex
-
-        //     // 绘制文字（不画横线）
-        //     p.drawText(legendX, legendY + colorIndex * 20 + 12, displayName);
-
-        //     colorIndex++;
-        // }
     }
 
     void mouseMoveEvent(QMouseEvent *event) override {
@@ -222,6 +201,12 @@ protected:
         update();
     }
 
+    void leaveEvent(QEvent *event) override {
+        Q_UNUSED(event);
+        hoverIndex = -1;          // 表示无效索引
+        mousePos = QPoint(-1,-1); // 鼠标位置设为无效
+        update();                 // 触发重绘，清除十字线
+    }
 
 private:
     QVector<AllModuleUsage> allData;

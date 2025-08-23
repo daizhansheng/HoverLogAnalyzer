@@ -19,6 +19,7 @@
 #include "SocTempWidget.h"
 #include "EventToggleButton.h"
 #include "AllModuleUsage.h"
+
 struct EventItem {
     int lineNumber;    // 日志行号
     QString display;   // 显示文本

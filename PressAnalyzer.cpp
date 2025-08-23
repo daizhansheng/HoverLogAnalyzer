@@ -31,8 +31,9 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // ==================== 事件列表 Dock ====================
     eventList = new QListWidget(this);
-    QDockWidget *eventDock = new QDockWidget("分析结果", this);
+    eventDock = new QDockWidget("分析结果", this);
     eventDock->setWidget(eventList);
+    eventDock->setMinimumWidth(430);
     eventDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
@@ -154,7 +155,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     vLayout->addWidget(batteryChart);
 
     socChart = new SocTempChart(statusContainer);
-    socChart->setMinimumSize(600, 400);
+    socChart->setMinimumSize(600, 300);
     vLayout->addWidget(socChart);
 
     vLayout->addStretch(1);
@@ -240,7 +241,13 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     statusDock->hide();
 
     connect(statusButton, &QPushButton::clicked, this, [this](){
-        statusDock->setVisible(!statusDock->isVisible());
+        if (!statusDock->isVisible()) {
+            statusDock->show();
+            eventDock->hide();
+        } else {
+            statusDock->hide();
+            eventDock->show();
+        }
     });
 
     connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
@@ -491,50 +498,7 @@ QString getTopFilePath(const QString &selectedFilePath)
     topPath = QFileInfo(topPath).canonicalFilePath();
     return topPath;
 }
-#include <QDebug>
 
-inline void debugPrintAllUsage(const QVector<AllModuleUsage> &allusage)
-{
-    for (int i = 0; i < allusage.size(); ++i) {
-        const AllModuleUsage &u = allusage[i];
-
-        qDebug().noquote()
-            << QString("Index %1 | Time: %2")
-                   .arg(i)
-                   .arg(u.timestamp.toString("yyyy-MM-dd HH:mm:ss"));
-
-        qDebug().noquote()
-            << QString(" camera_service=%1% captain=%2% fcs=%3% control_engine=%4% drvf_msg_monito=%5% top=%6%")
-                   .arg(u.camera_service.cpu, 0, 'f', 2)
-                   .arg(u.captain.cpu, 0, 'f', 2)
-                   .arg(u.fcs.cpu, 0, 'f', 2)
-                   .arg(u.control_engine.cpu, 0, 'f', 2)
-                   .arg(u.drvf_msg_monito.cpu, 0, 'f', 2)
-                   .arg(u.top.cpu, 0, 'f', 2);
-
-        qDebug().noquote()
-            << QString(" vio_hover=%1% logd=%2% exception_manag=%3% bt_service=%4% battery_service=%5% gimbal_service=%6%")
-                   .arg(u.vio_hover.cpu, 0, 'f', 2)
-                   .arg(u.logd.cpu, 0, 'f', 2)
-                   .arg(u.exception_manag.cpu, 0, 'f', 2)
-                   .arg(u.bt_service.cpu, 0, 'f', 2)
-                   .arg(u.battery_service.cpu, 0, 'f', 2)
-                   .arg(u.gimbal_service.cpu, 0, 'f', 2);
-
-        qDebug().noquote()
-            << QString(" kworker_u18_icp=%1% logcat=%2% kworker_u19_kgsl=%3% systemd=%4% kthreadd=%5% rcu_gp=%6% rcu_par_gp=%7% kworker_0_events=%8%")
-                   .arg(u.kworker_u18_icp_message_q.cpu, 0, 'f', 2)
-                   .arg(u.logcat.cpu, 0, 'f', 2)
-                   .arg(u.kworker_u19_kgsl_events.cpu, 0, 'f', 2)
-                   .arg(u.systemd.cpu, 0, 'f', 2)
-                   .arg(u.kthreadd.cpu, 0, 'f', 2)
-                   .arg(u.rcu_gp.cpu, 0, 'f', 2)
-                   .arg(u.rcu_par_gp.cpu, 0, 'f', 2)
-                   .arg(u.kworker_0_events.cpu, 0, 'f', 2);
-
-        qDebug() << "-------------------------------------------------------";
-    }
-}
 // loadAndAnalyzeLog 保持之前逻辑
 void PressAnalyzer::loadAndAnalyzeLog()
 {
@@ -552,6 +516,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     searchResults.clear();
     searchResultList->clear();
     batteryinfo.clear();
+    allusage.clear();
     triggerCount = 0;
     flightCount = 0;
 
@@ -572,66 +537,60 @@ void PressAnalyzer::loadAndAnalyzeLog()
     //解析cpu/mem占用率，绘制图案
     QString topFilePath = getTopFilePath(filePath);
     parseTopFile(topFilePath);
-    // debugPrintAllUsage(allusage);
+
     usageChart->setData(allusage);
 }
+
 void PressAnalyzer::loadAndAnalyzeLogs()
 {
     QString path = QFileDialog::getExistingDirectory(this, "选择日志文件或目录", "");
     if (path.isEmpty()) return;
 
     statusBar->showMessage(QString("路径: %1").arg(path));
-    QStringList filesToOpen;
     QFileInfo info(path);
-    if (info.isDir()) {
-        // 如果是目录，查找 control_engine_log 子目录
-        QDir logDir(info.filePath() + "/control_engine_log");
-        if (!logDir.exists()) {
-            QMessageBox::warning(this, "错误", "目录下没有 control_engine_log 子目录");
-            return;
-        }
 
-        // 获取 control_engine*.log 文件
-        QStringList logFiles = logDir.entryList(QStringList() << "control_engine*.log", QDir::Files);
+    auto collectLogs = [](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
+        QStringList result;
+        QDir dir(baseDir + "/" + subDir);
+        if (!dir.exists()) return result;
 
-        // 如果没有 log 文件，但存在 zip 文件，先解压
+        // 获取日志文件
+        QStringList logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
+
+        // 如果没有日志，但存在 zip 文件，解压
         if (logFiles.isEmpty()) {
-            QStringList zipFiles = logDir.entryList(QStringList() << "control_engine*.log.zip", QDir::Files);
-            if (!zipFiles.isEmpty()) {
-                for (const QString &zipName : zipFiles) {
-                    QString zipPath = logDir.filePath(zipName);
-                    // 调用系统 unzip 命令解压到 logDir
-                    QProcess unzipProcess;
-                    QStringList args;
+            QStringList zipFiles = dir.entryList(QStringList() << zipPattern, QDir::Files);
+            for (const QString &zipName : zipFiles) {
+                QString zipPath = dir.filePath(zipName);
+                QProcess unzipProcess;
+                QStringList args;
 #ifdef Q_OS_WIN
-                    // Windows 需要指定 unzip 工具路径，例如使用 7zip 命令行
-                    args << "x" << zipPath << "-o" + logDir.absolutePath();
-                    unzipProcess.start("7z.exe", args);
+                args << "x" << zipPath << "-o" + dir.absolutePath();
+                unzipProcess.start("7z.exe", args);
 #else
-                    args << zipPath << "-d" << logDir.absolutePath();
-                    unzipProcess.start("unzip", args);
+                args << zipPath << "-d" << dir.absolutePath();
+                unzipProcess.start("unzip", args);
 #endif
-                    unzipProcess.waitForFinished(-1); // 等待解压完成
-                }
-                // 解压完重新获取 log 文件列表
-                logFiles = logDir.entryList(QStringList() << "control_engine*.log", QDir::Files);
+                unzipProcess.waitForFinished(-1);
             }
+            // 解压完重新获取日志文件列表
+            logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
         }
 
-        if (logFiles.isEmpty()) {
-            QMessageBox::warning(this, "错误", "control_engine_log 下没有日志文件");
-            return;
-        }
+        if (logFiles.isEmpty()) return result;
 
-        // 按自然顺序排序：control_engine.1.log ... control_engine.N.log，最后 control_engine.log
+        // 按自然顺序排序
         QStringList sortedFiles;
         QList<QPair<int, QString>> numberedFiles;
         QString lastFile;
         for (const QString &f : logFiles) {
-            if (f == "control_engine.log") {
+            // 生成临时变量
+            QString baseName = logPattern.left(logPattern.indexOf('*')); // control_engine
+            if (f == baseName + ".log") {
                 lastFile = f;
             } else {
-                QRegExp rx("control_engine\\.(\\d+)\\.log");
+                // 构造正则表达式匹配 control_engine.1.log、control_engine.2.log ...
+                QRegExp rx(baseName + "\\.(\\d+)\\.log");
                 if (rx.indexIn(f) != -1) {
                     int num = rx.cap(1).toInt();
                     numberedFiles.append(qMakePair(num, f));
@@ -639,22 +598,30 @@ void PressAnalyzer::loadAndAnalyzeLogs()
             }
         }
 
-        // 按编号排序
         std::sort(numberedFiles.begin(), numberedFiles.end(),
-                  [](const QPair<int, QString> &a, const QPair<int, QString> &b){
-                      return a.first < b.first;
-                  });
+                  [](const QPair<int, QString> &a, const QPair<int, QString> &b){ return a.first < b.first; });
 
         for (const auto &p : numberedFiles)
-            sortedFiles << logDir.filePath(p.second);
+            sortedFiles << dir.filePath(p.second);
 
         if (!lastFile.isEmpty())
-            sortedFiles << logDir.filePath(lastFile);
+            sortedFiles << dir.filePath(lastFile);
 
-        filesToOpen = sortedFiles;
+        return sortedFiles;
+    };
 
+    QStringList controlLogs, topLogs;
+
+    if (info.isDir()) {
+        controlLogs = collectLogs(path, "control_engine_log", "control_engine*.log", "control_engine*.log.zip");
+        topLogs     = collectLogs(path, "system_log/top_log", "top*.log", "top*.log.zip");
+
+        if (controlLogs.isEmpty() && topLogs.isEmpty()) {
+            QMessageBox::warning(this, "错误", "日志文件不存在");
+            return;
+        }
     } else if (info.isFile()) {
-        filesToOpen << info.filePath();
+        controlLogs << info.filePath();
     }
 
     // ---------------- 公共解析部分 ----------------
@@ -668,6 +635,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     searchResults.clear();
     searchResultList->clear();
     batteryinfo.clear();
+    allusage.clear();
     triggerCount = 0;
     flightCount = 0;
 
@@ -677,15 +645,22 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     bool inRecvException = false;
     QStringList recvExceptionLines;
 
-    for (const QString &filePath : filesToOpen) {
+    // 分开解析 control_engine_log
+    for (const QString &filePath : controlLogs) {
         analyzeFile(filePath, lineNumber, currentTakeoffTime, lines, inRecvException, recvExceptionLines);
     }
+
 
     logView->setPlainText(lines.join("\n"));
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
     socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
+    // 分开解析 top_log
+    for (const QString &filePath : topLogs) {
+        parseTopFile(filePath);
+    }
+    usageChart->setData(allusage);
 }
 // 高亮事件行
 void PressAnalyzer::highlightLine(int lineNumber, const QString &eventType)
@@ -827,6 +802,7 @@ void PressAnalyzer::clearWindow()
     QTextCursor cursor = logView->textCursor();
     cursor.clearSelection();                    // 取消选中
     logView->setTextCursor(cursor);
+    allusage.clear();
     statusBar->showMessage("就绪");
     setWindowTitle("日志分析工具");
 }
@@ -928,14 +904,22 @@ void PressAnalyzer::searchAll()
 }
 
 // 高亮搜索结果
+// 高亮搜索结果
 void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
 {
     if (searchResults.isEmpty()) return;
 
     QTextDocument* doc = logView->document();
 
-    // 多关键字高亮（这里假设 keys 已经存储了搜索关键字）
-    // 并且 colors 对应每个关键字的颜色
+    // ---------------- 1. 清除旧的高亮 ----------------
+    QTextCursor clearCursor(doc);
+    clearCursor.select(QTextCursor::Document);
+    QTextCharFormat clearFormat;
+    clearFormat.setBackground(Qt::transparent);  // 背景透明
+    clearFormat.setForeground(Qt::black);        // 恢复默认前景色（根据需要调整）
+    clearCursor.setCharFormat(clearFormat);
+    highlightAllEvents();
+    // ---------------- 2. 生成关键字颜色 ----------------
     QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
 
     QVector<QColor> colors;
@@ -952,7 +936,7 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
                 ));
     }
 
-    // 对每行搜索匹配词
+    // ---------------- 3. 遍历匹配并高亮 ----------------
     for (int lineNumber : searchResults) {
         QTextBlock block = doc->findBlockByNumber(lineNumber);
         if (!block.isValid()) continue;
@@ -971,12 +955,12 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
                 fmt.setForeground(Qt::black);
                 cursor.setCharFormat(fmt);
 
-                pos += rx.cap(0).length(); // 移动到下一个匹配
+                pos += rx.cap(0).length();
             }
         }
     }
 
-    // 当前选中行跳转并居中
+    // ---------------- 4. 跳转到当前选中行 ----------------
     if (currentIndex >= 0 && currentIndex < searchResults.size()) {
         QTextBlock currentBlock = doc->findBlockByNumber(searchResults[currentIndex]);
         if (currentBlock.isValid()) {
@@ -1037,16 +1021,6 @@ void PressAnalyzer::parseCameraStatus(int lineNumber, const QString &line)
         bool recording = (last_five_bits >> 3) & 1;
         bool snapshot = (last_five_bits >> 4) & 1;
 
-        QString display = QString("%1 | status=%2, stream=%3, preview=%4, recording=%5, snapshot=%6")
-                              .arg(lineNumber)
-                              .arg(bitToStr(status))
-                              .arg(bitToStr(stream))
-                              .arg(bitToStr(preview))
-                              .arg(bitToStr(recording))
-                              .arg(bitToStr(snapshot));
-
-        QListWidgetItem *item = new QListWidgetItem(display);
-
         // ---------------- 颜色和备注 ----------------
         QString note;
         QColor bgColor = Qt::white; // 默认白色背景
@@ -1075,12 +1049,16 @@ void PressAnalyzer::parseCameraStatus(int lineNumber, const QString &line)
             if (snapshot) activeStates << "snapshot";
             note = activeStates.join("+");
         }
-
-        if (!note.isEmpty()) {
-            display += "   [" + note + "]";
-            item->setText(display);
-        }
-
+        QString display = QString("%1 | [%2] status=%3, stream=%4, preview=%5, recording=%6, snapshot=%7")
+                              .arg(lineNumber)
+                              .arg(note)
+                              .arg(bitToStr(status))
+                              .arg(bitToStr(stream))
+                              .arg(bitToStr(preview))
+                              .arg(bitToStr(recording))
+                              .arg(bitToStr(snapshot));
+        QListWidgetItem *item = new QListWidgetItem(display);
+        item->setText(display);
         item->setBackground(bgColor);
         EventItem camEvent;
         camEvent.lineNumber = lineNumber;
