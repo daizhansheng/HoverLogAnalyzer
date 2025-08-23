@@ -18,6 +18,7 @@
 #include "BatteryWidget.h"
 #include "SocTempWidget.h"
 #include "EventToggleButton.h"
+#include "AllModuleUsage.h"
 struct EventItem {
     int lineNumber;    // 日志行号
     QString display;   // 显示文本
@@ -67,6 +68,8 @@ private:
     void parseStatusHeartbeat(int lineNumber, const QString &line);
     void parseStatusBattery(int lineNumber, const QString &line);
     void parseStatusSocTemp(int lineNumber, const QString &line);
+    QDateTime parseTopTime(const QString &line);
+    void parseTopFile(const QString &filePath);
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *dirloadButton;
@@ -78,7 +81,7 @@ private:
     QPushButton *searchAllButton;
     QPushButton *searchPrevButton;
     QPushButton *searchNextButton;
-
+    QWidget *checkBoxContainer;
     // ==================== Dock 控件 ====================
     QDockWidget *eventDock;
     QListWidget *eventList;
@@ -117,10 +120,13 @@ private:
     BatteryWidget *batteryChart;
     QVector<BatteryTimeInfo> batteryinfo;
     QLabel *titleLabel;
-
     // ==================== Soc temp ====================
     SocTempChart *socChart;
     QVector<SocTempInfo> soctmp;
+    // ============== 各个模块cpu/mem占用率 ================
+    QWidget *usageContainer;
+    ModuleUsageChart *usageChart;
+    QVector<AllModuleUsage> allusage;
 };
 
 #endif // PRESSANALYZER_H

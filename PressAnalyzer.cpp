@@ -14,7 +14,7 @@
 #include <QDebug>
 #include <QProcess>
 #include <QRandomGenerator>
-
+#include <QCheckBox>
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -31,16 +31,16 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // ==================== 事件列表 Dock ====================
     eventList = new QListWidget(this);
-    QDockWidget *eventDock = new QDockWidget(this);
+    QDockWidget *eventDock = new QDockWidget("分析结果", this);
     eventDock->setWidget(eventList);
     eventDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures); // 禁止浮动
-    eventDock->setTitleBarWidget(new QWidget()); // 去掉标题栏
+    eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
-    // ==================== EventToggleButton 控制事件列表 Dock ====================
+
     toggleBtn = new EventToggleButton(eventDock, this);
     toggleBtn->move(0, (height() - toggleBtn->height()) / 2);
     toggleBtn->show();
+
     // ==================== 搜索结果 Dock ====================
     searchResultList = new QListWidget(this);
     searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -51,7 +51,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     addDockWidget(Qt::BottomDockWidgetArea, searchDock);
     searchDock->hide();
 
-    // 设置右键菜单
     searchDock->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(searchDock, &QDockWidget::customContextMenuRequested, this, [=](const QPoint &pos){
         QMenu menu;
@@ -95,7 +94,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // ==================== 状态栏 ====================
     statusBar = new QStatusBar(this);
     setStatusBar(statusBar);
-    statusBar->showMessage("就绪"); // 初始状态消息
+    statusBar->showMessage("就绪");
 
     // ==================== 信号连接 ====================
     connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
@@ -130,64 +129,121 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
 
     // ==================== 状态面板 ====================
-    // 状态按钮
     statusButton = new QPushButton("状态面板", this);
     toolBar->addWidget(statusButton);
 
-    // 容器
     statusContainer = new QWidget(this);
     QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
     vLayout->setContentsMargins(5, 5, 5, 5);
-    vLayout->setSpacing(0); // 控件紧挨着
+    vLayout->setSpacing(0);
 
-    // 心跳超时标题
     titleLabel = new QLabel(statusContainer);
     QFont font = titleLabel->font();
     font.setBold(true);
     font.setPointSize(12);
     titleLabel->setFont(font);
     titleLabel->setAlignment(Qt::AlignLeft);
-    titleLabel->setStyleSheet("color: red;");   // 红色
+    titleLabel->setStyleSheet("color: red;");
     vLayout->addWidget(titleLabel);
 
-    // 状态面板列表
     statusEventList = new QListWidget(statusContainer);
     statusEventList->setMaximumHeight(50);
-    statusEventList->setMaximumWidth(700);
     vLayout->addWidget(statusEventList);
 
-    // 电池图表
     batteryChart = new BatteryWidget(statusContainer);
-    batteryChart->setMaximumWidth(700);
     vLayout->addWidget(batteryChart);
 
-    // Soc温度表
     socChart = new SocTempChart(statusContainer);
-    socChart->setMaximumSize(700, 400);
+    socChart->setMinimumSize(600, 400);
     vLayout->addWidget(socChart);
 
-    // 添加伸展，让底部空间自适应
     vLayout->addStretch(1);
     statusContainer->setLayout(vLayout);
 
-    // 创建 Dock 并设置容器
+    // ==================== usageContainer（复选框 + 曲线图） ====================
+    usageContainer = new QWidget(this);
+    QVBoxLayout *usageLayout = new QVBoxLayout(usageContainer);
+    usageLayout->setContentsMargins(0, 0, 0, 0);
+    usageLayout->setSpacing(0);
+
+    // ---------------- 曲线图 ----------------
+    usageChart = new ModuleUsageChart(usageContainer);
+    usageChart->setMinimumSize(700, 300);
+
+    // ---------------- 复选框容器 ----------------
+    checkBoxContainer = new QWidget(this);
+    QGridLayout *gridLayout = new QGridLayout(checkBoxContainer);
+    gridLayout->setContentsMargins(0, 0, 0, 0);
+    gridLayout->setHorizontalSpacing(2);
+    gridLayout->setVerticalSpacing(5);
+
+    const auto &moduleKeys = usageChart->getModuleVisibility().keys();
+    int total = moduleKeys.size();
+    int rows = 5;                              // 固定5行
+    int cols = (total + rows - 1) / rows;      // 每行列数自动计算
+    int index = 0;
+
+    int maxLength = 15; // 固定显示长度
+
+    for (const auto &name : moduleKeys) {
+        int row = index / cols;
+        int col = index % cols;
+
+        QString displayName = name;
+        if (displayName.length() > maxLength) {
+            displayName = displayName.left(maxLength - 3) + "..."; // 超长显示为前部分+...
+        }
+
+        QCheckBox *cb = new QCheckBox(displayName);
+
+        // 设置字体颜色为对应曲线颜色
+        QPalette pal = cb->palette();
+        pal.setColor(QPalette::WindowText, usageChart->getModuleColor(name));
+        cb->setPalette(pal);
+
+        // 默认选中 control_engine
+        if (name == "control_engine") {
+            cb->setChecked(true);
+            usageChart->getModuleVisibility()[name] = true;
+        }
+
+        gridLayout->addWidget(cb, row, col);
+
+        connect(cb, &QCheckBox::toggled, this, [this, name](bool checked){
+            usageChart->getModuleVisibility()[name] = checked;
+            usageChart->update();
+        });
+
+        index++;
+    }
+
+    checkBoxContainer->setLayout(gridLayout);
+
+    // ---------------- 添加到布局 ----------------
+    // 如果复选框要在上方，先添加复选框，再添加图表
+    usageLayout->addWidget(checkBoxContainer);
+    usageLayout->addWidget(usageChart);
+    usageLayout->addStretch(1);
+    usageContainer->setLayout(usageLayout);
+    // ==================== 与状态面板组合 ====================
+    QSplitter *mainSplitter = new QSplitter(Qt::Horizontal, this);
+    mainSplitter->addWidget(statusContainer);
+    mainSplitter->addWidget(usageContainer);
+    mainSplitter->setStretchFactor(0, 2);
+    mainSplitter->setStretchFactor(1, 2);
+
     statusDock = new QDockWidget("状态面板", this);
-    statusDock->setWidget(statusContainer);
+    statusDock->setWidget(mainSplitter);
     statusDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, statusDock);
     statusDock->setMinimumWidth(800);
     statusDock->hide();
 
-    // 状态按钮控制 Dock 显示隐藏
     connect(statusButton, &QPushButton::clicked, this, [this](){
         statusDock->setVisible(!statusDock->isVisible());
     });
 
-    // 事件列表点击
     connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
-
-    // 横向拆分 Dock
-    splitDockWidget(cameraDock, statusDock, Qt::Horizontal);
 }
 
 // typeToString 函数保持不变
@@ -424,7 +480,61 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
         parseStatusSocTemp(lineNumber, line);
     }
 }
+QString getTopFilePath(const QString &selectedFilePath)
+{
+    // 假设 top 日志都在 ../system_log/top_log/ 下
+    // 获取文件名
+    QFileInfo fi(selectedFilePath);
 
+    // 构造 top 文件路径
+    QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
+    topPath = QFileInfo(topPath).canonicalFilePath();
+    return topPath;
+}
+#include <QDebug>
+
+inline void debugPrintAllUsage(const QVector<AllModuleUsage> &allusage)
+{
+    for (int i = 0; i < allusage.size(); ++i) {
+        const AllModuleUsage &u = allusage[i];
+
+        qDebug().noquote()
+            << QString("Index %1 | Time: %2")
+                   .arg(i)
+                   .arg(u.timestamp.toString("yyyy-MM-dd HH:mm:ss"));
+
+        qDebug().noquote()
+            << QString(" camera_service=%1% captain=%2% fcs=%3% control_engine=%4% drvf_msg_monito=%5% top=%6%")
+                   .arg(u.camera_service.cpu, 0, 'f', 2)
+                   .arg(u.captain.cpu, 0, 'f', 2)
+                   .arg(u.fcs.cpu, 0, 'f', 2)
+                   .arg(u.control_engine.cpu, 0, 'f', 2)
+                   .arg(u.drvf_msg_monito.cpu, 0, 'f', 2)
+                   .arg(u.top.cpu, 0, 'f', 2);
+
+        qDebug().noquote()
+            << QString(" vio_hover=%1% logd=%2% exception_manag=%3% bt_service=%4% battery_service=%5% gimbal_service=%6%")
+                   .arg(u.vio_hover.cpu, 0, 'f', 2)
+                   .arg(u.logd.cpu, 0, 'f', 2)
+                   .arg(u.exception_manag.cpu, 0, 'f', 2)
+                   .arg(u.bt_service.cpu, 0, 'f', 2)
+                   .arg(u.battery_service.cpu, 0, 'f', 2)
+                   .arg(u.gimbal_service.cpu, 0, 'f', 2);
+
+        qDebug().noquote()
+            << QString(" kworker_u18_icp=%1% logcat=%2% kworker_u19_kgsl=%3% systemd=%4% kthreadd=%5% rcu_gp=%6% rcu_par_gp=%7% kworker_0_events=%8%")
+                   .arg(u.kworker_u18_icp_message_q.cpu, 0, 'f', 2)
+                   .arg(u.logcat.cpu, 0, 'f', 2)
+                   .arg(u.kworker_u19_kgsl_events.cpu, 0, 'f', 2)
+                   .arg(u.systemd.cpu, 0, 'f', 2)
+                   .arg(u.kthreadd.cpu, 0, 'f', 2)
+                   .arg(u.rcu_gp.cpu, 0, 'f', 2)
+                   .arg(u.rcu_par_gp.cpu, 0, 'f', 2)
+                   .arg(u.kworker_0_events.cpu, 0, 'f', 2);
+
+        qDebug() << "-------------------------------------------------------";
+    }
+}
 // loadAndAnalyzeLog 保持之前逻辑
 void PressAnalyzer::loadAndAnalyzeLog()
 {
@@ -458,6 +568,12 @@ void PressAnalyzer::loadAndAnalyzeLog()
     batteryChart->setData(batteryinfo);
     socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
+
+    //解析cpu/mem占用率，绘制图案
+    QString topFilePath = getTopFilePath(filePath);
+    parseTopFile(topFilePath);
+    // debugPrintAllUsage(allusage);
+    usageChart->setData(allusage);
 }
 void PressAnalyzer::loadAndAnalyzeLogs()
 {
@@ -1118,4 +1234,78 @@ void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
 
     // 保存到成员 QVector
     soctmp.append(info);
+}
+
+
+// 将 "top - 14:03:27 ..." 这一行提取时间
+QDateTime PressAnalyzer::parseTopTime(const QString &line) {
+    QRegExp rx("top - (\\d{2}:\\d{2}:\\d{2})");
+    if (rx.indexIn(line) != -1) {
+        QString timeStr = rx.cap(1);
+        QTime t = QTime::fromString(timeStr, "HH:mm:ss");
+        return QDateTime(QDate::currentDate(), t); // 使用当天日期
+    }
+    return QDateTime();
+}
+
+// 从 top 文件解析所有模块数据
+// 假设你在 PressAnalyzer.h 里有
+// QVector<AllModuleUsage> allusage;
+
+void PressAnalyzer::parseTopFile(const QString &filePath) {
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+
+    QTextStream in(&file);
+    AllModuleUsage usage;
+    bool hasData = false;
+
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (line.isEmpty()) continue;
+
+        // 遇到新的 top 时间戳 -> 保存上一个 usage
+        if (line.startsWith("top -")) {
+            if (hasData) {
+                allusage.append(usage);
+                usage = AllModuleUsage(); // 重置
+            }
+            usage.timestamp = parseTopTime(line);
+            hasData = true;
+            continue;
+        }
+
+        QStringList parts = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+        if (parts.size() < 12) continue;
+
+        QString moduleName = parts.last();
+        double cpu = parts[8].toDouble();
+        double mem = parts[9].toDouble();
+
+        if (moduleName == "camera_service") usage.camera_service = {cpu, mem};
+        else if (moduleName == "captain") usage.captain = {cpu, mem};
+        else if (moduleName == "fcs") usage.fcs = {cpu, mem};
+        else if (moduleName == "control_engine") usage.control_engine = {cpu, mem};
+        else if (moduleName == "drvf_msg_monito") usage.drvf_msg_monito = {cpu, mem};
+        else if (moduleName == "top") usage.top = {cpu, mem};
+        else if (moduleName == "vio_hover") usage.vio_hover = {cpu, mem};
+        else if (moduleName == "logd") usage.logd = {cpu, mem};
+        else if (moduleName == "exception_manag") usage.exception_manag = {cpu, mem};
+        else if (moduleName == "bt_service") usage.bt_service = {cpu, mem};
+        else if (moduleName == "battery_service") usage.battery_service = {cpu, mem};
+        else if (moduleName == "gimbal_service") usage.gimbal_service = {cpu, mem};
+        else if (moduleName == "kworker/u18:1-crm_workq-icp_message_q") usage.kworker_u18_icp_message_q = {cpu, mem};
+        else if (moduleName == "logcat") usage.logcat = {cpu, mem};
+        else if (moduleName == "kworker/u19:1-kgsl-events") usage.kworker_u19_kgsl_events = {cpu, mem};
+        else if (moduleName == "systemd") usage.systemd = {cpu, mem};
+        else if (moduleName == "kthreadd") usage.kthreadd = {cpu, mem};
+        else if (moduleName == "rcu_gp") usage.rcu_gp = {cpu, mem};
+        else if (moduleName == "rcu_par_gp") usage.rcu_par_gp = {cpu, mem};
+        else if (moduleName == "kworker/0:0-events") usage.kworker_0_events = {cpu, mem};
+    }
+
+    // 最后一组数据也要存进去
+    if (hasData) {
+        allusage.append(usage);
+    }
 }

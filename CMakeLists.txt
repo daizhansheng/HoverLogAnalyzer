@@ -48,6 +48,8 @@ else()
             BatteryWidget.h
             SocTempWidget.h
             EventToggleButton.h
+
+            AllModuleUsage.h
             # 加入 Dock 图标
         )
     endif()

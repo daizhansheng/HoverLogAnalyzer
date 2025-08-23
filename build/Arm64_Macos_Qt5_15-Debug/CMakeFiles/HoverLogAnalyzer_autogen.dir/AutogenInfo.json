@@ -81,6 +81,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/Users/dzs/Downloads/HoverLogAnalyzer/AllModuleUsage.h",
+			"MU",
+			"EWIEGA46WW/moc_AllModuleUsage.cpp",
+			null
+		],
+		[
 			"/Users/dzs/Downloads/HoverLogAnalyzer/BatteryWidget.h",
 			"MU",
 			"EWIEGA46WW/moc_BatteryWidget.cpp",

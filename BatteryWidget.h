@@ -31,7 +31,7 @@ public:
     explicit BatteryWidget(QWidget *parent = nullptr)
         : QWidget(parent) {
         setMouseTracking(true);
-        setMinimumSize(500, 400);
+        setMinimumSize(400, 400);
     }
 
     void setData(const QVector<BatteryTimeInfo> &data) {
@@ -55,7 +55,7 @@ protected:
         int marginRight  = 60;
         int marginTop    = 30;
         int marginBottom = 40;
-        int chartWidth   = 450;
+        int chartWidth   = 380;
         int chartHeight  = 150;
         int chartSpacing = 40;
 
@@ -97,7 +97,7 @@ protected:
             drawHoverText(painter, QString("%1°C").arg(temp, 0, 'f', 1), QPointF(x, yTemp));
 
             // 右侧完整信息
-            drawHoverInfo(painter, batteryData[hoverIndex].info, QPointF(width() , chart1Top));
+            drawHoverInfo(painter, batteryData[hoverIndex].info, QPointF(width()+10 , chart1Top));
         }
     }
 
@@ -108,13 +108,15 @@ protected:
         }
 
         int marginLeft = 60;
-        int chartWidth = width() - 60 - 60;
+        int chartWidth = 380;  // 固定宽度，与 paintEvent 保持一致
 
         int n = batteryData.size();
         int x = event->pos().x();
-        hoverIndex = qRound((x - marginLeft) * (n - 1) / double(chartWidth));
-        if (hoverIndex < 0) hoverIndex = 0;
-        if (hoverIndex >= n) hoverIndex = n - 1;
+
+        // 限制 x 在绘图区域内
+        if (x < marginLeft) hoverIndex = 0;
+        else if (x > marginLeft + chartWidth) hoverIndex = n - 1;
+        else hoverIndex = qRound((x - marginLeft) * (n - 1) / double(chartWidth));
 
         update();
     }

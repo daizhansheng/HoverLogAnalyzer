@@ -22,7 +22,7 @@ public:
         : QWidget(parent)
     {
         setMouseTracking(true);
-        setFixedSize(500, 400); // 固定大小
+        setFixedSize(400, 400); // 固定大小
     }
 
     void addData(SocTempInfo &info) {
@@ -52,7 +52,7 @@ protected:
         int marginRight  = 60;
         int marginTop    = 30;
         int marginBottom = 40;
-        int chartWidth   = 450;
+        int chartWidth   = 380;
         int chartHeight  = 150;
         int chartSpacing = 40;
 
@@ -131,13 +131,13 @@ private:
         int maxTemp = socData.last().maxTemp;
 
         QFont font = this->font();
-        font.setPointSize(14);
+        font.setPointSize(12);
         p.setFont(font);
         p.setPen(Qt::black);
 
         QString text = QString("CPU温度");
         int textWidth = p.fontMetrics().horizontalAdvance(text);
-        p.drawText(width() - textWidth - 205, top + 20, text);
+        p.drawText(width() - textWidth - 175, top + 15, text);
     }
 
     void drawHover(QPainter &p, int left, int top, int w, int h, int n) {
@@ -151,46 +151,59 @@ private:
         const SocTempInfo &d = socData[idx];
         int px = left + idx * w / (n - 1);
 
-        // ========== 加粗十字线 ==========
-        QPen linePen(Qt::gray, 1, Qt::DashLine); // 宽度改为1
+        // ---------- 十字线 ----------
+        QPen linePen(Qt::gray, 1, Qt::DashLine);
         p.setPen(linePen);
         p.drawLine(px, top-20, px, top + h);
 
         int maxY = 0;
-        for (auto &item : socData)
-            if (item.maxTemp > maxY) maxY = item.maxTemp;
+        for (auto &item : socData) if (item.maxTemp > maxY) maxY = item.maxTemp;
         maxY = qMax(maxY, 130);
-
         int py = top + h - (d.maxTemp * h / maxY);
         p.drawLine(left, py, left + w, py);
 
-        // ========== 顶部显示 HH:mm:ss ==========
+        // ---------- 顶部显示时间 ----------
         QString timeStr = d.timestamp.toString("HH:mm:ss");
         p.setPen(Qt::black);
-        p.drawText(px , top -2, timeStr); // 十字架上方显示
+        p.drawText(px - 30, top - 2, timeStr);
 
-        // ========== 固定右侧信息框 ==========
+        // ---------- 悬浮显示最大温度 ----------
+        QString text = QString("%1°C").arg(d.maxTemp);
+        QFontMetrics fm1(p.font());
+        QRect rect = fm1.boundingRect(text).adjusted(-6, -4, 6, 4);
+        QPoint centerPos(px + 30, py - 40);        // 十字线右上方
+        rect.moveCenter(centerPos);
+
+        // 背景框
+        p.setBrush(QColor(255, 255, 225));
+        p.setPen(Qt::black);
+        p.drawRect(rect);
+
+        // 文字
+        p.drawText(rect, Qt::AlignCenter, text);
+
+        // ---------- 右侧信息框显示各核心温度 ----------
         QStringList lines;
-        for (int i = 0; i < d.coreTemps.size(); i++)
+        for (int i = 0; i < d.coreTemps.size(); ++i)
             lines << QString("CPU%1: %2°C").arg(i).arg(d.coreTemps[i]);
-        lines << QString("MaxTmp: %1°C").arg(d.maxTemp);
 
         QFontMetrics fm(font());
         int wBox = 0;
         for (auto &s : lines) wBox = qMax(wBox, fm.horizontalAdvance(s));
         int hBox = lines.size() * fm.height() + 8;
 
-        int xBox = left + w + 20;  // 图表右侧 + 10px
-        int yBox = top + 20;       // 图表顶部 + 20px
-
+        int xBox = left + w + 10;  // 图表右侧 + 10px
+        int yBox = top + 20;        // 图表顶部 + 20px
         if (xBox + wBox + 10 > width()) xBox = width() - wBox - 10;
         if (yBox + hBox > height() - 10) yBox = height() - hBox - 10;
 
         p.setBrush(QColor(255, 255, 220));
         p.setPen(Qt::darkRed);
-        p.drawRect(xBox, yBox, wBox + 25, hBox);
+        p.drawRect(xBox, yBox, wBox + 10, hBox);
 
+        // 设置字体为红色
         int ty = yBox + fm.ascent() + 4;
+        p.setPen(Qt::red);
         for (auto &s : lines) {
             p.drawText(xBox + 5, ty, s);
             ty += fm.height();

@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-1b3de881651ba9798247.json",
+					"jsonFile" : "directory-.-Debug-d4422e89e1b7059e6526.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "HoverLogAnalyzer::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-HoverLogAnalyzer-Debug-2ccafd4338b346797498.json",
+					"jsonFile" : "target-HoverLogAnalyzer-Debug-64ae7a541d9f3c45d689.json",
 					"name" : "HoverLogAnalyzer",
 					"projectIndex" : 0
 				},

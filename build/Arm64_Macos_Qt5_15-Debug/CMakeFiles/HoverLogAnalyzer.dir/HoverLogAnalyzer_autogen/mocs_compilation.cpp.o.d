@@ -1,6 +1,6 @@
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o: \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp \
-  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryWidget.cpp \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_AllModuleUsage.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/memory \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__config_site \
@@ -484,7 +484,7 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/forward_like.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__variant/monostate.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/stdexcept \
-  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../BatteryWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../AllModuleUsage.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
@@ -891,24 +891,28 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcursor.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qkeysequence.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QVector \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpainter.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextoption.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpen.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qmap.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPolygon \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qevent.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreevent.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qmap.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qset.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qurl.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfile.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfiledevice.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryWidget.cpp \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../BatteryWidget.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_EventToggleButton.cpp \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../EventToggleButton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPushButton \

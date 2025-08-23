@@ -971,6 +971,9 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Downloads/HoverLogAnalyzer/EventToggleButton.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/AllModuleUsage.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPolygon \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \
