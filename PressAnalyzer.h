@@ -96,6 +96,7 @@ private:
     QPlainTextEdit *logView;
     // ==================== 状态栏控件 ====================
     QStatusBar *statusBar;          // 状态栏
+    QString modeText;
     // ==================== 数据 ====================
     QList<EventItem> allEvents;
     QStringList allLogLines;

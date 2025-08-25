@@ -322,9 +322,11 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
         if (line.contains("press once power key", Qt::CaseInsensitive)) {
             triggerCount++;
             QString timestamp;
-            QRegExp tsRx("\\[\\d+\\.\\d+\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]");
-            if (tsRx.indexIn(line) != -1)
-                timestamp = tsRx.cap(1);
+            QRegularExpression tsRx(R"(\[\d+\.\d+\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");
+            QRegularExpressionMatch match = tsRx.match(line);
+            if (match.hasMatch()) {
+                timestamp = match.captured(1);
+            }
 
             QString display = QString("%1 | %2# press power key : [%3]")
                                   .arg(lineNumber, 6, 10, QChar(' '))
@@ -332,12 +334,10 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
                                   .arg(timestamp);
             addEventToList(triggerCount, lineNumber, display);
         }
-
         // ==================== 起飞事件 ====================
         if (line.contains("start takeoff. powerkey trigger source", Qt::CaseInsensitive)) {
             flightCount++;
             QString triggerText = "未知";
-            QString modeText;
             QRegExp rx("trigger source: (\\d+) flight mode: (\\w+)", Qt::CaseInsensitive);
             if (rx.indexIn(line) != -1) {
                 int src = rx.cap(1).toInt();
@@ -385,8 +385,9 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
                 }
 
                 // 直接显示当前状态
-                QString display = QString("%1 | FC STATE -> %2")
+                QString display = QString("%1 | %2# FC STATE -> %3")
                                       .arg(lineNumber, 6, 10, QChar(' '))
+                                      .arg(flightCount)
                                       .arg(stateName, -12);
                 addEventToList(triggerCount, lineNumber, display);
             }
@@ -410,29 +411,77 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
         }
 
         // ==================== storingMediaFileInformation ====================
-        if (line.contains("storingMediaFileInformation the sqlvalue is", Qt::CaseInsensitive)) {
-            int idx = line.indexOf("storingMediaFileInformation the sqlvalue is");
+        // if (line.contains("storingMediaFileInformation the sqlvalue is", Qt::CaseInsensitive)) {
+        //     int idx = line.indexOf("storingMediaFileInformation the sqlvalue is");
+        //     if (idx != -1) {
+        //         QString content = line.mid(idx);
+        //         QRegExp rx("\\[(.*)\\]");
+        //         if (rx.indexIn(content) != -1) {
+        //             QString bracketContent = rx.cap(1);
+        //             QRegExp valueRx("'([^']*)'|\\b(\\d+)\\b");
+        //             int pos = 0;
+        //             QStringList values;
+        //             while ((pos = valueRx.indexIn(bracketContent, pos)) != -1) {
+        //                 if (!valueRx.cap(1).isEmpty())
+        //                     values << valueRx.cap(1);
+        //                 else
+        //                     values << valueRx.cap(2);
+        //                 pos += valueRx.matchedLength();
+        //             }
+
+        //             if (values.size() >= 4) {
+        //                 QString uuid = values[0];
+        //                 int type = values[1].toInt();
+        //                 QString path = values[3];
+        //                 QString typeStr = typeToString(type);
+        //                 QString displayPath;
+        //                 if (path.startsWith("/media/internal/")) {
+        //                     displayPath = "Internal:" + path.mid(QString("/media/internal/").length());
+        //                 } else if (path.startsWith("/media/external/")) {
+        //                     displayPath = "External:" + path.mid(QString("/media/external/").length());
+        //                 } else {
+        //                     displayPath = path;
+        //                 }
+        //                 QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5")
+        //                                       .arg(lineNumber, 6, 10, QChar(' '))
+        //                                       .arg(flightCount)
+        //                                       .arg(uuid)
+        //                                       .arg(typeStr)
+        //                                       .arg(displayPath);
+        //                 addEventToList(triggerCount, lineNumber, display);
+        //             }
+        //         }
+        //     }
+        // }
+        if (line.contains("insertMediaDataIntoDb insert media sql", Qt::CaseInsensitive)) {
+            int idx = line.indexOf("insertMediaDataIntoDb insert media sql");
             if (idx != -1) {
                 QString content = line.mid(idx);
+
+                // 提取方括号内的 SQL
                 QRegExp rx("\\[(.*)\\]");
                 if (rx.indexIn(content) != -1) {
                     QString bracketContent = rx.cap(1);
+
+                    // 匹配 VALUES(...) 中的单引号内容或数字
                     QRegExp valueRx("'([^']*)'|\\b(\\d+)\\b");
                     int pos = 0;
                     QStringList values;
                     while ((pos = valueRx.indexIn(bracketContent, pos)) != -1) {
                         if (!valueRx.cap(1).isEmpty())
-                            values << valueRx.cap(1);
+                            values << valueRx.cap(1);  // 引号中的字符串
                         else
-                            values << valueRx.cap(2);
+                            values << valueRx.cap(2);  // 数字
                         pos += valueRx.matchedLength();
                     }
 
                     if (values.size() >= 4) {
-                        QString uuid = values[0];
-                        int type = values[1].toInt();
-                        QString path = values[3];
+                        QString uuid = values[0];          // uuid
+                        int type = values[1].toInt();      // type
+                        QString path = values[3];          // path
                         QString typeStr = typeToString(type);
+
+                        // 美化 path 显示
                         QString displayPath;
                         if (path.startsWith("/media/internal/")) {
                             displayPath = "Internal:" + path.mid(QString("/media/internal/").length());
@@ -441,18 +490,20 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
                         } else {
                             displayPath = path;
                         }
+
+                        // 构造展示字符串
                         QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5")
                                               .arg(lineNumber, 6, 10, QChar(' '))
                                               .arg(flightCount)
                                               .arg(uuid)
                                               .arg(typeStr)
                                               .arg(displayPath);
+
                         addEventToList(triggerCount, lineNumber, display);
                     }
                 }
             }
         }
-
         // ==================== recv exception ====================
         if (line.contains("recv exception :", Qt::CaseInsensitive)) {
             inRecvException = true;
@@ -478,7 +529,15 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
             }
             continue;
         }
-
+        // ==================== manual_control_takeover_request ====================
+        if (line.contains("manual_control_takeover_request", Qt::CaseInsensitive)) {
+            QString display = QString("%1 | %2# 模式:%3 -> MANUAL")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(flightCount)
+                                  .arg(modeText);
+            addEventToList(triggerCount, lineNumber-1, display);
+            continue;
+        }
         // ==================== camera status ====================
         parseCameraStatus(lineNumber, line);
         // ==================== status 面板 ====================
@@ -904,7 +963,6 @@ void PressAnalyzer::searchAll()
 }
 
 // 高亮搜索结果
-// 高亮搜索结果
 void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
 {
     if (searchResults.isEmpty()) return;
@@ -943,7 +1001,10 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
 
         QString lineText = block.text();
         for (int k = 0; k < keys.size(); ++k) {
-            QRegExp rx(keys[k], Qt::CaseInsensitive);
+            // ✅ 转义关键词，避免正则元字符导致误匹配
+            QString pattern = QRegExp::escape(keys[k]);
+            QRegExp rx(pattern, Qt::CaseInsensitive);
+
             int pos = 0;
             while ((pos = rx.indexIn(lineText, pos)) != -1) {
                 QTextCursor cursor(block);
