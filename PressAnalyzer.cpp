@@ -15,6 +15,8 @@
 #include <QProcess>
 #include <QRandomGenerator>
 #include <QCheckBox>
+#include <QCompleter>
+#include <QStringListModel>
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -33,7 +35,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     eventList = new QListWidget(this);
     eventDock = new QDockWidget("分析结果", this);
     eventDock->setWidget(eventList);
-    eventDock->setMinimumWidth(430);
     eventDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
@@ -81,7 +82,21 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     searchAllButton = new QPushButton("搜索", this);
     searchPrevButton = new QPushButton("向前", this);
     searchNextButton = new QPushButton("向后", this);
+    // -------------------- QCompleter 提示 --------------------
+    fixedHints << "[rpc] Req:"
+               << "enter_preview"
+               << "capture out"
+               << "MediaRequest_MediaRequestType_";
 
+    QStringList completerHints = fixedHints + historyHints;
+
+    QCompleter *completer = new QCompleter(completerHints, this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setFilterMode(Qt::MatchContains);
+    searchEdit->setCompleter(completer);
+
+    searchEdit->installEventFilter(this);
+    // -------------------- 添加到工具栏 --------------------
     toolBar->addWidget(dirloadButton);
     toolBar->addWidget(fileloadButton);
     toolBar->addWidget(saveButton);
@@ -253,6 +268,41 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
 }
 
+// ---------------- eventFilter ----------------
+bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == searchEdit && event->type() == QEvent::FocusIn) {
+        if (searchEdit->completer()) {
+            searchEdit->completer()->setCompletionPrefix(""); // 显示完整列表
+            searchEdit->completer()->complete();
+        }
+    }
+    return QObject::eventFilter(obj, event);
+}
+
+// 5. 在搜索或确认输入时，记录历史
+void PressAnalyzer::addSearchHistory(const QString &text)
+{
+    if (text.isEmpty()) return;
+    if (!historyHints.contains(text)) {
+        historyHints.prepend(text);        // 添加到历史开头
+        if (historyHints.size() > 50)      // 限制历史数量
+            historyHints.removeLast();
+
+        // 更新 completer 数据源
+        QStringList hints = fixedHints + historyHints;
+        QCompleter *c = searchEdit->completer();
+
+        // 获取原 model 并转换
+        QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
+        if (!model) {
+            model = new QStringListModel(hints, c);
+            c->setModel(model);
+        } else {
+            model->setStringList(hints);
+        }
+    }
+}
 // typeToString 函数保持不变
 QString typeToString(int type) {
     switch(type) {
@@ -410,49 +460,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
             }
         }
 
-        // ==================== storingMediaFileInformation ====================
-        // if (line.contains("storingMediaFileInformation the sqlvalue is", Qt::CaseInsensitive)) {
-        //     int idx = line.indexOf("storingMediaFileInformation the sqlvalue is");
-        //     if (idx != -1) {
-        //         QString content = line.mid(idx);
-        //         QRegExp rx("\\[(.*)\\]");
-        //         if (rx.indexIn(content) != -1) {
-        //             QString bracketContent = rx.cap(1);
-        //             QRegExp valueRx("'([^']*)'|\\b(\\d+)\\b");
-        //             int pos = 0;
-        //             QStringList values;
-        //             while ((pos = valueRx.indexIn(bracketContent, pos)) != -1) {
-        //                 if (!valueRx.cap(1).isEmpty())
-        //                     values << valueRx.cap(1);
-        //                 else
-        //                     values << valueRx.cap(2);
-        //                 pos += valueRx.matchedLength();
-        //             }
-
-        //             if (values.size() >= 4) {
-        //                 QString uuid = values[0];
-        //                 int type = values[1].toInt();
-        //                 QString path = values[3];
-        //                 QString typeStr = typeToString(type);
-        //                 QString displayPath;
-        //                 if (path.startsWith("/media/internal/")) {
-        //                     displayPath = "Internal:" + path.mid(QString("/media/internal/").length());
-        //                 } else if (path.startsWith("/media/external/")) {
-        //                     displayPath = "External:" + path.mid(QString("/media/external/").length());
-        //                 } else {
-        //                     displayPath = path;
-        //                 }
-        //                 QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5")
-        //                                       .arg(lineNumber, 6, 10, QChar(' '))
-        //                                       .arg(flightCount)
-        //                                       .arg(uuid)
-        //                                       .arg(typeStr)
-        //                                       .arg(displayPath);
-        //                 addEventToList(triggerCount, lineNumber, display);
-        //             }
-        //         }
-        //     }
-        // }
+        // ==================== insertMediaDataIntoDb ====================
         if (line.contains("insertMediaDataIntoDb insert media sql", Qt::CaseInsensitive)) {
             int idx = line.indexOf("insertMediaDataIntoDb insert media sql");
             if (idx != -1) {
@@ -960,6 +968,10 @@ void PressAnalyzer::searchAll()
     searchResultList->show();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
+    QString combined = keys.join(", ");
+    combined.remove(QRegularExpression("[\\x00-\\x1F]"));                 // 控制字符
+    combined.replace(QRegularExpression(R"(\\(?=[\[\]\(\)\{\}<>\/*"']))"), "");
+    addSearchHistory(combined);
 }
 
 // 高亮搜索结果

@@ -71,6 +71,8 @@ private:
     void parseStatusSocTemp(int lineNumber, const QString &line);
     QDateTime parseTopTime(const QString &line);
     void parseTopFile(const QString &filePath);
+    bool eventFilter(QObject *obj, QEvent *event);
+    void addSearchHistory(const QString &text);
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *dirloadButton;
@@ -106,6 +108,8 @@ private:
 
     int triggerCount;
     int flightCount;
+    QStringList fixedHints;
+    QStringList historyHints;
     // ==================== camera ====================
     QDockWidget *cameraDock;
     QListWidget *cameraEventList;
