@@ -963,6 +963,7 @@ void PressAnalyzer::searchAll()
 
     if (searchResults.isEmpty()) {
         searchResultList->hide();
+        QMessageBox::information(this, tr("搜索结果"), tr("匹配结果0,未搜索到内容。"));
         return;
     }
 
