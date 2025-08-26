@@ -84,7 +84,8 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     searchNextButton = new QPushButton("向后", this);
     // -------------------- QCompleter 提示 --------------------
     fixedHints << "[rpc] Req:"
-               << "enter_preview"
+               << "[rpc] Req:254"
+               << "[rpc] Req:249"
                << "capture out"
                << "MediaRequest_MediaRequestType_";
 
