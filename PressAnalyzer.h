@@ -56,7 +56,7 @@ private:
     void analyzeFile(const QString &filePath,
                      int &lineNumber,
                      QDateTime &currentTakeoffTime,
-                     QStringList &lines,
+                     QString &textBuffer,
                      bool &inRecvException,
                      QStringList &recvExceptionLines);
 

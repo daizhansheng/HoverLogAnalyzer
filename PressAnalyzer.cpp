@@ -46,6 +46,14 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // ==================== 搜索结果 Dock ====================
     searchResultList = new QListWidget(this);
     searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // 改浅选中颜色，避免蓝色过深
+    searchResultList->setStyleSheet(
+        "QListWidget{selection-background-color:#CCE8FF; selection-color:black;}\n"
+        "QAbstractItemView::item:selected{background:#BBDFFF; color:black;}\n"
+        "QAbstractItemView::item:selected:active{background:#BBDFFF; color:black;}\n"
+        "QAbstractItemView::item:selected:!active{background:#E6F3FF; color:black;}\n"
+        "QListWidget::item:hover{background:#EAF5FF;}"
+    );
 
     searchDock = new QDockWidget(this);
     searchDock->setWidget(searchResultList);
@@ -336,10 +344,8 @@ QString getTopFilePath(const QString &selectedFilePath)
 
 void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QString &display)
 {
-    // 获取 viewLog 对应 block
-    QTextBlock block = logView->document()->findBlockByNumber(lineNumber - 1);
-
-    allEvents.push_back({lineNumber, display, block});
+    // 仅保存必要信息，避免在解析阶段进行文档查找
+    allEvents.push_back({lineNumber, display, QTextBlock()});
 
     // eventList 背景颜色
     QList<QColor> bgColors = {
@@ -356,7 +362,7 @@ void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QStri
 void PressAnalyzer::analyzeFile(const QString &filePath,
                                 int &lineNumber,
                                 QDateTime &currentTakeoffTime,
-                                QStringList &lines,
+                                QString &textBuffer,
                                 bool &inRecvException,
                                 QStringList &recvExceptionLines)
 {
@@ -368,8 +374,6 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 
     QTextStream in(&file);
     in.setCodec("UTF-8");
-    QString content = in.readAll();
-    QStringList fileLines = content.split('\n', Qt::SkipEmptyParts);
 
     // ==================== 预编译正则表达式 ====================
     static const QRegularExpression reSn(R"(\[I\|System\]: SN:\s*(\S+))", QRegularExpression::CaseInsensitiveOption);
@@ -380,14 +384,15 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     static const QRegularExpression reInsertSql(R"(insertMediaDataIntoDb insert media sql.*\[(.*)\])", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression reSqlValues(R"('([^']*)'|(\d+))");
 
-    for (const QString &line : fileLines) {
+    while (!in.atEnd()) {
+        QString line = in.readLine();
         lineNumber++;
         allLogLines << line;
 
-        QString numberedLine = QString("%1 %2")
-                                   .arg(lineNumber, 6, 10, QChar(' '))
-                                   .arg(line);
-        lines << numberedLine;
+        textBuffer.reserve(textBuffer.size() + line.size() + 16);
+        textBuffer.append(QString("%1 %2\n")
+                              .arg(lineNumber, 6, 10, QChar(' '))
+                              .arg(line));
 
         // ==================== drone SN ====================
         auto matchSn = reSn.match(line);
@@ -565,6 +570,13 @@ void PressAnalyzer::loadAndAnalyzeLog()
     QString filePath = QFileDialog::getOpenFileName(this, "选择日志文件", "", "日志文件 (*.txt *.log);;所有文件 (*)");
     if (filePath.isEmpty()) return;
 
+    // 减少大文件解析时的界面重绘
+    logView->setUpdatesEnabled(false);
+    QSignalBlocker blocker1(eventList);
+    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker3(cameraEventList);
+    QSignalBlocker blocker4(statusEventList);
+
     statusBar->showMessage(QString("路径: %1").arg(filePath));
     allLogLines.clear();
     allEvents.clear();
@@ -583,15 +595,16 @@ void PressAnalyzer::loadAndAnalyzeLog()
 
     int lineNumber = 0;
     QDateTime currentTakeoffTime;
-    QStringList lines;
+    QString textBuffer;
     bool inRecvException = false;
     QStringList recvExceptionLines;
 
-    analyzeFile(filePath, lineNumber, currentTakeoffTime, lines, inRecvException, recvExceptionLines);
+    analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
 
-    logView->setPlainText(lines.join("\n"));
+    logView->setPlainText(textBuffer);
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
+    socChart->clear();
     socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
 
@@ -600,12 +613,22 @@ void PressAnalyzer::loadAndAnalyzeLog()
     parseTopFile(topFilePath);
 
     usageChart->setData(allusage);
+
+    // 解析完成后恢复更新
+    logView->setUpdatesEnabled(true);
 }
 
 void PressAnalyzer::loadAndAnalyzeLogs()
 {
     QString path = QFileDialog::getExistingDirectory(this, "选择日志文件或目录", "");
     if (path.isEmpty()) return;
+
+    // 减少大文件解析时的界面重绘
+    logView->setUpdatesEnabled(false);
+    QSignalBlocker blocker1(eventList);
+    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker3(cameraEventList);
+    QSignalBlocker blocker4(statusEventList);
 
     statusBar->showMessage(QString("路径: %1").arg(path));
     QFileInfo info(path);
@@ -703,19 +726,20 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
     int lineNumber = 0;
     QDateTime currentTakeoffTime;
-    QStringList lines;
+    QString textBuffer;
     bool inRecvException = false;
     QStringList recvExceptionLines;
 
     // 分开解析 control_engine_log
     for (const QString &filePath : controlLogs) {
-        analyzeFile(filePath, lineNumber, currentTakeoffTime, lines, inRecvException, recvExceptionLines);
+        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
     }
 
 
-    logView->setPlainText(lines.join("\n"));
+    logView->setPlainText(textBuffer);
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
+    socChart->clear();
     socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
     // 分开解析 top_log
@@ -723,6 +747,9 @@ void PressAnalyzer::loadAndAnalyzeLogs()
         parseTopFile(filePath);
     }
     usageChart->setData(allusage);
+
+    // 解析完成后恢复更新
+    logView->setUpdatesEnabled(true);
 }
 // 高亮事件行
 void PressAnalyzer::highlightLine(int lineNumber, const QString &eventType)
@@ -858,6 +885,7 @@ void PressAnalyzer::clearWindow()
     statusEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
+    if (socChart) socChart->clear();
     statusDock->hide();
     batteryinfo.clear();
     soctmp.clear();
@@ -866,6 +894,7 @@ void PressAnalyzer::clearWindow()
     cursor.clearSelection();                    // 取消选中
     logView->setTextCursor(cursor);
     allusage.clear();
+    if (usageChart) usageChart->setData(allusage);
     statusBar->showMessage("就绪");
     setWindowTitle("日志分析工具");
 }
@@ -978,14 +1007,8 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
 
     QTextDocument* doc = logView->document();
 
-    // ---------------- 1. 清除旧的高亮 ----------------
-    QTextCursor clearCursor(doc);
-    clearCursor.select(QTextCursor::Document);
-    QTextCharFormat clearFormat;
-    clearFormat.setBackground(Qt::transparent);  // 背景透明
-    clearFormat.setForeground(Qt::black);        // 恢复默认前景色（根据需要调整）
-    clearCursor.setCharFormat(clearFormat);
-    highlightAllEvents();
+    // 仅在可见区域应用轻量高亮，避免整篇文档重绘
+    QList<QTextEdit::ExtraSelection> selections;
     // ---------------- 2. 生成关键字颜色 ----------------
     QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
 
@@ -1003,32 +1026,42 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
                 ));
     }
 
-    // ---------------- 3. 遍历匹配并高亮 ----------------
-    for (int lineNumber : searchResults) {
+    // 只高亮当前索引所在行，其他行延迟到滚动时再做
+    if (currentIndex >= 0 && currentIndex < searchResults.size()) {
+        int lineNumber = searchResults[currentIndex];
         QTextBlock block = doc->findBlockByNumber(lineNumber);
-        if (!block.isValid()) continue;
+        if (block.isValid()) {
+            // 整行浅灰底，帮助用户定位跳转行
+            QTextEdit::ExtraSelection lineSel;
+            lineSel.cursor = QTextCursor(block);
+            lineSel.cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+            QTextCharFormat lineFmt;
+            lineFmt.setBackground(QColor(180,180,180,140));
+            lineSel.format = lineFmt;
+            selections.push_back(lineSel);
 
-        QString lineText = block.text();
-        for (int k = 0; k < keys.size(); ++k) {
-            // ✅ 转义关键词，避免正则元字符导致误匹配
-            QString pattern = QRegExp::escape(keys[k]);
-            QRegExp rx(pattern, Qt::CaseInsensitive);
-
-            int pos = 0;
-            while ((pos = rx.indexIn(lineText, pos)) != -1) {
-                QTextCursor cursor(block);
-                cursor.setPosition(block.position() + pos);
-                cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, rx.cap(0).length());
-
-                QTextCharFormat fmt;
-                fmt.setBackground(colors[k]);
-                fmt.setForeground(Qt::black);
-                cursor.setCharFormat(fmt);
-
-                pos += rx.cap(0).length();
+            QString lineText = block.text();
+            for (int k = 0; k < keys.size(); ++k) {
+                QString pattern = QRegExp::escape(keys[k]);
+                QRegExp rx(pattern, Qt::CaseInsensitive);
+                int pos = 0;
+                while ((pos = rx.indexIn(lineText, pos)) != -1) {
+                    QTextEdit::ExtraSelection sel;
+                    sel.cursor = QTextCursor(block);
+                    sel.cursor.setPosition(block.position() + pos);
+                    sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, rx.cap(0).length());
+                    QTextCharFormat fmt;
+                    fmt.setBackground(colors[k]);
+                    fmt.setForeground(Qt::black);
+                    sel.format = fmt;
+                    selections.push_back(sel);
+                    pos += rx.cap(0).length();
+                }
             }
         }
     }
+
+    logView->setExtraSelections(selections);
 
     // ---------------- 4. 跳转到当前选中行 ----------------
     if (currentIndex >= 0 && currentIndex < searchResults.size()) {
