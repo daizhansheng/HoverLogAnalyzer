@@ -87,7 +87,8 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
                << "[rpc] Req:254"
                << "[rpc] Req:249"
                << "capture out"
-               << "MediaRequest_MediaRequestType_";
+               << "MediaRequest_MediaRequestType_"
+               << "GET_MEDIA_FILE media_file_transfer_request";
 
     QStringList completerHints = fixedHints + historyHints;
 
@@ -304,6 +305,7 @@ void PressAnalyzer::addSearchHistory(const QString &text)
         }
     }
 }
+
 // typeToString 函数保持不变
 QString typeToString(int type) {
     switch(type) {
@@ -318,6 +320,18 @@ QString typeToString(int type) {
     case 9: return "TRAJECTORY_DATA";
     default: return "UNKNOWN";
     }
+}
+
+QString getTopFilePath(const QString &selectedFilePath)
+{
+    // 假设 top 日志都在 ../system_log/top_log/ 下
+    // 获取文件名
+    QFileInfo fi(selectedFilePath);
+
+    // 构造 top 文件路径
+    QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
+    topPath = QFileInfo(topPath).canonicalFilePath();
+    return topPath;
 }
 
 void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QString &display)
@@ -545,18 +559,6 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     }
 }
 
-QString getTopFilePath(const QString &selectedFilePath)
-{
-    // 假设 top 日志都在 ../system_log/top_log/ 下
-    // 获取文件名
-    QFileInfo fi(selectedFilePath);
-
-    // 构造 top 文件路径
-    QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
-    topPath = QFileInfo(topPath).canonicalFilePath();
-    return topPath;
-}
-
 // loadAndAnalyzeLog 保持之前逻辑
 void PressAnalyzer::loadAndAnalyzeLog()
 {
@@ -575,6 +577,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     searchResultList->clear();
     batteryinfo.clear();
     allusage.clear();
+    soctmp.clear();
     triggerCount = 0;
     flightCount = 0;
 
@@ -694,6 +697,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     searchResultList->clear();
     batteryinfo.clear();
     allusage.clear();
+    soctmp.clear();
     triggerCount = 0;
     flightCount = 0;
 
@@ -856,6 +860,7 @@ void PressAnalyzer::clearWindow()
     batteryChart->clear();
     statusDock->hide();
     batteryinfo.clear();
+    soctmp.clear();
     logView->moveCursor(QTextCursor::Start);   // 光标移到开头
     QTextCursor cursor = logView->textCursor();
     cursor.clearSelection();                    // 取消选中
