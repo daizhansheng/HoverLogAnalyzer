@@ -339,7 +339,8 @@ void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QStri
     eventList->addItem(item);
 }
 
-void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
+void PressAnalyzer::analyzeFile(const QString &filePath,
+                                int &lineNumber,
                                 QDateTime &currentTakeoffTime,
                                 QStringList &lines,
                                 bool &inRecvException,
@@ -352,32 +353,40 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
     }
 
     QTextStream in(&file);
+    in.setCodec("UTF-8");
+    QString content = in.readAll();
+    QStringList fileLines = content.split('\n', Qt::SkipEmptyParts);
 
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        allLogLines << line;
+    // ==================== 预编译正则表达式 ====================
+    static const QRegularExpression reSn(R"(\[I\|System\]: SN:\s*(\S+))", QRegularExpression::CaseInsensitiveOption);
+    static const QRegularExpression rePressPower(R"(\[(\d+\.\d+)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");
+    static const QRegularExpression reTakeoff(R"(trigger source:\s*(\d+)\s+flight mode:\s*(\w+))", QRegularExpression::CaseInsensitiveOption);
+    static const QRegularExpression reTs(R"(\[\d+\.\d+\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    static const QRegularExpression reFcState(R"(Detected fc state changed to\s+(\d+))");
+    static const QRegularExpression reInsertSql(R"(insertMediaDataIntoDb insert media sql.*\[(.*)\])", QRegularExpression::CaseInsensitiveOption);
+    static const QRegularExpression reSqlValues(R"('([^']*)'|(\d+))");
+
+    for (const QString &line : fileLines) {
         lineNumber++;
+        allLogLines << line;
+
         QString numberedLine = QString("%1 %2")
                                    .arg(lineNumber, 6, 10, QChar(' '))
                                    .arg(line);
         lines << numberedLine;
-        // ==================== drone SN ====================
-        if (line.contains("[I|System]: SN:", Qt::CaseInsensitive)) {
-            int idx = line.indexOf("[I|System]: SN:");
-            if (idx != -1) {
-                sn = line.mid(idx + QString("[I|System]: SN:").length()).trimmed();
 
-            }
+        // ==================== drone SN ====================
+        auto matchSn = reSn.match(line);
+        if (matchSn.hasMatch()) {
+            sn = matchSn.captured(1).trimmed();
         }
+
         // ==================== press once power key ====================
         if (line.contains("press once power key", Qt::CaseInsensitive)) {
             triggerCount++;
             QString timestamp;
-            QRegularExpression tsRx(R"(\[\d+\.\d+\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");
-            QRegularExpressionMatch match = tsRx.match(line);
-            if (match.hasMatch()) {
-                timestamp = match.captured(1);
-            }
+            auto m = rePressPower.match(line);
+            if (m.hasMatch()) timestamp = m.captured(2);
 
             QString display = QString("%1 | %2# press power key : [%3]")
                                   .arg(lineNumber, 6, 10, QChar(' '))
@@ -385,14 +394,15 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
                                   .arg(timestamp);
             addEventToList(triggerCount, lineNumber, display);
         }
+
         // ==================== 起飞事件 ====================
         if (line.contains("start takeoff. powerkey trigger source", Qt::CaseInsensitive)) {
             flightCount++;
             QString triggerText = "未知";
-            QRegExp rx("trigger source: (\\d+) flight mode: (\\w+)", Qt::CaseInsensitive);
-            if (rx.indexIn(line) != -1) {
-                int src = rx.cap(1).toInt();
-                modeText = rx.cap(2);
+            auto m = reTakeoff.match(line);
+            if (m.hasMatch()) {
+                int src = m.captured(1).toInt();
+                modeText = m.captured(2);
                 if (src == 1) triggerText = "MCU";
                 else if (src == 2) triggerText = "APP";
                 else if (src == 3) triggerText = "RC";
@@ -407,9 +417,9 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
 
         // ==================== fly_power: takeoff success ====================
         if (line.contains("fly_power: takeoff success", Qt::CaseInsensitive)) {
-            QRegExp tsRx("\\[\\d+\\.\\d+\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]");
-            if (tsRx.indexIn(line) != -1)
-                currentTakeoffTime = QDateTime::fromString(tsRx.cap(1), "yyyy-MM-dd HH:mm:ss");
+            auto m = reTs.match(line);
+            if (m.hasMatch())
+                currentTakeoffTime = QDateTime::fromString(m.captured(1), "yyyy-MM-dd HH:mm:ss");
 
             QString display = QString("%1 | %2# takeoff success,Flying")
                                   .arg(lineNumber, 6, 10, QChar(' '))
@@ -418,108 +428,87 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
         }
 
         // ==================== FC STATE ====================
-        if (line.contains("Detected fc state changed to", Qt::CaseInsensitive)) {
-
-            // 解析状态值
-            QRegExp stateRx("Detected fc state changed to\\s+(\\d+)");
-            if (stateRx.indexIn(line) != -1) {
-                int stateValue = stateRx.cap(1).toInt();
-
-                QString stateName;
-                switch (stateValue) {
-                case 0: stateName = "DISARM";    break;
-                case 1: stateName = "ARM";       break;
-                case 2: stateName = "TAKINGOFF"; break;
-                case 3: stateName = "FLYING";    break;
-                case 4: stateName = "LANDING";   break;
-                default: stateName = QString("UNKNOWN(%1)").arg(stateValue); break;
-                }
-
-                // 直接显示当前状态
-                QString display = QString("%1 | %2# FC STATE -> %3")
-                                      .arg(lineNumber, 6, 10, QChar(' '))
-                                      .arg(flightCount)
-                                      .arg(stateName, -12);
-                addEventToList(triggerCount, lineNumber, display);
+        auto mFc = reFcState.match(line);
+        if (mFc.hasMatch()) {
+            int stateValue = mFc.captured(1).toInt();
+            QString stateName;
+            switch (stateValue) {
+            case 0: stateName = "DISARM";    break;
+            case 1: stateName = "ARM";       break;
+            case 2: stateName = "TAKINGOFF"; break;
+            case 3: stateName = "FLYING";    break;
+            case 4: stateName = "LANDING";   break;
+            default: stateName = QString("UNKNOWN(%1)").arg(stateValue); break;
             }
+            QString display = QString("%1 | %2# FC STATE -> %3")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(flightCount)
+                                  .arg(stateName, -12);
+            addEventToList(triggerCount, lineNumber, display);
         }
+
         // ==================== fly_power: will landing ====================
         if (line.contains("fly_power: will landing", Qt::CaseInsensitive)) {
-            QDateTime landingTime;
-            QRegExp tsRx("\\[\\d+\\.\\d+\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]");
-            if (tsRx.indexIn(line) != -1)
-                landingTime = QDateTime::fromString(tsRx.cap(1), "yyyy-MM-dd HH:mm:ss");
-
-            if (currentTakeoffTime.isValid() && landingTime.isValid()) {
-                qint64 flightSeconds = currentTakeoffTime.secsTo(landingTime);
-                QString display = QString("%1 | %2# will Landing, Flight Duration: %3 seconds")
-                                      .arg(lineNumber, 6, 10, QChar(' '))
-                                      .arg(flightCount)
-                                      .arg(flightSeconds);
-                addEventToList(triggerCount, lineNumber, display);
-                currentTakeoffTime = QDateTime();
+            auto m = reTs.match(line);
+            if (m.hasMatch()) {
+                QDateTime landingTime = QDateTime::fromString(m.captured(1), "yyyy-MM-dd HH:mm:ss");
+                if (currentTakeoffTime.isValid() && landingTime.isValid()) {
+                    qint64 flightSeconds = currentTakeoffTime.secsTo(landingTime);
+                    QString display = QString("%1 | %2# will Landing, Flight Duration: %3 seconds")
+                                          .arg(lineNumber, 6, 10, QChar(' '))
+                                          .arg(flightCount)
+                                          .arg(flightSeconds);
+                    addEventToList(triggerCount, lineNumber, display);
+                    currentTakeoffTime = QDateTime();
+                }
             }
         }
 
         // ==================== insertMediaDataIntoDb ====================
-        if (line.contains("insertMediaDataIntoDb insert media sql", Qt::CaseInsensitive)) {
-            int idx = line.indexOf("insertMediaDataIntoDb insert media sql");
-            if (idx != -1) {
-                QString content = line.mid(idx);
+        auto mSql = reInsertSql.match(line);
+        if (mSql.hasMatch()) {
+            QString bracketContent = mSql.captured(1);
+            QStringList values;
+            auto it = reSqlValues.globalMatch(bracketContent);
+            while (it.hasNext()) {
+                auto mm = it.next();
+                if (mm.captured(1).size())
+                    values << mm.captured(1);
+                else
+                    values << mm.captured(2);
+            }
 
-                // 提取方括号内的 SQL
-                QRegExp rx("\\[(.*)\\]");
-                if (rx.indexIn(content) != -1) {
-                    QString bracketContent = rx.cap(1);
+            if (values.size() >= 4) {
+                QString uuid = values[0];
+                int type = values[1].toInt();
+                QString path = values[3];
+                QString typeStr = typeToString(type);
 
-                    // 匹配 VALUES(...) 中的单引号内容或数字
-                    QRegExp valueRx("'([^']*)'|\\b(\\d+)\\b");
-                    int pos = 0;
-                    QStringList values;
-                    while ((pos = valueRx.indexIn(bracketContent, pos)) != -1) {
-                        if (!valueRx.cap(1).isEmpty())
-                            values << valueRx.cap(1);  // 引号中的字符串
-                        else
-                            values << valueRx.cap(2);  // 数字
-                        pos += valueRx.matchedLength();
-                    }
-
-                    if (values.size() >= 4) {
-                        QString uuid = values[0];          // uuid
-                        int type = values[1].toInt();      // type
-                        QString path = values[3];          // path
-                        QString typeStr = typeToString(type);
-
-                        // 美化 path 显示
-                        QString displayPath;
-                        if (path.startsWith("/media/internal/")) {
-                            displayPath = "Internal:" + path.mid(QString("/media/internal/").length());
-                        } else if (path.startsWith("/media/external/")) {
-                            displayPath = "External:" + path.mid(QString("/media/external/").length());
-                        } else {
-                            displayPath = path;
-                        }
-
-                        // 构造展示字符串
-                        QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5")
-                                              .arg(lineNumber, 6, 10, QChar(' '))
-                                              .arg(flightCount)
-                                              .arg(uuid)
-                                              .arg(typeStr)
-                                              .arg(displayPath);
-
-                        addEventToList(triggerCount, lineNumber, display);
-                    }
+                QString displayPath;
+                if (path.startsWith("/media/internal/")) {
+                    displayPath = "Internal:" + path.mid(16);
+                } else if (path.startsWith("/media/external/")) {
+                    displayPath = "External:" + path.mid(16);
+                } else {
+                    displayPath = path;
                 }
+
+                QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5")
+                                      .arg(lineNumber, 6, 10, QChar(' '))
+                                      .arg(flightCount)
+                                      .arg(uuid)
+                                      .arg(typeStr)
+                                      .arg(displayPath);
+                addEventToList(triggerCount, lineNumber, display);
             }
         }
+
         // ==================== recv exception ====================
         if (line.contains("recv exception :", Qt::CaseInsensitive)) {
             inRecvException = true;
             recvExceptionLines.clear();
             continue;
         }
-
         if (inRecvException) {
             recvExceptionLines << line.trimmed();
             if (line.contains('}')) {
@@ -527,34 +516,35 @@ void PressAnalyzer::analyzeFile(const QString &filePath, int &lineNumber,
                 for (const QString &l : recvExceptionLines) {
                     if (l.startsWith("event:", Qt::CaseInsensitive) ||
                         l.startsWith("errors:", Qt::CaseInsensitive)) {
-                        QString content = l.trimmed();
                         QString display = QString("%1 | %2# %3")
-                                              .arg(lineNumber, 6, 10, QChar(' '))
-                                              .arg(flightCount)
-                                              .arg(content);
-                        addEventToList(triggerCount, lineNumber-1, display);
+                        .arg(lineNumber, 6, 10, QChar(' '))
+                            .arg(flightCount)
+                            .arg(l.trimmed());
+                        addEventToList(triggerCount, lineNumber - 1, display);
                     }
                 }
             }
             continue;
         }
+
         // ==================== manual_control_takeover_request ====================
         if (line.contains("manual_control_takeover_request", Qt::CaseInsensitive)) {
             QString display = QString("%1 | %2# 模式:%3 -> MANUAL")
                                   .arg(lineNumber, 6, 10, QChar(' '))
                                   .arg(flightCount)
                                   .arg(modeText);
-            addEventToList(triggerCount, lineNumber-1, display);
+            addEventToList(triggerCount, lineNumber - 1, display);
             continue;
         }
-        // ==================== camera status ====================
+
+        // ==================== 其他解析 ====================
         parseCameraStatus(lineNumber, line);
-        // ==================== status 面板 ====================
         parseStatusHeartbeat(lineNumber, line);
         parseStatusBattery(lineNumber, line);
         parseStatusSocTemp(lineNumber, line);
     }
 }
+
 QString getTopFilePath(const QString &selectedFilePath)
 {
     // 假设 top 日志都在 ../system_log/top_log/ 下
