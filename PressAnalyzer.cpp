@@ -536,10 +536,10 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                     if (l.startsWith("event:", Qt::CaseInsensitive) ||
                         l.startsWith("errors:", Qt::CaseInsensitive)) {
                         QString display = QString("%1 | %2# %3")
-                        .arg(lineNumber, 6, 10, QChar(' '))
+                        .arg(lineNumber-1, 6, 10, QChar(' '))
                             .arg(flightCount)
                             .arg(l.trimmed());
-                        addEventToList(triggerCount, lineNumber - 1, display);
+                        addEventToList(triggerCount, lineNumber-1, display);
                     }
                 }
             }
@@ -552,7 +552,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                                   .arg(lineNumber, 6, 10, QChar(' '))
                                   .arg(flightCount)
                                   .arg(modeText);
-            addEventToList(triggerCount, lineNumber - 1, display);
+            addEventToList(triggerCount, lineNumber, display);
             continue;
         }
 
@@ -602,6 +602,8 @@ void PressAnalyzer::loadAndAnalyzeLog()
     analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
 
     logView->setPlainText(textBuffer);
+    // 首次统一高亮一次，点击时不再重复全量高亮
+    highlightAllEvents();
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
     socChart->clear();
@@ -737,6 +739,8 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
 
     logView->setPlainText(textBuffer);
+    // 首次统一高亮一次，点击时不再重复全量高亮
+    highlightAllEvents();
     titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
     batteryChart->setData(batteryinfo);
     socChart->clear();
@@ -825,7 +829,6 @@ void PressAnalyzer::highlightAllEvents()
 // 点击事件列表只跳转，不再修改颜色
 void PressAnalyzer::onEventClicked(QListWidgetItem *item)
 {
-    highlightAllEvents();
     int row = eventList->row(item);
     if (row < 0 || row >= allEvents.size()) return;
 
@@ -1248,7 +1251,6 @@ void PressAnalyzer::parseStatusBattery(int lineNumber, const QString &line)
 
 void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
 {
-    highlightAllEvents();
     int row = cameraEventList->row(item);
     if (row < 0 || row >= cameraEvents.size()) return;
 
@@ -1262,12 +1264,11 @@ void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
 }
 void PressAnalyzer::onStatusEventClicked(QListWidgetItem *item)
 {
-    highlightAllEvents();
     int row = statusEventList->row(item);
     if (row < 0 || row >= statusEvents.size()) return;
 
     int lineNumber =  statusEvents[row].lineNumber;
-    QTextBlock block = logView->document()->findBlockByNumber(lineNumber);
+    QTextBlock block = logView->document()->findBlockByNumber(lineNumber - 1);
     if (!block.isValid()) return;
 
     QTextCursor cursor(block);
