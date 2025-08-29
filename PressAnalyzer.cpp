@@ -17,6 +17,9 @@
 #include <QCheckBox>
 #include <QCompleter>
 #include <QStringListModel>
+#include <QShortcut>
+#include <QKeyEvent>
+#include <QTimer>
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -86,7 +89,24 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     clearButton = new QPushButton("清除窗口", this);
 
     searchEdit = new QLineEdit(this);
-    searchEdit->setPlaceholderText("输入搜索内容...");
+    searchEdit->setPlaceholderText("输入搜索内容... ");
+    searchEdit->setMinimumWidth(300);
+    searchEdit->setStyleSheet(
+        "QLineEdit { "
+        "    padding: 5px; "
+        "    border: 2px solid #CCCCCC; "
+        "    border-radius: 5px; "
+        "    background-color: white; "
+        "    font-size: 12px; "
+        "} "
+        "QLineEdit:focus { "
+        "    border-color: #4A90E2; "
+        "    background-color: #F8F9FA; "
+        "} "
+        "QLineEdit:hover { "
+        "    border-color: #999999; "
+        "}"
+    );
     searchAllButton = new QPushButton("搜索", this);
     searchPrevButton = new QPushButton("向前", this);
     searchNextButton = new QPushButton("向后", this);
@@ -106,6 +126,27 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     searchEdit->setCompleter(completer);
 
     searchEdit->installEventFilter(this);
+    
+    // 添加键盘快捷键支持
+    QShortcut *searchShortcut = new QShortcut(QKeySequence("Ctrl+F"), this);
+    connect(searchShortcut, &QShortcut::activated, this, [this]() {
+        searchEdit->setFocus();
+        searchEdit->selectAll();
+    });
+    
+    // 回车键触发搜索
+    connect(searchEdit, &QLineEdit::returnPressed, this, [this]() {
+        searchAll();
+        if (!searchResults.isEmpty()) searchDock->show();
+    });
+    
+    // 实时搜索提示：输入时自动更新提示
+    connect(searchEdit, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.length() > 0) {
+            // 延迟更新，避免频繁刷新
+            QTimer::singleShot(200, this, &PressAnalyzer::updateCompleterWithSmartHints);
+        }
+    });
     // -------------------- 添加到工具栏 --------------------
     toolBar->addWidget(dirloadButton);
     toolBar->addWidget(fileloadButton);
@@ -281,37 +322,140 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 // ---------------- eventFilter ----------------
 bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == searchEdit && event->type() == QEvent::FocusIn) {
-        if (searchEdit->completer()) {
-            searchEdit->completer()->setCompletionPrefix(""); // 显示完整列表
-            searchEdit->completer()->complete();
+    if (obj == searchEdit) {
+        if (event->type() == QEvent::FocusIn) {
+            // 获得焦点时显示提示，但延迟一点避免干扰用户
+            QTimer::singleShot(100, this, [this]() {
+                if (searchEdit->hasFocus() && searchEdit->text().isEmpty()) {
+                    showSearchHints();
+                }
+            });
+        } else if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
+                // 上下箭头键时显示提示
+                if (searchEdit->completer()) {
+                    searchEdit->completer()->setCompletionPrefix(searchEdit->text());
+                    searchEdit->completer()->complete();
+                }
+                return true;
+            } else if (keyEvent->key() == Qt::Key_Tab) {
+                // Tab键补全
+                if (searchEdit->completer()) {
+                    searchEdit->completer()->setCompletionPrefix(searchEdit->text());
+                    searchEdit->completer()->complete();
+                }
+                return true;
+            } else if (keyEvent->key() == Qt::Key_Escape) {
+                // Esc键取消提示
+                if (searchEdit->completer()) {
+                    searchEdit->completer()->popup()->hide();
+                }
+                return true;
+            }
         }
     }
     return QObject::eventFilter(obj, event);
 }
 
-// 5. 在搜索或确认输入时，记录历史
+    // 5. 在搜索或确认输入时，记录历史
 void PressAnalyzer::addSearchHistory(const QString &text)
 {
     if (text.isEmpty()) return;
-    if (!historyHints.contains(text)) {
-        historyHints.prepend(text);        // 添加到历史开头
-        if (historyHints.size() > 50)      // 限制历史数量
-            historyHints.removeLast();
+    
+    // 智能历史管理：如果已存在，先移除旧位置，再添加到开头
+    historyHints.removeAll(text);
+    historyHints.prepend(text);
+    
+    // 限制历史数量，保持最近使用的50个
+    if (historyHints.size() > 50) {
+        historyHints.removeLast();
+    }
 
-        // 更新 completer 数据源
-        QStringList hints = fixedHints + historyHints;
-        QCompleter *c = searchEdit->completer();
+    // 智能更新 completer：优先显示历史记录
+    updateCompleterWithSmartHints();
+}
 
-        // 获取原 model 并转换
-        QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
-        if (!model) {
-            model = new QStringListModel(hints, c);
-            c->setModel(model);
-        } else {
-            model->setStringList(hints);
+// 智能更新completer提示
+void PressAnalyzer::updateCompleterWithSmartHints()
+{
+    QCompleter *c = searchEdit->completer();
+    if (!c) return;
+    
+    // 智能提示策略：
+    // 1. 固定提示词总是放在前面
+    // 2. 然后显示匹配的历史记录
+    QString currentText = searchEdit->text();
+    
+    QStringList hints;
+    
+    // 1. 首先添加固定提示词（总是显示）
+    hints.append(fixedHints);
+    
+    // 2. 然后添加匹配的历史记录
+    if (currentText.isEmpty()) {
+        // 空搜索框：显示所有历史记录
+        hints.append(historyHints);
+    } else {
+        // 正在输入：只显示匹配的历史记录
+        for (const QString &history : historyHints) {
+            if (history.contains(currentText, Qt::CaseInsensitive)) {
+                hints.append(history);
+            }
         }
     }
+    
+    // 限制提示数量，避免过多
+    if (hints.size() > 20) {
+        hints = hints.mid(0, 20);
+    }
+    
+    // 更新completer
+    QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
+    if (!model) {
+        model = new QStringListModel(hints, c);
+        c->setModel(model);
+    } else {
+        model->setStringList(hints);
+    }
+}
+
+// 显示搜索提示
+void PressAnalyzer::showSearchHints()
+{
+    if (!searchEdit->completer()) return;
+    
+    // 智能显示提示：优先显示历史记录，然后是固定提示
+    QStringList hints;
+    
+    // 添加最近使用的历史记录（最多显示10个）
+    int historyCount = qMin(10, historyHints.size());
+    for (int i = 0; i < historyCount; ++i) {
+        hints.append(historyHints[i]);
+    }
+    
+    // 添加固定提示（如果历史记录不够10个）
+    int remaining = 10 - hints.size();
+    if (remaining > 0) {
+        int fixedCount = qMin(remaining, fixedHints.size());
+        for (int i = 0; i < fixedCount; ++i) {
+            hints.append(fixedHints[i]);
+        }
+    }
+    
+    // 更新completer
+    QCompleter *c = searchEdit->completer();
+    QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
+    if (!model) {
+        model = new QStringListModel(hints, c);
+        c->setModel(model);
+    } else {
+        model->setStringList(hints);
+    }
+    
+    // 显示提示
+    c->setCompletionPrefix("");
+    c->complete();
 }
 
 // typeToString 函数保持不变
@@ -789,7 +933,7 @@ void PressAnalyzer::highlightLine(int lineNumber, const QString &eventType)
     } else if (eventType.contains("[recording]", Qt::CaseInsensitive)) {
         color = Qt::red; // 红色 - 正在录像
     } else if (eventType.contains("[stream+preview+recording]", Qt::CaseInsensitive)) {
-        color = QColor(178, 34, 34); // 橙色 - 流+预览+录像同时开启
+        color = QColor(255, 99, 71); // 浅红色 - 流+预览+录像同时开启
     } else if (eventType.contains("[stream+preview]", Qt::CaseInsensitive)) {
         color = QColor(255, 165, 0); // 橙色 - 流+预览同时开启
     } else if (eventType.contains("[stream]", Qt::CaseInsensitive)) {
@@ -954,7 +1098,7 @@ void PressAnalyzer::searchAll()
         else if (i == 1)
             color = Qt::green;
         else
-            color = colorPool[QRandomGenerator::global()->bounded(colorPool.size())];
+            color = colorPool[(i - 2) % colorPool.size()];
 
         patterns.append(qMakePair(rx, color));
     }
@@ -997,10 +1141,10 @@ void PressAnalyzer::searchAll()
     searchResultList->show();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
-    QString combined = keys.join(", ");
-    combined.remove(QRegularExpression("[\\x00-\\x1F]"));                 // 控制字符
-    combined.replace(QRegularExpression(R"(\\(?=[\[\]\(\)\{\}<>\/*"']))"), "");
-    addSearchHistory(combined);
+    
+    // 记录完整的原始搜索表达式，而不是分割后的关键字
+    QString originalSearchText = searchEdit->text().trimmed();
+    addSearchHistory(originalSearchText);
 }
 
 // 高亮搜索结果
@@ -1015,6 +1159,20 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
     // ---------------- 2. 生成关键字颜色 ----------------
     QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
 
+    // 准备颜色池，前两个关键字固定颜色，其余按顺序使用
+    QVector<QColor> colorPool = {
+        QColor(255, 182, 193), // light pink
+        QColor(173, 216, 230), // light blue
+        QColor(144, 238, 144), // light green
+        QColor(255, 255, 150), // light yellow
+        QColor(255, 160, 122), // light salmon
+        QColor(255, 228, 181), // moccasin
+        QColor(221, 160, 221), // plum
+        QColor(176, 224, 230), // powder blue
+        QColor(152, 251, 152), // pale green
+        QColor(240, 230, 140)  // khaki
+    };
+
     QVector<QColor> colors;
     for (int i = 0; i < keys.size(); ++i) {
         if (i == 0)
@@ -1022,11 +1180,7 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
         else if (i == 1)
             colors.append(Qt::green);
         else
-            colors.append(QColor(
-                173 + QRandomGenerator::global()->bounded(80),
-                216 + QRandomGenerator::global()->bounded(39),
-                230 + QRandomGenerator::global()->bounded(25)
-                ));
+            colors.append(colorPool[(i - 2) % colorPool.size()]);
     }
 
     // 只高亮当前索引所在行，其他行延迟到滚动时再做

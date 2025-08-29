@@ -73,6 +73,8 @@ private:
     void parseTopFile(const QString &filePath);
     bool eventFilter(QObject *obj, QEvent *event);
     void addSearchHistory(const QString &text);
+    void showSearchHints();
+    void updateCompleterWithSmartHints();
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *dirloadButton;

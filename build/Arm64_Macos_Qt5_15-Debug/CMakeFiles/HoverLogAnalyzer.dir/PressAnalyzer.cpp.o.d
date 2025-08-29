@@ -1041,4 +1041,10 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QCompleter \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcompleter.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringListModel \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringlistmodel.h
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringlistmodel.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QShortcut \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qshortcut.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QKeyEvent \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QTimer \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qtimer.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qbasictimer.h
