@@ -135,6 +135,8 @@ private:
     QWidget *usageContainer;
     ModuleUsageChart *usageChart;
     QVector<AllModuleUsage> allusage;
+    // 文本缩放：当前字体大小
+    int logFontPointSize;
 };
 
 #endif // PRESSANALYZER_H

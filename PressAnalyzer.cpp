@@ -20,6 +20,8 @@
 #include <QShortcut>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QMenuBar>
+#include <QAction>
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -83,8 +85,8 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // ==================== 工具栏 ====================
     QToolBar *toolBar = addToolBar("主工具栏");
-    dirloadButton = new QPushButton("选择Log目录分析", this);
-    fileloadButton = new QPushButton("选择Log文件分析", this);
+    dirloadButton = new QPushButton("选择Log目录", this);
+    fileloadButton = new QPushButton("选择Log文件", this);
     saveButton = new QPushButton("保存分析结果", this);
     clearButton = new QPushButton("清除窗口", this);
 
@@ -147,6 +149,39 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
             QTimer::singleShot(200, this, &PressAnalyzer::updateCompleterWithSmartHints);
         }
     });
+    
+    // 统一浅色主题：集中管理色值
+    struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
+    const ButtonTheme themePrimary  {"#E8F3FF", "#D9ECFF", "#C6E2FF", "#1F2D3D"};
+    const ButtonTheme themeSuccess  {"#EDF9E5", "#E0F3D3", "#CCE9BB", "#1F2D3D"};
+    const ButtonTheme themeDanger   {"#FDECEA", "#F9DAD7", "#F3C5C1", "#611A15"};
+    const ButtonTheme themeInfo     {"#F0EEFF", "#E6E3FF", "#D9D4FF", "#1F2D3D"};
+    const ButtonTheme themeNeutral  {"#F4F4F5", "#ECECEC", "#E2E3E4", "#1F2D3D"};
+    const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
+    const ButtonTheme themeIndigo   {"#EDF2FF", "#E0E7FF", "#D0D8FF", "#1F2D3D"};
+
+    // 按钮样式助手：扁平+自定义背景色；提升可读性（深色文本+浅色背景或较高对比度）
+    auto styleButton = [](QPushButton *button,
+                          const QString &bg,
+                          const QString &hover,
+                          const QString &pressed,
+                          const QString &fg = QString("#1F2D3D")){
+        if (!button) return;
+        button->setFlat(true);
+        button->setStyleSheet(
+            QString(
+                "QPushButton{"
+                "  background-color:%1;"
+                "  color:%4;"
+                "  border:none;"
+                "  border-radius:4px;"
+                "  padding:6px 10px;"
+                "}"
+                "QPushButton:hover{background-color:%2;}"
+                "QPushButton:pressed{background-color:%3;}"
+            ).arg(bg, hover, pressed, fg)
+        );
+    };
     // -------------------- 添加到工具栏 --------------------
     toolBar->addWidget(dirloadButton);
     toolBar->addWidget(fileloadButton);
@@ -157,6 +192,15 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     toolBar->addWidget(searchAllButton);
     toolBar->addWidget(searchPrevButton);
     toolBar->addWidget(searchNextButton);
+
+    // 应用样式到已创建的按钮（统一浅色主题）
+    styleButton(dirloadButton,   themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 目录
+    styleButton(fileloadButton,  themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 文件（与目录同属主色）
+    styleButton(saveButton,      themeSuccess.bg, themeSuccess.hover, themeSuccess.pressed, themeSuccess.fg);   // 保存
+    styleButton(clearButton,     themeDanger.bg,  themeDanger.hover,  themeDanger.pressed,  themeDanger.fg);    // 清除
+    styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);      // 搜索
+    styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向前
+    styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向后
 
     // ==================== 状态栏 ====================
     statusBar = new QStatusBar(this);
@@ -183,6 +227,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // ==================== Camera按钮 ====================
     cameraButton = new QPushButton("Camera状态", this);
     toolBar->addWidget(cameraButton);
+    styleButton(cameraButton, themeWarning.bg, themeWarning.hover, themeWarning.pressed, themeWarning.fg);     // Camera
 
     cameraEventList = new QListWidget(this);
     cameraDock = new QDockWidget("Camera状态", this);
@@ -198,6 +243,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // ==================== 状态面板 ====================
     statusButton = new QPushButton("状态面板", this);
     toolBar->addWidget(statusButton);
+    styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);     // 状态
 
     statusContainer = new QWidget(this);
     QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
@@ -226,6 +272,124 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     vLayout->addStretch(1);
     statusContainer->setLayout(vLayout);
+
+    // ==================== 菜单栏 ====================
+    QMenu *fileMenu = menuBar()->addMenu("文件");
+    QAction *actNewWindow = fileMenu->addAction("新建窗口");
+    actNewWindow->setShortcut(QKeySequence::New);
+    fileMenu->addSeparator();
+    QAction *actOpenDir = fileMenu->addAction("选择Log目录");
+    QAction *actOpenFile = fileMenu->addAction("选择Log文件");
+    actOpenDir->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
+    actOpenFile->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
+    fileMenu->addSeparator();
+    QAction *actSave = fileMenu->addAction("保存分析结果");
+    actSave->setShortcut(QKeySequence::Save);
+    QAction *actClear = fileMenu->addAction("清除窗口");
+    QAction *actClose = fileMenu->addAction("关闭窗口");
+    actClose->setShortcut(QKeySequence::Close);
+
+    connect(actNewWindow, &QAction::triggered, this, [=](){
+        auto *w = new PressAnalyzer(nullptr);
+        w->setAttribute(Qt::WA_DeleteOnClose, true);
+        w->show();
+    });
+    connect(actOpenDir, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLogs);
+    connect(actOpenFile, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLog);
+    connect(actSave, &QAction::triggered, this, &PressAnalyzer::saveEventListToFile);
+    connect(actClear, &QAction::triggered, this, &PressAnalyzer::clearWindow);
+    connect(actClose, &QAction::triggered, this, &QMainWindow::close);
+
+    // 编辑菜单（常用文本工具）
+    QMenu *editMenu = menuBar()->addMenu("编辑");
+    QAction *actUndo = editMenu->addAction("撤销");
+    QAction *actRedo = editMenu->addAction("重做");
+    actUndo->setShortcut(QKeySequence::Undo);
+    actRedo->setShortcut(QKeySequence::Redo);
+    editMenu->addSeparator();
+    QAction *actCut = editMenu->addAction("剪切");
+    QAction *actCopy = editMenu->addAction("复制");
+    QAction *actPaste = editMenu->addAction("粘贴");
+    QAction *actSelectAll = editMenu->addAction("全选");
+    actCut->setShortcut(QKeySequence::Cut);
+    actCopy->setShortcut(QKeySequence::Copy);
+    actPaste->setShortcut(QKeySequence::Paste);
+    actSelectAll->setShortcut(QKeySequence::SelectAll);
+
+    connect(actUndo, &QAction::triggered, logView, &QPlainTextEdit::undo);
+    connect(actRedo, &QAction::triggered, logView, &QPlainTextEdit::redo);
+    connect(actCut,  &QAction::triggered, logView, &QPlainTextEdit::cut);
+    connect(actCopy, &QAction::triggered, logView, &QPlainTextEdit::copy);
+    connect(actPaste,&QAction::triggered, logView, &QPlainTextEdit::paste);
+    connect(actSelectAll,&QAction::triggered, logView, &QPlainTextEdit::selectAll);
+
+    // 搜索菜单
+    QMenu *searchMenu = menuBar()->addMenu("搜索");
+    QAction *actSearchAll = searchMenu->addAction("搜索");
+    QAction *actSearchPrev = searchMenu->addAction("向前");
+    QAction *actSearchNext = searchMenu->addAction("向后");
+    actSearchAll->setShortcut(QKeySequence::Find);
+    actSearchNext->setShortcut(QKeySequence::FindNext);
+    actSearchPrev->setShortcut(QKeySequence::FindPrevious);
+    connect(actSearchAll, &QAction::triggered, this, [this](){
+        searchAll();
+        if (!searchResults.isEmpty()) searchDock->show();
+    });
+    connect(actSearchPrev, &QAction::triggered, this, &PressAnalyzer::goToPrevSearch);
+    connect(actSearchNext, &QAction::triggered, this, &PressAnalyzer::goToNextSearch);
+
+    // 视图菜单
+    QMenu *viewMenu = menuBar()->addMenu("视图");
+    QAction *actToggleCamera = viewMenu->addAction("切换 Camera状态 面板");
+    QAction *actToggleStatus = viewMenu->addAction("切换 状态面板");
+    QAction *actToggleEvent  = viewMenu->addAction("切换 分析结果 面板");
+    QAction *actToggleSearchDock = viewMenu->addAction("切换 搜索结果 面板");
+    viewMenu->addSeparator();
+    QAction *actZoomIn = viewMenu->addAction("放大文本");
+    QAction *actZoomOut = viewMenu->addAction("缩小文本");
+    QAction *actZoomReset = viewMenu->addAction("重置文本大小");
+    actZoomIn->setShortcut(QKeySequence::ZoomIn);
+    actZoomOut->setShortcut(QKeySequence::ZoomOut);
+    actZoomReset->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
+
+    connect(actToggleCamera, &QAction::triggered, this, [this](){
+        cameraDock->setVisible(!cameraDock->isVisible());
+    });
+    connect(actToggleStatus, &QAction::triggered, this, [this](){
+        statusDock->setVisible(!statusDock->isVisible());
+    });
+    connect(actToggleEvent, &QAction::triggered, this, [this](){
+        eventDock->setVisible(!eventDock->isVisible());
+    });
+    connect(actToggleSearchDock, &QAction::triggered, this, [this](){
+        searchDock->setVisible(!searchDock->isVisible());
+    });
+
+    // 放大/缩小/重置文本大小
+    QFont curFont = logView->font();
+    const int basePointSize = curFont.pointSize() > 0 ? curFont.pointSize() : 12;
+    logFontPointSize = basePointSize + 1; // 默认相当于放大一次
+    auto applyLogFont = [this](int pt){
+        QFont f = this->logView->font();
+        f.setPointSize(pt);
+        this->logView->setFont(f);
+    };
+    connect(actZoomIn, &QAction::triggered, this, [=](){ logFontPointSize += 1; applyLogFont(logFontPointSize); });
+    connect(actZoomOut, &QAction::triggered, this, [=](){ logFontPointSize = std::max(8, logFontPointSize - 1); applyLogFont(logFontPointSize); });
+    connect(actZoomReset, &QAction::triggered, this, [=](){ logFontPointSize = basePointSize; applyLogFont(logFontPointSize); });
+
+    // 应用默认放大后的字号
+    applyLogFont(logFontPointSize);
+
+    // 帮助菜单
+    QMenu *helpMenu = menuBar()->addMenu("帮助");
+    QAction *actAbout = helpMenu->addAction("关于");
+    connect(actAbout, &QAction::triggered, this, [this](){
+        QMessageBox::about(this, "关于",
+            "Hover日志分析助手\n\n"
+            "Designed by: 代战胜\n"
+            "Email: zhansheng_hello@163.com");
+    });
 
     // ==================== usageContainer（复选框 + 曲线图） ====================
     usageContainer = new QWidget(this);
@@ -357,6 +521,8 @@ bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+
+// 已移除 Ctrl/Command + 滚轮缩放，保留菜单缩放
 
     // 5. 在搜索或确认输入时，记录历史
 void PressAnalyzer::addSearchHistory(const QString &text)

@@ -1047,4 +1047,7 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QKeyEvent \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QTimer \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qtimer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qbasictimer.h
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qbasictimer.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenuBar \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenubar.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QAction
