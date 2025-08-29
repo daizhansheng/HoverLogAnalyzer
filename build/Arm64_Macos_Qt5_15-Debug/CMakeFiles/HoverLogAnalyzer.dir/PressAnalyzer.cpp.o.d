@@ -1050,4 +1050,9 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qbasictimer.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenuBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenubar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QAction
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QAction \
+  /Users/dzs/Downloads/HoverLogAnalyzer/NumberHighlighter.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegularExpression \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextDocument

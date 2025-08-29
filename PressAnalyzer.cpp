@@ -22,6 +22,8 @@
 #include <QTimer>
 #include <QMenuBar>
 #include <QAction>
+#include "NumberHighlighter.h"
+
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -35,6 +37,16 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // ==================== 中心控件 ====================
     logView = new QPlainTextEdit(this);
     setCentralWidget(logView);
+    // 数字高亮（跳过前7列行号+空格）
+    new NumberHighlighter(logView->document(), 7);
+    // 设置日志字体为 Menlo 11
+    {
+        QFont f("Menlo");
+        f.setStyleHint(QFont::Monospace);
+        f.setFixedPitch(true);
+        f.setPointSize(11);
+        logView->setFont(f);
+    }
 
     // ==================== 事件列表 Dock ====================
     eventList = new QListWidget(this);
@@ -367,8 +379,8 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // 放大/缩小/重置文本大小
     QFont curFont = logView->font();
-    const int basePointSize = curFont.pointSize() > 0 ? curFont.pointSize() : 12;
-    logFontPointSize = basePointSize + 1; // 默认相当于放大一次
+    const int basePointSize = 11; // 基准字号固定为 11pt
+    logFontPointSize = 11; // 默认 11pt
     auto applyLogFont = [this](int pt){
         QFont f = this->logView->font();
         f.setPointSize(pt);
@@ -378,7 +390,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     connect(actZoomOut, &QAction::triggered, this, [=](){ logFontPointSize = std::max(8, logFontPointSize - 1); applyLogFont(logFontPointSize); });
     connect(actZoomReset, &QAction::triggered, this, [=](){ logFontPointSize = basePointSize; applyLogFont(logFontPointSize); });
 
-    // 应用默认放大后的字号
+    // 应用默认字号
     applyLogFont(logFontPointSize);
 
     // 帮助菜单
