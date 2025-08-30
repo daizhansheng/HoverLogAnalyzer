@@ -14,11 +14,11 @@
 #include <QMenu>
 #include <QTextBlock>
 #include <QLabel>
-#include "HighlightDelegate.h"
-#include "BatteryWidget.h"
-#include "SocTempWidget.h"
-#include "EventToggleButton.h"
-#include "AllModuleUsage.h"
+#include "SearchResultHighlighter.h"
+#include "BatteryChartWidget.h"
+#include "SocTempChartWidget.h"
+#include "DockToggleButton.h"
+#include "ModuleUsageChart.h"
 
 struct EventItem {
     int lineNumber;    // 日志行号
@@ -75,6 +75,21 @@ private:
     void addSearchHistory(const QString &text);
     void showSearchHints();
     void updateCompleterWithSmartHints();
+
+    // 构造函数初始化方法
+    void setupMainWindow();
+    void setupCentralWidget();
+    void setupEventDock();
+    void setupSearchDock();
+    void setupToolBar();
+    void setupStatusBar();
+    void setupCameraDock();
+    void setupStatusDock();
+    void setupMenuBar();
+    void setupUsageContainer();
+    void setupConnections();
+    void setupSearchCompleter();
+    void applyButtonStyles();
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *dirloadButton;
@@ -95,7 +110,7 @@ private:
     QListWidget *searchResultList;
     QPushButton *clearSearchButton;
     QPushButton *closeSearchButton;
-    EventToggleButton *toggleBtn;
+    DockToggleButton *toggleBtn;
     // ==================== 中心控件 ====================
     QPlainTextEdit *logView;
     // ==================== 状态栏控件 ====================
@@ -125,11 +140,11 @@ private:
     QString sn;      //飞机sn号
     // ==================== battery ====================
     QWidget *statusContainer;
-    BatteryWidget *batteryChart;
+    BatteryChartWidget *batteryChart;
     QVector<BatteryTimeInfo> batteryinfo;
     QLabel *titleLabel;
     // ==================== Soc temp ====================
-    SocTempChart *socChart;
+    SocTempChartWidget *socChart;
     QVector<SocTempInfo> soctmp;
     // ============== 各个模块cpu/mem占用率 ================
     QWidget *usageContainer;

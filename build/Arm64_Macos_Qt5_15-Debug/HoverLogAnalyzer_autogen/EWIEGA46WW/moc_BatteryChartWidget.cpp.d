@@ -100,6 +100,7 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
@@ -115,6 +116,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \

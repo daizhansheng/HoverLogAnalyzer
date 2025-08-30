@@ -1,5 +1,5 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'AllModuleUsage.h'
+** Meta object code from reading C++ file 'SocTempChartWidget.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.15.10)
 **
@@ -7,11 +7,11 @@
 *****************************************************************************/
 
 #include <memory>
-#include "../../../../AllModuleUsage.h"
+#include "../../../../SocTempChartWidget.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'AllModuleUsage.h' doesn't include <QObject>."
+#error "The header file 'SocTempChartWidget.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.15.10. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -21,25 +21,25 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_ModuleUsageChart_t {
+struct qt_meta_stringdata_SocTempChartWidget_t {
     QByteArrayData data[1];
-    char stringdata0[17];
+    char stringdata0[19];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_ModuleUsageChart_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_SocTempChartWidget_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_ModuleUsageChart_t qt_meta_stringdata_ModuleUsageChart = {
+static const qt_meta_stringdata_SocTempChartWidget_t qt_meta_stringdata_SocTempChartWidget = {
     {
-QT_MOC_LITERAL(0, 0, 16) // "ModuleUsageChart"
+QT_MOC_LITERAL(0, 0, 18) // "SocTempChartWidget"
 
     },
-    "ModuleUsageChart"
+    "SocTempChartWidget"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_ModuleUsageChart[] = {
+static const uint qt_meta_data_SocTempChartWidget[] = {
 
  // content:
        8,       // revision
@@ -55,7 +55,7 @@ static const uint qt_meta_data_ModuleUsageChart[] = {
        0        // eod
 };
 
-void ModuleUsageChart::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void SocTempChartWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     (void)_o;
     (void)_id;
@@ -63,30 +63,30 @@ void ModuleUsageChart::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
     (void)_a;
 }
 
-QT_INIT_METAOBJECT const QMetaObject ModuleUsageChart::staticMetaObject = { {
+QT_INIT_METAOBJECT const QMetaObject SocTempChartWidget::staticMetaObject = { {
     QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
-    qt_meta_stringdata_ModuleUsageChart.data,
-    qt_meta_data_ModuleUsageChart,
+    qt_meta_stringdata_SocTempChartWidget.data,
+    qt_meta_data_SocTempChartWidget,
     qt_static_metacall,
     nullptr,
     nullptr
 } };
 
 
-const QMetaObject *ModuleUsageChart::metaObject() const
+const QMetaObject *SocTempChartWidget::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *ModuleUsageChart::qt_metacast(const char *_clname)
+void *SocTempChartWidget::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_ModuleUsageChart.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_SocTempChartWidget.stringdata0))
         return static_cast<void*>(this);
     return QWidget::qt_metacast(_clname);
 }
 
-int ModuleUsageChart::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int SocTempChartWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     return _id;

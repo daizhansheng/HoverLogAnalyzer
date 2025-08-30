@@ -97,10 +97,6 @@
 			[
 				{
 					"backtrace" : 3,
-					"define" : "QT_CONCURRENT_LIB"
-				},
-				{
-					"backtrace" : 3,
 					"define" : "QT_CORE_LIB"
 				},
 				{
@@ -128,11 +124,6 @@
 					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "/Users/dzs/Qt-5.15.10/lib/QtCore.framework"
-				},
-				{
-					"backtrace" : 3,
-					"isSystem" : true,
-					"path" : "/Users/dzs/Qt-5.15.10/lib/QtConcurrent.framework"
 				}
 			],
 			"includes" : 
@@ -165,11 +156,6 @@
 					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "/Users/dzs/Qt-5.15.10/./mkspecs/macx-clang"
-				},
-				{
-					"backtrace" : 3,
-					"isSystem" : true,
-					"path" : "/Users/dzs/Qt-5.15.10/lib/QtConcurrent.framework/Headers"
 				}
 			],
 			"language" : "CXX",
@@ -238,11 +224,6 @@
 			{
 				"backtrace" : 3,
 				"fragment" : "/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/QtWidgets",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 3,
-				"fragment" : "/Users/dzs/Qt-5.15.10/lib/QtConcurrent.framework/QtConcurrent",
 				"role" : "libraries"
 			},
 			{
@@ -364,27 +345,27 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "HighlightDelegate.h",
+			"path" : "SearchResultHighlighter.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BatteryWidget.h",
+			"path" : "BatteryChartWidget.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "SocTempWidget.h",
+			"path" : "SocTempChartWidget.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "EventToggleButton.h",
+			"path" : "DockToggleButton.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "AllModuleUsage.h",
+			"path" : "ModuleUsageChart.h",
 			"sourceGroupIndex" : 1
 		},
 		{

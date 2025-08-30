@@ -100,11 +100,11 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/AllModuleUsage.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryWidget.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/EventToggleButton.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/ModuleUsageChart.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SearchResultHighlighter.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempChartWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \

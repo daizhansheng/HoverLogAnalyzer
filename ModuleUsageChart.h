@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MODULEUSAGECHART_H
+#define MODULEUSAGECHART_H
 #include <QWidget>
 #include <QVector>
 #include <QDateTime>
@@ -288,3 +289,5 @@ private:
         }
     }
 };
+
+#endif // MODULEUSAGECHART_H

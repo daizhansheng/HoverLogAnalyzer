@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BATTERYCHARTWIDGET_H
+#define BATTERYCHARTWIDGET_H
 #include <QWidget>
 #include <QVector>
 #include <QPainter>
@@ -25,10 +26,10 @@ struct BatteryTimeInfo {
     BatteryInfo info;
 };
 
-class BatteryWidget : public QWidget {
+class BatteryChartWidget : public QWidget {
     Q_OBJECT
 public:
-    explicit BatteryWidget(QWidget *parent = nullptr)
+    explicit BatteryChartWidget(QWidget *parent = nullptr)
         : QWidget(parent) {
         setMouseTracking(true);
         setMinimumSize(400, 400);
@@ -275,3 +276,5 @@ private:
         p.drawText(rect, Qt::TextWordWrap | Qt::AlignLeft, text);
     }
 };
+
+#endif // BATTERYCHARTWIDGET_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SOCTEMPCHARTWIDGET_H
+#define SOCTEMPCHARTWIDGET_H
 
 #include <QWidget>
 #include <QVector>
@@ -15,10 +16,10 @@ struct SocTempInfo {
 };
 
 // ================= 绘图控件 =================
-class SocTempChart : public QWidget {
+class SocTempChartWidget : public QWidget {
     Q_OBJECT
 public:
-    explicit SocTempChart(QWidget *parent = nullptr)
+    explicit SocTempChartWidget(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setMouseTracking(true);
@@ -210,3 +211,5 @@ private:
         }
     }
 };
+
+#endif // SOCTEMPCHARTWIDGET_H

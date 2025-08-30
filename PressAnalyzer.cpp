@@ -22,33 +22,57 @@
 #include <QTimer>
 #include <QMenuBar>
 #include <QAction>
-#include "NumberHighlighter.h"
+#include "LogNumberHighlighter.h"
 
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
-    setWindowTitle("Hover日志分析助手");
-    setWindowIcon(QIcon(":/new/image/logo.icns"));
-    resize(1200, 700);
-
+    // 初始化成员变量
     triggerCount = 0;
     flightCount = 0;
 
-    // ==================== 中心控件 ====================
+    // 按顺序初始化各个组件
+    setupMainWindow();
+    setupCentralWidget();
+    setupEventDock();
+    setupSearchDock();
+    setupToolBar();
+    setupStatusBar();
+    setupCameraDock();
+    setupStatusDock();
+    setupMenuBar();
+    setupUsageContainer();
+    setupConnections();
+
+}
+
+// ==================== 私有初始化方法 ====================
+
+void PressAnalyzer::setupMainWindow()
+{
+    setWindowTitle("Hover日志分析助手");
+    setWindowIcon(QIcon(":/new/image/logo.icns"));
+    resize(1200, 700);
+}
+
+void PressAnalyzer::setupCentralWidget()
+{
     logView = new QPlainTextEdit(this);
     setCentralWidget(logView);
-    // 数字高亮（跳过前7列行号+空格）
-    new NumberHighlighter(logView->document(), 7);
-    // 设置日志字体为 Menlo 11
-    {
-        QFont f("Menlo");
-        f.setStyleHint(QFont::Monospace);
-        f.setFixedPitch(true);
-        f.setPointSize(11);
-        logView->setFont(f);
-    }
 
-    // ==================== 事件列表 Dock ====================
+    // 数字高亮（跳过前7列行号+空格）
+    new LogNumberHighlighter(logView->document(), 7);
+
+    // 设置日志字体为 Menlo 11
+    QFont f("Menlo");
+    f.setStyleHint(QFont::Monospace);
+    f.setFixedPitch(true);
+    f.setPointSize(11);
+    logView->setFont(f);
+}
+
+void PressAnalyzer::setupEventDock()
+{
     eventList = new QListWidget(this);
     eventDock = new QDockWidget("分析结果", this);
     eventDock->setWidget(eventList);
@@ -56,13 +80,16 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
 
-    toggleBtn = new EventToggleButton(eventDock, this);
+    toggleBtn = new DockToggleButton(eventDock, this);
     toggleBtn->move(0, (height() - toggleBtn->height()) / 2);
     toggleBtn->show();
+}
 
-    // ==================== 搜索结果 Dock ====================
+void PressAnalyzer::setupSearchDock()
+{
     searchResultList = new QListWidget(this);
     searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
     // 改浅选中颜色，避免蓝色过深
     searchResultList->setStyleSheet(
         "QListWidget{selection-background-color:#CCE8FF; selection-color:black;}\n"
@@ -78,6 +105,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     addDockWidget(Qt::BottomDockWidgetArea, searchDock);
     searchDock->hide();
 
+    // 设置右键菜单
     searchDock->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(searchDock, &QDockWidget::customContextMenuRequested, this, [=](const QPoint &pos){
         QMenu menu;
@@ -94,14 +122,22 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
             searchDock->hide();
         }
     });
+}
 
-    // ==================== 工具栏 ====================
+void PressAnalyzer::setupToolBar()
+{
     QToolBar *toolBar = addToolBar("主工具栏");
+
+    // 创建按钮
     dirloadButton = new QPushButton("选择Log目录", this);
     fileloadButton = new QPushButton("选择Log文件", this);
     saveButton = new QPushButton("保存分析结果", this);
     clearButton = new QPushButton("清除窗口", this);
+    searchAllButton = new QPushButton("搜索", this);
+    searchPrevButton = new QPushButton("向前", this);
+    searchNextButton = new QPushButton("向后", this);
 
+    // 创建搜索框
     searchEdit = new QLineEdit(this);
     searchEdit->setPlaceholderText("输入搜索内容... ");
     searchEdit->setMinimumWidth(300);
@@ -121,10 +157,28 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
         "    border-color: #999999; "
         "}"
     );
-    searchAllButton = new QPushButton("搜索", this);
-    searchPrevButton = new QPushButton("向前", this);
-    searchNextButton = new QPushButton("向后", this);
-    // -------------------- QCompleter 提示 --------------------
+
+    // 添加到工具栏
+    toolBar->addWidget(dirloadButton);
+    toolBar->addWidget(fileloadButton);
+    toolBar->addWidget(saveButton);
+    toolBar->addWidget(clearButton);
+    toolBar->addSeparator();
+    toolBar->addWidget(searchEdit);
+    toolBar->addWidget(searchAllButton);
+    toolBar->addWidget(searchPrevButton);
+    toolBar->addWidget(searchNextButton);
+
+    // 设置搜索提示
+    setupSearchCompleter();
+
+    // 应用按钮样式
+    applyButtonStyles();
+}
+
+void PressAnalyzer::setupSearchCompleter()
+{
+    // 初始化固定提示词
     fixedHints << "[rpc] Req:"
                << "[rpc] Req:254"
                << "[rpc] Req:249"
@@ -133,27 +187,26 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
                << "GET_MEDIA_FILE media_file_transfer_request";
 
     QStringList completerHints = fixedHints + historyHints;
-
     QCompleter *completer = new QCompleter(completerHints, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setFilterMode(Qt::MatchContains);
     searchEdit->setCompleter(completer);
 
     searchEdit->installEventFilter(this);
-    
+
     // 添加键盘快捷键支持
     QShortcut *searchShortcut = new QShortcut(QKeySequence("Ctrl+F"), this);
     connect(searchShortcut, &QShortcut::activated, this, [this]() {
         searchEdit->setFocus();
         searchEdit->selectAll();
     });
-    
+
     // 回车键触发搜索
     connect(searchEdit, &QLineEdit::returnPressed, this, [this]() {
         searchAll();
         if (!searchResults.isEmpty()) searchDock->show();
     });
-    
+
     // 实时搜索提示：输入时自动更新提示
     connect(searchEdit, &QLineEdit::textChanged, this, [this](const QString &text) {
         if (text.length() > 0) {
@@ -161,7 +214,10 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
             QTimer::singleShot(200, this, &PressAnalyzer::updateCompleterWithSmartHints);
         }
     });
-    
+}
+
+void PressAnalyzer::applyButtonStyles()
+{
     // 统一浅色主题：集中管理色值
     struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
     const ButtonTheme themePrimary  {"#E8F3FF", "#D9ECFF", "#C6E2FF", "#1F2D3D"};
@@ -194,16 +250,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
             ).arg(bg, hover, pressed, fg)
         );
     };
-    // -------------------- 添加到工具栏 --------------------
-    toolBar->addWidget(dirloadButton);
-    toolBar->addWidget(fileloadButton);
-    toolBar->addWidget(saveButton);
-    toolBar->addWidget(clearButton);
-    toolBar->addSeparator();
-    toolBar->addWidget(searchEdit);
-    toolBar->addWidget(searchAllButton);
-    toolBar->addWidget(searchPrevButton);
-    toolBar->addWidget(searchNextButton);
 
     // 应用样式到已创建的按钮（统一浅色主题）
     styleButton(dirloadButton,   themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 目录
@@ -213,33 +259,49 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);      // 搜索
     styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向前
     styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向后
+}
 
-    // ==================== 状态栏 ====================
+void PressAnalyzer::setupStatusBar()
+{
     statusBar = new QStatusBar(this);
     setStatusBar(statusBar);
     statusBar->showMessage("就绪");
+}
 
-    // ==================== 信号连接 ====================
-    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
-    connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
-    connect(saveButton, &QPushButton::clicked, this, &PressAnalyzer::saveEventListToFile);
-    connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
+void PressAnalyzer::setupCameraDock()
+{
+    QToolBar *toolBar = findChild<QToolBar*>();
+    if (!toolBar) return;
 
-    connect(eventList, &QListWidget::itemClicked, this, &PressAnalyzer::onEventClicked);
-    connect(eventList, &QListWidget::itemDoubleClicked, this, &PressAnalyzer::onEventClicked);
-
-    connect(searchAllButton, &QPushButton::clicked, this, [this](){
-        searchAll();
-        if (!searchResults.isEmpty()) searchDock->show();
-    });
-    connect(searchPrevButton, &QPushButton::clicked, this, &PressAnalyzer::goToPrevSearch);
-    connect(searchNextButton, &QPushButton::clicked, this, &PressAnalyzer::goToNextSearch);
-    connect(searchResultList, &QListWidget::itemClicked, this, &PressAnalyzer::onSearchResultClicked);
-
-    // ==================== Camera按钮 ====================
     cameraButton = new QPushButton("Camera状态", this);
     toolBar->addWidget(cameraButton);
-    styleButton(cameraButton, themeWarning.bg, themeWarning.hover, themeWarning.pressed, themeWarning.fg);     // Camera
+
+    // 应用样式
+    struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
+    const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
+
+    auto styleButton = [](QPushButton *button,
+                          const QString &bg,
+                          const QString &hover,
+                          const QString &pressed,
+                          const QString &fg = QString("#1F2D3D")){
+        if (!button) return;
+        button->setFlat(true);
+        button->setStyleSheet(
+            QString(
+                "QPushButton{"
+                "  background-color:%1;"
+                "  color:%4;"
+                "  border:none;"
+                "  border-radius:4px;"
+                "  padding:6px 10px;"
+                "}"
+                "QPushButton:hover{background-color:%2;}"
+                "QPushButton:pressed{background-color:%3;}"
+            ).arg(bg, hover, pressed, fg)
+        );
+    };
+    styleButton(cameraButton, themeWarning.bg, themeWarning.hover, themeWarning.pressed, themeWarning.fg);
 
     cameraEventList = new QListWidget(this);
     cameraDock = new QDockWidget("Camera状态", this);
@@ -247,16 +309,44 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     cameraDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, cameraDock);
     cameraDock->hide();
-    connect(cameraButton, &QPushButton::clicked, this, [this](){
-        cameraDock->setVisible(!cameraDock->isVisible());
-    });
-    connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
+}
 
-    // ==================== 状态面板 ====================
+void PressAnalyzer::setupStatusDock()
+{
+    QToolBar *toolBar = findChild<QToolBar*>();
+    if (!toolBar) return;
+
     statusButton = new QPushButton("状态面板", this);
     toolBar->addWidget(statusButton);
-    styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);     // 状态
 
+    // 应用样式
+    struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
+    const ButtonTheme themeIndigo   {"#EDF2FF", "#E0E7FF", "#D0D8FF", "#1F2D3D"};
+
+    auto styleButton = [](QPushButton *button,
+                          const QString &bg,
+                          const QString &hover,
+                          const QString &pressed,
+                          const QString &fg = QString("#1F2D3D")){
+        if (!button) return;
+        button->setFlat(true);
+        button->setStyleSheet(
+            QString(
+                "QPushButton{"
+                "  background-color:%1;"
+                "  color:%4;"
+                "  border:none;"
+                "  border-radius:4px;"
+                "  padding:6px 10px;"
+                "}"
+                "QPushButton:hover{background-color:%2;}"
+                "QPushButton:pressed{background-color:%3;}"
+            ).arg(bg, hover, pressed, fg)
+        );
+    };
+    styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);
+
+    // 创建状态容器
     statusContainer = new QWidget(this);
     QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
     vLayout->setContentsMargins(5, 5, 5, 5);
@@ -275,17 +365,20 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     statusEventList->setMaximumHeight(50);
     vLayout->addWidget(statusEventList);
 
-    batteryChart = new BatteryWidget(statusContainer);
+    batteryChart = new BatteryChartWidget(statusContainer);
     vLayout->addWidget(batteryChart);
 
-    socChart = new SocTempChart(statusContainer);
+    socChart = new SocTempChartWidget(statusContainer);
     socChart->setMinimumSize(600, 300);
     vLayout->addWidget(socChart);
 
     vLayout->addStretch(1);
     statusContainer->setLayout(vLayout);
+}
 
-    // ==================== 菜单栏 ====================
+void PressAnalyzer::setupMenuBar()
+{
+    // 文件菜单
     QMenu *fileMenu = menuBar()->addMenu("文件");
     QAction *actNewWindow = fileMenu->addAction("新建窗口");
     actNewWindow->setShortcut(QKeySequence::New);
@@ -378,7 +471,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     });
 
     // 放大/缩小/重置文本大小
-    QFont curFont = logView->font();
     const int basePointSize = 11; // 基准字号固定为 11pt
     logFontPointSize = 11; // 默认 11pt
     auto applyLogFont = [this](int pt){
@@ -402,18 +494,20 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
             "Designed by: 代战胜\n"
             "Email: zhansheng_hello@163.com");
     });
+}
 
-    // ==================== usageContainer（复选框 + 曲线图） ====================
+void PressAnalyzer::setupUsageContainer()
+{
     usageContainer = new QWidget(this);
     QVBoxLayout *usageLayout = new QVBoxLayout(usageContainer);
     usageLayout->setContentsMargins(0, 0, 0, 0);
     usageLayout->setSpacing(0);
 
-    // ---------------- 曲线图 ----------------
+    // 曲线图
     usageChart = new ModuleUsageChart(usageContainer);
     usageChart->setMinimumSize(700, 300);
 
-    // ---------------- 复选框容器 ----------------
+    // 复选框容器
     checkBoxContainer = new QWidget(this);
     QGridLayout *gridLayout = new QGridLayout(checkBoxContainer);
     gridLayout->setContentsMargins(0, 30, 0, 0); // 顶部加 10px 边距，避免与图表边框重叠
@@ -462,13 +556,13 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     checkBoxContainer->setLayout(gridLayout);
 
-    // ---------------- 添加到布局 ----------------
-    // 将图表放在上方，复选框放在下方
+    // 添加到布局
     usageLayout->addWidget(usageChart);
     usageLayout->addWidget(checkBoxContainer);
     usageLayout->addStretch(1);
     usageContainer->setLayout(usageLayout);
-    // ==================== 与状态面板组合 ====================
+
+    // 与状态面板组合
     QSplitter *mainSplitter = new QSplitter(Qt::Horizontal, this);
     mainSplitter->addWidget(statusContainer);
     mainSplitter->addWidget(usageContainer);
@@ -481,7 +575,36 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     addDockWidget(Qt::RightDockWidgetArea, statusDock);
     statusDock->setMinimumWidth(800);
     statusDock->hide();
+}
 
+void PressAnalyzer::setupConnections()
+{
+    // 文件操作连接
+    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
+    connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
+    connect(saveButton, &QPushButton::clicked, this, &PressAnalyzer::saveEventListToFile);
+    connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
+
+    // 事件列表连接
+    connect(eventList, &QListWidget::itemClicked, this, &PressAnalyzer::onEventClicked);
+    connect(eventList, &QListWidget::itemDoubleClicked, this, &PressAnalyzer::onEventClicked);
+
+    // 搜索功能连接
+    connect(searchAllButton, &QPushButton::clicked, this, [this](){
+        searchAll();
+        if (!searchResults.isEmpty()) searchDock->show();
+    });
+    connect(searchPrevButton, &QPushButton::clicked, this, &PressAnalyzer::goToPrevSearch);
+    connect(searchNextButton, &QPushButton::clicked, this, &PressAnalyzer::goToNextSearch);
+    connect(searchResultList, &QListWidget::itemClicked, this, &PressAnalyzer::onSearchResultClicked);
+
+    // Camera功能连接
+    connect(cameraButton, &QPushButton::clicked, this, [this](){
+        cameraDock->setVisible(!cameraDock->isVisible());
+    });
+    connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
+
+    // 状态面板连接
     connect(statusButton, &QPushButton::clicked, this, [this](){
         if (!statusDock->isVisible()) {
             statusDock->show();
@@ -491,7 +614,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
             eventDock->show();
         }
     });
-
     connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
 }
 
@@ -540,11 +662,11 @@ bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
 void PressAnalyzer::addSearchHistory(const QString &text)
 {
     if (text.isEmpty()) return;
-    
+
     // 智能历史管理：如果已存在，先移除旧位置，再添加到开头
     historyHints.removeAll(text);
     historyHints.prepend(text);
-    
+
     // 限制历史数量，保持最近使用的50个
     if (historyHints.size() > 50) {
         historyHints.removeLast();
@@ -559,17 +681,17 @@ void PressAnalyzer::updateCompleterWithSmartHints()
 {
     QCompleter *c = searchEdit->completer();
     if (!c) return;
-    
+
     // 智能提示策略：
     // 1. 固定提示词总是放在前面
     // 2. 然后显示匹配的历史记录
     QString currentText = searchEdit->text();
-    
+
     QStringList hints;
-    
+
     // 1. 首先添加固定提示词（总是显示）
     hints.append(fixedHints);
-    
+
     // 2. 然后添加匹配的历史记录
     if (currentText.isEmpty()) {
         // 空搜索框：显示所有历史记录
@@ -582,12 +704,12 @@ void PressAnalyzer::updateCompleterWithSmartHints()
             }
         }
     }
-    
+
     // 限制提示数量，避免过多
     if (hints.size() > 20) {
         hints = hints.mid(0, 20);
     }
-    
+
     // 更新completer
     QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
     if (!model) {
@@ -602,16 +724,16 @@ void PressAnalyzer::updateCompleterWithSmartHints()
 void PressAnalyzer::showSearchHints()
 {
     if (!searchEdit->completer()) return;
-    
+
     // 智能显示提示：优先显示历史记录，然后是固定提示
     QStringList hints;
-    
+
     // 添加最近使用的历史记录（最多显示10个）
     int historyCount = qMin(10, historyHints.size());
     for (int i = 0; i < historyCount; ++i) {
         hints.append(historyHints[i]);
     }
-    
+
     // 添加固定提示（如果历史记录不够10个）
     int remaining = 10 - hints.size();
     if (remaining > 0) {
@@ -620,7 +742,7 @@ void PressAnalyzer::showSearchHints()
             hints.append(fixedHints[i]);
         }
     }
-    
+
     // 更新completer
     QCompleter *c = searchEdit->completer();
     QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
@@ -630,7 +752,7 @@ void PressAnalyzer::showSearchHints()
     } else {
         model->setStringList(hints);
     }
-    
+
     // 显示提示
     c->setCompletionPrefix("");
     c->complete();
@@ -1282,12 +1404,12 @@ void PressAnalyzer::searchAll()
     }
 
     // 设置高亮 delegate（复用已有的）
-    auto *delegate = qobject_cast<HighlightDelegate*>(searchResultList->itemDelegate());
+    auto *delegate = qobject_cast<SearchResultHighlighter*>(searchResultList->itemDelegate());
     if (delegate) {
         delegate->setPatterns(patterns);
         searchResultList->viewport()->update();
     } else {
-        delegate = new HighlightDelegate(patterns, searchResultList);
+        delegate = new SearchResultHighlighter(patterns, searchResultList);
         searchResultList->setItemDelegate(delegate);
     }
 
@@ -1319,7 +1441,7 @@ void PressAnalyzer::searchAll()
     searchResultList->show();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
-    
+
     // 记录完整的原始搜索表达式，而不是分割后的关键字
     QString originalSearchText = searchEdit->text().trimmed();
     addSearchHistory(originalSearchText);

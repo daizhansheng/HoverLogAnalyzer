@@ -1,5 +1,5 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'HighlightDelegate.h'
+** Meta object code from reading C++ file 'DockToggleButton.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.15.10)
 **
@@ -7,11 +7,11 @@
 *****************************************************************************/
 
 #include <memory>
-#include "../../../../HighlightDelegate.h"
+#include "../../../../DockToggleButton.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'HighlightDelegate.h' doesn't include <QObject>."
+#error "The header file 'DockToggleButton.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.15.10. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -21,25 +21,25 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_HighlightDelegate_t {
+struct qt_meta_stringdata_DockToggleButton_t {
     QByteArrayData data[1];
-    char stringdata0[18];
+    char stringdata0[17];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_HighlightDelegate_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_DockToggleButton_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_HighlightDelegate_t qt_meta_stringdata_HighlightDelegate = {
+static const qt_meta_stringdata_DockToggleButton_t qt_meta_stringdata_DockToggleButton = {
     {
-QT_MOC_LITERAL(0, 0, 17) // "HighlightDelegate"
+QT_MOC_LITERAL(0, 0, 16) // "DockToggleButton"
 
     },
-    "HighlightDelegate"
+    "DockToggleButton"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_HighlightDelegate[] = {
+static const uint qt_meta_data_DockToggleButton[] = {
 
  // content:
        8,       // revision
@@ -55,7 +55,7 @@ static const uint qt_meta_data_HighlightDelegate[] = {
        0        // eod
 };
 
-void HighlightDelegate::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void DockToggleButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     (void)_o;
     (void)_id;
@@ -63,32 +63,32 @@ void HighlightDelegate::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     (void)_a;
 }
 
-QT_INIT_METAOBJECT const QMetaObject HighlightDelegate::staticMetaObject = { {
-    QMetaObject::SuperData::link<QStyledItemDelegate::staticMetaObject>(),
-    qt_meta_stringdata_HighlightDelegate.data,
-    qt_meta_data_HighlightDelegate,
+QT_INIT_METAOBJECT const QMetaObject DockToggleButton::staticMetaObject = { {
+    QMetaObject::SuperData::link<QPushButton::staticMetaObject>(),
+    qt_meta_stringdata_DockToggleButton.data,
+    qt_meta_data_DockToggleButton,
     qt_static_metacall,
     nullptr,
     nullptr
 } };
 
 
-const QMetaObject *HighlightDelegate::metaObject() const
+const QMetaObject *DockToggleButton::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *HighlightDelegate::qt_metacast(const char *_clname)
+void *DockToggleButton::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_HighlightDelegate.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_DockToggleButton.stringdata0))
         return static_cast<void*>(this);
-    return QStyledItemDelegate::qt_metacast(_clname);
+    return QPushButton::qt_metacast(_clname);
 }
 
-int HighlightDelegate::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int DockToggleButton::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QStyledItemDelegate::qt_metacall(_c, _id, _a);
+    _id = QPushButton::qt_metacall(_c, _id, _a);
     return _id;
 }
 QT_WARNING_POP

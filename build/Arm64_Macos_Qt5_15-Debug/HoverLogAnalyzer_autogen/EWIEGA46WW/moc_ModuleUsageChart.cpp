@@ -1,5 +1,5 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'EventToggleButton.h'
+** Meta object code from reading C++ file 'ModuleUsageChart.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.15.10)
 **
@@ -7,11 +7,11 @@
 *****************************************************************************/
 
 #include <memory>
-#include "../../../../EventToggleButton.h"
+#include "../../../../ModuleUsageChart.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'EventToggleButton.h' doesn't include <QObject>."
+#error "The header file 'ModuleUsageChart.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.15.10. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -21,25 +21,25 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_EventToggleButton_t {
+struct qt_meta_stringdata_ModuleUsageChart_t {
     QByteArrayData data[1];
-    char stringdata0[18];
+    char stringdata0[17];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_EventToggleButton_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_ModuleUsageChart_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_EventToggleButton_t qt_meta_stringdata_EventToggleButton = {
+static const qt_meta_stringdata_ModuleUsageChart_t qt_meta_stringdata_ModuleUsageChart = {
     {
-QT_MOC_LITERAL(0, 0, 17) // "EventToggleButton"
+QT_MOC_LITERAL(0, 0, 16) // "ModuleUsageChart"
 
     },
-    "EventToggleButton"
+    "ModuleUsageChart"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_EventToggleButton[] = {
+static const uint qt_meta_data_ModuleUsageChart[] = {
 
  // content:
        8,       // revision
@@ -55,7 +55,7 @@ static const uint qt_meta_data_EventToggleButton[] = {
        0        // eod
 };
 
-void EventToggleButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void ModuleUsageChart::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     (void)_o;
     (void)_id;
@@ -63,32 +63,32 @@ void EventToggleButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     (void)_a;
 }
 
-QT_INIT_METAOBJECT const QMetaObject EventToggleButton::staticMetaObject = { {
-    QMetaObject::SuperData::link<QPushButton::staticMetaObject>(),
-    qt_meta_stringdata_EventToggleButton.data,
-    qt_meta_data_EventToggleButton,
+QT_INIT_METAOBJECT const QMetaObject ModuleUsageChart::staticMetaObject = { {
+    QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
+    qt_meta_stringdata_ModuleUsageChart.data,
+    qt_meta_data_ModuleUsageChart,
     qt_static_metacall,
     nullptr,
     nullptr
 } };
 
 
-const QMetaObject *EventToggleButton::metaObject() const
+const QMetaObject *ModuleUsageChart::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *EventToggleButton::qt_metacast(const char *_clname)
+void *ModuleUsageChart::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_EventToggleButton.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_ModuleUsageChart.stringdata0))
         return static_cast<void*>(this);
-    return QPushButton::qt_metacast(_clname);
+    return QWidget::qt_metacast(_clname);
 }
 
-int EventToggleButton::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int ModuleUsageChart::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QPushButton::qt_metacall(_c, _id, _a);
+    _id = QWidget::qt_metacall(_c, _id, _a);
     return _id;
 }
 QT_WARNING_POP

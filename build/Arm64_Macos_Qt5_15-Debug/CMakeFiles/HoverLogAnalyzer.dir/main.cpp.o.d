@@ -956,7 +956,7 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/HighlightDelegate.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SearchResultHighlighter.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyledItemDelegate \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleditemdelegate.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
@@ -964,14 +964,14 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QVector \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
-  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempChartWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
-  /Users/dzs/Downloads/HoverLogAnalyzer/EventToggleButton.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/AllModuleUsage.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/ModuleUsageChart.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPolygon \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \

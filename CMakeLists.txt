@@ -44,12 +44,12 @@ else()
         add_executable(HoverLogAnalyzer
             ${PROJECT_SOURCES}
             ${APP_ICON_MACOS}
-            HighlightDelegate.h
-            BatteryWidget.h
-            SocTempWidget.h
-            EventToggleButton.h
+            SearchResultHighlighter.h
+            BatteryChartWidget.h
+            SocTempChartWidget.h
+            DockToggleButton.h
 
-            AllModuleUsage.h
+            ModuleUsageChart.h
             # 加入 Dock 图标
         )
     endif()

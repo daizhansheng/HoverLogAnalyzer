@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CHARTBASEWIDGET_H
+#define CHARTBASEWIDGET_H
 #include <QWidget>
 #include <QPainter>
 
@@ -35,5 +36,7 @@ protected:
         p.drawRect(r);
     }
 };
+
+#endif // CHARTBASEWIDGET_H
 
 

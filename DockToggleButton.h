@@ -1,17 +1,18 @@
-#pragma once
+#ifndef DOCKTOGGLEBUTTON_H
+#define DOCKTOGGLEBUTTON_H
 #include <QPushButton>
 #include <QPainter>
 #include <QDockWidget>
-class EventToggleButton : public QPushButton {
+class DockToggleButton : public QPushButton {
     Q_OBJECT
 public:
-    explicit EventToggleButton(QDockWidget *dockWidget, QWidget *parent = nullptr)
+    explicit DockToggleButton(QDockWidget *dockWidget, QWidget *parent = nullptr)
         : QPushButton(parent), dock(dockWidget)
     {
-        connect(this, &QPushButton::clicked, this, &EventToggleButton::toggleDock);
+        connect(this, &QPushButton::clicked, this, &DockToggleButton::toggleDock);
 
         // 跟踪 dock 的显示状态变化
-        connect(dock, &QDockWidget::visibilityChanged, this, &EventToggleButton::updateText);
+        connect(dock, &QDockWidget::visibilityChanged, this, &DockToggleButton::updateText);
         updateText(dock->isVisible());
     }
 
@@ -50,3 +51,5 @@ private:
         update(); // 触发重绘
     }
 };
+
+#endif // DOCKTOGGLEBUTTON_H

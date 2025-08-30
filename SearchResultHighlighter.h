@@ -1,5 +1,5 @@
-#ifndef HIGHLIGHTDELEGATE_H
-#define HIGHLIGHTDELEGATE_H
+#ifndef SEARCHRESULTHIGHLIGHTER_H
+#define SEARCHRESULTHIGHLIGHTER_H
 
 #include <QStyledItemDelegate>
 #include <QPainter>
@@ -7,10 +7,10 @@
 #include <QVector>
 #include <QPair>
 
-class HighlightDelegate : public QStyledItemDelegate {
+class SearchResultHighlighter : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit HighlightDelegate(const QVector<QPair<QRegExp, QColor>> &patterns,
+    explicit SearchResultHighlighter(const QVector<QPair<QRegExp, QColor>> &patterns,
                                QObject *parent = nullptr)
         : QStyledItemDelegate(parent), patternList(patterns) {}
 
@@ -78,4 +78,4 @@ private:
     QVector<QPair<QRegExp, QColor>> patternList;
 };
 
-#endif // HIGHLIGHTDELEGATE_H
+#endif // SEARCHRESULTHIGHLIGHTER_H

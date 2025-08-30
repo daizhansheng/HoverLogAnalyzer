@@ -1,5 +1,5 @@
-#ifndef NUMBERHIGHLIGHTER_H
-#define NUMBERHIGHLIGHTER_H
+#ifndef LOGNUMBERHIGHLIGHTER_H
+#define LOGNUMBERHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
@@ -7,10 +7,10 @@
 #include <QTextDocument>
 
 // 将每行跳过固定宽度前缀后的数字高亮显示
-class NumberHighlighter : public QSyntaxHighlighter
+class LogNumberHighlighter : public QSyntaxHighlighter
 {
 public:
-    explicit NumberHighlighter(QTextDocument *parent, int prefixSkipColumns = 7)
+    explicit LogNumberHighlighter(QTextDocument *parent, int prefixSkipColumns = 7)
         : QSyntaxHighlighter(parent), skip(prefixSkipColumns), re(QStringLiteral("\\d+"))
     {
         // 亮蓝色 (90, 90, 255)
@@ -35,6 +35,6 @@ private:
     QTextCharFormat fmt;
 };
 
-#endif // NUMBERHIGHLIGHTER_H
+#endif // LOGNUMBERHIGHLIGHTER_H
 
 
