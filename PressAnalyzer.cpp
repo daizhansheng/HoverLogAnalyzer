@@ -416,7 +416,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // ---------------- 复选框容器 ----------------
     checkBoxContainer = new QWidget(this);
     QGridLayout *gridLayout = new QGridLayout(checkBoxContainer);
-    gridLayout->setContentsMargins(0, 0, 0, 0);
+    gridLayout->setContentsMargins(0, 30, 0, 0); // 顶部加 10px 边距，避免与图表边框重叠
     gridLayout->setHorizontalSpacing(2);
     gridLayout->setVerticalSpacing(5);
 
@@ -463,9 +463,9 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     checkBoxContainer->setLayout(gridLayout);
 
     // ---------------- 添加到布局 ----------------
-    // 如果复选框要在上方，先添加复选框，再添加图表
-    usageLayout->addWidget(checkBoxContainer);
+    // 将图表放在上方，复选框放在下方
     usageLayout->addWidget(usageChart);
+    usageLayout->addWidget(checkBoxContainer);
     usageLayout->addStretch(1);
     usageContainer->setLayout(usageLayout);
     // ==================== 与状态面板组合 ====================

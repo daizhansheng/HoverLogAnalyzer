@@ -100,6 +100,18 @@ protected:
         p.setPen(Qt::black);
         p.drawRect(marginLeft, marginTop, chartWidth, chartHeight);
 
+                // ---------------- 绘制CPU/MEM占用率标题 ----------------
+        QFont originalFont = p.font();
+        QFont titleFont = originalFont;
+        titleFont.setPointSize(12);
+        p.setFont(titleFont);
+
+        p.setPen(Qt::black);
+        p.drawText(marginLeft + chartWidth - 100, marginTop + 20, "CPU/MEM占用率");
+
+        // 恢复原始字体
+        p.setFont(originalFont);
+
         int n = allData.size();
 
         // ---------------- 计算 Y 轴最大值 ----------------
@@ -119,13 +131,21 @@ protected:
         };
         double yAxisMax = qMax(scaleValue(maxCpu), scaleValue(maxMem));
 
-        // ---------------- 绘制 Y 轴刻度 ----------------
-        QList<int> yTicks = {25,50,75,100,125,150,175,200,225,250};
-        for(int val : yTicks) {
+        // ---------------- 绘制 Y 轴刻度（主+次） ----------------
+        const int stepMajor = 25;
+        for (int val = 0; val <= yAxisMax; val += stepMajor) {
             int py = marginTop + chartHeight - int(val * chartHeight / yAxisMax);
             p.setPen(Qt::black);
-            p.drawLine(marginLeft-5, py, marginLeft, py);
-            p.drawText(5, py+4, QString::number(val) + "%");
+            p.drawLine(marginLeft-5, py, marginLeft, py);                // 主刻度短线
+            p.drawText(5, py+4, QString::number(val) + "%");           // 主刻度文字
+
+            // 在主刻度与下一个主刻度之间画一个次刻度短线（不画网格线）
+            int midVal = val + stepMajor/2; // 12.5%
+            if (midVal < yAxisMax) {
+                int pyMid = marginTop + chartHeight - int(midVal * chartHeight / yAxisMax);
+                p.setPen(Qt::gray);
+                p.drawLine(marginLeft-3, pyMid, marginLeft, pyMid);      // 次刻度短线（无文字）
+            }
         }
 
         // ---------------- 绘制曲线 ----------------
