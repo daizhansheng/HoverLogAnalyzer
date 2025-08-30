@@ -128,14 +128,41 @@ void PressAnalyzer::setupToolBar()
 {
     QToolBar *toolBar = addToolBar("主工具栏");
 
-    // 创建按钮
-    dirloadButton = new QPushButton("选择Log目录", this);
-    fileloadButton = new QPushButton("选择Log文件", this);
-    saveButton = new QPushButton("保存分析结果", this);
-    clearButton = new QPushButton("清除窗口", this);
-    searchAllButton = new QPushButton("搜索", this);
-    searchPrevButton = new QPushButton("向前", this);
-    searchNextButton = new QPushButton("向后", this);
+    // 创建图标按钮
+    dirloadButton = new QPushButton(this);
+    dirloadButton->setIcon(QIcon(":/icons/icons/folder-open.png"));
+    dirloadButton->setToolTip("选择Log目录");
+    dirloadButton->setIconSize(QSize(20, 20));
+
+    fileloadButton = new QPushButton(this);
+    fileloadButton->setIcon(QIcon(":/icons/icons/file-open.png"));
+    fileloadButton->setToolTip("选择Log文件");
+    fileloadButton->setIconSize(QSize(20, 20));
+
+    saveButton = new QPushButton(this);
+    saveButton->setIcon(QIcon(":/icons/icons/save.png"));
+    saveButton->setToolTip("保存分析结果");
+    saveButton->setIconSize(QSize(20, 20));
+
+    clearButton = new QPushButton(this);
+    clearButton->setIcon(QIcon(":/icons/icons/clear.png"));
+    clearButton->setToolTip("清除窗口");
+    clearButton->setIconSize(QSize(20, 20));
+
+    searchAllButton = new QPushButton(this);
+    searchAllButton->setIcon(QIcon(":/icons/icons/search.png"));
+    searchAllButton->setToolTip("搜索");
+    searchAllButton->setIconSize(QSize(20, 20));
+
+    searchPrevButton = new QPushButton(this);
+    searchPrevButton->setIcon(QIcon(":/icons/icons/arrow-up.png"));
+    searchPrevButton->setToolTip("向前搜索");
+    searchPrevButton->setIconSize(QSize(20, 20));
+
+    searchNextButton = new QPushButton(this);
+    searchNextButton->setIcon(QIcon(":/icons/icons/arrow-down.png"));
+    searchNextButton->setToolTip("向后搜索");
+    searchNextButton->setIconSize(QSize(20, 20));
 
     // 创建搜索框
     searchEdit = new QLineEdit(this);
@@ -228,26 +255,31 @@ void PressAnalyzer::applyButtonStyles()
     const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
     const ButtonTheme themeIndigo   {"#EDF2FF", "#E0E7FF", "#D0D8FF", "#1F2D3D"};
 
-    // 按钮样式助手：扁平+自定义背景色；提升可读性（深色文本+浅色背景或较高对比度）
+    // 图标按钮样式助手：简化样式确保图标可见
     auto styleButton = [](QPushButton *button,
                           const QString &bg,
                           const QString &hover,
                           const QString &pressed,
                           const QString &fg = QString("#1F2D3D")){
         if (!button) return;
-        button->setFlat(true);
+        button->setFlat(false);
         button->setStyleSheet(
             QString(
                 "QPushButton{"
                 "  background-color:%1;"
-                "  color:%4;"
-                "  border:none;"
+                "  border:1px solid #CCCCCC;"
                 "  border-radius:4px;"
-                "  padding:6px 10px;"
+                "  padding:4px;"
+                "  min-width:28px;"
+                "  min-height:28px;"
                 "}"
-                "QPushButton:hover{background-color:%2;}"
-                "QPushButton:pressed{background-color:%3;}"
-            ).arg(bg, hover, pressed, fg)
+                "QPushButton:hover{"
+                "  background-color:%2;"
+                "}"
+                "QPushButton:pressed{"
+                "  background-color:%3;"
+                "}"
+            ).arg(bg, hover, pressed)
         );
     };
 
@@ -273,10 +305,13 @@ void PressAnalyzer::setupCameraDock()
     QToolBar *toolBar = findChild<QToolBar*>();
     if (!toolBar) return;
 
-    cameraButton = new QPushButton("Camera状态", this);
+    cameraButton = new QPushButton(this);
+    cameraButton->setIcon(QIcon(":/icons/icons/camera.png"));
+    cameraButton->setToolTip("Camera状态");
+    cameraButton->setIconSize(QSize(20, 20));
     toolBar->addWidget(cameraButton);
 
-    // 应用样式
+    // 应用样式 - 使用与主工具栏一致的样式
     struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
     const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
 
@@ -286,19 +321,24 @@ void PressAnalyzer::setupCameraDock()
                           const QString &pressed,
                           const QString &fg = QString("#1F2D3D")){
         if (!button) return;
-        button->setFlat(true);
+        button->setFlat(false);
         button->setStyleSheet(
             QString(
                 "QPushButton{"
                 "  background-color:%1;"
-                "  color:%4;"
-                "  border:none;"
+                "  border:1px solid #CCCCCC;"
                 "  border-radius:4px;"
-                "  padding:6px 10px;"
+                "  padding:4px;"
+                "  min-width:28px;"
+                "  min-height:28px;"
                 "}"
-                "QPushButton:hover{background-color:%2;}"
-                "QPushButton:pressed{background-color:%3;}"
-            ).arg(bg, hover, pressed, fg)
+                "QPushButton:hover{"
+                "  background-color:%2;"
+                "}"
+                "QPushButton:pressed{"
+                "  background-color:%3;"
+                "}"
+            ).arg(bg, hover, pressed)
         );
     };
     styleButton(cameraButton, themeWarning.bg, themeWarning.hover, themeWarning.pressed, themeWarning.fg);
@@ -316,10 +356,13 @@ void PressAnalyzer::setupStatusDock()
     QToolBar *toolBar = findChild<QToolBar*>();
     if (!toolBar) return;
 
-    statusButton = new QPushButton("状态面板", this);
+    statusButton = new QPushButton(this);
+    statusButton->setIcon(QIcon(":/icons/icons/chart.png"));
+    statusButton->setToolTip("状态面板");
+    statusButton->setIconSize(QSize(20, 20));
     toolBar->addWidget(statusButton);
 
-    // 应用样式
+    // 应用样式 - 使用与主工具栏一致的样式
     struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
     const ButtonTheme themeIndigo   {"#EDF2FF", "#E0E7FF", "#D0D8FF", "#1F2D3D"};
 
@@ -329,19 +372,24 @@ void PressAnalyzer::setupStatusDock()
                           const QString &pressed,
                           const QString &fg = QString("#1F2D3D")){
         if (!button) return;
-        button->setFlat(true);
+        button->setFlat(false);
         button->setStyleSheet(
             QString(
                 "QPushButton{"
                 "  background-color:%1;"
-                "  color:%4;"
-                "  border:none;"
+                "  border:1px solid #CCCCCC;"
                 "  border-radius:4px;"
-                "  padding:6px 10px;"
+                "  padding:4px;"
+                "  min-width:28px;"
+                "  min-height:28px;"
                 "}"
-                "QPushButton:hover{background-color:%2;}"
-                "QPushButton:pressed{background-color:%3;}"
-            ).arg(bg, hover, pressed, fg)
+                "QPushButton:hover{"
+                "  background-color:%2;"
+                "}"
+                "QPushButton:pressed{"
+                "  background-color:%3;"
+                "}"
+            ).arg(bg, hover, pressed)
         );
     };
     styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);
@@ -758,34 +806,6 @@ void PressAnalyzer::showSearchHints()
     c->complete();
 }
 
-// typeToString 函数保持不变
-QString typeToString(int type) {
-    switch(type) {
-    case 1: return "METADATA";
-    case 2: return "THUMBNAIL";
-    case 3: return "VIDEO";
-    case 4: return "PICTURE";
-    case 5: return "IMU_DATA";
-    case 6: return "ANIMATED_THUMBNAIL";
-    case 7: return "GROUP_DATA";
-    case 8: return "AUDIO";
-    case 9: return "TRAJECTORY_DATA";
-    default: return "UNKNOWN";
-    }
-}
-
-QString getTopFilePath(const QString &selectedFilePath)
-{
-    // 假设 top 日志都在 ../system_log/top_log/ 下
-    // 获取文件名
-    QFileInfo fi(selectedFilePath);
-
-    // 构造 top 文件路径
-    QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
-    topPath = QFileInfo(topPath).canonicalFilePath();
-    return topPath;
-}
-
 void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QString &display)
 {
     // 仅保存必要信息，避免在解析阶段进行文档查找
@@ -945,6 +965,23 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                 QString uuid = values[0];
                 int type = values[1].toInt();
                 QString path = values[3];
+
+                // typeToString lambda 函数
+                auto typeToString = [](int type) -> QString {
+                    switch(type) {
+                    case 1: return "METADATA";
+                    case 2: return "THUMBNAIL";
+                    case 3: return "VIDEO";
+                    case 4: return "PICTURE";
+                    case 5: return "IMU_DATA";
+                    case 6: return "ANIMATED_THUMBNAIL";
+                    case 7: return "GROUP_DATA";
+                    case 8: return "AUDIO";
+                    case 9: return "TRAJECTORY_DATA";
+                    default: return "UNKNOWN";
+                    }
+                };
+
                 QString typeStr = typeToString(type);
 
                 QString displayPath;
@@ -1055,6 +1092,18 @@ void PressAnalyzer::loadAndAnalyzeLog()
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
 
     //解析cpu/mem占用率，绘制图案
+    // getTopFilePath lambda 函数
+    auto getTopFilePath = [](const QString &selectedFilePath) -> QString {
+        // 假设 top 日志都在 ../system_log/top_log/ 下
+        // 获取文件名
+        QFileInfo fi(selectedFilePath);
+
+        // 构造 top 文件路径
+        QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
+        topPath = QFileInfo(topPath).canonicalFilePath();
+        return topPath;
+    };
+
     QString topFilePath = getTopFilePath(filePath);
     parseTopFile(topFilePath);
 

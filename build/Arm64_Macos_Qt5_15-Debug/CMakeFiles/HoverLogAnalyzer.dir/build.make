@@ -79,6 +79,16 @@ HoverLogAnalyzer_autogen/timestamp: CMakeFiles/HoverLogAnalyzer.dir/compiler_dep
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icon.qrc
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Info.json
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/logo.icns
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/save.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/camera.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/analysis.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/file-open.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/search.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/arrow-down.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/clear.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/chart.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/folder-open.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/arrow-up.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Qt-5.15.10/bin/rcc
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Qt-5.15.10/bin/rcc
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for icon.qrc"

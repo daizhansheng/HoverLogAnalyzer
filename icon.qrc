@@ -2,4 +2,22 @@
     <qresource prefix="/new/image">
         <file>logo.icns</file>
     </qresource>
+
+    <qresource prefix="/icons">
+        <!-- 文件操作图标 -->
+        <file>icons/folder-open.png</file>
+        <file>icons/file-open.png</file>
+        <file>icons/save.png</file>
+        <file>icons/clear.png</file>
+
+        <!-- 搜索图标 -->
+        <file>icons/search.png</file>
+        <file>icons/arrow-up.png</file>
+        <file>icons/arrow-down.png</file>
+
+        <!-- 功能图标 -->
+        <file>icons/camera.png</file>
+        <file>icons/chart.png</file>
+        <file>icons/analysis.png</file>
+    </qresource>
 </RCC>

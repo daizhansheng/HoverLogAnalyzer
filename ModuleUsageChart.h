@@ -101,7 +101,7 @@ protected:
         p.setPen(Qt::black);
         p.drawRect(marginLeft, marginTop, chartWidth, chartHeight);
 
-                // ---------------- 绘制CPU/MEM占用率标题 ----------------
+        // ---------------- 绘制CPU/MEM占用率标题 ----------------
         QFont originalFont = p.font();
         QFont titleFont = originalFont;
         titleFont.setPointSize(12);

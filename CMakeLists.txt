@@ -19,7 +19,7 @@ set(PROJECT_SOURCES
     PressAnalyzer.cpp
     PressAnalyzer.h
     PressAnalyzer.ui
-    icon.qrc          # 窗口图标资源
+    icon.qrc          # 窗口图标和按钮图标资源
 )
 
 # macOS Dock 图标 (.icns)
