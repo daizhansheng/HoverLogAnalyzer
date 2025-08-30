@@ -238,6 +238,22 @@ void PressAnalyzer::setupSearchCompleter()
         searchEdit->selectAll();
     });
 
+    // 添加Esc键快捷键支持
+    QShortcut *escapeShortcut = new QShortcut(QKeySequence("Escape"), this);
+    connect(escapeShortcut, &QShortcut::activated, this, [this]() {
+        // 只有当搜索框有焦点时才处理Esc键
+        if (searchEdit->hasFocus()) {
+            // 先隐藏补全弹窗
+            if (searchEdit->completer() && searchEdit->completer()->popup()->isVisible()) {
+                searchEdit->completer()->popup()->hide();
+            }
+            // 清空搜索框内容
+            searchEdit->clear();
+            // 强制将焦点转移到主窗口
+            logView->setFocus();
+        }
+    });
+
     // 回车键触发搜索
     connect(searchEdit, &QLineEdit::returnPressed, this, [this]() {
         searchAll();
@@ -683,7 +699,10 @@ void PressAnalyzer::setupConnections()
             eventDock->hide();
         } else {
             statusDock->hide();
-            eventDock->show();
+            // 只有当eventList有内容时才显示eventDock
+            if (eventList->count() > 0) {
+                eventDock->show();
+            }
         }
     });
     connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
@@ -717,11 +736,9 @@ bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
                 }
                 return true;
             } else if (keyEvent->key() == Qt::Key_Escape) {
-                // Esc键取消提示
-                if (searchEdit->completer()) {
-                    searchEdit->completer()->popup()->hide();
-                }
-                return true;
+                // Esc键处理已移到QShortcut中，这里不再处理
+                // 让事件继续传播到QShortcut处理
+                return false;
             }
         }
     }
@@ -1511,13 +1528,6 @@ void PressAnalyzer::loadAndMergeLogs()
             if (entry.isFile()) {
                 QString fileName = entry.fileName();
                 qint64 fileSize = entry.size();
-
-                // 跳过过大的文件（超过100MB）
-                if (fileSize > 100 * 1024 * 1024) {
-                    qDebug() << "跳过过大文件:" << fileName << "大小:" << (fileSize / 1024 / 1024) << "MB";
-                    continue;
-                }
-
                 // 收集所有相关文件类型
                 if (fileName.endsWith(".log") || fileName.endsWith(".ulg") || fileName.endsWith(".csv") ||
                     fileName.endsWith(".txt")) {
