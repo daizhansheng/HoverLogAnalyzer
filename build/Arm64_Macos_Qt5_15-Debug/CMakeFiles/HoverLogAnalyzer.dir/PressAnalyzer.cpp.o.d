@@ -1051,6 +1051,14 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenuBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenubar.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QAction \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QInputDialog \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qinputdialog.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qguiapplication.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qinputmethod.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/LogNumberHighlighter.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \

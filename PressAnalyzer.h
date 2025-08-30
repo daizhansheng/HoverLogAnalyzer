@@ -37,6 +37,7 @@ private slots:
     // 文件操作
     void loadAndAnalyzeLog();
     void loadAndAnalyzeLogs();
+    void loadAndMergeLogs();  // 新增：通用目录打开和log合并功能
     void saveEventListToFile();
     void clearWindow();
 
@@ -59,6 +60,11 @@ private:
                      QString &textBuffer,
                      bool &inRecvException,
                      QStringList &recvExceptionLines);
+
+    // 文件加载
+    void loadSelectedFiles(const QStringList &filePaths);
+    void loadSelectedFilesInOrder(const QStringList &filePaths);
+    void loadAndAnalyzeLogsFromPath(const QString &path);
 
     // 高亮
     void highlightAllEvents();
@@ -92,6 +98,7 @@ private:
     void applyButtonStyles();
 private:
     // ==================== 工具栏控件 ====================
+    QPushButton *analyzeControlButton;  // 专用分析按钮
     QPushButton *dirloadButton;
     QPushButton *fileloadButton;
     QPushButton *saveButton;

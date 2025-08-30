@@ -22,6 +22,10 @@
 #include <QTimer>
 #include <QMenuBar>
 #include <QAction>
+#include <QInputDialog>
+#include <QMap>
+#include <QApplication>
+#include <functional>
 #include "LogNumberHighlighter.h"
 
 PressAnalyzer::PressAnalyzer(QWidget *parent)
@@ -79,7 +83,7 @@ void PressAnalyzer::setupEventDock()
     eventDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
-
+    eventDock->hide();
     toggleBtn = new DockToggleButton(eventDock, this);
     toggleBtn->move(0, (height() - toggleBtn->height()) / 2);
     toggleBtn->show();
@@ -131,13 +135,18 @@ void PressAnalyzer::setupToolBar()
     // 创建图标按钮
     dirloadButton = new QPushButton(this);
     dirloadButton->setIcon(QIcon(":/icons/icons/folder-open.png"));
-    dirloadButton->setToolTip("选择Log目录");
+    dirloadButton->setToolTip("打开日志目录（通用）");
     dirloadButton->setIconSize(QSize(20, 20));
 
     fileloadButton = new QPushButton(this);
     fileloadButton->setIcon(QIcon(":/icons/icons/file-open.png"));
     fileloadButton->setToolTip("选择Log文件");
     fileloadButton->setIconSize(QSize(20, 20));
+
+    analyzeControlButton = new QPushButton(this);
+    analyzeControlButton->setIcon(QIcon(":/icons/icons/analysis.png"));
+    analyzeControlButton->setToolTip("分析Control Engine日志(专用)");
+    analyzeControlButton->setIconSize(QSize(20, 20));
 
     saveButton = new QPushButton(this);
     saveButton->setIcon(QIcon(":/icons/icons/save.png"));
@@ -188,6 +197,7 @@ void PressAnalyzer::setupToolBar()
     // 添加到工具栏
     toolBar->addWidget(dirloadButton);
     toolBar->addWidget(fileloadButton);
+    toolBar->addWidget(analyzeControlButton);
     toolBar->addWidget(saveButton);
     toolBar->addWidget(clearButton);
     toolBar->addSeparator();
@@ -286,6 +296,7 @@ void PressAnalyzer::applyButtonStyles()
     // 应用样式到已创建的按钮（统一浅色主题）
     styleButton(dirloadButton,   themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 目录
     styleButton(fileloadButton,  themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 文件（与目录同属主色）
+    styleButton(analyzeControlButton, themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 分析（主色）
     styleButton(saveButton,      themeSuccess.bg, themeSuccess.hover, themeSuccess.pressed, themeSuccess.fg);   // 保存
     styleButton(clearButton,     themeDanger.bg,  themeDanger.hover,  themeDanger.pressed,  themeDanger.fg);    // 清除
     styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);      // 搜索
@@ -431,10 +442,20 @@ void PressAnalyzer::setupMenuBar()
     QAction *actNewWindow = fileMenu->addAction("新建窗口");
     actNewWindow->setShortcut(QKeySequence::New);
     fileMenu->addSeparator();
-    QAction *actOpenDir = fileMenu->addAction("选择Log目录");
+
+
+    // 通用按钮：打开任意目录并合并log文件
+    QAction *actOpenDir = fileMenu->addAction("打开日志目录");
+    actOpenDir->setIcon(QIcon(":/icons/folder-open.png")); // 使用文件夹图标
+    actOpenDir->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_D));
+
     QAction *actOpenFile = fileMenu->addAction("选择Log文件");
-    actOpenDir->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     actOpenFile->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
+
+    // 专用按钮：分析control_engine_log
+    QAction *actAnalyzeControlLog = fileMenu->addAction("分析Control Engine日志");
+    actAnalyzeControlLog->setIcon(QIcon(":/icons/analysis.png")); // 使用分析图标
+    actAnalyzeControlLog->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     fileMenu->addSeparator();
     QAction *actSave = fileMenu->addAction("保存分析结果");
     actSave->setShortcut(QKeySequence::Save);
@@ -447,8 +468,10 @@ void PressAnalyzer::setupMenuBar()
         w->setAttribute(Qt::WA_DeleteOnClose, true);
         w->show();
     });
-    connect(actOpenDir, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLogs);
+
+    connect(actOpenDir, &QAction::triggered, this, &PressAnalyzer::loadAndMergeLogs);
     connect(actOpenFile, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLog);
+    connect(actAnalyzeControlLog, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLogs);
     connect(actSave, &QAction::triggered, this, &PressAnalyzer::saveEventListToFile);
     connect(actClear, &QAction::triggered, this, &PressAnalyzer::clearWindow);
     connect(actClose, &QAction::triggered, this, &QMainWindow::close);
@@ -628,7 +651,8 @@ void PressAnalyzer::setupUsageContainer()
 void PressAnalyzer::setupConnections()
 {
     // 文件操作连接
-    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
+    connect(analyzeControlButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
+    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndMergeLogs);
     connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
     connect(saveButton, &QPushButton::clicked, this, &PressAnalyzer::saveEventListToFile);
     connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
@@ -821,6 +845,11 @@ void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QStri
     QListWidgetItem *item = new QListWidgetItem(display);
     item->setBackground(bgColors[colorIndex]);
     eventList->addItem(item);
+
+    // 如果是第一个事件，显示eventDock
+    if (eventList->count() == 1) {
+        eventDock->show();
+    }
 }
 
 void PressAnalyzer::analyzeFile(const QString &filePath,
@@ -1063,6 +1092,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
+    eventDock->hide(); // 清空后隐藏eventDock
     statusEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
@@ -1248,6 +1278,341 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     // 解析完成后恢复更新
     logView->setUpdatesEnabled(true);
 }
+
+void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
+{
+    // 减少大文件解析时的界面重绘
+    logView->setUpdatesEnabled(false);
+    QSignalBlocker blocker1(eventList);
+    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker3(cameraEventList);
+    QSignalBlocker blocker4(statusEventList);
+
+    statusBar->showMessage(QString("路径: %1").arg(path));
+    QFileInfo info(path);
+
+    auto collectLogs = [](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
+        QStringList result;
+        QDir dir(baseDir + "/" + subDir);
+        if (!dir.exists()) return result;
+
+        // 获取日志文件
+        QStringList logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
+
+        // 如果没有日志，但存在 zip 文件，解压
+        if (logFiles.isEmpty()) {
+            QStringList zipFiles = dir.entryList(QStringList() << zipPattern, QDir::Files);
+            for (const QString &zipName : zipFiles) {
+                QString zipPath = dir.filePath(zipName);
+                QProcess unzipProcess;
+                QStringList args;
+#ifdef Q_OS_WIN
+                args << "x" << zipPath << "-o" + dir.absolutePath();
+                unzipProcess.start("7z.exe", args);
+#else
+                args << zipPath << "-d" << dir.absolutePath();
+                unzipProcess.start("unzip", args);
+#endif
+                unzipProcess.waitForFinished(-1);
+            }
+            // 解压完重新获取日志文件列表
+            logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
+        }
+
+        if (logFiles.isEmpty()) return result;
+
+        // 按自然顺序排序
+        QStringList sortedFiles;
+        QList<QPair<int, QString>> numberedFiles;
+        QString lastFile;
+        for (const QString &f : logFiles) {
+            // 生成临时变量
+            QString baseName = logPattern.left(logPattern.indexOf('*')); // control_engine
+            if (f == baseName + ".log") {
+                lastFile = f;
+            } else {
+                // 构造正则表达式匹配 control_engine.1.log、control_engine.2.log ...
+                QRegExp rx(baseName + "\\.(\\d+)\\.log");
+                if (rx.indexIn(f) != -1) {
+                    int num = rx.cap(1).toInt();
+                    numberedFiles.append(qMakePair(num, f));
+                }
+            }
+        }
+
+        std::sort(numberedFiles.begin(), numberedFiles.end(),
+                  [](const QPair<int, QString> &a, const QPair<int, QString> &b){ return a.first < b.first; });
+
+        for (const auto &p : numberedFiles)
+            sortedFiles << dir.filePath(p.second);
+
+        if (!lastFile.isEmpty())
+            sortedFiles << dir.filePath(lastFile);
+
+        return sortedFiles;
+    };
+
+    QStringList controlLogs, topLogs;
+
+    if (info.isDir()) {
+        controlLogs = collectLogs(path, "control_engine_log", "control_engine*.log", "control_engine*.log.zip");
+        topLogs     = collectLogs(path, "system_log/top_log", "top*.log", "top*.log.zip");
+
+        if (controlLogs.isEmpty() && topLogs.isEmpty()) {
+            QMessageBox::warning(this, "错误", "日志文件不存在");
+            return;
+        }
+    } else if (info.isFile()) {
+        controlLogs << info.filePath();
+    }
+
+    // ---------------- 公共解析部分 ----------------
+    allLogLines.clear();
+    allEvents.clear();
+    cameraEvents.clear();
+    eventList->clear();
+    statusEventList->clear();
+    statusEvents.clear();
+    batteryChart->clear();
+    searchResults.clear();
+    searchResultList->clear();
+    batteryinfo.clear();
+    allusage.clear();
+    soctmp.clear();
+    triggerCount = 0;
+    flightCount = 0;
+
+    int lineNumber = 0;
+    QDateTime currentTakeoffTime;
+    QString textBuffer;
+    bool inRecvException = false;
+    QStringList recvExceptionLines;
+
+    // 分开解析 control_engine_log
+    for (const QString &filePath : controlLogs) {
+        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    }
+
+    logView->setPlainText(textBuffer);
+    // 首次统一高亮一次，点击时不再重复全量高亮
+    highlightAllEvents();
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
+    batteryChart->setData(batteryinfo);
+    socChart->clear();
+    socChart->addData(soctmp);
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
+    // 分开解析 top_log
+    for (const QString &filePath : topLogs) {
+        parseTopFile(filePath);
+    }
+    usageChart->setData(allusage);
+
+    // 解析完成后恢复更新
+    logView->setUpdatesEnabled(true);
+}
+
+void PressAnalyzer::loadAndMergeLogs()
+{
+    QString path = QFileDialog::getExistingDirectory(this, "选择日志目录");
+    if (path.isEmpty()) {
+        return;
+    }
+
+    // 检查是否选择了control_engine_log目录，如果是则走loadAndAnalyzeLogs的逻辑
+    QFileInfo pathInfo(path);
+    if (pathInfo.fileName() == "control_engine_log") {
+        // 获取父目录路径
+        QString parentPath = pathInfo.absolutePath();
+        // 调用loadAndAnalyzeLogs的逻辑
+        loadAndAnalyzeLogsFromPath(parentPath);
+        return;
+    }
+
+    // 如果不是control_engine_log目录，隐藏eventDock
+    eventDock->hide();
+
+    // 禁用界面更新，提高性能
+    logView->setUpdatesEnabled(false);
+    QSignalBlocker blocker1(eventList);
+    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker3(cameraEventList);
+    QSignalBlocker blocker4(statusEventList);
+
+    // 清空之前的数据
+    allLogLines.clear();
+    allEvents.clear();
+    cameraEvents.clear();
+    eventList->clear();
+    eventDock->hide(); // 清空后隐藏eventDock
+    statusEventList->clear();
+    statusEvents.clear();
+    batteryChart->clear();
+    searchResults.clear();
+    searchResultList->clear();
+    batteryinfo.clear();
+    allusage.clear();
+    soctmp.clear();
+    triggerCount = 0;
+    flightCount = 0;
+
+        // 第一步：快速解压所有zip文件（不递归，遇到目录跳过）
+    std::function<void(const QString&)> extractAllZips;
+    extractAllZips = [&extractAllZips, this](const QString &dirPath) {
+        QDir dir(dirPath);
+        QFileInfoList entries = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+
+        for (const QFileInfo &entry : entries) {
+            if (entry.isFile() && entry.fileName().endsWith(".zip")) {
+                QString zipPath = entry.filePath();
+                QString extractDir = entry.absolutePath();
+
+                // 更新状态栏显示当前处理的zip文件
+                statusBar->showMessage(QString("正在解压: %1").arg(entry.fileName()));
+                QApplication::processEvents(); // 保持界面响应
+
+                QProcess unzipProcess;
+                QStringList args;
+
+#ifdef Q_OS_WIN
+                // Windows: 使用7z.exe
+                args << "x" << zipPath << "-o" << extractDir << "-y";
+                unzipProcess.start("7z.exe", args);
+#else
+                // Linux/macOS: 使用unzip
+                args << "-o" << zipPath << "-d" << extractDir;
+                unzipProcess.start("unzip", args);
+#endif
+
+                // 等待解压完成
+                unzipProcess.waitForFinished(-1);
+
+                // 检查解压结果
+                if (unzipProcess.exitCode() != 0) {
+                    QString errorOutput = unzipProcess.readAllStandardError();
+                    statusBar->showMessage(QString("解压失败: %1").arg(entry.fileName()));
+                } else {
+                    statusBar->showMessage(QString("解压成功: %1").arg(entry.fileName()));
+                }
+
+                // 处理Qt事件，保持界面响应
+                QApplication::processEvents();
+            }
+        }
+    };
+
+    // 第二步：收集所有相关文件（不递归，遇到目录跳过）
+    std::function<QStringList(const QString&)> collectAllFiles;
+    collectAllFiles = [&collectAllFiles, this](const QString &dirPath) -> QStringList {
+        QStringList allFiles;
+        QDir dir(dirPath);
+        QFileInfoList entries = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+
+        for (const QFileInfo &entry : entries) {
+            if (entry.isFile()) {
+                QString fileName = entry.fileName();
+                qint64 fileSize = entry.size();
+
+                // 跳过过大的文件（超过100MB）
+                if (fileSize > 100 * 1024 * 1024) {
+                    qDebug() << "跳过过大文件:" << fileName << "大小:" << (fileSize / 1024 / 1024) << "MB";
+                    continue;
+                }
+
+                // 收集所有相关文件类型
+                if (fileName.endsWith(".log") || fileName.endsWith(".ulg") || fileName.endsWith(".csv") ||
+                    fileName.endsWith(".txt")) {
+                    allFiles.append(entry.filePath());
+                }
+            }
+        }
+
+        return allFiles;
+    };
+
+    // 先解压所有zip文件
+    statusBar->showMessage("正在解压zip文件...");
+    extractAllZips(path);
+
+    // 然后收集所有相关文件
+    statusBar->showMessage("正在收集文件...");
+    QStringList allFiles = collectAllFiles(path);
+
+        if (allFiles.isEmpty()) {
+        QMessageBox::information(this, "提示", "未找到相关文件");
+        logView->setUpdatesEnabled(true);
+        return;
+    }
+
+    // 如果只有一个文件，直接打开
+    if (allFiles.size() == 1) {
+        loadSelectedFilesInOrder(allFiles);
+        return;
+    }
+
+    // 创建文件选择对话框
+    QDialog dialog(this);
+    dialog.setWindowTitle("选择要显示的文件");
+    dialog.resize(600, 400);
+
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // 添加说明标签
+    QLabel *label = new QLabel("请选择要显示的文件（支持多选，按选择顺序显示）:");
+    layout->addWidget(label);
+
+    // 创建文件列表，支持多选
+    QListWidget *fileList = new QListWidget();
+    fileList->setSelectionMode(QAbstractItemView::MultiSelection);
+    layout->addWidget(fileList);
+
+    // 添加文件到列表，显示文件名和大小
+    for (const QString &filePath : allFiles) {
+        QFileInfo fileInfo(filePath);
+        QString fileName = fileInfo.fileName();
+        qint64 fileSize = fileInfo.size();
+        QString sizeStr = (fileSize > 1024 * 1024) ?
+            QString("%1 MB").arg(fileSize / (1024.0 * 1024.0), 0, 'f', 1) :
+            QString("%1 KB").arg(fileSize / 1024.0, 0, 'f', 1);
+
+        QString displayText = QString("%1 (%2)").arg(fileName).arg(sizeStr);
+        QListWidgetItem *item = new QListWidgetItem(displayText);
+        item->setData(Qt::UserRole, filePath); // 存储完整路径
+        fileList->addItem(item);
+    }
+
+    // 添加按钮
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    QPushButton *okButton = new QPushButton("确定");
+    QPushButton *cancelButton = new QPushButton("取消");
+    buttonLayout->addWidget(okButton);
+    buttonLayout->addWidget(cancelButton);
+    layout->addLayout(buttonLayout);
+
+    // 连接信号
+    connect(okButton, &QPushButton::clicked, &dialog, &QDialog::accept);
+    connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
+
+    // 显示对话框
+    if (dialog.exec() == QDialog::Accepted) {
+        // 获取选中的文件，按选择顺序
+        QStringList selectedFiles;
+        for (int i = 0; i < fileList->count(); ++i) {
+            QListWidgetItem *item = fileList->item(i);
+            if (item->isSelected()) {
+                QString filePath = item->data(Qt::UserRole).toString();
+                selectedFiles.append(filePath);
+            }
+        }
+
+        if (!selectedFiles.isEmpty()) {
+            loadSelectedFilesInOrder(selectedFiles);
+        }
+    }
+
+    // 恢复界面更新
+    logView->setUpdatesEnabled(true);
+}
+
 // 高亮事件行
 void PressAnalyzer::highlightLine(int lineNumber, const QString &eventType)
 {
@@ -1893,4 +2258,241 @@ void PressAnalyzer::parseTopFile(const QString &filePath) {
     if (hasData) {
         allusage.append(usage);
     }
+}
+
+void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
+{
+    if (filePaths.isEmpty()) {
+        logView->setUpdatesEnabled(true);
+        return;
+    }
+
+    // 对文件进行排序（按数字顺序）
+    QStringList sortedFiles = filePaths;
+    std::sort(sortedFiles.begin(), sortedFiles.end(), [](const QString &a, const QString &b) {
+        QString fileNameA = QFileInfo(a).fileName();
+        QString fileNameB = QFileInfo(b).fileName();
+
+        // 提取基础名称、扩展名和数字
+        QString baseNameA, baseNameB, extA, extB;
+        int numA = -1, numB = -1;
+
+        // 解析文件名 A
+        QRegExp rxA("(.+?)(\\.(\\d+))?\\.(log|ulg|csv)$");
+        if (rxA.indexIn(fileNameA) != -1) {
+            baseNameA = rxA.cap(1);
+            extA = rxA.cap(4);
+            if (!rxA.cap(3).isEmpty()) {
+                numA = rxA.cap(3).toInt();
+            }
+        }
+
+        // 解析文件名 B
+        QRegExp rxB("(.+?)(\\.(\\d+))?\\.(log|csv|ulg)$");
+        if (rxB.indexIn(fileNameB) != -1) {
+            baseNameB = rxB.cap(1);
+            extB = rxB.cap(4);
+            if (!rxB.cap(3).isEmpty()) {
+                numB = rxB.cap(3).toInt();
+            }
+        }
+
+        // 如果基础名称相同，按数字排序
+        if (baseNameA == baseNameB) {
+            // 按数字排序
+            if (numA == -1 && numB == -1) return false; // 都是无数字后缀，保持原顺序
+            if (numA == -1) return true;  // A无数字后缀，排在前面
+            if (numB == -1) return false; // B无数字后缀，排在后面
+            return numA < numB; // 按数字排序
+        }
+
+        // 基础名称不同，按字母排序
+        return baseNameA < baseNameB;
+    });
+
+    // 检查文件大小，如果总大小超过100MB，显示警告
+    qint64 totalSize = 0;
+    for (const QString &filePath : sortedFiles) {
+        QFileInfo fileInfo(filePath);
+        totalSize += fileInfo.size();
+    }
+
+    if (totalSize > 100 * 1024 * 1024) { // 100MB
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "文件过大警告",
+            QString("选中的文件总大小约为 %1 MB，加载可能需要较长时间。是否继续？")
+            .arg(totalSize / (1024 * 1024)),
+            QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::No) {
+            logView->setUpdatesEnabled(true);
+            return;
+        }
+    }
+
+        // 清空之前的内容
+    allLogLines.clear();
+    logView->clear();
+
+    // 使用QPlainTextEdit的append方法，避免内存问题
+    int totalLineNumber = 0;
+    int processedFiles = 0;
+
+    for (const QString &filePath : sortedFiles) {
+        processedFiles++;
+        statusBar->showMessage(QString("正在处理文件 %1/%2: %3...")
+                              .arg(processedFiles).arg(sortedFiles.size())
+                              .arg(QFileInfo(filePath).fileName()));
+
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            continue;
+        }
+
+        // 添加文件分隔符
+        if (totalLineNumber > 0) {
+            logView->appendPlainText(QString("\n\n=== 文件: %1 ===\n\n").arg(QFileInfo(filePath).fileName()));
+        }
+
+        QTextStream in(&file);
+        in.setCodec("UTF-8");
+
+        // 分块读取文件，避免一次性加载大文件到内存
+        const int chunkSize = 1000; // 每次处理1000行
+        QStringList lines;
+        int lineCount = 0;
+
+        while (!in.atEnd()) {
+            lines.clear();
+
+            // 读取一个块的行
+            for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
+                QString line = in.readLine();
+                lines.append(line);
+                totalLineNumber++;
+                allLogLines << line;
+            }
+
+            // 处理这个块的行
+            for (const QString &line : lines) {
+                QString numberedLine = QString("%1 %2")
+                                         .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
+                                         .arg(line);
+                logView->appendPlainText(numberedLine);
+                lineCount++;
+            }
+
+            // 处理Qt事件，保持界面响应
+            QApplication::processEvents();
+        }
+
+        file.close();
+    }
+
+    // 更新状态栏
+    statusBar->showMessage(QString("已合并 %1 个文件，共 %2 行").arg(sortedFiles.size()).arg(totalLineNumber));
+
+    // 设置窗口标题
+    setWindowTitle(QString("日志查看器 - %1 个文件").arg(sortedFiles.size()));
+
+    // 解析完成后恢复更新
+    logView->setUpdatesEnabled(true);
+}
+
+void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
+{
+    if (filePaths.isEmpty()) {
+        logView->setUpdatesEnabled(true);
+        return;
+    }
+
+    // 检查文件大小，如果总大小超过100MB，显示警告
+    qint64 totalSize = 0;
+    for (const QString &filePath : filePaths) {
+        QFileInfo fileInfo(filePath);
+        totalSize += fileInfo.size();
+    }
+
+    if (totalSize > 100 * 1024 * 1024) { // 100MB
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "文件过大警告",
+            QString("选中的文件总大小约为 %1 MB，加载可能需要较长时间。是否继续？")
+            .arg(totalSize / (1024 * 1024)),
+            QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::No) {
+            logView->setUpdatesEnabled(true);
+            return;
+        }
+    }
+
+        // 清空之前的内容
+    allLogLines.clear();
+    logView->clear();
+
+    // 构建文本缓冲区
+    QString textBuffer;
+    int totalLineNumber = 0;
+    int processedFiles = 0;
+
+    for (const QString &filePath : filePaths) {
+        processedFiles++;
+        statusBar->showMessage(QString("正在处理文件 %1/%2: %3...")
+                              .arg(processedFiles).arg(filePaths.size())
+                              .arg(QFileInfo(filePath).fileName()));
+
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            continue;
+        }
+
+        // 添加文件分隔符
+        if (totalLineNumber > 0) {
+            textBuffer += QString("\n\n=== 文件: %1 ===\n\n").arg(QFileInfo(filePath).fileName());
+        }
+
+        QTextStream in(&file);
+        in.setCodec("UTF-8");
+
+        // 分块读取文件，避免一次性加载大文件到内存
+        const int chunkSize = 1000; // 每次处理1000行
+        QStringList lines;
+        int lineCount = 0;
+
+        while (!in.atEnd()) {
+            lines.clear();
+
+            // 读取一个块的行
+            for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
+                QString line = in.readLine();
+                lines.append(line);
+                totalLineNumber++;
+                allLogLines << line;
+            }
+
+            // 处理这个块的行
+            for (const QString &line : lines) {
+                QString numberedLine = QString("%1 %2\n")
+                                         .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
+                                         .arg(line);
+                textBuffer += numberedLine;
+                lineCount++;
+            }
+
+            // 处理Qt事件，保持界面响应
+            QApplication::processEvents();
+        }
+
+        file.close();
+    }
+
+    // 一次性设置所有内容
+    logView->setPlainText(textBuffer);
+
+    // 更新状态栏
+    statusBar->showMessage(QString("已合并 %1 个文件，共 %2 行").arg(filePaths.size()).arg(totalLineNumber));
+
+    // 设置窗口标题
+    setWindowTitle(QString("日志查看器 - %1 个文件").arg(filePaths.size()));
+
+    // 解析完成后恢复更新
+    logView->setUpdatesEnabled(true);
 }
