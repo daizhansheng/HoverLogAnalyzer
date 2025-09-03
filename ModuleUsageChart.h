@@ -38,6 +38,7 @@ struct AllModuleUsage {
     ModuleUsage rcu_gp;
     ModuleUsage rcu_par_gp;
     ModuleUsage kworker_0_events;
+    ModuleUsage fpv_service;
 };
 
 // ================= 曲线绘制控件 =================
@@ -58,15 +59,10 @@ public:
                                     << "kworker_u18_icp_message_q" << "logcat"
                                     << "kworker_u19_kgsl_events" << "systemd"
                                     << "kthreadd" << "rcu_gp" << "rcu_par_gp"
-                                    << "kworker_0_events";
+                                    << "kworker_0_events" << "fpv_service";
 
         for (const auto &name : moduleNames)
             moduleVisible[name] = false;
-
-        colors = {Qt::red, Qt::blue, Qt::green, Qt::darkCyan, Qt::magenta, Qt::yellow,
-                  Qt::cyan, Qt::darkRed, Qt::darkBlue, Qt::darkGreen, Qt::gray, Qt::darkMagenta,
-                  Qt::darkYellow, Qt::black, Qt::darkGray, Qt::lightGray, Qt::darkCyan, Qt::blue,
-                  Qt::red, Qt::green};
 
         moduleColors.clear();
         for (int i = 0; i < moduleNames.size(); ++i) {
@@ -233,11 +229,36 @@ private:
     QVector<AllModuleUsage> allData;
     QStringList moduleNames;
     QMap<QString,bool> moduleVisible;
-    QVector<QColor> colors;
     QMap<QString,QColor> moduleColors;
     QPoint mousePos;
     int hoverIndex = -1;
-
+    QVector<QColor> colors = {
+        QColor(180, 0, 0),      // 暗红
+        QColor(0, 0, 180),      // 暗蓝
+        QColor(0, 150, 0),      // 暗绿
+        QColor(0, 120, 120),    // 暗青
+        QColor(120, 0, 120),    // 暗紫
+        QColor(180, 180, 0),    // 暗黄
+        QColor(0, 150, 150),    // 深青
+        QColor(120, 0, 0),      // 暗红2
+        QColor(0, 0, 120),      // 暗蓝2
+        QColor(0, 120, 0),      // 暗绿2
+        QColor(100, 100, 100),  // 灰色
+        QColor(90, 0, 90),      // 暗紫2
+        QColor(100, 100, 0),    // 暗黄2
+        QColor(50, 50, 50),     // 深灰
+        QColor(160, 160, 160),  // 浅灰
+        QColor(0, 120, 120),    // 暗青2
+        QColor(0, 50, 180),     // 蓝2
+        QColor(180, 0, 0),      // 红2
+        QColor(0, 180, 0),      // 绿2
+        QColor(120, 60, 0),     // 棕色
+        QColor(180, 100, 100),  // 暖粉
+        QColor(100, 180, 100),  // 浅绿
+        QColor(100, 100, 180),  // 浅蓝
+        QColor(180, 180, 100),  // 柠檬黄
+        QColor(180, 100, 180)  // 紫粉
+    };
     double getCpuByIndex(const AllModuleUsage &u, int idx) {
         switch(idx){
         case 0: return u.camera_service.cpu;
@@ -260,6 +281,7 @@ private:
         case 17: return u.rcu_gp.cpu;
         case 18: return u.rcu_par_gp.cpu;
         case 19: return u.kworker_0_events.cpu;
+        case 20: return u.fpv_service.cpu;
         default: return 0.0;
         }
     }
@@ -285,6 +307,7 @@ private:
         case 17: return u.rcu_gp.mem;
         case 18: return u.rcu_par_gp.mem;
         case 19: return u.kworker_0_events.mem;
+        case 20: return u.fpv_service.mem;
         default: return 0.0;
         }
     }

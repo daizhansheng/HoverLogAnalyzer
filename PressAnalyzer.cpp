@@ -2262,6 +2262,7 @@ void PressAnalyzer::parseTopFile(const QString &filePath) {
         else if (moduleName == "rcu_gp") usage.rcu_gp = {cpu, mem};
         else if (moduleName == "rcu_par_gp") usage.rcu_par_gp = {cpu, mem};
         else if (moduleName == "kworker/0:0-events") usage.kworker_0_events = {cpu, mem};
+        else if (moduleName ==  "fpv_service") usage.fpv_service = {cpu, mem};
     }
 
     // 最后一组数据也要存进去

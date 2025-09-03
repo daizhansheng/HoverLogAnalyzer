@@ -82,9 +82,9 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogA
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/save.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/camera.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/analysis.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/file-open.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/search.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/arrow-down.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/search.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/file-open.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/clear.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/chart.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/folder-open.png
