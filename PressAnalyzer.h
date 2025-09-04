@@ -19,6 +19,7 @@
 #include "SocTempChartWidget.h"
 #include "DockToggleButton.h"
 #include "ModuleUsageChart.h"
+#include "ChartStyleManager.h"
 
 struct EventItem {
     int lineNumber;    // 日志行号

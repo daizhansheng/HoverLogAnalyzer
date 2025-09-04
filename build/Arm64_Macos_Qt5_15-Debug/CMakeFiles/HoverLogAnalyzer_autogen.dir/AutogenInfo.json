@@ -87,6 +87,12 @@
 			null
 		],
 		[
+			"/Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h",
+			"MU",
+			"EWIEGA46WW/moc_ChartStyleManager.cpp",
+			null
+		],
+		[
 			"/Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h",
 			"MU",
 			"EWIEGA46WW/moc_DockToggleButton.cpp",
@@ -166,6 +172,11 @@
 	"SETTINGS_FILE" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"/Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp",
+			"MU",
+			null
+		],
 		[ "/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp", "MU", null ],
 		[ "/Users/dzs/Downloads/HoverLogAnalyzer/main.cpp", "MU", null ]
 	],

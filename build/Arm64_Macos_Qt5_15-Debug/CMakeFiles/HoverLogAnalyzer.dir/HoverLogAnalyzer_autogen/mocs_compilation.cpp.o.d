@@ -909,6 +909,11 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../ChartStyleManager.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPen \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QBrush \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_DockToggleButton.cpp \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../DockToggleButton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPushButton \
@@ -977,6 +982,5 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/../../../../SocTempChartWidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp \
   /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SocTempChartWidget.cpp

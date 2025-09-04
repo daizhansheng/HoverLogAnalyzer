@@ -19,6 +19,8 @@ set(PROJECT_SOURCES
     PressAnalyzer.cpp
     PressAnalyzer.h
     PressAnalyzer.ui
+    ChartStyleManager.cpp
+    ChartStyleManager.h
     icon.qrc          # 窗口图标和按钮图标资源
 )
 

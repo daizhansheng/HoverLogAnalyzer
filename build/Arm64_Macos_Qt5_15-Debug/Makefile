@@ -200,6 +200,30 @@ HoverLogAnalyzer_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer_autogen.dir/build.make CMakeFiles/HoverLogAnalyzer_autogen.dir/build
 .PHONY : HoverLogAnalyzer_autogen/fast
 
+ChartStyleManager.o: ChartStyleManager.cpp.o
+.PHONY : ChartStyleManager.o
+
+# target to build an object file
+ChartStyleManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o
+.PHONY : ChartStyleManager.cpp.o
+
+ChartStyleManager.i: ChartStyleManager.cpp.i
+.PHONY : ChartStyleManager.i
+
+# target to preprocess a source file
+ChartStyleManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.i
+.PHONY : ChartStyleManager.cpp.i
+
+ChartStyleManager.s: ChartStyleManager.cpp.s
+.PHONY : ChartStyleManager.s
+
+# target to generate assembly for a file
+ChartStyleManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s
+.PHONY : ChartStyleManager.cpp.s
+
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.o: HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o
 .PHONY : HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.o
 
@@ -311,6 +335,9 @@ help:
 	@echo "... HoverLogAnalyzer_autogen"
 	@echo "... HoverLogAnalyzer_autogen_timestamp_deps"
 	@echo "... HoverLogAnalyzer"
+	@echo "... ChartStyleManager.o"
+	@echo "... ChartStyleManager.i"
+	@echo "... ChartStyleManager.s"
 	@echo "... HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.o"
 	@echo "... HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.i"
 	@echo "... HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.s"

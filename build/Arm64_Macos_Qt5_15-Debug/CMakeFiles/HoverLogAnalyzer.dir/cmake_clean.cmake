@@ -2,6 +2,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/HoverLogAnalyzer_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/HoverLogAnalyzer_autogen.dir/ParseCache.txt"
   "HoverLogAnalyzer_autogen"
+  "CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o"
+  "CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o.d"
   "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o"
   "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o.d"
   "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o"

@@ -7,6 +7,7 @@
 #include <QColor>
 #include <QPainter>
 #include <QMouseEvent>
+#include "ChartStyleManager.h"
 
 // ================= 数据结构 =================
 struct SocTempInfo {
@@ -23,7 +24,7 @@ public:
         : QWidget(parent)
     {
         setMouseTracking(true);
-        setFixedSize(400, 400); // 固定大小
+        setMinimumSize(400, 300);
     }
 
     void addData(SocTempInfo &info) {
@@ -44,18 +45,19 @@ protected:
     void paintEvent(QPaintEvent *event) override {
         Q_UNUSED(event);
         QPainter p(this);
-        p.fillRect(rect(), Qt::white);
+        p.fillRect(rect(), ChartStyleManager::getChartBackground());
 
         if (socData.isEmpty()) return;
 
-        // ================= 统一布局参数 =================
-        int marginLeft   = 60;
-        int marginRight  = 60;
-        int marginTop    = 30;
-        int marginBottom = 40;
-        int chartWidth   = 380;
-        int chartHeight  = 150;
-        int chartSpacing = 40;
+        // ================= 动态布局参数 =================
+        auto layout = ChartStyleManager::getLayoutTheme();
+        int marginLeft   = layout.marginLeft;
+        int marginRight  = layout.marginRight;
+        int marginTop    = layout.marginTop;
+        int marginBottom = layout.marginBottom;
+        int chartWidth   = width() - marginLeft - marginRight;
+        int chartHeight  = height() - marginTop - marginBottom;
+        int chartSpacing = layout.chartSpacing;
 
         int n = socData.size();
 
@@ -95,13 +97,21 @@ private:
         for (auto &d : socData) if (d.maxTemp > maxY) maxY = d.maxTemp;
         maxY = qMax(maxY, 130); // 至少显示到 130
 
-        // 坐标轴
-        p.setPen(Qt::black);
+        // 绘制边框
+        p.setPen(ChartStyleManager::getBorderPen());
         p.drawRect(left, top, w, h);
 
+        // 绘制标题
+        auto fontTheme = ChartStyleManager::getFontTheme();
+        p.setFont(fontTheme.title);
+        p.setPen(ChartStyleManager::getColorTheme().primary);
+        p.drawText(left + w - 80, top + 20, "CPU温度");
+
         // Y 轴刻度
+        p.setFont(fontTheme.axis);
         for (int y=0; y<=maxY; y+=10) {
             int py = top + h - (y * h / maxY);
+            p.setPen(ChartStyleManager::getAxisPen());
             p.drawLine(left-5, py, left, py);
             p.drawText(5, py, QString::number(y)+"°C");
         }
@@ -110,12 +120,13 @@ private:
         int step = qMax(1, n/6);
         for (int i=0; i<n; i+=step) {
             int px = left + i * w / (n-1);
+            p.setPen(ChartStyleManager::getAxisPen());
             p.drawLine(px, top+h, px, top+h+5);
             p.drawText(px-10, top+h+20, socData[i].timestamp.toString("HH:mm:ss"));
         }
 
-        // 最大温度曲线 (红色虚线)
-        QPen pen(Qt::red, 2, Qt::DashLine);
+        // 最大温度曲线 (红色虚线) - 使用统一的红色
+        QPen pen(ChartStyleManager::getColorTheme().danger, 2, Qt::DashLine);
         p.setPen(pen);
         QPolygon poly;
         for (int i=0; i<n; i++) {
@@ -131,14 +142,6 @@ private:
         if (socData.isEmpty()) return;
         int maxTemp = socData.last().maxTemp;
 
-        QFont font = this->font();
-        font.setPointSize(12);
-        p.setFont(font);
-        p.setPen(Qt::black);
-
-        QString text = QString("CPU温度");
-        int textWidth = p.fontMetrics().horizontalAdvance(text);
-        p.drawText(width() - textWidth - 175, top + 15, text);
     }
 
     void drawHover(QPainter &p, int left, int top, int w, int h, int n) {
@@ -153,8 +156,7 @@ private:
         int px = left + idx * w / (n - 1);
 
         // ---------- 十字线 ----------
-        QPen linePen(Qt::gray, 1, Qt::DashLine);
-        p.setPen(linePen);
+        p.setPen(ChartStyleManager::getHoverPen());
         p.drawLine(px, top-20, px, top + h);
 
         int maxY = 0;
@@ -170,17 +172,20 @@ private:
 
         // ---------- 悬浮显示最大温度 ----------
         QString text = QString("%1°C").arg(d.maxTemp);
+        auto fontTheme = ChartStyleManager::getFontTheme();
+        p.setFont(fontTheme.tooltip);
         QFontMetrics fm1(p.font());
         QRect rect = fm1.boundingRect(text).adjusted(-6, -4, 6, 4);
         QPoint centerPos(px + 30, py - 40);        // 十字线右上方
         rect.moveCenter(centerPos);
 
         // 背景框
-        p.setBrush(QColor(255, 255, 225));
-        p.setPen(Qt::black);
+        p.setBrush(ChartStyleManager::getTooltipBackground());
+        p.setPen(ChartStyleManager::getTooltipBorder());
         p.drawRect(rect);
 
         // 文字
+        p.setPen(ChartStyleManager::getColorTheme().text);
         p.drawText(rect, Qt::AlignCenter, text);
 
         // ---------- 右侧信息框显示各核心温度 ----------
@@ -193,18 +198,17 @@ private:
         for (auto &s : lines) wBox = qMax(wBox, fm.horizontalAdvance(s));
         int hBox = lines.size() * fm.height() + 8;
 
-        int xBox = left + w + 10;  // 图表右侧 + 10px
+        int xBox = width() - 100;
         int yBox = top + 20;        // 图表顶部 + 20px
-        if (xBox + wBox + 10 > width()) xBox = width() - wBox - 10;
         if (yBox + hBox > height() - 10) yBox = height() - hBox - 10;
 
-        p.setBrush(QColor(255, 255, 220));
-        p.setPen(Qt::darkRed);
-        p.drawRect(xBox, yBox, wBox + 10, hBox);
+        p.setBrush(ChartStyleManager::getTooltipBackground());
+        p.setPen(ChartStyleManager::getTooltipBorder());
+        p.drawRect(xBox, yBox, wBox + 5, hBox);
 
-        // 设置字体为红色
+        // 设置字体和颜色
         int ty = yBox + fm.ascent() + 4;
-        p.setPen(Qt::red);
+        p.setPen(ChartStyleManager::getColorTheme().danger);
         for (auto &s : lines) {
             p.drawText(xBox + 5, ty, s);
             ty += fm.height();

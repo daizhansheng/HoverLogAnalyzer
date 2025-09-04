@@ -101,6 +101,8 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/CMakeLists.txt \
+	/Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp \
+	/Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/ModuleUsageChart.h \
 	/Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp \
@@ -187,9 +189,12 @@ HoverLogAnalyzer_autogen/timestamp: \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
 	/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
+	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
 	/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \

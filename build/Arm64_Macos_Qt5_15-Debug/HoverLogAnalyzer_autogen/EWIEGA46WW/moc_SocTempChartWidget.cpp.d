@@ -100,7 +100,9 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
@@ -165,9 +167,12 @@
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \

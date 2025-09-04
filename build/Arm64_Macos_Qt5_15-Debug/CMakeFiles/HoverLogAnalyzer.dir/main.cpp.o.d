@@ -968,8 +968,12 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempChartWidget.h \
+  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPen \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QBrush \
+  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempChartWidget.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h \
   /Users/dzs/Downloads/HoverLogAnalyzer/ModuleUsageChart.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \

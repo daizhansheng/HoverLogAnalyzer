@@ -421,30 +421,52 @@ void PressAnalyzer::setupStatusDock()
     };
     styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);
 
-    // 创建状态容器
+    // 创建状态容器 - 应用统一样式
     statusContainer = new QWidget(this);
-    QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
-    vLayout->setContentsMargins(5, 5, 5, 5);
-    vLayout->setSpacing(0);
+    statusContainer->setStyleSheet(ChartStyleManager::getStatusContainerStyle());
+    statusContainer->setMinimumWidth(400);  // 设置最小宽度400
 
-    titleLabel = new QLabel(statusContainer);
-    QFont font = titleLabel->font();
-    font.setBold(true);
-    font.setPointSize(12);
-    titleLabel->setFont(font);
-    titleLabel->setAlignment(Qt::AlignLeft);
-    titleLabel->setStyleSheet("color: red;");
+    QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
+    vLayout->setContentsMargins(10, 10, 10, 10);
+    vLayout->setSpacing(10);
+
+    // 标题标签 - 应用统一样式
+    titleLabel = new QLabel("状态面板", statusContainer);
+    titleLabel->setStyleSheet(ChartStyleManager::getTitleStyle());
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setMinimumHeight(30);
     vLayout->addWidget(titleLabel);
 
+    // 事件列表 - 应用统一样式
     statusEventList = new QListWidget(statusContainer);
-    statusEventList->setMaximumHeight(50);
+    statusEventList->setMaximumHeight(80);
+    statusEventList->setStyleSheet(ChartStyleManager::getEventListStyle());
     vLayout->addWidget(statusEventList);
 
+    // 电池图表 - 应用统一样式
     batteryChart = new BatteryChartWidget(statusContainer);
+    batteryChart->setMinimumHeight(500);
+    batteryChart->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "  padding: 10px;"
+        "}"
+    );
     vLayout->addWidget(batteryChart);
 
+    // SOC温度图表 - 应用统一样式
     socChart = new SocTempChartWidget(statusContainer);
-    socChart->setMinimumSize(600, 300);
+    socChart->setMinimumHeight(250);
+    socChart->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "  padding: 10px;"
+        "}"
+    );
     vLayout->addWidget(socChart);
 
     vLayout->addStretch(1);
@@ -585,26 +607,47 @@ void PressAnalyzer::setupMenuBar()
 
 void PressAnalyzer::setupUsageContainer()
 {
+    // 使用容器 - 应用统一样式
     usageContainer = new QWidget(this);
+    usageContainer->setStyleSheet(ChartStyleManager::getStatusContainerStyle());
+    usageContainer->setMinimumWidth(400);  // 设置最小宽度400
+
     QVBoxLayout *usageLayout = new QVBoxLayout(usageContainer);
-    usageLayout->setContentsMargins(0, 0, 0, 0);
-    usageLayout->setSpacing(0);
+    usageLayout->setContentsMargins(15, 15, 15, 15);
+    usageLayout->setSpacing(10);
 
-    // 曲线图
+    // 曲线图 - 应用统一样式
     usageChart = new ModuleUsageChart(usageContainer);
-    usageChart->setMinimumSize(700, 300);
+    usageChart->setMinimumHeight(250);
+    usageChart->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "  padding: 10px;"
+        "}"
+    );
 
-    // 复选框容器
-    checkBoxContainer = new QWidget(this);
+    // 复选框容器 - 应用统一样式
+    checkBoxContainer = new QWidget(usageContainer);
+    checkBoxContainer->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "  padding: 10px;"
+        "}"
+    );
+
     QGridLayout *gridLayout = new QGridLayout(checkBoxContainer);
-    gridLayout->setContentsMargins(0, 30, 0, 0); // 顶部加 10px 边距，避免与图表边框重叠
-    gridLayout->setHorizontalSpacing(2);
-    gridLayout->setVerticalSpacing(5);
+    gridLayout->setContentsMargins(10, 10, 10, 10);
+    gridLayout->setHorizontalSpacing(8);
+    gridLayout->setVerticalSpacing(6);
 
     const auto &moduleKeys = usageChart->getModuleVisibility().keys();
     int total = moduleKeys.size();
-    int rows = 5;                              // 固定5行
-    int cols = (total + rows - 1) / rows;      // 每行列数自动计算
+    int cols = 3;                              // 固定3列，减少水平空间需求
+    int rows = (total + cols - 1) / cols;      // 每行3列，行数自动计算
     int index = 0;
 
     int maxLength = 15; // 固定显示长度
@@ -619,6 +662,23 @@ void PressAnalyzer::setupUsageContainer()
         }
 
         QCheckBox *cb = new QCheckBox(displayName);
+
+        // 应用统一的复选框样式
+        cb->setStyleSheet(
+            "QCheckBox {"
+            "  font-family: 'Microsoft YaHei';"
+            "  font-size: 9px;"
+            "  padding: 2px;"
+            "  border-radius: 3px;"
+            "}"
+            "QCheckBox:checked {"
+            "  background-color: #3498db;"
+            "  color: black;"
+            "}"
+            "QCheckBox:hover {"
+            "  background-color: #ecf0f1;"
+            "}"
+        );
 
         // 设置字体颜色为对应曲线颜色
         QPalette pal = cb->palette();
@@ -649,18 +709,39 @@ void PressAnalyzer::setupUsageContainer()
     usageLayout->addStretch(1);
     usageContainer->setLayout(usageLayout);
 
-    // 与状态面板组合
+    // 与状态面板组合 - 应用统一样式
     QSplitter *mainSplitter = new QSplitter(Qt::Horizontal, this);
+    mainSplitter->setStyleSheet(
+        "QSplitter::handle {"
+        "  background-color: #bdc3c7;"
+        "  border: 1px solid #95a5a6;"
+        "}"
+        "QSplitter::handle:horizontal {"
+        "  width: 4px;"
+        "}"
+    );
     mainSplitter->addWidget(statusContainer);
     mainSplitter->addWidget(usageContainer);
-    mainSplitter->setStretchFactor(0, 2);
-    mainSplitter->setStretchFactor(1, 2);
+    mainSplitter->setStretchFactor(0, 1);  // 左边拉伸因子
+    mainSplitter->setStretchFactor(1, 1);  // 右边拉伸因子，完全均分
 
     statusDock = new QDockWidget("状态面板", this);
+    statusDock->setStyleSheet(
+        "QDockWidget {"
+        "  titlebar-close-icon: url(close.png);"
+        "  titlebar-normal-icon: url(undock.png);"
+        "}"
+        "QDockWidget::title {"
+        "  background-color: #34495e;"
+        "  color: white;"
+        "  padding: 5px;"
+        "  font-weight: bold;"
+        "  border: 1px solid #2c3e50;"
+        "}"
+    );
     statusDock->setWidget(mainSplitter);
     statusDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, statusDock);
-    statusDock->setMinimumWidth(800);
     statusDock->hide();
 }
 

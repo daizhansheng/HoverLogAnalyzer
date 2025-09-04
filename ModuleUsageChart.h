@@ -8,6 +8,7 @@
 #include <QString>
 #include <QPolygon>
 #include <QMouseEvent>
+#include "ChartStyleManager.h"
 
 // ================= 模块占用结构体 =================
 struct ModuleUsage {
@@ -49,8 +50,7 @@ public:
         : QWidget(parent)
     {
         setMouseTracking(true);
-        setMinimumHeight(250);
-        setMaximumHeight(250);
+        setMinimumSize(400, 300);
 
         moduleNames = QStringList() << "camera_service" << "captain" << "fcs"
                                     << "control_engine" << "drvf_msg_monito" << "top"
@@ -84,30 +84,25 @@ protected:
         if (allData.isEmpty()) return;
 
         QPainter p(this);
-        p.fillRect(rect(), Qt::white);
+        p.fillRect(rect(), ChartStyleManager::getChartBackground());
 
-        const int marginLeft = 60;
-        const int marginRight = 150;
-        const int marginTop = 20;
-        const int marginBottom = 40;
-        const int chartWidth = 550;  // 固定宽度
+        auto layout = ChartStyleManager::getLayoutTheme();
+        const int marginLeft = layout.marginLeft;
+        const int marginRight = layout.marginRight;
+        const int marginTop = layout.marginTop;
+        const int marginBottom = layout.marginBottom;
+        const int chartWidth = width() - marginLeft - marginRight;  // 动态宽度
         const int chartHeight = height() - marginTop - marginBottom;
 
         // ---------------- 绘制坐标轴 ----------------
-        p.setPen(Qt::black);
+        p.setPen(ChartStyleManager::getBorderPen());
         p.drawRect(marginLeft, marginTop, chartWidth, chartHeight);
 
         // ---------------- 绘制CPU/MEM占用率标题 ----------------
-        QFont originalFont = p.font();
-        QFont titleFont = originalFont;
-        titleFont.setPointSize(12);
-        p.setFont(titleFont);
-
-        p.setPen(Qt::black);
-        p.drawText(marginLeft + chartWidth - 100, marginTop + 20, "CPU/MEM占用率");
-
-        // 恢复原始字体
-        p.setFont(originalFont);
+        auto fontTheme = ChartStyleManager::getFontTheme();
+        p.setFont(fontTheme.title);
+        p.setPen(ChartStyleManager::getColorTheme().primary);
+        p.drawText(marginLeft + chartWidth - 120, marginTop + 20, "CPU/MEM占用率");
 
         int n = allData.size();
 
@@ -129,10 +124,11 @@ protected:
         double yAxisMax = qMax(scaleValue(maxCpu), scaleValue(maxMem));
 
         // ---------------- 绘制 Y 轴刻度（主+次） ----------------
+        p.setFont(fontTheme.axis);
         const int stepMajor = 25;
         for (int val = 0; val <= yAxisMax; val += stepMajor) {
             int py = marginTop + chartHeight - int(val * chartHeight / yAxisMax);
-            p.setPen(Qt::black);
+            p.setPen(ChartStyleManager::getAxisPen());
             p.drawLine(marginLeft-5, py, marginLeft, py);                // 主刻度短线
             p.drawText(5, py+4, QString::number(val) + "%");           // 主刻度文字
 
@@ -140,7 +136,7 @@ protected:
             int midVal = val + stepMajor/2; // 12.5%
             if (midVal < yAxisMax) {
                 int pyMid = marginTop + chartHeight - int(midVal * chartHeight / yAxisMax);
-                p.setPen(Qt::gray);
+                p.setPen(ChartStyleManager::getGridPen());
                 p.drawLine(marginLeft-3, pyMid, marginLeft, pyMid);      // 次刻度短线（无文字）
             }
         }
@@ -172,7 +168,7 @@ protected:
             if (i == 0 || i == n-1 || i % stepLabel == 0) {
                 int px = marginLeft + i * chartWidth / double(n-1);
                 QString tStr = allData[i].timestamp.toString("HH:mm:ss");
-                p.setPen(Qt::black);
+                p.setPen(ChartStyleManager::getAxisPen());
                 p.drawText(px - textWidth/2, marginTop + chartHeight + 20, tStr);
                 p.drawLine(px, marginTop + chartHeight, px, marginTop + chartHeight + 5);
             }
@@ -191,24 +187,23 @@ protected:
             int yCpu = marginTop + chartHeight - int(cpuVal*chartHeight/yAxisMax);
             int yMem = marginTop + chartHeight - int(memVal*chartHeight/yAxisMax);
 
-            p.setPen(QPen(Qt::darkGray,1,Qt::DashLine));
+            // 使用统一的深灰色虚线样式
+            p.setPen(ChartStyleManager::getHoverPen());
             p.drawLine(x,marginTop,x,marginTop+chartHeight);
             p.drawLine(marginLeft,yCpu,marginLeft+chartWidth,yCpu);
             // p.drawLine(marginLeft,yMem,marginLeft+chartWidth,yMem);
 
-            p.setPen(Qt::black);
-            QString timeStr = allData[idx].timestamp.toString("HH:mm:ss");
-            p.drawText(x-30, marginTop-1, timeStr);
-            p.drawText(marginLeft+chartWidth+1, yCpu-10, QString("CPU:%1%").arg(cpuVal,0,'f',1));
-            p.drawText(marginLeft+chartWidth+1, yCpu+5, QString("MEM:%1%").arg(memVal,0,'f',1));
+            // 绘制跟随鼠标的悬浮信息框
+            drawHoverInfo(p, allData[idx], mousePos);
         }
 
     }
 
     void mouseMoveEvent(QMouseEvent *event) override {
         if(allData.isEmpty()) return;
-        const int marginLeft = 60;
-        const int chartWidth = 550;
+        auto layout = ChartStyleManager::getLayoutTheme();
+        const int marginLeft = layout.marginLeft;
+        const int chartWidth = width() - marginLeft - layout.marginRight;
         int n = allData.size();
         int x = event->pos().x();
         if(x<marginLeft) hoverIndex=0;
@@ -232,6 +227,128 @@ private:
     QMap<QString,QColor> moduleColors;
     QPoint mousePos;
     int hoverIndex = -1;
+
+    void drawHoverInfo(QPainter &p, const AllModuleUsage &info, const QPointF &mousePos) {
+        auto fontTheme = ChartStyleManager::getFontTheme();
+        QFont smallerFont = fontTheme.tooltip;
+        smallerFont.setPointSize(smallerFont.pointSize());
+        smallerFont.setWeight(QFont::Light);  // 设置为细体
+        p.setFont(smallerFont);
+
+        // 只显示选中的模块信息
+        QStringList visibleModules;
+        for (int i = 0; i < moduleNames.size(); ++i) {
+            if (moduleVisible[moduleNames[i]]) {
+                double cpuVal = getCpuByIndex(info, i);
+                double memVal = getMemByIndex(info, i);
+                QString moduleName = moduleNames[i];
+                // 将模块名缩写为更具体的缩写，并转为大写
+                QString shortName;
+                if (moduleName == "camera_service") {
+                    shortName = "CS";
+                } else if (moduleName == "control_engine") {
+                    shortName = "CE";
+                } else if (moduleName == "captain") {
+                    shortName = "CP";
+                } else if (moduleName == "fcs") {
+                    shortName = "FC";
+                } else if (moduleName == "drvf_msg_monito") {
+                    shortName = "DM";
+                } else if (moduleName == "top") {
+                    shortName = "TP";
+                } else if (moduleName == "vio_hover") {
+                    shortName = "VH";
+                } else if (moduleName == "logd") {
+                    shortName = "LD";
+                } else if (moduleName == "exception_manag") {
+                    shortName = "EM";
+                } else if (moduleName == "bt_service") {
+                    shortName = "BS";
+                } else if (moduleName == "battery_service") {
+                    shortName = "BS";
+                } else if (moduleName == "gimbal_service") {
+                    shortName = "GS";
+                } else if (moduleName == "kworker_u18_icp_message_q") {
+                    shortName = "K1";
+                } else if (moduleName == "logcat") {
+                    shortName = "LC";
+                } else if (moduleName == "kworker_u19_kgsl_events") {
+                    shortName = "K2";
+                } else if (moduleName == "systemd") {
+                    shortName = "SD";
+                } else if (moduleName == "kthreadd") {
+                    shortName = "KT";
+                } else if (moduleName == "rcu_gp") {
+                    shortName = "RG";
+                } else if (moduleName == "rcu_par_gp") {
+                    shortName = "RP";
+                } else if (moduleName == "kworker_0_events") {
+                    shortName = "K0";
+                } else if (moduleName == "fpv_service") {
+                    shortName = "FS";
+                } else {
+                    shortName = moduleName.left(2).toUpper();  // 默认取前两个字符
+                }
+                visibleModules.append(QString("%1: CPU:%2%,MEM:%3%")
+                    .arg(shortName)
+                    .arg(cpuVal, 0, 'f', 1)
+                    .arg(memVal, 0, 'f', 1));
+            }
+        }
+
+        if (visibleModules.isEmpty()) {
+            return; // 没有选中的模块，不显示悬浮框
+        }
+
+        QString text = visibleModules.join("\n");
+
+        QFontMetrics fm(p.font());
+
+        // 计算实际文本尺寸
+        QStringList lines = text.split('\n');
+        int maxWidth = 0;
+        for (const QString &line : lines) {
+            int lineWidth = fm.horizontalAdvance(line);
+            if (lineWidth > maxWidth) {
+                maxWidth = lineWidth;
+            }
+        }
+
+        // 计算外框尺寸，添加内边距
+        int wBox = maxWidth + 10;  // 左右各5px内边距
+        int hBox = lines.size() * fm.height() + 8;  // 上下各4px内边距
+
+        // 智能定位，避免遮挡
+        QPointF pos;
+        if (mousePos.x() + 40 + wBox/2 < width() - 10) {
+            // 右侧有空间，显示在右侧
+            pos = QPointF(mousePos.x() + 40, mousePos.y() - 20);
+        } else {
+            // 右侧空间不够，显示在左侧
+            pos = QPointF(mousePos.x() - 40 - wBox/2, mousePos.y() - 20);
+        }
+
+        // 垂直位置调整
+        if (pos.y() - hBox/2 < 10) {
+            pos.setY(10 + hBox/2);
+        }
+        if (pos.y() + hBox/2 > height() - 10) {
+            pos.setY(height() - 10 - hBox/2);
+        }
+
+        // 绘制背景和边框
+        p.setBrush(ChartStyleManager::getTooltipBackground());
+        p.setPen(ChartStyleManager::getTooltipBorder());
+        p.drawRect(pos.x(), pos.y(), wBox, hBox);
+
+        // 设置字体和颜色，统一使用黑色
+        int ty = pos.y() + fm.ascent() + 4;
+        p.setPen(QColor(0, 0, 0));  // 统一使用黑色
+        for (auto &s : lines) {
+            p.drawText(pos.x() + 5, ty, s);
+            ty += fm.height();
+        }
+    }
     QVector<QColor> colors = {
         QColor(180, 0, 0),      // 暗红
         QColor(0, 0, 180),      // 暗蓝
