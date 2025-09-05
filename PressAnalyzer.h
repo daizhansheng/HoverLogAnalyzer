@@ -142,7 +142,7 @@ private:
     QList<EventItem> cameraEvents;
     // ==================== status ====================
     QDockWidget *statusDock;
-    QListWidget *statusEventList;
+    QListWidget *heartbeatLostEventList;
     QPushButton *statusButton;   // 工具栏按钮
     QList<EventItem> statusEvents;
     QString sn;      //飞机sn号

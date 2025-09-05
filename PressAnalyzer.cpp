@@ -370,9 +370,31 @@ void PressAnalyzer::setupCameraDock()
     };
     styleButton(cameraButton, themeWarning.bg, themeWarning.hover, themeWarning.pressed, themeWarning.fg);
 
-    cameraEventList = new QListWidget(this);
+    // 创建容器来包含两个列表
+    QWidget *cameraContainer = new QWidget(this);
+    QVBoxLayout *cameraLayout = new QVBoxLayout(cameraContainer);
+    cameraLayout->setContentsMargins(10, 10, 10, 10);
+    cameraLayout->setSpacing(10);
+
+    // 标题标签 - 显示心跳丢失次数
+    titleLabel = new QLabel("心跳丢失次数:0", cameraContainer);
+    titleLabel->setStyleSheet(ChartStyleManager::getTitleStyle());
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setMinimumHeight(30);
+    cameraLayout->addWidget(titleLabel);
+
+    // 心跳丢失事件列表 - 不设置样式，让动态设置的颜色能够正常显示
+    heartbeatLostEventList = new QListWidget(cameraContainer);
+    heartbeatLostEventList->setMaximumHeight(80);
+    cameraLayout->addWidget(heartbeatLostEventList);
+
+    // Camera事件列表
+    cameraEventList = new QListWidget(cameraContainer);
+    // 不设置样式，让动态设置的颜色能够正常显示
+    cameraLayout->addWidget(cameraEventList);
+
     cameraDock = new QDockWidget("Camera状态", this);
-    cameraDock->setWidget(cameraEventList);
+    cameraDock->setWidget(cameraContainer);
     cameraDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, cameraDock);
     cameraDock->hide();
@@ -430,18 +452,7 @@ void PressAnalyzer::setupStatusDock()
     vLayout->setContentsMargins(10, 10, 10, 10);
     vLayout->setSpacing(10);
 
-    // 标题标签 - 应用统一样式
-    titleLabel = new QLabel("状态面板", statusContainer);
-    titleLabel->setStyleSheet(ChartStyleManager::getTitleStyle());
-    titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setMinimumHeight(30);
-    vLayout->addWidget(titleLabel);
 
-    // 事件列表 - 应用统一样式
-    statusEventList = new QListWidget(statusContainer);
-    statusEventList->setMaximumHeight(80);
-    statusEventList->setStyleSheet(ChartStyleManager::getEventListStyle());
-    vLayout->addWidget(statusEventList);
 
     // 电池图表 - 应用统一样式
     batteryChart = new BatteryChartWidget(statusContainer);
@@ -456,18 +467,6 @@ void PressAnalyzer::setupStatusDock()
     );
     vLayout->addWidget(batteryChart);
 
-    // SOC温度图表 - 应用统一样式
-    socChart = new SocTempChartWidget(statusContainer);
-    socChart->setMinimumHeight(250);
-    socChart->setStyleSheet(
-        "QWidget {"
-        "  background-color: white;"
-        "  border: 1px solid #E0E0E0;"
-        "  border-radius: 6px;"
-        "  padding: 10px;"
-        "}"
-    );
-    vLayout->addWidget(socChart);
 
     vLayout->addStretch(1);
     statusContainer->setLayout(vLayout);
@@ -613,8 +612,20 @@ void PressAnalyzer::setupUsageContainer()
     usageContainer->setMinimumWidth(400);  // 设置最小宽度400
 
     QVBoxLayout *usageLayout = new QVBoxLayout(usageContainer);
-    usageLayout->setContentsMargins(15, 15, 15, 15);
-    usageLayout->setSpacing(10);
+    usageLayout->setContentsMargins(10, 10, 10, 10);
+    // usageLayout->setSpacing(10);
+
+    // SOC温度图表 - 应用统一样式
+    socChart = new SocTempChartWidget(usageContainer);
+    socChart->setMinimumHeight(250);
+    socChart->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "  padding: 10px;"
+        "}"
+    );
 
     // 曲线图 - 应用统一样式
     usageChart = new ModuleUsageChart(usageContainer);
@@ -640,13 +651,13 @@ void PressAnalyzer::setupUsageContainer()
     );
 
     QGridLayout *gridLayout = new QGridLayout(checkBoxContainer);
-    gridLayout->setContentsMargins(10, 10, 10, 10);
-    gridLayout->setHorizontalSpacing(8);
-    gridLayout->setVerticalSpacing(6);
+    // gridLayout->setContentsMargins(10, 10, 10, 10);
+    gridLayout->setHorizontalSpacing(0);
+    gridLayout->setVerticalSpacing(0);
 
     const auto &moduleKeys = usageChart->getModuleVisibility().keys();
     int total = moduleKeys.size();
-    int cols = 3;                              // 固定3列，减少水平空间需求
+    int cols = 4;                              // 固定3列，减少水平空间需求
     int rows = (total + cols - 1) / cols;      // 每行3列，行数自动计算
     int index = 0;
 
@@ -666,8 +677,8 @@ void PressAnalyzer::setupUsageContainer()
         // 应用统一的复选框样式
         cb->setStyleSheet(
             "QCheckBox {"
-            "  font-family: 'Microsoft YaHei';"
-            "  font-size: 9px;"
+            "  font-family: 'Arial';"
+            "  font-size: 10px;"
             "  padding: 2px;"
             "  border-radius: 3px;"
             "}"
@@ -704,6 +715,7 @@ void PressAnalyzer::setupUsageContainer()
     checkBoxContainer->setLayout(gridLayout);
 
     // 添加到布局
+    usageLayout->addWidget(socChart);
     usageLayout->addWidget(usageChart);
     usageLayout->addWidget(checkBoxContainer);
     usageLayout->addStretch(1);
@@ -726,19 +738,6 @@ void PressAnalyzer::setupUsageContainer()
     mainSplitter->setStretchFactor(1, 1);  // 右边拉伸因子，完全均分
 
     statusDock = new QDockWidget("状态面板", this);
-    statusDock->setStyleSheet(
-        "QDockWidget {"
-        "  titlebar-close-icon: url(close.png);"
-        "  titlebar-normal-icon: url(undock.png);"
-        "}"
-        "QDockWidget::title {"
-        "  background-color: #34495e;"
-        "  color: white;"
-        "  padding: 5px;"
-        "  font-weight: bold;"
-        "  border: 1px solid #2c3e50;"
-        "}"
-    );
     statusDock->setWidget(mainSplitter);
     statusDock->setAllowedAreas(Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, statusDock);
@@ -786,7 +785,7 @@ void PressAnalyzer::setupConnections()
             }
         }
     });
-    connect(statusEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
+    connect(heartbeatLostEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
 }
 
 // ---------------- eventFilter ----------------
@@ -1183,7 +1182,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     QSignalBlocker blocker1(eventList);
     QSignalBlocker blocker2(searchResultList);
     QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(statusEventList);
+    QSignalBlocker blocker4(heartbeatLostEventList);
 
     statusBar->showMessage(QString("路径: %1").arg(filePath));
     allLogLines.clear();
@@ -1191,7 +1190,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     cameraEvents.clear();
     eventList->clear();
     eventDock->hide(); // 清空后隐藏eventDock
-    statusEventList->clear();
+    heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
@@ -1213,7 +1212,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     logView->setPlainText(textBuffer);
     // 首次统一高亮一次，点击时不再重复全量高亮
     highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
     batteryChart->setData(batteryinfo);
     socChart->clear();
     socChart->addData(soctmp);
@@ -1251,7 +1250,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     QSignalBlocker blocker1(eventList);
     QSignalBlocker blocker2(searchResultList);
     QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(statusEventList);
+    QSignalBlocker blocker4(heartbeatLostEventList);
 
     statusBar->showMessage(QString("路径: %1").arg(path));
     QFileInfo info(path);
@@ -1336,7 +1335,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
-    statusEventList->clear();
+    heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
@@ -1362,7 +1361,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     logView->setPlainText(textBuffer);
     // 首次统一高亮一次，点击时不再重复全量高亮
     highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
     batteryChart->setData(batteryinfo);
     socChart->clear();
     socChart->addData(soctmp);
@@ -1384,7 +1383,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     QSignalBlocker blocker1(eventList);
     QSignalBlocker blocker2(searchResultList);
     QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(statusEventList);
+    QSignalBlocker blocker4(heartbeatLostEventList);
 
     statusBar->showMessage(QString("路径: %1").arg(path));
     QFileInfo info(path);
@@ -1469,7 +1468,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
-    statusEventList->clear();
+    heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
@@ -1494,7 +1493,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     logView->setPlainText(textBuffer);
     // 首次统一高亮一次，点击时不再重复全量高亮
     highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEventList->count()));
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
     batteryChart->setData(batteryinfo);
     socChart->clear();
     socChart->addData(soctmp);
@@ -1534,7 +1533,7 @@ void PressAnalyzer::loadAndMergeLogs()
     QSignalBlocker blocker1(eventList);
     QSignalBlocker blocker2(searchResultList);
     QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(statusEventList);
+    QSignalBlocker blocker4(heartbeatLostEventList);
 
     // 清空之前的数据
     allLogLines.clear();
@@ -1542,7 +1541,7 @@ void PressAnalyzer::loadAndMergeLogs()
     cameraEvents.clear();
     eventList->clear();
     eventDock->hide(); // 清空后隐藏eventDock
-    statusEventList->clear();
+    heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
@@ -1834,7 +1833,7 @@ void PressAnalyzer::clearWindow()
     flightCount = 0;
     cameraEventList->clear();
     cameraDock->hide();
-    statusEventList->clear();
+    heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
     if (socChart) socChart->clear();
@@ -2180,7 +2179,7 @@ void PressAnalyzer::parseStatusHeartbeat(int lineNumber, const QString &line)
         stEvent.display = display;
         stEvent.block = logView->document()->findBlockByNumber(lineNumber - 1);
         statusEvents.push_back(stEvent);
-        statusEventList->addItem(item);
+        heartbeatLostEventList->addItem(item);
         return;
     }
 
@@ -2223,7 +2222,7 @@ void PressAnalyzer::onCameraEventClicked(QListWidgetItem *item)
 }
 void PressAnalyzer::onStatusEventClicked(QListWidgetItem *item)
 {
-    int row = statusEventList->row(item);
+    int row = heartbeatLostEventList->row(item);
     if (row < 0 || row >= statusEvents.size()) return;
 
     int lineNumber =  statusEvents[row].lineNumber;

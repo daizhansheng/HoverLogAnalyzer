@@ -25,10 +25,10 @@ public:
 
     // 统一的字体设置
     struct FontTheme {
-        QFont title = QFont("Microsoft YaHei", 12, QFont::Bold);
-        QFont axis = QFont("Microsoft YaHei", 9);
-        QFont label = QFont("Microsoft YaHei", 8);
-        QFont tooltip = QFont("Microsoft YaHei", 9);
+        QFont title = QFont("Arial", 12, QFont::Bold);
+        QFont axis = QFont("Arial", 9);
+        QFont label = QFont("Arial", 8);
+        QFont tooltip = QFont("Arial", 9);
     };
 
     // 统一的布局参数
@@ -148,7 +148,7 @@ public:
             "  border: 1px solid %2;"
             "  border-radius: 4px;"
             "  padding: 5px;"
-            "  font-family: 'Microsoft YaHei';"
+            "  font-family: 'Arial';"
             "  font-size: 10px;"
             "}"
             "QListWidget::item {"
