@@ -187,6 +187,11 @@ protected:
             int yCpu = marginTop + chartHeight - int(cpuVal*chartHeight/yAxisMax);
             int yMem = marginTop + chartHeight - int(memVal*chartHeight/yAxisMax);
 
+            // 在十字线上方显示时间
+            QDateTime ts = allData[idx].timestamp;
+            p.setPen(ChartStyleManager::getAxisPen());
+            p.drawText(x, marginTop - 2, ts.toString("HH:mm:ss"));
+
             // 使用统一的深灰色虚线样式
             p.setPen(ChartStyleManager::getHoverPen());
             p.drawLine(x,marginTop,x,marginTop+chartHeight);

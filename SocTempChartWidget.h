@@ -157,7 +157,7 @@ private:
 
         // ---------- 十字线 ----------
         p.setPen(ChartStyleManager::getHoverPen());
-        p.drawLine(px, top-20, px, top + h);
+        p.drawLine(px, top, px, top + h);
 
         int maxY = 0;
         for (auto &item : socData) if (item.maxTemp > maxY) maxY = item.maxTemp;
@@ -168,7 +168,7 @@ private:
         // ---------- 顶部显示时间 ----------
         QString timeStr = d.timestamp.toString("HH:mm:ss");
         p.setPen(Qt::black);
-        p.drawText(px - 30, top - 2, timeStr);
+        p.drawText(px, top - 2, timeStr);
 
         // ---------- 悬浮显示最大温度 ----------
         QString text = QString("%1°C").arg(d.maxTemp);
