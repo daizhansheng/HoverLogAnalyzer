@@ -1751,7 +1751,10 @@ void PressAnalyzer::highlightLine(int lineNumber, const QString &eventType)
 
     QTextCharFormat fmt;
     fmt.setBackground(color);
-    cursor.select(QTextCursor::LineUnderCursor);
+
+    // 选择整个文本块，包括换行部分
+    cursor.movePosition(QTextCursor::StartOfBlock);
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
     cursor.setCharFormat(fmt);
 }
 // 遍历所有事件，给 viewLog 对应行上色
