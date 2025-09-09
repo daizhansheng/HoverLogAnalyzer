@@ -35,6 +35,9 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     triggerCount = 0;
     flightCount = 0;
 
+    // 初始化全局按钮点击状态
+    anyFileButtonClicked = false;
+
     // 按顺序初始化各个组件
     setupMainWindow();
     setupCentralWidget();
@@ -745,10 +748,46 @@ void PressAnalyzer::setupUsageContainer()
 
 void PressAnalyzer::setupConnections()
 {
-    // 文件操作连接
-    connect(analyzeControlButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
-    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndMergeLogs);
-    connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
+    // 文件操作连接 - 第一次点击任何按钮在当前窗口操作，之后点击任何按钮都创建新窗口
+    connect(analyzeControlButton, &QPushButton::clicked, this, [this](){
+        if (!anyFileButtonClicked) {
+            // 第一次点击任何文件按钮：在当前窗口操作
+            anyFileButtonClicked = true;
+            loadAndAnalyzeLogs();
+        } else {
+            // 之后点击任何文件按钮：创建新窗口
+            auto *w = new PressAnalyzer(nullptr);
+            w->setAttribute(Qt::WA_DeleteOnClose, true);
+            w->show();
+            w->loadAndAnalyzeLogs();
+        }
+    });
+    connect(dirloadButton, &QPushButton::clicked, this, [this](){
+        if (!anyFileButtonClicked) {
+            // 第一次点击任何文件按钮：在当前窗口操作
+            anyFileButtonClicked = true;
+            loadAndMergeLogs();
+        } else {
+            // 之后点击任何文件按钮：创建新窗口
+            auto *w = new PressAnalyzer(nullptr);
+            w->setAttribute(Qt::WA_DeleteOnClose, true);
+            w->show();
+            w->loadAndMergeLogs();
+        }
+    });
+    connect(fileloadButton, &QPushButton::clicked, this, [this](){
+        if (!anyFileButtonClicked) {
+            // 第一次点击任何文件按钮：在当前窗口操作
+            anyFileButtonClicked = true;
+            loadAndAnalyzeLog();
+        } else {
+            // 之后点击任何文件按钮：创建新窗口
+            auto *w = new PressAnalyzer(nullptr);
+            w->setAttribute(Qt::WA_DeleteOnClose, true);
+            w->show();
+            w->loadAndAnalyzeLog();
+        }
+    });
     connect(saveButton, &QPushButton::clicked, this, &PressAnalyzer::saveEventListToFile);
     connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
 
@@ -1850,6 +1889,9 @@ void PressAnalyzer::clearWindow()
     if (usageChart) usageChart->setData(allusage);
     statusBar->showMessage("就绪");
     setWindowTitle("日志分析工具");
+
+    // 重置全局按钮点击状态，下次点击任何文件按钮都会在当前窗口显示
+    anyFileButtonClicked = false;
 }
 
 // =================== 搜索相关 ===================

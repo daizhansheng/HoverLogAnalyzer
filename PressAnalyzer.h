@@ -160,6 +160,9 @@ private:
     QVector<AllModuleUsage> allusage;
     // 文本缩放：当前字体大小
     int logFontPointSize;
+
+    // 全局按钮点击状态跟踪
+    bool anyFileButtonClicked;
 };
 
 #endif // PRESSANALYZER_H
