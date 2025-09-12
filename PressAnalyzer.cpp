@@ -1983,12 +1983,17 @@ void PressAnalyzer::searchAll()
     QString text = searchEdit->text().trimmed();
     if (text.isEmpty()) return;
 
-    // 分割多关键字，用 | 分隔
-    QStringList keys = text.split('|', Qt::SkipEmptyParts);
-
-    // 自动转义每个关键字的正则元字符
-    for (int i = 0; i < keys.size(); ++i) {
-        keys[i] = escapeRegExp(keys[i]);
+    // 分割多关键字，用 | 分隔（保留原始关键字 + 生成忽略多空格的归一化关键字）
+    QStringList rawKeys;
+    QStringList normKeys;
+    for (const QString &part : text.split('|', Qt::SkipEmptyParts)) {
+        QString k = part.trimmed();
+        if (!k.isEmpty()) {
+            rawKeys.append(k);
+            QString nk = k;
+            nk.replace(QRegularExpression("\\s+"), " ");
+            normKeys.append(nk);
+        }
     }
 
     // 准备颜色池，前两个关键字固定颜色，其余随机亮色
@@ -2006,8 +2011,8 @@ void PressAnalyzer::searchAll()
     };
 
     QVector<QPair<QRegExp, QColor>> patterns;
-    for (int i = 0; i < keys.size(); ++i) {
-        QRegExp rx(keys[i], Qt::CaseInsensitive);
+    for (int i = 0; i < rawKeys.size(); ++i) {
+        QRegExp rx(QRegExp::escape(rawKeys[i]), Qt::CaseInsensitive);
 
         QColor color;
         if (i == 0)
@@ -2023,13 +2028,22 @@ void PressAnalyzer::searchAll()
     // 设置高亮（SearchResultTextView 内部使用 ExtraSelection 实现）
     searchResultView->setPatterns(patterns);
 
-    // 遍历日志行，匹配关键字，并构建 logView 全局黄色高亮
+    // 遍历日志行，匹配关键字（使用 QString::indexOf 快路径，避免正则开销），并构建 logView 全局黄色高亮
     QStringList resultLines;
     for (int i = 0; i < allLogLines.size(); ++i) {
         bool matched = false;
-        for (auto &p : patterns) {
-            int pos = p.first.indexIn(allLogLines[i]);
-            if (pos != -1) matched = true;
+        const QString &lineRef = allLogLines[i];
+        // 先尝试原始关键字
+        for (const QString &k : rawKeys) {
+            if (lineRef.indexOf(k, 0, Qt::CaseInsensitive) != -1) { matched = true; break; }
+        }
+        // 若未匹配，再用“归一空格”的方式
+        if (!matched) {
+            QString ln = lineRef;
+            ln.replace(QRegularExpression("\\s+"), " ");
+            for (const QString &k : normKeys) {
+                if (ln.indexOf(k, 0, Qt::CaseInsensitive) != -1) { matched = true; break; }
+            }
         }
 
         if (matched) {
@@ -2043,19 +2057,39 @@ void PressAnalyzer::searchAll()
             QTextBlock block = logView->document()->findBlockByNumber(i);
             if (block.isValid()) {
                 const QString lineText = block.text();
-                for (auto &p : patterns) {
+                QString hay = lineText.toLower();
+                for (int ki = 0; ki < rawKeys.size(); ++ki) {
+                    QString ndlRaw = rawKeys[ki].toLower();
+                    QString ndlNorm = normKeys[ki].toLower();
+                    // 原始匹配
                     int pos = 0;
-                    while ((pos = p.first.indexIn(lineText, pos)) != -1) {
+                    while ((pos = hay.indexOf(ndlRaw, pos)) != -1) {
                         QTextEdit::ExtraSelection sel;
                         sel.cursor = QTextCursor(block);
                         sel.cursor.setPosition(block.position() + pos);
-                        sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, p.first.cap(0).length());
+                        sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, ndlRaw.length());
                         QTextCharFormat fmt;
                         fmt.setBackground(Qt::yellow);
                         fmt.setForeground(Qt::black);
                         sel.format = fmt;
                         searchHighlights.push_back(sel);
-                        pos += qMax(1, p.first.cap(0).length());
+                        pos += ndlRaw.length();
+                    }
+                    // 若原始不命中，尝试归一空格关键字匹配
+                    if (ndlNorm != ndlRaw) {
+                        int pos2 = 0;
+                        while ((pos2 = hay.indexOf(ndlNorm, pos2)) != -1) {
+                            QTextEdit::ExtraSelection sel;
+                            sel.cursor = QTextCursor(block);
+                            sel.cursor.setPosition(block.position() + pos2);
+                            sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, ndlNorm.length());
+                            QTextCharFormat fmt;
+                            fmt.setBackground(Qt::yellow);
+                            fmt.setForeground(Qt::black);
+                            sel.format = fmt;
+                            searchHighlights.push_back(sel);
+                            pos2 += ndlNorm.length();
+                        }
                     }
                 }
             }
@@ -2064,6 +2098,7 @@ void PressAnalyzer::searchAll()
 
     if (searchResults.isEmpty()) {
         searchResultView->hide();
+        searchDock->hide();
         QMessageBox::information(this, tr("搜索结果"), tr("匹配结果0,未搜索到内容。"));
         return;
     }
@@ -2128,7 +2163,7 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
             QTextCharFormat lineFmt;
             lineFmt.setBackground(QColor(180,180,180,140));
             lineSel.format = lineFmt;
-            selections.push_back(lineSel);
+            selections.prepend(lineSel); // 先画灰底，再画黄色关键字，避免覆盖
 
             QString lineText = block.text();
             for (int k = 0; k < keys.size(); ++k) {
@@ -2184,16 +2219,16 @@ void PressAnalyzer::jumpToSearchIndex(int index)
         logView->setTextCursor(cursor);
         logView->centerCursor();
 
-        // 双击跳转后，将当前行背景改为更明显的浅灰色以提示定位
-        QList<QTextEdit::ExtraSelection> selections = logView->extraSelections();
+        // 双击后组合全局黄色与当前行灰色底（灰底先渲染，黄色在上层，不被覆盖）
+        QList<QTextEdit::ExtraSelection> combined = searchHighlights;
         QTextEdit::ExtraSelection lineSel;
         lineSel.cursor = QTextCursor(currentBlock);
         lineSel.cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
         QTextCharFormat lineFmt;
-        lineFmt.setBackground(QColor(200, 200, 200)); // 更深一些的浅灰
+        lineFmt.setBackground(QColor(200, 200, 200));
         lineSel.format = lineFmt;
-        selections.push_back(lineSel);
-        logView->setExtraSelections(selections);
+        combined.prepend(lineSel);
+        logView->setExtraSelections(combined);
     }
 }
 
