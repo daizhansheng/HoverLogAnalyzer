@@ -220,9 +220,7 @@ void PressAnalyzer::setupSearchCompleter()
 {
     // 初始化固定提示词
     fixedHints << "[rpc] Req:"
-               << "[rpc] Req:254"
-               << "[rpc] Req:249"
-               << "capture out"
+               << "otaReportEvent"
                << "MediaRequest_MediaRequestType_"
                << "GET_MEDIA_FILE media_file_transfer_request";
 
