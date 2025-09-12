@@ -99,6 +99,7 @@ private:
         }
 
         // 高亮当前选中的整行（单击时）
+        // 注意：将灰底行插到列表最前面，先绘制灰底，再绘制关键词颜色，避免覆盖
         if (selectedRow >= 0) {
             QTextBlock block = document()->findBlockByNumber(selectedRow);
             if (block.isValid()) {
@@ -108,7 +109,7 @@ private:
                 QTextCharFormat lineFmt;
                 lineFmt.setBackground(QColor(200, 200, 200)); // 更深一点的浅灰行高亮
                 lineSel.format = lineFmt;
-                selections.push_back(lineSel);
+                selections.prepend(lineSel);
             }
         }
 

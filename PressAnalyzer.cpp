@@ -186,7 +186,7 @@ void PressAnalyzer::setupSearchDock()
         searchResultView->setFont(logView->font());
     }
 
-    searchDock = new QDockWidget(this);
+    searchDock = new QDockWidget("查找结果", this);
     searchDock->setWidget(searchResultView);
     searchDock->setMinimumHeight(150);
     addDockWidget(Qt::BottomDockWidgetArea, searchDock);
@@ -207,6 +207,7 @@ void PressAnalyzer::setupSearchDock()
             searchHighlights.clear();
             logView->setExtraSelections(searchHighlights);
             highlightSearchResults(currentSearchIndex);
+            searchDock->setWindowTitle("查找结果");
         } else if (selected == closeAction) {
             searchDock->hide();
         }
@@ -228,6 +229,7 @@ void PressAnalyzer::setupSearchDock()
             searchHighlights.clear();
             logView->setExtraSelections(searchHighlights);
             highlightSearchResults(currentSearchIndex);
+            searchDock->setWindowTitle("查找结果");
         } else if (selected == closeAction) {
             searchDock->hide();
         }
@@ -647,12 +649,23 @@ void PressAnalyzer::setupMenuBar()
     actPaste->setShortcut(QKeySequence::Paste);
     actSelectAll->setShortcut(QKeySequence::SelectAll);
 
-    connect(actUndo, &QAction::triggered, logView, &QPlainTextEdit::undo);
-    connect(actRedo, &QAction::triggered, logView, &QPlainTextEdit::redo);
-    connect(actCut,  &QAction::triggered, logView, &QPlainTextEdit::cut);
-    connect(actCopy, &QAction::triggered, logView, &QPlainTextEdit::copy);
-    connect(actPaste,&QAction::triggered, logView, &QPlainTextEdit::paste);
-    connect(actSelectAll,&QAction::triggered, logView, &QPlainTextEdit::selectAll);
+    // 将编辑动作派发到当前具有焦点的文本部件（QPlainTextEdit/QTextEdit/QLineEdit）
+    auto dispatchEditAction = [this](const char *methodName){
+        QWidget *fw = QApplication::focusWidget();
+        if (fw && (qobject_cast<QPlainTextEdit*>(fw) || qobject_cast<QTextEdit*>(fw) || qobject_cast<QLineEdit*>(fw))) {
+            QMetaObject::invokeMethod(fw, methodName, Qt::DirectConnection);
+        } else if (logView) {
+            // 回退到日志视图
+            QMetaObject::invokeMethod(logView, methodName, Qt::DirectConnection);
+        }
+    };
+
+    connect(actUndo, &QAction::triggered, this, [dispatchEditAction](){ dispatchEditAction("undo"); });
+    connect(actRedo, &QAction::triggered, this, [dispatchEditAction](){ dispatchEditAction("redo"); });
+    connect(actCut,  &QAction::triggered, this, [dispatchEditAction](){ dispatchEditAction("cut"); });
+    connect(actCopy, &QAction::triggered, this, [dispatchEditAction](){ dispatchEditAction("copy"); });
+    connect(actPaste,&QAction::triggered, this, [dispatchEditAction](){ dispatchEditAction("paste"); });
+    connect(actSelectAll,&QAction::triggered, this, [dispatchEditAction](){ dispatchEditAction("selectAll"); });
 
     // 搜索菜单
     QMenu *searchMenu = menuBar()->addMenu("搜索");
@@ -2158,11 +2171,13 @@ void PressAnalyzer::searchAll()
         searchResultView->hide();
         searchDock->hide();
         QMessageBox::information(this, tr("搜索结果"), tr("匹配结果0,未搜索到内容。"));
+        searchDock->setWindowTitle("查找结果");
         return;
     }
 
     // 一律重负载：不设置全局黄色，使用可见区域增量高亮
     searchResultView->setResultsText(resultLines);
+    searchDock->setWindowTitle(QString("查找结果 - %1 命中").arg(searchResults.size()));
     searchResultView->show();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
