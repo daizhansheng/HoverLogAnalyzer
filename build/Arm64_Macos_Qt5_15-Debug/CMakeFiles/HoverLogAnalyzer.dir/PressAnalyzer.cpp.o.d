@@ -1067,6 +1067,9 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qguiapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qinputmethod.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QScrollBar \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qscrollbar.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QChar \
   /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/LogNumberHighlighter.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \

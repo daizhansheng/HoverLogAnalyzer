@@ -25,9 +25,59 @@
 #include <QInputDialog>
 #include <QMap>
 #include <QApplication>
+#include <QScrollBar>
+#include <QChar>
 #include <functional>
 #include "LogNumberHighlighter.h"
 
+void PressAnalyzer::updateVisibleHighlights()
+{
+    // 仅重绘可见区域的黄色关键字与当前行灰底
+    QList<QTextEdit::ExtraSelection> selections;
+    QTextDocument* doc = logView->document();
+    // 使用坐标换算可见块范围，避免调用受保护的 firstVisibleBlock()
+    int firstVisibleBlock = logView->cursorForPosition(QPoint(0, 0)).block().blockNumber();
+    int lastVisibleBlock  = logView->cursorForPosition(QPoint(0, logView->viewport()->height() - 1)).block().blockNumber();
+    if (lastVisibleBlock < firstVisibleBlock) lastVisibleBlock = firstVisibleBlock;
+
+    // 当前行灰底
+    if (currentSearchIndex >= 0 && currentSearchIndex < searchResults.size()) {
+        QTextBlock cur = doc->findBlockByNumber(searchResults[currentSearchIndex]);
+        if (cur.isValid()) {
+            QTextEdit::ExtraSelection lineSel;
+            lineSel.cursor = QTextCursor(cur);
+            lineSel.cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+            QTextCharFormat lineFmt; lineFmt.setBackground(QColor(180,180,180,140));
+            lineSel.format = lineFmt;
+            selections.push_back(lineSel);
+        }
+    }
+    // 黄色关键字（仅可见范围）
+    QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
+    for (int i = 0; i < keys.size(); ++i) keys[i] = keys[i].trimmed();
+    for (int ln = firstVisibleBlock; ln <= lastVisibleBlock; ++ln) {
+        QTextBlock block = doc->findBlockByNumber(ln);
+        if (!block.isValid()) break;
+        QString text = block.text();
+        QString hay = text.toLower();
+        for (const QString &k : keys) {
+            if (k.isEmpty()) continue;
+            QString ndl = k.toLower();
+            int pos = 0;
+            while ((pos = hay.indexOf(ndl, pos)) != -1) {
+                QTextEdit::ExtraSelection sel;
+                sel.cursor = QTextCursor(block);
+                sel.cursor.setPosition(block.position() + pos);
+                sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, ndl.length());
+                QTextCharFormat fmt; fmt.setBackground(Qt::yellow); fmt.setForeground(Qt::black);
+                sel.format = fmt;
+                selections.push_back(sel);
+                pos += ndl.length();
+            }
+        }
+    }
+    logView->setExtraSelections(selections);
+}
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -51,6 +101,37 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     setupUsageContainer();
     setupConnections();
 
+}
+
+// 按 '|' 分割，但忽略位于方括号 [] 内部的 '|'（例如 "[I|Captain]" 视为一个整体）
+static QStringList splitByPipeOutsideBrackets(const QString &text)
+{
+    QStringList parts;
+    QString current;
+    int bracketDepth = 0;
+    for (int i = 0; i < text.size(); ++i) {
+        QChar ch = text[i];
+        if (ch == '[') {
+            bracketDepth++;
+            current.append(ch);
+            continue;
+        }
+        if (ch == ']') {
+            if (bracketDepth > 0) bracketDepth--;
+            current.append(ch);
+            continue;
+        }
+        if (ch == '|' && bracketDepth == 0) {
+            QString trimmed = current.trimmed();
+            if (!trimmed.isEmpty()) parts.append(trimmed);
+            current.clear();
+            continue;
+        }
+        current.append(ch);
+    }
+    QString trimmed = current.trimmed();
+    if (!trimmed.isEmpty()) parts.append(trimmed);
+    return parts;
 }
 
 // ==================== 私有初始化方法 ====================
@@ -862,6 +943,16 @@ void PressAnalyzer::setupConnections()
         }
     });
     connect(heartbeatLostEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
+    // 文本改变（例如跳转/选择变动）后也刷新一次可见黄色
+    connect(logView, &QPlainTextEdit::cursorPositionChanged, this, [this](){ updateVisibleHighlights(); });
+    // 滚动节流：按可见区域增量更新搜索高亮
+    connect(logView->verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int){
+        static QTimer t; static bool inited = false;
+        if (!inited) { t.setSingleShot(true); t.setInterval(30); inited = true; }
+        QObject::disconnect(&t, nullptr, nullptr, nullptr);
+        QObject::connect(&t, &QTimer::timeout, this, [this](){ updateVisibleHighlights(); });
+        t.start();
+    });
 }
 
 // ---------------- eventFilter ----------------
@@ -1983,10 +2074,11 @@ void PressAnalyzer::searchAll()
     QString text = searchEdit->text().trimmed();
     if (text.isEmpty()) return;
 
-    // 分割多关键字，用 | 分隔（保留原始关键字 + 生成忽略多空格的归一化关键字）
+    // 分割多关键字：'|' 在方括号内时不作为分隔符
+    QStringList parts = splitByPipeOutsideBrackets(text);
     QStringList rawKeys;
     QStringList normKeys;
-    for (const QString &part : text.split('|', Qt::SkipEmptyParts)) {
+    for (const QString &part : parts) {
         QString k = part.trimmed();
         if (!k.isEmpty()) {
             rawKeys.append(k);
@@ -1995,6 +2087,9 @@ void PressAnalyzer::searchAll()
             normKeys.append(nk);
         }
     }
+
+    // 所有搜索一律视为重负载：仅对可见区域做黄色高亮
+    bool isHeavy = true;
 
     // 准备颜色池，前两个关键字固定颜色，其余随机亮色
     QVector<QColor> colorPool = {
@@ -2012,6 +2107,7 @@ void PressAnalyzer::searchAll()
 
     QVector<QPair<QRegExp, QColor>> patterns;
     for (int i = 0; i < rawKeys.size(); ++i) {
+        // 构建正则用于结果列表着色（仍按字面匹配）
         QRegExp rx(QRegExp::escape(rawKeys[i]), Qt::CaseInsensitive);
 
         QColor color;
@@ -2028,8 +2124,9 @@ void PressAnalyzer::searchAll()
     // 设置高亮（SearchResultTextView 内部使用 ExtraSelection 实现）
     searchResultView->setPatterns(patterns);
 
-    // 遍历日志行，匹配关键字（使用 QString::indexOf 快路径，避免正则开销），并构建 logView 全局黄色高亮
+    // 遍历日志行，匹配关键字（使用 QString::indexOf 快路径，避免正则开销），并构建 logView 全局黄色高亮（重负载时跳过全量构建）
     QStringList resultLines;
+    const int kResultCap = isHeavy ? 1000 : 20000;
     for (int i = 0; i < allLogLines.size(); ++i) {
         bool matched = false;
         const QString &lineRef = allLogLines[i];
@@ -2051,48 +2148,9 @@ void PressAnalyzer::searchAll()
             QString itemText = QString("%1 | %2")
                                    .arg(i+1, 6, 10, QChar(' '))
                                    .arg(allLogLines[i]);
-            resultLines.append(itemText);
+            if (resultLines.size() < kResultCap) resultLines.append(itemText);
 
-            // 在 logView 中为匹配的行添加黄色关键字高亮（全局）
-            QTextBlock block = logView->document()->findBlockByNumber(i);
-            if (block.isValid()) {
-                const QString lineText = block.text();
-                QString hay = lineText.toLower();
-                for (int ki = 0; ki < rawKeys.size(); ++ki) {
-                    QString ndlRaw = rawKeys[ki].toLower();
-                    QString ndlNorm = normKeys[ki].toLower();
-                    // 原始匹配
-                    int pos = 0;
-                    while ((pos = hay.indexOf(ndlRaw, pos)) != -1) {
-                        QTextEdit::ExtraSelection sel;
-                        sel.cursor = QTextCursor(block);
-                        sel.cursor.setPosition(block.position() + pos);
-                        sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, ndlRaw.length());
-                        QTextCharFormat fmt;
-                        fmt.setBackground(Qt::yellow);
-                        fmt.setForeground(Qt::black);
-                        sel.format = fmt;
-                        searchHighlights.push_back(sel);
-                        pos += ndlRaw.length();
-                    }
-                    // 若原始不命中，尝试归一空格关键字匹配
-                    if (ndlNorm != ndlRaw) {
-                        int pos2 = 0;
-                        while ((pos2 = hay.indexOf(ndlNorm, pos2)) != -1) {
-                            QTextEdit::ExtraSelection sel;
-                            sel.cursor = QTextCursor(block);
-                            sel.cursor.setPosition(block.position() + pos2);
-                            sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, ndlNorm.length());
-                            QTextCharFormat fmt;
-                            fmt.setBackground(Qt::yellow);
-                            fmt.setForeground(Qt::black);
-                            sel.format = fmt;
-                            searchHighlights.push_back(sel);
-                            pos2 += ndlNorm.length();
-                        }
-                    }
-                }
-            }
+            // 重负载：不构建全局黄色，交给可见区域增量高亮
         }
     }
 
@@ -2103,12 +2161,13 @@ void PressAnalyzer::searchAll()
         return;
     }
 
-    // 应用全局搜索高亮（黄色）
-    logView->setExtraSelections(searchHighlights);
+    // 一律重负载：不设置全局黄色，使用可见区域增量高亮
     searchResultView->setResultsText(resultLines);
     searchResultView->show();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
+    // 立即更新一次可见区域高亮，避免初次无黄色
+    updateVisibleHighlights();
 
     // 记录完整的原始搜索表达式，而不是分割后的关键字
     QString originalSearchText = searchEdit->text().trimmed();
@@ -2187,6 +2246,8 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
     }
 
     logView->setExtraSelections(selections);
+    // 同步一次可见区域黄色关键字，确保不滚动也能看到
+    updateVisibleHighlights();
 }
 
 
@@ -2229,6 +2290,8 @@ void PressAnalyzer::jumpToSearchIndex(int index)
         lineSel.format = lineFmt;
         combined.prepend(lineSel);
         logView->setExtraSelections(combined);
+        // 立刻补一次可见黄色，以免需要滚轮才出现
+        updateVisibleHighlights();
     }
 }
 

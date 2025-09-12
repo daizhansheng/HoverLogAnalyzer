@@ -86,6 +86,8 @@ private:
     void addSearchHistory(const QString &text);
     void showSearchHints();
     void updateCompleterWithSmartHints();
+    void updateVisibleHighlights();
+    QColor getEventColor(const QString &eventType);
 
     // 构造函数初始化方法
     void setupMainWindow();
