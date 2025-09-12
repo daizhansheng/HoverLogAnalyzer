@@ -1,6 +1,6 @@
 CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o: \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcolor.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtguiglobal.h \

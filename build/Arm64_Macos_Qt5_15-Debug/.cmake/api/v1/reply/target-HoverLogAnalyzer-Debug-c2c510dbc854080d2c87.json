@@ -37,13 +37,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 80,
+				"line" : 82,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 60,
+				"line" : 62,
 				"parent" : 0
 			},
 			{
@@ -130,7 +130,7 @@
 			[
 				{
 					"backtrace" : 0,
-					"path" : "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/include"
+					"path" : "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/include"
 				},
 				{
 					"backtrace" : 3,
@@ -173,7 +173,7 @@
 				1,
 				2,
 				5,
-				16
+				18
 			]
 		}
 	],
@@ -257,7 +257,7 @@
 				1,
 				2,
 				5,
-				16
+				18
 			]
 		},
 		{
@@ -271,7 +271,9 @@
 				11,
 				12,
 				13,
-				14
+				14,
+				15,
+				16
 			]
 		},
 		{
@@ -293,15 +295,15 @@
 			"sourceIndexes" : 
 			[
 				8,
-				15
+				17
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				17,
-				18
+				19,
+				20
 			]
 		}
 	],
@@ -364,6 +366,11 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "SearchResultTextView.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
 			"path" : "BatteryChartWidget.h",
 			"sourceGroupIndex" : 1
 		},
@@ -375,6 +382,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "DockToggleButton.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "CameraTempChartWidget.h",
 			"sourceGroupIndex" : 1
 		},
 		{

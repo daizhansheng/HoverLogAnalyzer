@@ -1,5 +1,5 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'SelectableListWidget.h'
+** Meta object code from reading C++ file 'CameraTempChartWidget.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.15.10)
 **
@@ -7,11 +7,11 @@
 *****************************************************************************/
 
 #include <memory>
-#include "../../../../SelectableListWidget.h"
+#include "../../../../CameraTempChartWidget.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'SelectableListWidget.h' doesn't include <QObject>."
+#error "The header file 'CameraTempChartWidget.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.15.10. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -21,25 +21,25 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_SelectableListWidget_t {
+struct qt_meta_stringdata_CameraTempChartWidget_t {
     QByteArrayData data[1];
-    char stringdata0[21];
+    char stringdata0[22];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_SelectableListWidget_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_CameraTempChartWidget_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_SelectableListWidget_t qt_meta_stringdata_SelectableListWidget = {
+static const qt_meta_stringdata_CameraTempChartWidget_t qt_meta_stringdata_CameraTempChartWidget = {
     {
-QT_MOC_LITERAL(0, 0, 20) // "SelectableListWidget"
+QT_MOC_LITERAL(0, 0, 21) // "CameraTempChartWidget"
 
     },
-    "SelectableListWidget"
+    "CameraTempChartWidget"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_SelectableListWidget[] = {
+static const uint qt_meta_data_CameraTempChartWidget[] = {
 
  // content:
        8,       // revision
@@ -55,7 +55,7 @@ static const uint qt_meta_data_SelectableListWidget[] = {
        0        // eod
 };
 
-void SelectableListWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void CameraTempChartWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     (void)_o;
     (void)_id;
@@ -63,32 +63,32 @@ void SelectableListWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
     (void)_a;
 }
 
-QT_INIT_METAOBJECT const QMetaObject SelectableListWidget::staticMetaObject = { {
-    QMetaObject::SuperData::link<QListWidget::staticMetaObject>(),
-    qt_meta_stringdata_SelectableListWidget.data,
-    qt_meta_data_SelectableListWidget,
+QT_INIT_METAOBJECT const QMetaObject CameraTempChartWidget::staticMetaObject = { {
+    QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
+    qt_meta_stringdata_CameraTempChartWidget.data,
+    qt_meta_data_CameraTempChartWidget,
     qt_static_metacall,
     nullptr,
     nullptr
 } };
 
 
-const QMetaObject *SelectableListWidget::metaObject() const
+const QMetaObject *CameraTempChartWidget::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *SelectableListWidget::qt_metacast(const char *_clname)
+void *CameraTempChartWidget::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_SelectableListWidget.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CameraTempChartWidget.stringdata0))
         return static_cast<void*>(this);
-    return QListWidget::qt_metacast(_clname);
+    return QWidget::qt_metacast(_clname);
 }
 
-int SelectableListWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int CameraTempChartWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QListWidget::qt_metacall(_c, _id, _a);
+    _id = QWidget::qt_metacall(_c, _id, _a);
     return _id;
 }
 QT_WARNING_POP

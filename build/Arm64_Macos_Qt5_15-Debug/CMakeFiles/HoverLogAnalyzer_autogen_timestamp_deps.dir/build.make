@@ -53,10 +53,10 @@ RM = /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/dzs/Downloads/HoverLogAnalyzer
+CMAKE_SOURCE_DIR = /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug
+CMAKE_BINARY_DIR = /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug
 
 # Utility rule file for HoverLogAnalyzer_autogen_timestamp_deps.
 
@@ -81,6 +81,6 @@ CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/clean:
 .PHONY : CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/clean
 
 CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/depend:
-	cd /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/dzs/Downloads/HoverLogAnalyzer /Users/dzs/Downloads/HoverLogAnalyzer /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir/depend
 

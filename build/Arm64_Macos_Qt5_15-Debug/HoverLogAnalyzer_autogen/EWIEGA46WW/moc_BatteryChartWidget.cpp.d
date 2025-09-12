@@ -1,5 +1,5 @@
-/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/moc_predefs.h \
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/moc_predefs.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
@@ -100,7 +100,7 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \

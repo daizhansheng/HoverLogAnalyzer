@@ -51,6 +51,7 @@ else()
             BatteryChartWidget.h
             SocTempChartWidget.h
             DockToggleButton.h
+            CameraTempChartWidget.h
 
             ModuleUsageChart.h
             # 加入 Dock 图标

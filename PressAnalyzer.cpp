@@ -491,6 +491,19 @@ void PressAnalyzer::setupStatusDock()
     );
     vLayout->addWidget(batteryChart);
 
+    // 相机温度曲线图
+    cameraTempChart = new CameraTempChartWidget(statusContainer);
+    cameraTempChart->setMinimumHeight(200);
+    cameraTempChart->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "  padding: 10px;"
+        "}"
+    );
+    vLayout->addWidget(cameraTempChart);
+
 
     vLayout->addStretch(1);
     statusContainer->setLayout(vLayout);
@@ -1226,6 +1239,31 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
             continue;
         }
 
+        // ==================== Camera 温度 ====================
+        if (line.contains("[I|Camera]: camera temp:", Qt::CaseInsensitive)) {
+            // 提取时间戳和日期时间
+            QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+            QDateTime ts;
+            if (rxTimestamp.indexIn(line) != -1) {
+                QString dtStr = rxTimestamp.cap(2);
+                ts = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
+                // 尝试从秒.毫秒取 ms
+                QString tsStr = rxTimestamp.cap(1);
+                double tsDouble = tsStr.toDouble();
+                int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+                ts = ts.addMSecs(msecs);
+            }
+            // 提取温度
+            QRegExp rxTemp("camera temp:\\s*(\\-?\\d+)");
+            int tempVal = 0;
+            if (rxTemp.indexIn(line) != -1) {
+                tempVal = rxTemp.cap(1).toInt();
+            }
+            if (tempVal != -128) {
+                cameraTemps.push_back({ts, tempVal});
+            }
+        }
+
         // ==================== 其他解析 ====================
         parseCameraStatus(lineNumber, line);
         parseStatusHeartbeat(lineNumber, line);
@@ -1259,6 +1297,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     searchResults.clear();
     searchResultView->clearResults();
     batteryinfo.clear();
+    cameraTemps.clear();
     allusage.clear();
     soctmp.clear();
     triggerCount = 0;
@@ -1277,6 +1316,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     highlightAllEvents();
     titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
     batteryChart->setData(batteryinfo);
+    cameraTempChart->setData(cameraTemps);
     socChart->clear();
     socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
@@ -1404,6 +1444,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     searchResults.clear();
     searchResultView->clearResults();
     batteryinfo.clear();
+    cameraTemps.clear();
     allusage.clear();
     soctmp.clear();
     triggerCount = 0;
@@ -1426,6 +1467,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     highlightAllEvents();
     titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
     batteryChart->setData(batteryinfo);
+    cameraTempChart->setData(cameraTemps);
     socChart->clear();
     socChart->addData(soctmp);
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
@@ -1537,6 +1579,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     searchResults.clear();
     searchResultView->clearResults();
     batteryinfo.clear();
+    cameraTemps.clear();
     allusage.clear();
     soctmp.clear();
     triggerCount = 0;

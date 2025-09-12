@@ -53,10 +53,10 @@ RM = /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/dzs/Downloads/HoverLogAnalyzer
+CMAKE_SOURCE_DIR = /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug
+CMAKE_BINARY_DIR = /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/HoverLogAnalyzer.dir/depend.make
@@ -72,104 +72,104 @@ include CMakeFiles/HoverLogAnalyzer.dir/flags.make
 HoverLogAnalyzer_autogen/timestamp: /Users/dzs/Qt-5.15.10/bin/moc
 HoverLogAnalyzer_autogen/timestamp: /Users/dzs/Qt-5.15.10/bin/uic
 HoverLogAnalyzer_autogen/timestamp: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target HoverLogAnalyzer"
-	/opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E cmake_autogen /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutogenInfo.json Debug
-	/opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E touch /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target HoverLogAnalyzer"
+	/opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E cmake_autogen /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutogenInfo.json Debug
+	/opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E touch /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/timestamp
 
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icon.qrc
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Info.json
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/logo.icns
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/save.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/camera.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/analysis.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/arrow-down.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/search.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/file-open.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/clear.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/chart.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/folder-open.png
-HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/icons/arrow-up.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/logo.icns
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/save.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/camera.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/analysis.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/arrow-down.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/search.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/file-open.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/clear.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/chart.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/folder-open.png
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/arrow-up.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Qt-5.15.10/bin/rcc
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Qt-5.15.10/bin/rcc
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for icon.qrc"
-	/opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E cmake_autorcc /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Info.json Debug
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for icon.qrc"
+	/opt/homebrew/Cellar/cmake/3.31.2/bin/cmake -E cmake_autorcc /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Info.json Debug
 
 CMakeFiles/HoverLogAnalyzer.dir/codegen:
 .PHONY : CMakeFiles/HoverLogAnalyzer.dir/codegen
 
-HoverLogAnalyzer.app/Contents/Resources/logo.icns: /Users/dzs/Downloads/HoverLogAnalyzer/logo.icns
+HoverLogAnalyzer.app/Contents/Resources/logo.icns: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/logo.icns
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Copying OS X content HoverLogAnalyzer.app/Contents/Resources/logo.icns"
-	$(CMAKE_COMMAND) -E copy /Users/dzs/Downloads/HoverLogAnalyzer/logo.icns HoverLogAnalyzer.app/Contents/Resources/logo.icns
+	$(CMAKE_COMMAND) -E copy /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/logo.icns HoverLogAnalyzer.app/Contents/Resources/logo.icns
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o: HoverLogAnalyzer_autogen/mocs_compilation.cpp
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o -c /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp > CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp > CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.i
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.s
 
 CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
-CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/HoverLogAnalyzer/main.cpp
+CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp
 CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o -c /Users/dzs/Downloads/HoverLogAnalyzer/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp
 
 CMakeFiles/HoverLogAnalyzer.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HoverLogAnalyzer.dir/main.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/HoverLogAnalyzer/main.cpp > CMakeFiles/HoverLogAnalyzer.dir/main.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp > CMakeFiles/HoverLogAnalyzer.dir/main.cpp.i
 
 CMakeFiles/HoverLogAnalyzer.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/main.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/HoverLogAnalyzer/main.cpp -o CMakeFiles/HoverLogAnalyzer.dir/main.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp -o CMakeFiles/HoverLogAnalyzer.dir/main.cpp.s
 
 CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
-CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp
+CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp
 CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o -c /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp
 
 CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp > CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp > CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.i
 
 CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.cpp -o CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp -o CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.s
 
 CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
-CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o: /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp
+CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp
 CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o -c /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp
 
 CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp > CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp > CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.i
 
 CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.cpp -o CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp -o CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o: HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o -c /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp > CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp > CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.i
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.s
 
 # Object files for target HoverLogAnalyzer
 HoverLogAnalyzer_OBJECTS = \
@@ -192,7 +192,7 @@ HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/QtGui.framework/QtGui
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/QtCore.framework/QtCore
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HoverLogAnalyzer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -206,6 +206,6 @@ CMakeFiles/HoverLogAnalyzer.dir/clean:
 
 CMakeFiles/HoverLogAnalyzer.dir/depend: HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp
 CMakeFiles/HoverLogAnalyzer.dir/depend: HoverLogAnalyzer_autogen/timestamp
-	cd /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/dzs/Downloads/HoverLogAnalyzer /Users/dzs/Downloads/HoverLogAnalyzer /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/HoverLogAnalyzer.dir/depend
 

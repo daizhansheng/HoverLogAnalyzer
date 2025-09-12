@@ -1,4 +1,4 @@
-# Install script for directory: /Users/dzs/Downloads/HoverLogAnalyzer
+# Install script for directory: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE DIRECTORY FILES "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer.app" USE_SOURCE_PERMISSIONS)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE DIRECTORY FILES "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer.app" USE_SOURCE_PERMISSIONS)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer")
     execute_process(COMMAND /usr/bin/install_name_tool
@@ -50,7 +50,7 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/install_local_manifest.txt"
+  file(WRITE "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -66,6 +66,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

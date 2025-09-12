@@ -1,5 +1,5 @@
-/Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp: /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/moc_predefs.h \
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/moc_predefs.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
@@ -100,12 +100,14 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempChartWidget.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
@@ -188,6 +190,9 @@
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
@@ -236,6 +241,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \

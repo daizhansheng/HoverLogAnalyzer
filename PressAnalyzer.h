@@ -22,6 +22,7 @@
 #include "DockToggleButton.h"
 #include "ModuleUsageChart.h"
 #include "ChartStyleManager.h"
+#include "CameraTempChartWidget.h"
 
 struct EventItem {
     int lineNumber;    // 日志行号
@@ -158,6 +159,9 @@ private:
     // ==================== Soc temp ====================
     SocTempChartWidget *socChart;
     QVector<SocTempInfo> soctmp;
+    // ==================== Camera temp ====================
+    CameraTempChartWidget *cameraTempChart;
+    QVector<CameraTempSample> cameraTemps;
     // ============== 各个模块cpu/mem占用率 ================
     QWidget *usageContainer;
     ModuleUsageChart *usageChart;

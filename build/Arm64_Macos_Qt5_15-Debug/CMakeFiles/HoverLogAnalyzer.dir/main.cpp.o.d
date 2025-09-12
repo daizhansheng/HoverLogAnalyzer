@@ -1,6 +1,6 @@
 CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
-  /Users/dzs/Downloads/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Downloads/HoverLogAnalyzer/PressAnalyzer.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMainWindow \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmainwindow.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
@@ -954,9 +954,10 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenu.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QTextEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SearchResultHighlighter.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyledItemDelegate \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleditemdelegate.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
@@ -964,20 +965,25 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QVector \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
-  /Users/dzs/Downloads/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCursor \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCharFormat \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextOption \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ChartStyleManager.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPen \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QBrush \
-  /Users/dzs/Downloads/HoverLogAnalyzer/SocTempChartWidget.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/HoverLogAnalyzer/ModuleUsageChart.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPolygon \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \

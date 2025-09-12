@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PressAnalyzer_t {
-    QByteArrayData data[20];
-    char stringdata0[289];
+    QByteArrayData data[22];
+    char stringdata0[327];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,9 +49,11 @@ QT_MOC_LITERAL(13, 180, 4), // "item"
 QT_MOC_LITERAL(14, 185, 9), // "searchAll"
 QT_MOC_LITERAL(15, 195, 14), // "goToPrevSearch"
 QT_MOC_LITERAL(16, 210, 14), // "goToNextSearch"
-QT_MOC_LITERAL(17, 225, 21), // "onSearchResultClicked"
-QT_MOC_LITERAL(18, 247, 20), // "onCameraEventClicked"
-QT_MOC_LITERAL(19, 268, 20) // "onStatusEventClicked"
+QT_MOC_LITERAL(17, 225, 24), // "onSearchResultRowClicked"
+QT_MOC_LITERAL(18, 250, 3), // "row"
+QT_MOC_LITERAL(19, 254, 30), // "onSearchResultRowDoubleClicked"
+QT_MOC_LITERAL(20, 285, 20), // "onCameraEventClicked"
+QT_MOC_LITERAL(21, 306, 20) // "onStatusEventClicked"
 
     },
     "PressAnalyzer\0loadAndAnalyzeLog\0\0"
@@ -60,7 +62,8 @@ QT_MOC_LITERAL(19, 268, 20) // "onStatusEventClicked"
     "addEventToList\0triggerCount\0lineNumber\0"
     "display\0onEventClicked\0QListWidgetItem*\0"
     "item\0searchAll\0goToPrevSearch\0"
-    "goToNextSearch\0onSearchResultClicked\0"
+    "goToNextSearch\0onSearchResultRowClicked\0"
+    "row\0onSearchResultRowDoubleClicked\0"
     "onCameraEventClicked\0onStatusEventClicked"
 };
 #undef QT_MOC_LITERAL
@@ -71,7 +74,7 @@ static const uint qt_meta_data_PressAnalyzer[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -79,19 +82,20 @@ static const uint qt_meta_data_PressAnalyzer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   79,    2, 0x08 /* Private */,
-       3,    0,   80,    2, 0x08 /* Private */,
-       4,    0,   81,    2, 0x08 /* Private */,
-       5,    0,   82,    2, 0x08 /* Private */,
-       6,    0,   83,    2, 0x08 /* Private */,
-       7,    3,   84,    2, 0x08 /* Private */,
-      11,    1,   91,    2, 0x08 /* Private */,
-      14,    0,   94,    2, 0x08 /* Private */,
-      15,    0,   95,    2, 0x08 /* Private */,
-      16,    0,   96,    2, 0x08 /* Private */,
-      17,    1,   97,    2, 0x08 /* Private */,
-      18,    1,  100,    2, 0x08 /* Private */,
-      19,    1,  103,    2, 0x08 /* Private */,
+       1,    0,   84,    2, 0x08 /* Private */,
+       3,    0,   85,    2, 0x08 /* Private */,
+       4,    0,   86,    2, 0x08 /* Private */,
+       5,    0,   87,    2, 0x08 /* Private */,
+       6,    0,   88,    2, 0x08 /* Private */,
+       7,    3,   89,    2, 0x08 /* Private */,
+      11,    1,   96,    2, 0x08 /* Private */,
+      14,    0,   99,    2, 0x08 /* Private */,
+      15,    0,  100,    2, 0x08 /* Private */,
+      16,    0,  101,    2, 0x08 /* Private */,
+      17,    1,  102,    2, 0x08 /* Private */,
+      19,    1,  105,    2, 0x08 /* Private */,
+      20,    1,  108,    2, 0x08 /* Private */,
+      21,    1,  111,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -104,7 +108,8 @@ static const uint qt_meta_data_PressAnalyzer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 12,   13,
+    QMetaType::Void, QMetaType::Int,   18,
+    QMetaType::Void, QMetaType::Int,   18,
     QMetaType::Void, 0x80000000 | 12,   13,
     QMetaType::Void, 0x80000000 | 12,   13,
 
@@ -127,9 +132,10 @@ void PressAnalyzer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 7: _t->searchAll(); break;
         case 8: _t->goToPrevSearch(); break;
         case 9: _t->goToNextSearch(); break;
-        case 10: _t->onSearchResultClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
-        case 11: _t->onCameraEventClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
-        case 12: _t->onStatusEventClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 10: _t->onSearchResultRowClicked((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 11: _t->onSearchResultRowDoubleClicked((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 12: _t->onCameraEventClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 13: _t->onStatusEventClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -164,13 +170,13 @@ int PressAnalyzer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 14;
     }
     return _id;
 }
