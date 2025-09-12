@@ -76,6 +76,10 @@ void PressAnalyzer::setupCentralWidget()
     f.setFixedPitch(true);
     f.setPointSize(11);
     logView->setFont(f);
+    // 统一设置选中文本的颜色（蓝色），避免与浅灰行高亮混淆
+    logView->setStyleSheet(
+        "QPlainTextEdit{selection-background-color:#80BFFF; selection-color:white;}"
+    );
 }
 
 void PressAnalyzer::setupEventDock()
@@ -94,20 +98,15 @@ void PressAnalyzer::setupEventDock()
 
 void PressAnalyzer::setupSearchDock()
 {
-    searchResultList = new QListWidget(this);
-    searchResultList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    // 改浅选中颜色，避免蓝色过深
-    searchResultList->setStyleSheet(
-        "QListWidget{selection-background-color:#CCE8FF; selection-color:black;}\n"
-        "QAbstractItemView::item:selected{background:#BBDFFF; color:black;}\n"
-        "QAbstractItemView::item:selected:active{background:#BBDFFF; color:black;}\n"
-        "QAbstractItemView::item:selected:!active{background:#E6F3FF; color:black;}\n"
-        "QListWidget::item:hover{background:#EAF5FF;}"
-    );
+    searchResultView = new SearchResultTextView(this);
+    searchResultView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // 初次创建时使用与 logView 相同的字体
+    if (logView) {
+        searchResultView->setFont(logView->font());
+    }
 
     searchDock = new QDockWidget(this);
-    searchDock->setWidget(searchResultList);
+    searchDock->setWidget(searchResultView);
     searchDock->setMinimumHeight(150);
     addDockWidget(Qt::BottomDockWidgetArea, searchDock);
     searchDock->hide();
@@ -123,11 +122,35 @@ void PressAnalyzer::setupSearchDock()
         if (selected == clearAction) {
             searchResults.clear();
             currentSearchIndex = 0;
-            searchResultList->clear();
+            searchResultView->clearResults();
+            searchHighlights.clear();
+            logView->setExtraSelections(searchHighlights);
             highlightSearchResults(currentSearchIndex);
         } else if (selected == closeAction) {
             searchDock->hide();
         }
+    });
+
+    // 在搜索结果视图内右键菜单：保留标准菜单（含复制/全选）+ 自定义 Clear / Close
+    searchResultView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(searchResultView, &SearchResultTextView::customContextMenuRequested, this, [=](const QPoint &pos){
+        QMenu *menu = searchResultView->createStandardContextMenu();
+        menu->addSeparator();
+        QAction *clearAction = menu->addAction("Clear");
+        QAction *closeAction = menu->addAction("Close");
+
+        QAction *selected = menu->exec(searchResultView->mapToGlobal(pos));
+        if (selected == clearAction) {
+            searchResults.clear();
+            currentSearchIndex = 0;
+            searchResultView->clearResults();
+            searchHighlights.clear();
+            logView->setExtraSelections(searchHighlights);
+            highlightSearchResults(currentSearchIndex);
+        } else if (selected == closeAction) {
+            searchDock->hide();
+        }
+        delete menu;
     });
 }
 
@@ -586,6 +609,9 @@ void PressAnalyzer::setupMenuBar()
         QFont f = this->logView->font();
         f.setPointSize(pt);
         this->logView->setFont(f);
+        if (this->searchResultView) {
+            this->searchResultView->setFont(f);
+        }
     };
     connect(actZoomIn, &QAction::triggered, this, [=](){ logFontPointSize += 1; applyLogFont(logFontPointSize); });
     connect(actZoomOut, &QAction::triggered, this, [=](){ logFontPointSize = std::max(8, logFontPointSize - 1); applyLogFont(logFontPointSize); });
@@ -800,7 +826,8 @@ void PressAnalyzer::setupConnections()
     });
     connect(searchPrevButton, &QPushButton::clicked, this, &PressAnalyzer::goToPrevSearch);
     connect(searchNextButton, &QPushButton::clicked, this, &PressAnalyzer::goToNextSearch);
-    connect(searchResultList, &QListWidget::itemClicked, this, &PressAnalyzer::onSearchResultClicked);
+    connect(searchResultView, &SearchResultTextView::rowClicked, this, &PressAnalyzer::onSearchResultRowClicked);
+    connect(searchResultView, &SearchResultTextView::rowDoubleClicked, this, &PressAnalyzer::onSearchResultRowDoubleClicked);
 
     // Camera功能连接
     connect(cameraButton, &QPushButton::clicked, this, [this](){
@@ -1216,7 +1243,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     // 减少大文件解析时的界面重绘
     logView->setUpdatesEnabled(false);
     QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker2(searchResultView);
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
@@ -1230,7 +1257,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
-    searchResultList->clear();
+    searchResultView->clearResults();
     batteryinfo.clear();
     allusage.clear();
     soctmp.clear();
@@ -1284,7 +1311,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     // 减少大文件解析时的界面重绘
     logView->setUpdatesEnabled(false);
     QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker2(searchResultView);
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
@@ -1375,7 +1402,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
-    searchResultList->clear();
+    searchResultView->clearResults();
     batteryinfo.clear();
     allusage.clear();
     soctmp.clear();
@@ -1417,7 +1444,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     // 减少大文件解析时的界面重绘
     logView->setUpdatesEnabled(false);
     QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker2(searchResultView);
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
@@ -1508,7 +1535,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
-    searchResultList->clear();
+    searchResultView->clearResults();
     batteryinfo.clear();
     allusage.clear();
     soctmp.clear();
@@ -1567,7 +1594,7 @@ void PressAnalyzer::loadAndMergeLogs()
     // 禁用界面更新，提高性能
     logView->setUpdatesEnabled(false);
     QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultList);
+    QSignalBlocker blocker2(searchResultView);
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
@@ -1581,7 +1608,7 @@ void PressAnalyzer::loadAndMergeLogs()
     statusEvents.clear();
     batteryChart->clear();
     searchResults.clear();
-    searchResultList->clear();
+    searchResultView->clearResults();
     batteryinfo.clear();
     allusage.clear();
     soctmp.clear();
@@ -1863,8 +1890,8 @@ void PressAnalyzer::clearWindow()
     allLogLines.clear();
     eventList->clear();
     logView->clear();
-    searchResultList->clear();
-    searchResultList->hide();
+    searchResultView->clearResults();
+    searchResultView->hide();
     searchResults.clear();
     searchDock->hide();
     currentSearchIndex = -1;
@@ -1907,7 +1934,8 @@ void PressAnalyzer::searchAll()
 {
     searchResults.clear();
     currentSearchIndex = -1;
-    searchResultList->clear();
+    searchResultView->clearResults();
+    searchHighlights.clear();
 
     QString text = searchEdit->text().trimmed();
     if (text.isEmpty()) return;
@@ -1949,24 +1977,16 @@ void PressAnalyzer::searchAll()
         patterns.append(qMakePair(rx, color));
     }
 
-    // 设置高亮 delegate（复用已有的）
-    auto *delegate = qobject_cast<SearchResultHighlighter*>(searchResultList->itemDelegate());
-    if (delegate) {
-        delegate->setPatterns(patterns);
-        searchResultList->viewport()->update();
-    } else {
-        delegate = new SearchResultHighlighter(patterns, searchResultList);
-        searchResultList->setItemDelegate(delegate);
-    }
+    // 设置高亮（SearchResultTextView 内部使用 ExtraSelection 实现）
+    searchResultView->setPatterns(patterns);
 
-    // 遍历日志行，匹配关键字
+    // 遍历日志行，匹配关键字，并构建 logView 全局黄色高亮
+    QStringList resultLines;
     for (int i = 0; i < allLogLines.size(); ++i) {
         bool matched = false;
         for (auto &p : patterns) {
-            if (p.first.indexIn(allLogLines[i]) != -1) {
-                matched = true;
-                break;
-            }
+            int pos = p.first.indexIn(allLogLines[i]);
+            if (pos != -1) matched = true;
         }
 
         if (matched) {
@@ -1974,17 +1994,41 @@ void PressAnalyzer::searchAll()
             QString itemText = QString("%1 | %2")
                                    .arg(i+1, 6, 10, QChar(' '))
                                    .arg(allLogLines[i]);
-            searchResultList->addItem(new QListWidgetItem(itemText));
+            resultLines.append(itemText);
+
+            // 在 logView 中为匹配的行添加黄色关键字高亮（全局）
+            QTextBlock block = logView->document()->findBlockByNumber(i);
+            if (block.isValid()) {
+                const QString lineText = block.text();
+                for (auto &p : patterns) {
+                    int pos = 0;
+                    while ((pos = p.first.indexIn(lineText, pos)) != -1) {
+                        QTextEdit::ExtraSelection sel;
+                        sel.cursor = QTextCursor(block);
+                        sel.cursor.setPosition(block.position() + pos);
+                        sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, p.first.cap(0).length());
+                        QTextCharFormat fmt;
+                        fmt.setBackground(Qt::yellow);
+                        fmt.setForeground(Qt::black);
+                        sel.format = fmt;
+                        searchHighlights.push_back(sel);
+                        pos += qMax(1, p.first.cap(0).length());
+                    }
+                }
+            }
         }
     }
 
     if (searchResults.isEmpty()) {
-        searchResultList->hide();
+        searchResultView->hide();
         QMessageBox::information(this, tr("搜索结果"), tr("匹配结果0,未搜索到内容。"));
         return;
     }
 
-    searchResultList->show();
+    // 应用全局搜索高亮（黄色）
+    logView->setExtraSelections(searchHighlights);
+    searchResultView->setResultsText(resultLines);
+    searchResultView->show();
     currentSearchIndex = 0;
     jumpToSearchIndex(currentSearchIndex);
 
@@ -2001,7 +2045,7 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
     QTextDocument* doc = logView->document();
 
     // 仅在可见区域应用轻量高亮，避免整篇文档重绘
-    QList<QTextEdit::ExtraSelection> selections;
+    QList<QTextEdit::ExtraSelection> selections = searchHighlights; // 先带上全局黄色高亮
     // ---------------- 2. 生成关键字颜色 ----------------
     QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
 
@@ -2065,26 +2109,21 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
     }
 
     logView->setExtraSelections(selections);
-
-    // ---------------- 4. 跳转到当前选中行 ----------------
-    if (currentIndex >= 0 && currentIndex < searchResults.size()) {
-        QTextBlock currentBlock = doc->findBlockByNumber(searchResults[currentIndex]);
-        if (currentBlock.isValid()) {
-            QTextCursor cursor(currentBlock);
-            cursor.movePosition(QTextCursor::StartOfBlock);
-            logView->setTextCursor(cursor);
-            logView->centerCursor();
-        }
-    }
 }
 
 
-void PressAnalyzer::onSearchResultClicked(QListWidgetItem *item)
+void PressAnalyzer::onSearchResultRowClicked(int row)
 {
-    int row = searchResultList->row(item);
     if (row < 0 || row >= searchResults.size()) return;
     currentSearchIndex = row;
     highlightSearchResults(currentSearchIndex);
+}
+
+void PressAnalyzer::onSearchResultRowDoubleClicked(int row)
+{
+    if (row < 0 || row >= searchResults.size()) return;
+    currentSearchIndex = row;
+    jumpToSearchIndex(currentSearchIndex);
 }
 
 void PressAnalyzer::jumpToSearchIndex(int index)
@@ -2092,6 +2131,27 @@ void PressAnalyzer::jumpToSearchIndex(int index)
     if (index<0 || index>=searchResults.size()) return;
     currentSearchIndex = index;
     highlightSearchResults(currentSearchIndex);
+
+    // 执行跳转到对应行并居中显示
+    QTextDocument* doc = logView->document();
+    QTextBlock currentBlock = doc->findBlockByNumber(searchResults[currentSearchIndex]);
+    if (currentBlock.isValid()) {
+        QTextCursor cursor(currentBlock);
+        cursor.movePosition(QTextCursor::StartOfBlock);
+        logView->setTextCursor(cursor);
+        logView->centerCursor();
+
+        // 双击跳转后，将当前行背景改为更明显的浅灰色以提示定位
+        QList<QTextEdit::ExtraSelection> selections = logView->extraSelections();
+        QTextEdit::ExtraSelection lineSel;
+        lineSel.cursor = QTextCursor(currentBlock);
+        lineSel.cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+        QTextCharFormat lineFmt;
+        lineFmt.setBackground(QColor(200, 200, 200)); // 更深一些的浅灰
+        lineSel.format = lineFmt;
+        selections.push_back(lineSel);
+        logView->setExtraSelections(selections);
+    }
 }
 
 void PressAnalyzer::goToPrevSearch()

@@ -13,8 +13,10 @@
 #include <QStatusBar>
 #include <QMenu>
 #include <QTextBlock>
+#include <QTextEdit>
 #include <QLabel>
 #include "SearchResultHighlighter.h"
+#include "SearchResultTextView.h"
 #include "BatteryChartWidget.h"
 #include "SocTempChartWidget.h"
 #include "DockToggleButton.h"
@@ -50,7 +52,8 @@ private slots:
     void searchAll();
     void goToPrevSearch();
     void goToNextSearch();
-    void onSearchResultClicked(QListWidgetItem *item);
+    void onSearchResultRowClicked(int row);
+    void onSearchResultRowDoubleClicked(int row);
     void onCameraEventClicked(QListWidgetItem *item);
     void onStatusEventClicked(QListWidgetItem *item);
 private:
@@ -115,7 +118,7 @@ private:
     QListWidget *eventList;
 
     QDockWidget *searchDock;
-    QListWidget *searchResultList;
+    SearchResultTextView *searchResultView;
     QPushButton *clearSearchButton;
     QPushButton *closeSearchButton;
     DockToggleButton *toggleBtn;
@@ -130,6 +133,7 @@ private:
 
     QList<int> searchResults;
     int currentSearchIndex;
+    QList<QTextEdit::ExtraSelection> searchHighlights; // 全局搜索高亮，黄色
 
     int triggerCount;
     int flightCount;

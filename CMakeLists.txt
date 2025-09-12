@@ -47,6 +47,7 @@ else()
             ${PROJECT_SOURCES}
             ${APP_ICON_MACOS}
             SearchResultHighlighter.h
+            SearchResultTextView.h
             BatteryChartWidget.h
             SocTempChartWidget.h
             DockToggleButton.h
