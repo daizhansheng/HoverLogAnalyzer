@@ -79,6 +79,7 @@ HoverLogAnalyzer_autogen/timestamp: CMakeFiles/HoverLogAnalyzer.dir/compiler_dep
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: CMakeFiles/HoverLogAnalyzer_autogen.dir/AutoRcc_icon_EWIEGA46WW_Info.json
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/logo.icns
+HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/down-arrow.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/save.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/camera.png
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icons/analysis.png

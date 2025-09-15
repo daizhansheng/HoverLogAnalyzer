@@ -939,6 +939,8 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractbutton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlineedit.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
@@ -1074,4 +1076,18 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegularExpression \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextDocument
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextDocument \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QListView \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFontMetrics \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItemModel \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qstandarditemmodel.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItem \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QGuiApplication \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QScreen \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qscreen.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QObject \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRect \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSize \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSizeF \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform

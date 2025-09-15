@@ -631,6 +631,7 @@
  mdp:/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h
+ mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QComboBox
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit
@@ -652,6 +653,7 @@
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h
+ mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qcombobox.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h
@@ -1087,7 +1089,6 @@
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp
 /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h
  mmc:Q_OBJECT
  mdp:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h
@@ -1299,6 +1300,7 @@
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h
  mdp:/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp
 /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp
 /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h
  mmc:Q_OBJECT

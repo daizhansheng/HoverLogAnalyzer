@@ -6,6 +6,22 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QComboBox>
+class SearchComboBox : public QComboBox {
+    Q_OBJECT
+public:
+    using QComboBox::QComboBox;
+signals:
+    void aboutToShowPopup();
+    void popupShown();
+protected:
+    void showPopup() override {
+        emit aboutToShowPopup();
+        QComboBox::showPopup();
+        emit popupShown();
+    }
+};
+
 #include <QDateTime>
 #include <QStringList>
 #include <QDockWidget>
@@ -23,6 +39,8 @@
 #include "ModuleUsageChart.h"
 #include "ChartStyleManager.h"
 #include "CameraTempChartWidget.h"
+
+class QStandardItemModel;
 
 struct EventItem {
     int lineNumber;    // 日志行号
@@ -86,6 +104,7 @@ private:
     void addSearchHistory(const QString &text);
     void showSearchHints();
     void updateCompleterWithSmartHints();
+    void updateSearchDropdownItems();
     void updateVisibleHighlights();
     QColor getEventColor(const QString &eventType);
 
@@ -111,7 +130,9 @@ private:
     QPushButton *saveButton;
     QPushButton *clearButton;
 
+    SearchComboBox *searchCombo;
     QLineEdit *searchEdit;
+    QStandardItemModel *searchDropdownModel = nullptr;
     QPushButton *searchAllButton;
     QPushButton *searchPrevButton;
     QPushButton *searchNextButton;

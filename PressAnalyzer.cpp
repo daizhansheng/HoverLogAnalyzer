@@ -29,6 +29,12 @@
 #include <QChar>
 #include <functional>
 #include "LogNumberHighlighter.h"
+#include <QListView>
+#include <QFontMetrics>
+#include <QStandardItemModel>
+#include <QStandardItem>
+#include <QGuiApplication>
+#include <QScreen>
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -282,26 +288,52 @@ void PressAnalyzer::setupToolBar()
     searchNextButton->setToolTip("向后搜索");
     searchNextButton->setIconSize(QSize(20, 20));
 
-    // 创建搜索框
-    searchEdit = new QLineEdit(this);
-    searchEdit->setPlaceholderText("输入搜索内容... ");
-    searchEdit->setMinimumWidth(300);
-    searchEdit->setStyleSheet(
-        "QLineEdit { "
-        "    padding: 5px; "
-        "    border: 2px solid #CCCCCC; "
-        "    border-radius: 5px; "
-        "    background-color: white; "
-        "    font-size: 12px; "
-        "} "
-        "QLineEdit:focus { "
-        "    border-color: #4A90E2; "
-        "    background-color: #F8F9FA; "
-        "} "
-        "QLineEdit:hover { "
-        "    border-color: #999999; "
+    // 创建搜索下拉（可编辑），不点下拉也可直接输入
+    searchCombo = new SearchComboBox(this);
+    searchCombo->setEditable(true);
+    searchCombo->setInsertPolicy(QComboBox::NoInsert);
+    searchCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    searchCombo->setMinimumHeight(30);
+    searchCombo->setStyleSheet(
+        "QComboBox {"
+        "  min-height:30px;"
+        "  border: 1px solid #CCCCCC;"
+        "  border-radius: 8px;"
+        "  background-color: white;"
+        "}"
+        "QComboBox::drop-down {"
+        "  width: 26px;"
+        "  border: 0px;"
+        "}"
+        "QComboBox::down-arrow {"
+        "  image: url(:/icons/icons/down-arrow.png);"
+        "  width: 14px; height: 14px;"
+        "  margin-right: 6px;"
+        "}"
+        "QComboBox:hover {"
+        "  border-color: #999999;"
+        "}"
+        "QComboBox:focus {"
+        "  border-color: #4A90E2;"
+        "  background-color: #F8F9FA;"
         "}"
     );
+    // 视图在 showPopup() 时重建并应用样式，这里无需设置
+    searchCombo->installEventFilter(this);
+    // 获取内部编辑器，复用原有行为与样式
+    searchEdit = searchCombo->lineEdit();
+    if (searchEdit) {
+        searchEdit->setMinimumHeight(30);
+        searchEdit->setPlaceholderText("输入搜索内容... ");
+        searchEdit->setStyleSheet(
+            "QLineEdit {"
+            "  padding: 5px;"
+            "  border: 0px;"
+            "  background-color: transparent;"
+            "  font-size: 12px;"
+            "}"
+        );
+    }
 
     // 添加到工具栏
     toolBar->addWidget(dirloadButton);
@@ -310,13 +342,46 @@ void PressAnalyzer::setupToolBar()
     toolBar->addWidget(saveButton);
     toolBar->addWidget(clearButton);
     toolBar->addSeparator();
-    toolBar->addWidget(searchEdit);
+    toolBar->addWidget(searchCombo);
     toolBar->addWidget(searchAllButton);
     toolBar->addWidget(searchPrevButton);
     toolBar->addWidget(searchNextButton);
 
-    // 设置搜索提示
+    // 设置搜索提示与下拉项目
     setupSearchCompleter();
+    // 准备一次性模型并绑定，后续仅清空并填充，避免偶发显示问题
+    searchDropdownModel = new QStandardItemModel(searchCombo);
+    searchCombo->setModel(searchDropdownModel);
+    updateSearchDropdownItems();
+    // 选择条目即触发文本更新
+    connect(searchCombo, QOverload<int>::of(&QComboBox::activated), this, [this](int){
+        if (searchEdit) searchEdit->setText(searchCombo->currentText());
+    });
+    // 打开下拉前强制刷新，修复偶现不显示提示
+    connect(searchCombo, &SearchComboBox::aboutToShowPopup, this, [this](){
+        updateSearchDropdownItems();
+        if (searchEdit && searchEdit->completer() && searchEdit->completer()->popup()) {
+            searchEdit->completer()->popup()->hide();
+        }
+    });
+    // 在弹出真正显示后再获取 popup 实例并移动到正确屏幕
+    connect(searchCombo, &SearchComboBox::popupShown, this, [this](){
+        if (!searchCombo->view()) return;
+        QWidget *popup = searchCombo->view()->window();
+        if (!popup) return;
+        QPoint belowLeft = searchCombo->mapToGlobal(QPoint(0, searchCombo->height()));
+        QScreen *screen = QGuiApplication::screenAt(belowLeft);
+        if (!screen) screen = QGuiApplication::primaryScreen();
+        QRect sg = screen->availableGeometry();
+        QPoint pos = belowLeft;
+        int popupWidth = popup->sizeHint().width();
+        if (popupWidth <= 0) popupWidth = searchCombo->width();
+        if (pos.x() + popupWidth > sg.right()) pos.setX(qMax(sg.left(), sg.right() - popupWidth));
+        int popupHeight = popup->sizeHint().height();
+        if (popupHeight <= 0) popupHeight = 200;
+        if (pos.y() + popupHeight > sg.bottom()) pos.setY(searchCombo->mapToGlobal(QPoint(0, 0)).y() - popupHeight);
+        popup->move(pos);
+    });
 
     // 应用按钮样式
     applyButtonStyles();
@@ -334,22 +399,24 @@ void PressAnalyzer::setupSearchCompleter()
     QCompleter *completer = new QCompleter(completerHints, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setFilterMode(Qt::MatchContains);
-    searchEdit->setCompleter(completer);
+    if (searchEdit) searchEdit->setCompleter(completer);
 
-    searchEdit->installEventFilter(this);
+    if (searchEdit) searchEdit->installEventFilter(this);
 
     // 添加键盘快捷键支持
     QShortcut *searchShortcut = new QShortcut(QKeySequence("Ctrl+F"), this);
     connect(searchShortcut, &QShortcut::activated, this, [this]() {
-        searchEdit->setFocus();
-        searchEdit->selectAll();
+        if (searchEdit) {
+            searchEdit->setFocus();
+            searchEdit->selectAll();
+        }
     });
 
     // 添加Esc键快捷键支持
     QShortcut *escapeShortcut = new QShortcut(QKeySequence("Escape"), this);
     connect(escapeShortcut, &QShortcut::activated, this, [this]() {
         // 只有当搜索框有焦点时才处理Esc键
-        if (searchEdit->hasFocus()) {
+        if (searchEdit && searchEdit->hasFocus()) {
             // 先隐藏补全弹窗
             if (searchEdit->completer() && searchEdit->completer()->popup()->isVisible()) {
                 searchEdit->completer()->popup()->hide();
@@ -362,18 +429,22 @@ void PressAnalyzer::setupSearchCompleter()
     });
 
     // 回车键触发搜索
-    connect(searchEdit, &QLineEdit::returnPressed, this, [this]() {
-        searchAll();
-        if (!searchResults.isEmpty()) searchDock->show();
-    });
+    if (searchEdit) {
+        connect(searchEdit, &QLineEdit::returnPressed, this, [this]() {
+            searchAll();
+            if (!searchResults.isEmpty()) searchDock->show();
+        });
+    }
 
     // 实时搜索提示：输入时自动更新提示
-    connect(searchEdit, &QLineEdit::textChanged, this, [this](const QString &text) {
-        if (text.length() > 0) {
-            // 延迟更新，避免频繁刷新
-            QTimer::singleShot(200, this, &PressAnalyzer::updateCompleterWithSmartHints);
-        }
-    });
+    if (searchEdit) {
+        connect(searchEdit, &QLineEdit::textChanged, this, [this](const QString &text) {
+            if (text.length() > 0) {
+                // 延迟更新，避免频繁刷新
+                QTimer::singleShot(200, this, &PressAnalyzer::updateCompleterWithSmartHints);
+            }
+        });
+    }
 }
 
 void PressAnalyzer::applyButtonStyles()
@@ -1016,18 +1087,20 @@ void PressAnalyzer::addSearchHistory(const QString &text)
     historyHints.removeAll(text);
     historyHints.prepend(text);
 
-    // 限制历史数量，保持最近使用的50个
-    if (historyHints.size() > 50) {
+    // 限制历史数量，最多记录20个
+    if (historyHints.size() > 20) {
         historyHints.removeLast();
     }
 
     // 智能更新 completer：优先显示历史记录
     updateCompleterWithSmartHints();
+    updateSearchDropdownItems();
 }
 
 // 智能更新completer提示
 void PressAnalyzer::updateCompleterWithSmartHints()
 {
+    if (!searchEdit) return;
     QCompleter *c = searchEdit->completer();
     if (!c) return;
 
@@ -1069,10 +1142,59 @@ void PressAnalyzer::updateCompleterWithSmartHints()
     }
 }
 
+// 同步下拉菜单项目：固定提示词在上，历史提示词在下
+void PressAnalyzer::updateSearchDropdownItems()
+{
+    if (!searchCombo) return;
+    QString currentText = searchEdit ? searchEdit->text() : QString();
+    QSignalBlocker blocker(searchCombo);
+
+    // 复用同一个模型，防止视图在频繁重建时出现空白
+    if (!searchDropdownModel) {
+        searchDropdownModel = new QStandardItemModel(searchCombo);
+        searchCombo->setModel(searchDropdownModel);
+    }
+    searchDropdownModel->clear();
+
+    // 固定提示词（蓝色）
+    for (const QString &s : fixedHints) {
+        QStandardItem *it = new QStandardItem(s);
+        it->setForeground(QBrush(QColor(30, 80, 200))); // 蓝色
+        searchDropdownModel->appendRow(it);
+    }
+
+    // 历史提示词（灰色），最多20
+    int count = 0;
+    for (const QString &s : historyHints) {
+        if (count >= 20) break;
+        QStandardItem *it = new QStandardItem(s);
+        it->setForeground(QBrush(QColor(90, 90, 90)));
+        searchDropdownModel->appendRow(it);
+        ++count;
+    }
+
+
+    // 保持当前编辑文本
+    if (searchEdit) searchEdit->setText(currentText);
+
+    // 计算最宽项，设置弹出视图宽度，避免省略
+    if (searchCombo->view()) {
+        QFontMetrics fm(searchCombo->view()->font());
+        int maxw = 0;
+        for (int i = 0; i < searchCombo->count(); ++i) {
+            maxw = qMax(maxw, fm.horizontalAdvance(searchCombo->itemText(i)) + 30);
+        }
+        // 弹出宽度至少为组合框宽度
+        int popupWidth = qMax(maxw, searchCombo->width());
+        searchCombo->view()->setMinimumWidth(popupWidth);
+        searchCombo->view()->setTextElideMode(Qt::ElideNone);
+    }
+}
+
 // 显示搜索提示
 void PressAnalyzer::showSearchHints()
 {
-    if (!searchEdit->completer()) return;
+    if (!searchEdit || !searchEdit->completer()) return;
 
     // 智能显示提示：优先显示历史记录，然后是固定提示
     QStringList hints;

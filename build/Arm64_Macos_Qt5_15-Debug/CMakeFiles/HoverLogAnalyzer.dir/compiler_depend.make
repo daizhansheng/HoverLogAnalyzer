@@ -242,6 +242,7 @@ HoverLogAnalyzer_autogen/timestamp: /Applications/Xcode.app/Contents/Developer/P
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QComboBox \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
@@ -263,6 +264,7 @@ HoverLogAnalyzer_autogen/timestamp: /Applications/Xcode.app/Contents/Developer/P
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
@@ -322,5739 +324,24 @@ HoverLogAnalyzer_autogen/timestamp: /Applications/Xcode.app/Contents/Developer/P
   /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
   /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CMakeLists.txt \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  .qtc/package-manager/auto-setup.cmake \
-  CMakeFiles/3.31.2/CMakeCXXCompiler.cmake \
-  CMakeFiles/3.31.2/CMakeSystem.cmake \
-  HoverLogAnalyzer_autogen/moc_predefs.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QPair \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QString \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbasicatomic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcompilerdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qconfig.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainerfwd.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qiterator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmetatype.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qmutex.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnumeric.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qprocessordetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qrefcount.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregexp.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qscopedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringlist.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringliteral.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsysinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qsystemdetection.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtcore-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qtypeinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvarlengtharray.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qvector.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QBrush \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QMouseEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ModuleLocation.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacHeifPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake \
-  /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeGenericSystem.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeLanguageInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseArguments.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang-CXX.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Apple-Clang.cmake \
-  /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake \
   /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake \
@@ -7899,6 +2186,7 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvalidator.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qwindowdefs.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
@@ -7920,6 +2208,7 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractspinbox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qaction.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qactiongroup.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qframe.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h \
@@ -8800,12 +3089,17 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTool
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDebug \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QFile \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QObject \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QProcess \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRandomGenerator \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRect \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegularExpression \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSize \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSizeF \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringListModel \
@@ -8896,17 +3190,23 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTool
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QBrush \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFontMetrics \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QGuiApplication \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QKeyEvent \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPen \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPolygon \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QScreen \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItem \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItemModel \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCharFormat \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCursor \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextDocument \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextOption \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qabstracttextdocumentlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qbrush.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcolor.h \
@@ -8934,6 +3234,8 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTool
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qregion.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgb.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgba64.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qscreen.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qstandarditemmodel.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextcursor.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextdocument.h \
@@ -8951,6 +3253,7 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTool
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QAction \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QCheckBox \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QCompleter \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QFileDialog \
@@ -8958,6 +3261,7 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTool
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QInputDialog \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QListView \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QListWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMainWindow \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenu \
@@ -8985,6 +3289,7 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: /Users/dzs/Downloads/ZZTool
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qboxlayout.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcheckbox.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcompleter.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdialog.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
@@ -9967,6 +4272,7 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qwindowdefs.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
@@ -9989,6 +4295,7 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qaction.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qactiongroup.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qframe.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h \
@@ -10041,9 +4348,19 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItemModel:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QScreen:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QGuiApplication:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFontMetrics:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qprocess.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfileinfo.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdebug.h:
 
@@ -10057,7 +4374,13 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringListModel:
 
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSize:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRect:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QProcess:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QObject:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QFile:
 
@@ -10067,7 +4390,11 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/subtract_with_carry_engine.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QListView:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/shuffle_order_engine.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/poisson_distribution.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/piecewise_linear_distribution.h:
 
@@ -10099,6 +4426,10 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtextedit.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QTextStream:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtabbar.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleditemdelegate.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyle.h:
@@ -10119,6 +4450,8 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractslider.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractitemdelegate.h:
@@ -10132,6 +4465,8 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLo
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPlainTextEdit:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextoption.h:
 
@@ -10192,6 +4527,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp:
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtransform.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgba64.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgb.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qregion.h:
 
@@ -10315,6 +4652,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_uintptr_t.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_uid_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_ucontext.h:
@@ -10382,6 +4721,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_gid_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_errno_t.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qstandarditemmodel.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_dev_t.h:
 
@@ -10481,6 +4822,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/list:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/limits:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/iterator:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/iosfwd:
@@ -10497,6 +4840,10 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cwctype:
 
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qaction.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/ctime:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qline.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cstdio:
@@ -10510,6 +4857,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_BatteryChartWidget.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/climits:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/chrono:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cctype:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_pthread/_pthread_types.h:
 
@@ -10733,6 +5082,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/datasizeof.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/copy_cvref.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/conjunction.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qconfig.h:
@@ -10752,6 +5103,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/negation.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/aligned_storage.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/wchar.h:
 
@@ -10773,41 +5126,23 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/tuple_like_no_subrange.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/extreme_value_distribution.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/tuple_like_ext.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/tuple_indices.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/tuple_element.h:
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/sfinae_helpers.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/ignore.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/find_index.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tree:
 
-HoverLogAnalyzer_autogen/mocs_compilation.cpp:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcompilerdetection.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__thread/support/pthread.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__thread/support.h:
-
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QKeyEvent:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__thread/id.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstring.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/system_error.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/error_category.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/binomial_distribution.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/errc.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__string/extern_template_lists.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qslider.h:
 
@@ -10815,33 +5150,25 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__string/constexpr_c_functions.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__string/char_traits.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__std_mbstate_t.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__split_buffer:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/to_gcc_order.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/make_tuple_types.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/subrange.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/movable_box.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/partial_sum.h:
 
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_va_list.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/enable_borrowed_range.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/enable_view.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/nth_element.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/empty.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/data.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/dangling.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/concepts.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/access.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/is_valid.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/transform_reduce.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/transform_inclusive_scan.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/transform_exclusive_scan.h:
 
@@ -10849,15 +5176,27 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/reduce.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/enable_borrowed_range.h:
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/partial_sum.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/pstl.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/inclusive_scan.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/accumulate.h:
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__node_handle:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/unique_lock.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/clocale:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit_reference:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/tag_types.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__chrono/high_resolution_clock.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/lock_guard.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory_resource/polymorphic_allocator.h:
 
@@ -10891,11 +5230,15 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/trigonometric_functions.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__split_buffer:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/machine/types.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/_endian.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/modulo.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/inverse_trigonometric_functions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h:
 
@@ -10931,6 +5274,10 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/size.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/cxx_atomic_impl.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/mutex.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_pthread/_pthread_once_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/segmented_iterator.h:
@@ -10940,8 +5287,6 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/reverse_iterator.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/projected.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/next.h:
 
@@ -10954,6 +5299,8 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/move_sentinel.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/incrementable_traits.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__node_handle:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/lazy.h:
 
@@ -10974,6 +5321,10 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/data.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__hash_table:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcursor.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/vector.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/tuple.h:
 
@@ -11021,6 +5372,8 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/unary_function.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/empty.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractitemview.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/ranges_operations.h:
@@ -11029,13 +5382,13 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/pointer_to_binary_function.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/inverse_hyperbolic_functions.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/hash.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/boyer_moore_searcher.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/uniform_int_distribution.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/boyer_moore_searcher.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/inverse_hyperbolic_functions.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/hash.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/readable_traits.h:
 
@@ -11071,13 +5424,17 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/formatter_bool.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory/out_ptr.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__charconv/to_chars_integral.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/format_to_n_result.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/invert_if.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/adjacent_difference.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/format_error.h:
 
@@ -11101,8 +5458,6 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__exception/exception_ptr.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/reference_wrapper.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcontainertools_impl.h:
@@ -11124,8 +5479,6 @@ HoverLogAnalyzer_autogen/mocs_compilation.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__configuration/language.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qatomic_cxx11.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__configuration/abi.h:
 
@@ -11173,6 +5526,18 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__concepts/destructible.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/errno.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/rel_ops.h:
+
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_wchar.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/exclusive_scan.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__concepts/copyable.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__concepts/convertible_to.h:
@@ -11192,8 +5557,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory/concepts.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__locale:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCompilerCommon.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/format_parse_context.h:
 
@@ -11227,6 +5590,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/buffer.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/transform_inclusive_scan.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qmargins.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__chrono/time_point.h:
@@ -11235,17 +5600,9 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__chrono/system_clock.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/lock_guard.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompiler.cmake.in:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__chrono/high_resolution_clock.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__charconv/to_chars_result.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/unordered_map:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__charconv/to_chars_base_10.h:
 
@@ -11271,21 +5628,11 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/rotate.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/adjacent_difference.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcoreevent.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/invert_if.h:
-
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/countl.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/fence.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/mutex.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/cxx_atomic_impl.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/random_device.h:
 
@@ -11299,12 +5646,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/atomic_sync.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/clocale:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/tag_types.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit_reference:
-
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/atomic_lock_free.h:
@@ -11312,8 +5653,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/error_functions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/seed_seq.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/atomic_init.h:
 
@@ -11353,11 +5692,13 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/transform.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mbstate_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/inner_product.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/swap_ranges.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/stable_sort.h:
 
@@ -11365,11 +5706,11 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/stable_partition.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/sort_heap.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/sort.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__thread/support.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/sift_down.h:
 
@@ -11405,6 +5746,10 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/replace_copy.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_mode_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/replace.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/copy_if.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/remove_copy_if.h:
@@ -11438,6 +5783,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qguiapplication.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/push_heap.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/pstl.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qrefcount.h:
 
@@ -11493,8 +5840,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/half_positive.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/exponential_functions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/remove_const.h:
@@ -11503,17 +5848,37 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/is_heap.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__cstddef/byte.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/next_permutation.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/inplace_merge.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/initializer_list:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/remainder.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/includes.h:
 
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_va_list.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/enable_view.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/pthread/sched.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/in_out_result.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/in_in_out_result.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/as_const.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/blsr.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/unwrap_iter.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/sample.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:
 
@@ -11535,7 +5900,9 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/fill_n.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake:
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/fill.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/equal_range.h:
 
@@ -11555,91 +5922,55 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_PressAnalyzer.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/comp.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/binary_search.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qlogging.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/enable_insertable.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/limits.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/any_of.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/all_of.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:
-
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_header_macro.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/types.h:
+/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/signal.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_u_char.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/_types.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/move.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/_mcontext.h:
 
-HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/_limits.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/alloca.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cstring:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/formatter_output.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/data.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/nth_element.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/wctype.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_xlocale.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/errno.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/rel_ops.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/exclusive_scan.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtabbar.h:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_wchar.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_wctype_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_wctrans_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/binary_function.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_fsblkcnt_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uintmax_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/copy_cv.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint8_t.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/rounding_functions.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qframe.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint32_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_core_convertible.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint16_t.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_nl_item.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_intmax_t.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/is_sorted_until.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/remove_cvref.h:
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor:
 
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h:
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_strings.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_string.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_stdlib.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_locale_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/execution:
 
@@ -11655,57 +5986,43 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_mb_cur_max.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__condition_variable/condition_variable.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_reference_wrapper.h:
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qactiongroup.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_bounds.h:
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontmetrics.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpalette.h:
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringmatcher.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_assert.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/copy_move_common.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/default_searcher.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/normal_distribution.h:
+/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/__wctype.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_ctermid.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_timespec.h:
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSizeF:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/locale.h:
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_abort.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_swappable.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/__xlocale.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/TargetConditionals.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityVersions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityMacros.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpolygon.h:
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvalidator.h:
 
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stddef_null.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_constructible.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint64_t.h:
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/signal.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityInternalLegacy.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__configuration/platform.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityInternal.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__utility/as_const.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/blsr.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/sample.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/unwrap_iter.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/Availability.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_nothrow_constructible.h:
 
@@ -11713,19 +6030,9 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/UnixPaths.cmake:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtoolbar.h:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Initialize.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Darwin-Determine-CXX.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/unique_lock.h:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_same.h:
 
@@ -11749,147 +6056,31 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/is_valid.h:
+
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/GNUInstallDirs.cmake:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__cstddef/byte.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/adjacent_find.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/next_permutation.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qarraydata.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/inplace_merge.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/poisson_distribution.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/movable_box.h:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/pop_heap.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcursor.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/vector.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/lower_bound.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QTextStream:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtabbar.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/limits:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__concepts/movable.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake:
-
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/three_way_comp_ref_type.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qwidget.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/array:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/copy_cvref.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtoolbar.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/is_always_lock_free.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/min.h:
+HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/_limits.h:
 
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake:
+/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/AppleClang-CXX.cmake:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeTestCXXCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/default_searcher.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/__wctype.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h:
-
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/xlocale/_string.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/TargetConditionals.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeInitializeConfigs.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeFindBinUtils.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_fd_setsize.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/byte.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineSystem.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_time.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerId.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCompilerIdDetection.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontdatabase.h:
 
@@ -11899,11 +6090,9 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_core_convertible.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/binary_search.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint16_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsharedpointer_impl.h:
 
@@ -11911,17 +6100,13 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5Widgets_QMacStylePlugin.cmake:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/pstl.h:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/kill_dependency.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/pop_heap.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake:
 
@@ -11943,6 +6128,10 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityInternal.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__configuration/platform.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/version:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlist.h:
@@ -11955,12 +6144,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake:
 
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qaction.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/ctime:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeSystem.cmake.in:
-
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMainWindow:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qversiontagging.h:
@@ -11968,8 +6151,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qset.h:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Internal/FeatureTesting.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/partition_point.h:
 
@@ -11991,17 +6172,13 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake:
 
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstring.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/system_error.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvalidator.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_constructible.h:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_pthread/_pthread_mutexattr_t.h:
 
@@ -12013,6 +6190,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5ConfigVersion.cmake:
 
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qscreen.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory/uses_allocator.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/partial_sort.h:
@@ -12020,6 +6199,12 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/atomic_base.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qtwidgetsglobal.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_wctype.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/remove_copy.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/once_flag.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/make_const_lvalue_ref.h:
 
@@ -12036,6 +6221,16 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringlistmodel.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyleoption.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/string.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_time.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h:
 
@@ -12063,6 +6258,8 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/sfinae_helpers.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/empty.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/hypot.h:
@@ -12075,11 +6272,19 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistwidget.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_intmax_t.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h:
+
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qcombobox.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_stdlib.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qslider.h:
 
@@ -12093,25 +6298,9 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QToolBar:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_locale_t.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit:
-
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stddef_rsize_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/errno.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QStatusBar:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/string.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPushButton:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit:
 
@@ -12132,16 +6321,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_SearchResultHighlighter.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/void_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qlogging.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/enable_insertable.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/any_of.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/limits.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qchar.h:
 
@@ -12167,15 +6346,27 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtransform.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPolygon:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/remove_cvref.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtgui-config.h:
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_strings.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QMap:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextoption.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/alloca.h:
+
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_header_macro.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/types.h:
+
+/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_symbol_aliasing.h:
 
@@ -12193,17 +6384,7 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/function.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeUnixFindMake.cmake:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qactiongroup.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontmetrics.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_assert.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qrgba64.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qsizepolicy.h:
 
@@ -12212,6 +6393,12 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpolygon.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__condition_variable/condition_variable.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_reference_wrapper.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_bounds.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/exponential_distribution.h:
 
@@ -12263,13 +6450,41 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qimage.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpalette.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringmatcher.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/copy_move_common.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/normal_distribution.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qpalette.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_ctermid.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_timespec.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/locale.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_abort.h:
+
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stdarg_va_copy.h:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake:
 
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qinputdialog.h:
+
+/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/error_code.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstring.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/three_way_comp_ref_type.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/independent_bits_engine.h:
 
@@ -12283,8 +6498,6 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__bit/countr.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h:
@@ -12294,6 +6507,8 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcolor.h:
 
 /opt/homebrew/Cellar/cmake/3.31.2/bin/cmake:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/error_category.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h:
 
@@ -12315,15 +6530,13 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/sstream.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cctype:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextBlock:
+
+HoverLogAnalyzer_autogen/mocs_compilation.cpp:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcompilerdetection.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__thread/support/pthread.h:
 
 /opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeCXXInformation.cmake:
 
@@ -12334,10 +6547,6 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/is_sorted_until.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QColor:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h:
 
@@ -12401,12 +6610,6 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/formatter.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mutex/once_flag.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_wctype.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/remove_copy.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_array.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/add_lvalue_reference.h:
@@ -12419,15 +6622,7 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringmatcher.h:
 
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgb.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qstringalgorithms.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qnamespace.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/fill.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/underlying_type.h:
 
@@ -12439,17 +6634,29 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/tuple_element.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__compare/common_comparison_category.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/view_interface.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/access.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QVBoxLayout:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake:
+
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/container_compatible_range.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__concepts/movable.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/min.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qflags.h:
 
@@ -12477,6 +6684,12 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/lower_bound.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtguiglobal.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractspinbox.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qabstracttextdocumentlayout.h:
@@ -12488,6 +6701,10 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qshareddata.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qpair.h:
+
+/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/main.cpp:
+
+/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobjectdefs_impl.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory/allocator_destructor.h:
 
@@ -12501,7 +6718,11 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qobject_impl.h:
 
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ios/fpos.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_printf.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/typeinfo:
 
@@ -12517,33 +6738,19 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__iterator/ranges_iterator_traits.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/make_tuple_types.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/to_gcc_order.h:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/gcd_lcm.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlocale.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_fsblkcnt_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uintmax_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/binary_function.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_allocator.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qline.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/inverse_trigonometric_functions.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qcursor.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItem:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__config_site:
 
@@ -12557,19 +6764,11 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhash.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ios/fpos.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_printf.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QWidget:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__concepts/derived_from.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/inner_product.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__mbstate_t.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/accumulate.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/check_memory_order.h:
 
@@ -12578,8 +6777,6 @@ CMakeFiles/3.31.2/CMakeCXXCompiler.cmake:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/ranges_iterator_concept.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qfile.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompiler.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qtextstream.h:
 
@@ -12595,12 +6792,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_CameraTempChartWidget.cpp:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qcontainertools_impl.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/errno.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractscrollarea.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat:
@@ -12615,17 +6806,35 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_CameraTempChartWidget.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory/allocator_traits.h:
 
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearraylist.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpolygon.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stddef_null.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint64_t.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityInternalLegacy.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qatomic.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_fd_setsize.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__fwd/byte.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__memory_resource/memory_resource.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QStringList:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsysinfo.h:
 
@@ -12636,8 +6845,6 @@ HoverLogAnalyzer_autogen/EWIEGA46WW/moc_CameraTempChartWidget.cpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QDateTime:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake:
 
 CMakeFiles/3.31.2/CMakeSystem.cmake:
 
@@ -12657,11 +6864,11 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/binomial_distribution.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/errc.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qbytearray.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/ignore.h:
-
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatastream.h:
 
@@ -12681,6 +6888,10 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qalgorithms.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__numeric/transform_reduce.h:
+
+/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-CXX.cmake:
+
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cstdlib:
@@ -12699,15 +6910,23 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h:
 
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qwidget.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/array:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__functional/operations.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qchar.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/xlocale/_string.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/pstl.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfiledevice.h:
 
@@ -12729,6 +6948,8 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h:
 
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ptrdiff_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/unicode.h:
@@ -12736,14 +6957,6 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__type_traits/is_swappable.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/AvailabilityVersions.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/QPainter:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/negative_binomial_distribution.h:
 
@@ -12755,13 +6968,7 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_offsetof.h:
 
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake:
-
 /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h:
 
@@ -12787,9 +6994,7 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/container_compatible_range.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qlogging.h:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_string.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/search_n.h:
 
@@ -12809,13 +7014,11 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qglobalstatic.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__random/extreme_value_distribution.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__tuple/tuple_like_ext.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_mode_t.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/replace.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__compare/synth_three_way.h:
 
@@ -12849,12 +7052,6 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__string/extern_template_lists.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h:
-
-/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake:
-
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextDocument:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/partial_sort_copy.h:
@@ -12873,6 +7070,12 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/unique_copy.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__math/rounding_functions.h:
+
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qframe.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types/_uint32_t.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__atomic/memory_order.h:
@@ -12889,10 +7092,6 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 .qtc/package-manager/auto-setup.cmake:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/signal.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/Availability.h:
-
 /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/icon.qrc:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h:
@@ -12902,6 +7101,10 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/cdefs.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h:
+
+/Users/dzs/Qt-5.15.10/lib/cmake/Qt5Gui/Qt5Gui_QMacJp2Plugin.cmake:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__string/char_traits.h:
 
 /Users/dzs/Qt-5.15.10/lib/cmake/Qt5/Qt5Config.cmake:
 
@@ -12923,6 +7126,8 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/__xlocale.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_nlink_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__algorithm/reverse.h:
@@ -12932,6 +7137,18 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__compare/compare_three_way.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/cstring:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__format/formatter_output.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/wctype.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_xlocale.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/_types.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtabwidget.h:
 
@@ -12947,27 +7164,35 @@ CMakeFiles/3.31.2/CMakeSystem.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/_types/_u_char.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/arm/_types.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/sys/__endian.h:
 
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/QRegExp:
 
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/__stddef_rsize_t.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__ranges/view_interface.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h:
+/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QComboBox:
 
 /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qtextobject.h:
 
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/errno.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h:
+
 /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Versions/5/Headers/qhashfunctions.h:
-
-/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qinputdialog.h:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/usr/include/c++/v1/__system_error/error_code.h:
-
-/opt/homebrew/Cellar/cmake/3.31.2/share/cmake/Modules/Platform/Linker/Apple-AppleClang-CXX.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h:
 

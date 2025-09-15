@@ -965,6 +965,8 @@ CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o:
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontdatabase.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlineedit.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QToolBar \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtoolbar.h \

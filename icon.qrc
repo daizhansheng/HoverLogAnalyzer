@@ -13,5 +13,6 @@
         <file>icons/folder-open.png</file>
         <file>icons/analysis.png</file>
         <file>icons/camera.png</file>
+        <file>icons/down-arrow.png</file>
     </qresource>
 </RCC>

@@ -231,6 +231,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QComboBox \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QDockWidget \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
@@ -252,6 +253,7 @@
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qabstractspinbox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qactiongroup.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qdockwidget.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \

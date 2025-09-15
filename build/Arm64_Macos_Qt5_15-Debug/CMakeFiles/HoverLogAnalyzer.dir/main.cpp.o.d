@@ -939,6 +939,8 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractbutton.h \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlineedit.h \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
