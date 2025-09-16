@@ -4,9 +4,9 @@
 # compile CXX with /usr/bin/clang++
 CXX_DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
 
-CXX_INCLUDES = -I/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/include -iframework /Users/dzs/Qt-5.15.10/lib -isystem /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers -isystem /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers -isystem /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers -isystem /Users/dzs/Qt-5.15.10/./mkspecs/macx-clang
+CXX_INCLUDES = -I/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/include -iframework /Users/dzs/Qt-5.15.10/lib -isystem /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers -isystem /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/OpenGL.framework/Headers -isystem /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers -isystem /Users/dzs/Qt-5.15.10/./mkspecs/macx-clang
 
-CXX_FLAGSarm64 = -DQT_QML_DEBUG -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk -fcolor-diagnostics -fPIC
+CXX_FLAGSarm64 = -DQT_QML_DEBUG -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -fcolor-diagnostics -fPIC
 
-CXX_FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk -fcolor-diagnostics -fPIC
+CXX_FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -fcolor-diagnostics -fPIC
 

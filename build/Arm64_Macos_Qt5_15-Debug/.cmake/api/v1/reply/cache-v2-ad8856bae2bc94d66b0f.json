@@ -971,11 +971,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "Build architectures for OSX"
+					"value" : "Build architectures for Mac OS X"
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "arm64"
 		},
 		{
 			"name" : "CMAKE_OSX_DEPLOYMENT_TARGET",
@@ -995,11 +995,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "The product will be built against the headers and libraries located inside the indicated SDK."
+					"value" : "macOS SDK"
 				}
 			],
 			"type" : "PATH",
-			"value" : "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk"
+			"value" : "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",

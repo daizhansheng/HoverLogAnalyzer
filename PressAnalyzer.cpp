@@ -35,6 +35,8 @@
 #include <QStandardItem>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QSettings>
+#include <QMenu>
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -108,6 +110,8 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     setupConnections();
 
 }
+
+// removed dynamic width adjustment
 
 // 按 '|' 分割，但忽略位于方括号 [] 内部的 '|'（例如 "[I|Captain]" 视为一个整体）
 static QStringList splitByPipeOutsideBrackets(const QString &text)
@@ -343,11 +347,20 @@ void PressAnalyzer::setupToolBar()
     toolBar->addWidget(clearButton);
     toolBar->addSeparator();
     toolBar->addWidget(searchCombo);
+    // 在搜索框后面紧跟搜索按钮
     toolBar->addWidget(searchAllButton);
     toolBar->addWidget(searchPrevButton);
     toolBar->addWidget(searchNextButton);
 
     // 设置搜索提示与下拉项目
+    // 初始化固定提示词（内置）
+    baseFixedHints.clear();
+    baseFixedHints << "[rpc] Req:"
+                   << "otaReportEvent"
+                   << "MediaRequest_MediaRequestType_"
+                   << "GET_MEDIA_FILE media_file_transfer_request";
+    loadPinnedHints();
+    rebuildFixedHints();
     setupSearchCompleter();
     // 准备一次性模型并绑定，后续仅清空并填充，避免偶发显示问题
     searchDropdownModel = new QStandardItemModel(searchCombo);
@@ -356,6 +369,7 @@ void PressAnalyzer::setupToolBar()
     // 选择条目即触发文本更新
     connect(searchCombo, QOverload<int>::of(&QComboBox::activated), this, [this](int){
         if (searchEdit) searchEdit->setText(searchCombo->currentText());
+        updatePinButtonState();
     });
     // 打开下拉前强制刷新，修复偶现不显示提示
     connect(searchCombo, &SearchComboBox::aboutToShowPopup, this, [this](){
@@ -364,6 +378,11 @@ void PressAnalyzer::setupToolBar()
             searchEdit->completer()->popup()->hide();
         }
     });
+    // 右键菜单：固定/取消固定
+    if (searchCombo->view()) {
+        searchCombo->view()->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(searchCombo->view(), &QListView::customContextMenuRequested, this, [this](const QPoint &p){ onDropdownContextMenu(p); });
+    }
     // 在弹出真正显示后再获取 popup 实例并移动到正确屏幕
     connect(searchCombo, &SearchComboBox::popupShown, this, [this](){
         if (!searchCombo->view()) return;
@@ -389,12 +408,7 @@ void PressAnalyzer::setupToolBar()
 
 void PressAnalyzer::setupSearchCompleter()
 {
-    // 初始化固定提示词
-    fixedHints << "[rpc] Req:"
-               << "otaReportEvent"
-               << "MediaRequest_MediaRequestType_"
-               << "GET_MEDIA_FILE media_file_transfer_request";
-
+    // fixedHints 已由 rebuildFixedHints() 生成
     QStringList completerHints = fixedHints + historyHints;
     QCompleter *completer = new QCompleter(completerHints, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -433,6 +447,7 @@ void PressAnalyzer::setupSearchCompleter()
         connect(searchEdit, &QLineEdit::returnPressed, this, [this]() {
             searchAll();
             if (!searchResults.isEmpty()) searchDock->show();
+            updatePinButtonState();
         });
     }
 
@@ -443,8 +458,11 @@ void PressAnalyzer::setupSearchCompleter()
                 // 延迟更新，避免频繁刷新
                 QTimer::singleShot(200, this, &PressAnalyzer::updateCompleterWithSmartHints);
             }
+            updatePinButtonState();
         });
     }
+    connect(pinAction, &QAction::triggered, this, &PressAnalyzer::onPinClicked);
+    updatePinButtonState();
 }
 
 void PressAnalyzer::applyButtonStyles()
@@ -497,6 +515,8 @@ void PressAnalyzer::applyButtonStyles()
     styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向前
     styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向后
 }
+
+// removed dynamic width adjustment
 
 void PressAnalyzer::setupStatusBar()
 {
@@ -1085,6 +1105,12 @@ void PressAnalyzer::addSearchHistory(const QString &text)
 
     // 智能历史管理：如果已存在，先移除旧位置，再添加到开头
     historyHints.removeAll(text);
+    // 如果是固定提示词（含内置与已锁定），则不进入历史，并清理历史中的同名项
+    if (fixedHints.contains(text)) {
+        updateCompleterWithSmartHints();
+        updateSearchDropdownItems();
+        return;
+    }
     historyHints.prepend(text);
 
     // 限制历史数量，最多记录20个
@@ -1156,19 +1182,21 @@ void PressAnalyzer::updateSearchDropdownItems()
     }
     searchDropdownModel->clear();
 
-    // 固定提示词（蓝色）
+    // 固定提示词（黑色文字 + 淡蓝背景）
     for (const QString &s : fixedHints) {
         QStandardItem *it = new QStandardItem(s);
-        it->setForeground(QBrush(QColor(30, 80, 200))); // 蓝色
+        it->setForeground(QBrush(QColor(0, 0, 0))); // 黑色文字
+        it->setBackground(QBrush(QColor(224, 238, 255))); // #E0EEFF 淡蓝底
         searchDropdownModel->appendRow(it);
     }
 
-    // 历史提示词（灰色），最多20
+    // 历史提示词（灰色常规字体），最多20；排除所有固定提示词
     int count = 0;
     for (const QString &s : historyHints) {
+        if (fixedHints.contains(s)) continue;
         if (count >= 20) break;
         QStandardItem *it = new QStandardItem(s);
-        it->setForeground(QBrush(QColor(90, 90, 90)));
+        it->setForeground(QBrush(QColor(100, 100, 100)));
         searchDropdownModel->appendRow(it);
         ++count;
     }
@@ -1188,6 +1216,86 @@ void PressAnalyzer::updateSearchDropdownItems()
         int popupWidth = qMax(maxw, searchCombo->width());
         searchCombo->view()->setMinimumWidth(popupWidth);
         searchCombo->view()->setTextElideMode(Qt::ElideNone);
+    }
+}
+
+void PressAnalyzer::loadPinnedHints()
+{
+    QSettings st("ZZTools", "HoverLogAnalyzer");
+    pinnedHints = st.value("search/pinnedHints").toStringList();
+}
+
+void PressAnalyzer::savePinnedHints()
+{
+    QSettings st("ZZTools", "HoverLogAnalyzer");
+    st.setValue("search/pinnedHints", pinnedHints);
+}
+
+void PressAnalyzer::rebuildFixedHints()
+{
+    fixedHints.clear();
+    // base 在前，pinned 在后（避免重复）
+    for (const QString &s : baseFixedHints) fixedHints.append(s);
+    for (const QString &s : pinnedHints) if (!fixedHints.contains(s)) fixedHints.append(s);
+}
+
+void PressAnalyzer::onDropdownContextMenu(const QPoint &pos)
+{
+    if (!searchCombo || !searchCombo->view()) return;
+    QModelIndex idx = searchCombo->view()->indexAt(pos);
+    if (!idx.isValid()) return;
+    QString text = searchCombo->itemText(idx.row());
+
+    QMenu menu;
+    bool isPinned = pinnedHints.contains(text);
+    QAction *actPin   = nullptr;
+    QAction *actUnpin = nullptr;
+    if (isPinned) actUnpin = menu.addAction("取消固定");
+    else actPin = menu.addAction("固定为提示词");
+    QAction *chosen = menu.exec(searchCombo->view()->mapToGlobal(pos));
+    if (!chosen) return;
+    if (chosen == actPin) {
+        if (!pinnedHints.contains(text)) pinnedHints.prepend(text);
+        savePinnedHints();
+        rebuildFixedHints();
+        updateSearchDropdownItems();
+        updateCompleterWithSmartHints();
+        updatePinButtonState();
+    } else if (chosen == actUnpin) {
+        pinnedHints.removeAll(text);
+        savePinnedHints();
+        rebuildFixedHints();
+        updateSearchDropdownItems();
+        updateCompleterWithSmartHints();
+        updatePinButtonState();
+    }
+}
+
+void PressAnalyzer::onPinClicked()
+{
+    if (!searchEdit) return;
+    QString text = searchEdit->text().trimmed();
+    if (text.isEmpty()) return;
+    // 只允许将“历史提示词”固定，若已是固定则直接返回
+    if (pinnedHints.contains(text)) return;
+    // 固定并保存
+    pinnedHints.removeAll(text);
+    pinnedHints.prepend(text);
+    savePinnedHints();
+    rebuildFixedHints();
+    updateSearchDropdownItems();
+    updateCompleterWithSmartHints();
+    updatePinButtonState();
+}
+
+void PressAnalyzer::updatePinButtonState()
+{
+    if (!searchEdit) return;
+    QString text = searchEdit->text().trimmed();
+    bool canPin = !text.isEmpty() && !pinnedHints.contains(text);
+    if (pinAction) {
+        pinAction->setEnabled(canPin);
+        pinAction->setToolTip(canPin ? "固定为提示词" : "已固定");
     }
 }
 
@@ -2223,7 +2331,7 @@ void PressAnalyzer::searchAll()
         }
     }
 
-    // 所有搜索一律视为重负载：仅对可见区域做黄色高亮
+    // 仅对可见区域做黄色高亮（避免整篇文档重绘），但结果列表不再截断
     bool isHeavy = true;
 
     // 准备颜色池，前两个关键字固定颜色，其余随机亮色
@@ -2261,7 +2369,6 @@ void PressAnalyzer::searchAll()
 
     // 遍历日志行，匹配关键字（使用 QString::indexOf 快路径，避免正则开销），并构建 logView 全局黄色高亮（重负载时跳过全量构建）
     QStringList resultLines;
-    const int kResultCap = isHeavy ? 1000 : 20000;
     for (int i = 0; i < allLogLines.size(); ++i) {
         bool matched = false;
         const QString &lineRef = allLogLines[i];
@@ -2283,7 +2390,8 @@ void PressAnalyzer::searchAll()
             QString itemText = QString("%1 | %2")
                                    .arg(i+1, 6, 10, QChar(' '))
                                    .arg(allLogLines[i]);
-            if (resultLines.size() < kResultCap) resultLines.append(itemText);
+            // 不再截断结果列表，全部加入用于点击跳转
+            resultLines.append(itemText);
 
             // 重负载：不构建全局黄色，交给可见区域增量高亮
         }

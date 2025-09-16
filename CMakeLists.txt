@@ -9,6 +9,35 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# -------- macOS SDK/arch auto-detect --------
+if(APPLE)
+    # Prefer auto-detected SDK from xcrun to avoid stale/invalid sysroot paths
+    execute_process(
+        COMMAND xcrun --sdk macosx --show-sdk-path
+        OUTPUT_VARIABLE MACOSX_SDK_PATH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(MACOSX_SDK_PATH AND EXISTS "${MACOSX_SDK_PATH}")
+        set(CMAKE_OSX_SYSROOT "${MACOSX_SDK_PATH}" CACHE PATH "macOS SDK" FORCE)
+    endif()
+    # Fallback to CommandLineTools SDK if OpenGL headers are missing in primary SDK (Xcode 16/macOS 15)
+    set(_GL_HEADER "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
+    if(NOT EXISTS "${_GL_HEADER}")
+        set(_CLT_SDK "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk")
+        if(EXISTS "${_CLT_SDK}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
+            message(STATUS "OpenGL headers not found in ${CMAKE_OSX_SYSROOT}, switching sysroot to CommandLineTools SDK: ${_CLT_SDK}")
+            set(CMAKE_OSX_SYSROOT "${_CLT_SDK}" CACHE PATH "macOS SDK" FORCE)
+        else()
+            message(WARNING "OpenGL headers not found in current SDKs. Qt5 may fail to configure. Install Command Line Tools (xcode-select --install) or use an older SDK that contains OpenGL headers.")
+        endif()
+    endif()
+    # Ensure correct arch for Apple Silicon kit
+    if(NOT CMAKE_OSX_ARCHITECTURES)
+        set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    endif()
+endif()
+
 # 查找 Qt Widgets
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)

@@ -152,7 +152,7 @@
 		"/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers",
 		"/Users/dzs/Qt-5.15.10/lib/QtGui.framework",
 		"/Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers",
-		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk/System/Library/Frameworks/OpenGL.framework/Headers",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/OpenGL.framework/Headers",
 		"/Users/dzs/Qt-5.15.10/lib/QtCore.framework",
 		"/Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers",
 		"/Users/dzs/Qt-5.15.10/mkspecs/macx-clang",

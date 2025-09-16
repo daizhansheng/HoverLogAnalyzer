@@ -39,6 +39,8 @@ protected:
 #include "ModuleUsageChart.h"
 #include "ChartStyleManager.h"
 #include "CameraTempChartWidget.h"
+#include <QSettings>
+#include <QAction>
 
 class QStandardItemModel;
 
@@ -105,6 +107,12 @@ private:
     void showSearchHints();
     void updateCompleterWithSmartHints();
     void updateSearchDropdownItems();
+    void loadPinnedHints();
+    void savePinnedHints();
+    void rebuildFixedHints();
+    void onDropdownContextMenu(const QPoint &pos);
+    void onPinClicked();
+    void updatePinButtonState();
     void updateVisibleHighlights();
     QColor getEventColor(const QString &eventType);
 
@@ -136,6 +144,9 @@ private:
     QPushButton *searchAllButton;
     QPushButton *searchPrevButton;
     QPushButton *searchNextButton;
+    QPushButton *pinButton;
+    QAction *pinAction;
+    QPushButton *pinTextButton;
     QWidget *checkBoxContainer;
     // ==================== Dock 控件 ====================
     QDockWidget *eventDock;
@@ -161,7 +172,9 @@ private:
 
     int triggerCount;
     int flightCount;
-    QStringList fixedHints;
+    QStringList fixedHints;       // combined: pinned first, then base
+    QStringList baseFixedHints;   // built-in fixed hints
+    QStringList pinnedHints;      // user pinned hints (persistent)
     QStringList historyHints;
     // ==================== camera ====================
     QDockWidget *cameraDock;
