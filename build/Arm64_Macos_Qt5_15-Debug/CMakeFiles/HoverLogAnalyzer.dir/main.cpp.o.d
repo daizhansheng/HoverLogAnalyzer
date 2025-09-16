@@ -990,4 +990,15 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qguiapplication.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qinputmethod.h
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qinputmethod.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QIcon \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QGuiApplication \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QWindow \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qwindow.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QObject \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QEvent \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMargins \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRect \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsurface.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsurfaceformat.h

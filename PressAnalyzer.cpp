@@ -60,15 +60,38 @@ void PressAnalyzer::updateVisibleHighlights()
             selections.push_back(lineSel);
         }
     }
-    // 黄色关键字（仅可见范围）
+    // 关键字高亮（仅可见范围），颜色与搜索结果区域一致
     QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
     for (int i = 0; i < keys.size(); ++i) keys[i] = keys[i].trimmed();
+
+    // 颜色池与搜索结果区域保持一致：第1个黄色、第2个绿色、其余按池循环
+    QVector<QColor> colorPool = {
+        QColor(255, 182, 193), // light pink
+        QColor(173, 216, 230), // light blue
+        QColor(144, 238, 144), // light green
+        QColor(255, 255, 150), // light yellow
+        QColor(255, 160, 122), // light salmon
+        QColor(255, 228, 181), // moccasin
+        QColor(221, 160, 221), // plum
+        QColor(176, 224, 230), // powder blue
+        QColor(152, 251, 152), // pale green
+        QColor(240, 230, 140)  // khaki
+    };
+    QVector<QColor> colors;
+    colors.reserve(keys.size());
+    for (int i = 0; i < keys.size(); ++i) {
+        if (i == 0) colors.append(Qt::yellow);
+        else if (i == 1) colors.append(Qt::green);
+        else colors.append(colorPool[(i - 2) % colorPool.size()]);
+    }
+
     for (int ln = firstVisibleBlock; ln <= lastVisibleBlock; ++ln) {
         QTextBlock block = doc->findBlockByNumber(ln);
         if (!block.isValid()) break;
         QString text = block.text();
         QString hay = text.toLower();
-        for (const QString &k : keys) {
+        for (int kIdx = 0; kIdx < keys.size(); ++kIdx) {
+            const QString &k = keys[kIdx];
             if (k.isEmpty()) continue;
             QString ndl = k.toLower();
             int pos = 0;
@@ -77,7 +100,7 @@ void PressAnalyzer::updateVisibleHighlights()
                 sel.cursor = QTextCursor(block);
                 sel.cursor.setPosition(block.position() + pos);
                 sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, ndl.length());
-                QTextCharFormat fmt; fmt.setBackground(Qt::yellow); fmt.setForeground(Qt::black);
+                QTextCharFormat fmt; fmt.setBackground(colors.value(kIdx, Qt::yellow)); fmt.setForeground(Qt::black);
                 sel.format = fmt;
                 selections.push_back(sel);
                 pos += ndl.length();
@@ -461,7 +484,9 @@ void PressAnalyzer::setupSearchCompleter()
             updatePinButtonState();
         });
     }
-    connect(pinAction, &QAction::triggered, this, &PressAnalyzer::onPinClicked);
+    if (pinAction) {
+        connect(pinAction, &QAction::triggered, this, &PressAnalyzer::onPinClicked);
+    }
     updatePinButtonState();
 }
 
