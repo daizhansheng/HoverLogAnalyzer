@@ -320,7 +320,8 @@ void PressAnalyzer::setupToolBar()
     searchCombo->setEditable(true);
     searchCombo->setInsertPolicy(QComboBox::NoInsert);
     searchCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    searchCombo->setMinimumHeight(30);
+    // 设置最小宽度，并允许随窗口变化自动扩展（Expanding）
+    searchCombo->setMinimumWidth(50);
     searchCombo->setStyleSheet(
         "QComboBox {"
         "  min-height:30px;"
@@ -350,16 +351,16 @@ void PressAnalyzer::setupToolBar()
     // 获取内部编辑器，复用原有行为与样式
     searchEdit = searchCombo->lineEdit();
     if (searchEdit) {
-        searchEdit->setMinimumHeight(30);
+        searchEdit->setMinimumWidth(50); // 与下拉框一致的最小宽度基线
         searchEdit->setPlaceholderText("输入搜索内容... ");
-        searchEdit->setStyleSheet(
-            "QLineEdit {"
-            "  padding: 5px;"
-            "  border: 0px;"
-            "  background-color: transparent;"
-            "  font-size: 12px;"
-            "}"
-        );
+        // 直接设置控件字体，避免某些平台样式表对字体的忽略
+        QFont seFont = searchEdit->font();
+        seFont.setPointSize(12);
+        searchEdit->setFont(seFont);
+        // 同步设置给 QComboBox 本体，确保高度与布局计算一致
+        QFont cbFont = searchCombo->font();
+        cbFont.setPointSize(12);
+        searchCombo->setFont(cbFont);
     }
 
     // 添加到工具栏
