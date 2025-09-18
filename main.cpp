@@ -1,6 +1,7 @@
 #include "PressAnalyzer.h"
 
 #include <QApplication>
+#include <QPalette>
 #ifdef Q_OS_MAC
 #include <QMenu>
 #include <QAction>
@@ -14,6 +15,20 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    // 固定浅色调，不随系统深浅色切换
+    QPalette pal;
+    pal.setColor(QPalette::Window, QColor(255,255,255));
+    pal.setColor(QPalette::WindowText, Qt::black);
+    pal.setColor(QPalette::Base, QColor(250,250,250));
+    pal.setColor(QPalette::AlternateBase, QColor(245,245,245));
+    pal.setColor(QPalette::ToolTipBase, Qt::white);
+    pal.setColor(QPalette::ToolTipText, Qt::black);
+    pal.setColor(QPalette::Text, Qt::black);
+    pal.setColor(QPalette::Button, QColor(248,248,248));
+    pal.setColor(QPalette::ButtonText, Qt::black);
+    pal.setColor(QPalette::Highlight, QColor(128,191,255));
+    pal.setColor(QPalette::HighlightedText, Qt::white);
+    a.setPalette(pal);
     a.setWindowIcon(QIcon(":/new/image/logo.icns"));
     QFont font("Courier New");
     font.setStyleHint(QFont::Monospace); // 等宽

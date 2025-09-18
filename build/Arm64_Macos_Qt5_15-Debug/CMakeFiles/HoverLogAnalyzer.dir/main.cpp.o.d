@@ -991,6 +991,7 @@ CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qguiapplication.h \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qinputmethod.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPalette \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QIcon \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QGuiApplication \

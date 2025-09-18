@@ -22,5 +22,9 @@
 
     <key>CFBundleIconFile</key>
     <string>logo</string>
+
+  <!-- 强制使用 Aqua 外观（浅色），不随系统深浅色切换 -->
+  <key>NSRequiresAquaSystemAppearance</key>
+  <true/>
 </dict>
 </plist>
