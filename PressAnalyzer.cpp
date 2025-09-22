@@ -1512,25 +1512,51 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
         // ==================== insertMediaDataIntoDb ====================
         auto mSql = reInsertSql.match(line);
         if (mSql.hasMatch()) {
-            QString bracketContent = mSql.captured(1);
-            QStringList values;
-            auto it = reSqlValues.globalMatch(bracketContent);
-            while (it.hasNext()) {
-                auto mm = it.next();
-                if (mm.captured(1).size())
-                    values << mm.captured(1);
-                else
-                    values << mm.captured(2);
+            QString sql = mSql.captured(1);
+
+            // 1) 解析列名顺序
+            QRegularExpression reCols(R"(INSERT\s+INTO\s+MEDIADATA\s*\(([^)]*)\)\s*VALUES)",
+                                      QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch mc = reCols.match(sql);
+            QStringList colNames;
+            if (mc.hasMatch()) {
+                QString colsStr = mc.captured(1);
+                for (QString c : colsStr.split(',', Qt::SkipEmptyParts)) {
+                    colNames << c.trimmed().toLower();
+                }
             }
 
-            if (values.size() >= 4) {
-                QString uuid = values[0];
-                int type = values[1].toInt();
-                QString path = values[3];
+            // 2) 提取 VALUES 的值（字符串或数字）
+            QStringList values;
+            auto it = reSqlValues.globalMatch(sql);
+            while (it.hasNext()) {
+                auto mm = it.next();
+                values << (mm.captured(1).isEmpty() ? mm.captured(2) : mm.captured(1));
+            }
 
-                // typeToString lambda 函数
+            // 3) 根据列名定位 uuid/type/path 的索引；若没有列名则回退到旧版固定位置
+            auto indexOfCol = [&](const QString &name, int fallback) -> int {
+                int idx = colNames.indexOf(name);
+                return idx >= 0 ? idx : fallback;
+            };
+
+            int idxUuid = indexOfCol("uuid", 0);
+            int idxType = indexOfCol("type", 1);          // 旧格式：第二个是 type
+            int idxPath = indexOfCol("path", 3);          // 旧格式：第四个是 path
+
+            if (!colNames.isEmpty() && colNames.contains("flightid")) {
+                // 新格式：uuid, flightid, type, createtime, path, ...
+                idxType = indexOfCol("type", 2);
+                idxPath = indexOfCol("path", 4);
+            }
+
+            if (values.size() > qMax(idxPath, qMax(idxType, idxUuid))) {
+                QString uuid = values.value(idxUuid);
+                int type = values.value(idxType).toInt();
+                QString path = values.value(idxPath);
+
                 auto typeToString = [](int type) -> QString {
-                    switch(type) {
+                    switch (type) {
                     case 1: return "METADATA";
                     case 2: return "THUMBNAIL";
                     case 3: return "VIDEO";
@@ -1546,20 +1572,25 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 
                 QString typeStr = typeToString(type);
 
+                QString storagePrefix;
                 QString displayPath;
                 if (path.startsWith("/media/internal/")) {
-                    displayPath = "Internal:" + path.mid(16);
+                    storagePrefix = "Internal:";
+                    displayPath = path.mid(16);
                 } else if (path.startsWith("/media/external/")) {
-                    displayPath = "External:" + path.mid(16);
+                    storagePrefix = "External:";
+                    displayPath = path.mid(16);
                 } else {
+                    storagePrefix = "Unknown:";
                     displayPath = path;
                 }
 
-                QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5")
+                QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5%6")
                                       .arg(lineNumber, 6, 10, QChar(' '))
                                       .arg(flightCount)
                                       .arg(uuid)
                                       .arg(typeStr)
+                                      .arg(storagePrefix)
                                       .arg(displayPath);
                 addEventToList(triggerCount, lineNumber, display);
             }
