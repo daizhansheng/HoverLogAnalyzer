@@ -161,6 +161,8 @@ private:
     QPlainTextEdit *logView;
     // ==================== 状态栏控件 ====================
     QStatusBar *statusBar;          // 状态栏
+    QLabel *statusPathLabel;        // 左侧：路径/状态
+    QLabel *statusInfoLabel;        // 右侧：持久信息（Image/IPK/SN/HW）
     QString modeText;
     // ==================== 数据 ====================
     QList<EventItem> allEvents;

@@ -174,7 +174,10 @@ void PressAnalyzer::setupMainWindow()
     setWindowTitle("Hover日志分析助手");
     setWindowIcon(QIcon(":/new/image/logo.icns"));
     resize(1200, 700);
+
+    // 撤销自定义居中标题栏
 }
+// 撤销自定义更新接口，保持系统默认标题行为
 
 void PressAnalyzer::setupCentralWidget()
 {
@@ -548,7 +551,14 @@ void PressAnalyzer::setupStatusBar()
 {
     statusBar = new QStatusBar(this);
     setStatusBar(statusBar);
-    statusBar->showMessage("就绪");
+    statusPathLabel = new QLabel(this);
+    statusPathLabel->setText("就绪");
+    statusBar->addWidget(statusPathLabel, 1); // 左侧可变信息：路径/进度
+
+    statusInfoLabel = new QLabel(this);
+    statusInfoLabel->setText("");
+    statusInfoLabel->setMinimumWidth(420);
+    statusBar->addPermanentWidget(statusInfoLabel);    // 右侧永久信息：Image/IPK/SN/HW
 }
 
 void PressAnalyzer::setupCameraDock()
@@ -1402,7 +1412,6 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     in.setCodec("UTF-8");
 
     // ==================== 预编译正则表达式 ====================
-    static const QRegularExpression reSn(R"(\[I\|System\]: SN:\s*(\S+))", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression rePressPower(R"(\[(\d+\.\d+)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");
     static const QRegularExpression reTakeoff(R"(trigger source:\s*(\d+)\s+flight mode:\s*(\w+))", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression reTs(R"(\[\d+\.\d+\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
@@ -1420,11 +1429,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                               .arg(lineNumber, 6, 10, QChar(' '))
                               .arg(line));
 
-        // ==================== drone SN ====================
-        auto matchSn = reSn.match(line);
-        if (matchSn.hasMatch()) {
-            sn = matchSn.captured(1).trimmed();
-        }
+        // 不再从日志正文解析 SN，改为从 system_log/user.log 中获取
 
         // ==================== press once power key ====================
         if (line.contains("press once power key", Qt::CaseInsensitive)) {
@@ -1676,7 +1681,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
-    statusBar->showMessage(QString("路径: %1").arg(filePath));
+    if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
     allLogLines.clear();
     allEvents.clear();
     cameraEvents.clear();
@@ -1694,6 +1699,79 @@ void PressAnalyzer::loadAndAnalyzeLog()
     triggerCount = 0;
     flightCount = 0;
 
+    // 依据已选文件查找 system_log（当前目录的上溯链或同级），解析 user.log 填充右侧版本信息
+    {
+        auto climbToSystemLog = [](QDir dir) -> QString {
+            QDir cur = dir;
+            while (true) {
+                if (cur.dirName() == QStringLiteral("system_log")) return cur.absolutePath();
+                QDir up = cur; if (!up.cdUp()) break; cur = up;
+            }
+            return QString();
+        };
+        auto findSiblingSystemLog = [](const QString &baseDir) -> QString {
+            QDir d(baseDir);
+            if (d.exists("system_log")) return d.absoluteFilePath("system_log");
+            QDir parent(baseDir); if (parent.cdUp() && parent.exists("system_log")) return parent.absoluteFilePath("system_log");
+            return QString();
+        };
+        auto parseHeader = [this](const QString &userLogPath){
+            QFile f(userLogPath); if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+            QTextStream in(&f); in.setCodec("UTF-8");
+            QString imageVer, ipkVer, snLocal, hwid, prev; int lines = 0;
+            while (!in.atEnd() && lines < 400) {
+                QString l = in.readLine().trimmed(); ++lines;
+                if (prev.contains("image verison", Qt::CaseInsensitive)) {
+                    // 目标：从 zz.product.version=ZZ_IMG_H141B_V8.0.17 提取 H141B_V8.0.17
+                    // 允许字母数字、下划线与点
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l);
+                    if (m.hasMatch()) imageVer = m.captured(1); else imageVer = l;
+                }
+                if (prev.contains("ipk version", Qt::CaseInsensitive)) {
+                    QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
+                }
+                if (prev.contains("hover.sn", Qt::CaseInsensitive)) {
+                    // 仅在匹配到“hover=”时才设置 SN，忽略诸如 board=... 的行
+                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reSn.match(l);
+                    if (m.hasMatch()) snLocal = m.captured(1);
+                }
+                if (prev.contains("hardware id", Qt::CaseInsensitive)) { if (!l.isEmpty()) hwid = l; }
+                if (imageVer.isEmpty()) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l); if (m.hasMatch()) imageVer = m.captured(1);
+                }
+                if (ipkVer.isEmpty()) { QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption); auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); }
+                if (snLocal.isEmpty()) { QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption); auto m = reSn.match(l); if (m.hasMatch()) snLocal = m.captured(1); }
+                prev = l; if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !snLocal.isEmpty() && !hwid.isEmpty()) break;
+            }
+            sn = snLocal; // 覆盖全局 SN
+            if (statusInfoLabel) statusInfoLabel->setText(QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
+                .arg(imageVer.isEmpty()?"-":imageVer).arg(ipkVer.isEmpty()?"-":ipkVer)
+                .arg(snLocal.isEmpty()?"-":snLocal).arg(hwid.isEmpty()?"-":hwid));
+        };
+        QFileInfo fi(filePath); QString dirPath = fi.absolutePath();
+        QString syslogDir = climbToSystemLog(QDir(dirPath));
+        if (syslogDir.isEmpty()) syslogDir = findSiblingSystemLog(dirPath);
+        if (!syslogDir.isEmpty()) {
+            QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
+            QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
+            if (QFileInfo::exists(userLog)) parseHeader(userLog);
+            else if (QFileInfo::exists(userLogZip)) {
+                QProcess p; QStringList args;
+#ifdef Q_OS_WIN
+                args << "x" << userLogZip << "-o" << syslogDir << "-y"; p.start("7z.exe", args);
+#else
+                args << "-o" << userLogZip << "-d" << syslogDir; p.start("unzip", args);
+#endif
+                p.waitForFinished(-1);
+                if (p.exitCode() == 0 && QFileInfo::exists(userLog)) parseHeader(userLog);
+            }
+        }
+    }
+
     int lineNumber = 0;
     QDateTime currentTakeoffTime;
     QString textBuffer;
@@ -1710,7 +1788,10 @@ void PressAnalyzer::loadAndAnalyzeLog()
     cameraTempChart->setData(cameraTemps);
     socChart->clear();
     socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
+                   .arg(sn.isEmpty() ? QString("-") : sn)
+                   .arg(triggerCount)
+                   .arg(flightCount));
 
     //解析cpu/mem占用率，绘制图案
     // getTopFilePath lambda 函数
@@ -1739,6 +1820,110 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     QString path = QFileDialog::getExistingDirectory(this, "选择日志文件或目录", "");
     if (path.isEmpty()) return;
 
+    // 在“分析Control Engine日志”场景下：仅在当前目录的下一级（直接子目录）查找 system_log
+    {
+        auto findChildSystemLog = [](const QString &base) -> QString {
+            QDir dir(base);
+            // 当前目录本身
+            if (dir.exists("system_log")) return dir.absoluteFilePath("system_log");
+            // 直接子目录
+            QFileInfoList level1 = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+            for (const QFileInfo &d1 : level1) {
+                QDir dir1(d1.absoluteFilePath());
+                if (dir1.exists("system_log")) return dir1.absoluteFilePath("system_log");
+            }
+            return QString();
+        };
+
+        auto parseUserLogHeaderCE = [this](const QString &userLogPath){
+            QFile file(userLogPath);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+            QTextStream in(&file);
+            in.setCodec("UTF-8");
+            QString imageVer, ipkVer, sn, hwid;
+            QString prevLine;
+            int linesRead = 0;
+            while (!in.atEnd() && linesRead < 400) {
+                QString line = in.readLine();
+                ++linesRead;
+                QString l = line.trimmed();
+                if (prevLine.contains("image verison", Qt::CaseInsensitive)) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l);
+                    if (m.hasMatch()) imageVer = m.captured(1); else imageVer = l;
+                }
+                if (prevLine.contains("ipk version", Qt::CaseInsensitive)) {
+                    QRegularExpression reVer(R"(Version:\s*([0-9][0-9\.]*))",
+                                             QRegularExpression::CaseInsensitiveOption);
+                    auto m = reVer.match(l);
+                    if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
+                }
+                if (prevLine.contains("hover.sn", Qt::CaseInsensitive)) {
+                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reSn.match(l);
+                    if (m.hasMatch()) sn = m.captured(1);
+                }
+                if (prevLine.contains("hardware id", Qt::CaseInsensitive)) {
+                    if (!l.isEmpty()) hwid = l;
+                }
+                if (imageVer.isEmpty()) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l);
+                    if (m.hasMatch()) imageVer = m.captured(1);
+                }
+                if (ipkVer.isEmpty()) {
+                    QRegularExpression reVer(R"(Version:\s*([0-9][0-9\.]*))",
+                                             QRegularExpression::CaseInsensitiveOption);
+                    auto m = reVer.match(l);
+                    if (m.hasMatch()) ipkVer = m.captured(1);
+                }
+                if (sn.isEmpty()) {
+                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reSn.match(l);
+                    if (m.hasMatch()) sn = m.captured(1);
+                }
+                prevLine = l;
+                if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !sn.isEmpty() && !hwid.isEmpty()) break;
+            }
+            // 将解析到的 SN 写回成员变量，供窗口标题等使用
+            this->sn = sn;
+
+            QString info = QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
+                               .arg(imageVer.isEmpty() ? "-" : imageVer)
+                               .arg(ipkVer.isEmpty() ? "-" : ipkVer)
+                               .arg(sn.isEmpty() ? "-" : sn)
+                               .arg(hwid.isEmpty() ? "-" : hwid);
+            if (statusInfoLabel) statusInfoLabel->setText(info);
+        };
+
+        QString syslogDir = findChildSystemLog(path);
+        if (!syslogDir.isEmpty()) {
+            QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
+            QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
+            if (QFileInfo::exists(userLog)) {
+                parseUserLogHeaderCE(userLog);
+            } else if (QFileInfo::exists(userLogZip)) {
+                QProcess unzipProcess;
+                QStringList args;
+#ifdef Q_OS_WIN
+                args << "x" << userLogZip << "-o" << syslogDir << "-y";
+                unzipProcess.start("7z.exe", args);
+#else
+                args << "-o" << userLogZip << "-d" << syslogDir;
+                unzipProcess.start("unzip", args);
+#endif
+                unzipProcess.waitForFinished(-1);
+                if (unzipProcess.exitCode() == 0 && QFileInfo::exists(userLog)) {
+                    parseUserLogHeaderCE(userLog);
+                }
+            }
+        }
+    }
+
     // 减少大文件解析时的界面重绘
     logView->setUpdatesEnabled(false);
     QSignalBlocker blocker1(eventList);
@@ -1746,7 +1931,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
-    statusBar->showMessage(QString("路径: %1").arg(path));
+    if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
     auto collectLogs = [](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
@@ -1861,7 +2046,10 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     cameraTempChart->setData(cameraTemps);
     socChart->clear();
     socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
+                   .arg(sn.isEmpty() ? QString("-") : sn)
+                   .arg(triggerCount)
+                   .arg(flightCount));
     // 分开解析 top_log
     for (const QString &filePath : topLogs) {
         parseTopFile(filePath);
@@ -1881,7 +2069,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     QSignalBlocker blocker3(cameraEventList);
     QSignalBlocker blocker4(heartbeatLostEventList);
 
-    statusBar->showMessage(QString("路径: %1").arg(path));
+    if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
     auto collectLogs = [](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
@@ -1994,7 +2182,10 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     batteryChart->setData(batteryinfo);
     socChart->clear();
     socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3").arg(sn).arg(triggerCount).arg(flightCount));
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
+                   .arg(sn.isEmpty() ? QString("-") : sn)
+                   .arg(triggerCount)
+                   .arg(flightCount));
     // 分开解析 top_log
     for (const QString &filePath : topLogs) {
         parseTopFile(filePath);
@@ -2010,6 +2201,130 @@ void PressAnalyzer::loadAndMergeLogs()
     QString path = QFileDialog::getExistingDirectory(this, "选择日志目录");
     if (path.isEmpty()) {
         return;
+    }
+
+    // 显示用户选择的通用目录路径（后续过程保持静默，不覆盖）
+    if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
+
+    // 先在所选目录向下（最多两级）寻找 system_log 目录，并尝试解析 user.log 头部信息
+    auto findSystemLogDir = [](const QString &base) -> QString {
+        QDir cur(base);
+        // 情况A：当前目录本身或其上级链中存在 system_log，则返回该 system_log
+        QDir climb = cur;
+        while (true) {
+            if (climb.dirName() == QStringLiteral("system_log")) {
+                return climb.absolutePath();
+            }
+            QDir up(climb);
+            if (!up.cdUp()) break;
+            climb = up;
+        }
+
+        // 情况B：在当前目录的同级目录中查找 system_log
+        QDir parent(cur.absolutePath());
+        if (parent.cdUp()) {
+            if (parent.exists("system_log")) {
+                return parent.absoluteFilePath("system_log");
+            }
+        }
+
+        return QString();
+    };
+
+    auto parseUserLogHeader = [this](const QString &userLogPath){
+        QFile file(userLogPath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+        QTextStream in(&file);
+        in.setCodec("UTF-8");
+
+        QString imageVer, ipkVer, sn, hwid;
+        QString prevLine;
+        int linesRead = 0;
+        while (!in.atEnd() && linesRead < 400) {
+            QString line = in.readLine();
+            ++linesRead;
+            QString l = line.trimmed();
+            // 通过标记行提取下一行内容
+            if (prevLine.contains("image verison", Qt::CaseInsensitive)) {
+                // 目标：提取 H141B_V8.0.17
+                QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))",
+                                        QRegularExpression::CaseInsensitiveOption);
+                auto m = reZZ.match(l);
+                if (m.hasMatch()) imageVer = m.captured(1);
+                if (imageVer.isEmpty()) imageVer = l;
+            }
+            if (prevLine.contains("ipk version", Qt::CaseInsensitive)) {
+                QRegularExpression reVer(R"(Version:\s*([0-9][0-9\.]*))",
+                                         QRegularExpression::CaseInsensitiveOption);
+                auto m = reVer.match(l);
+                if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
+            }
+            if (prevLine.contains("hover.sn", Qt::CaseInsensitive)) {
+                QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))",
+                                        QRegularExpression::CaseInsensitiveOption);
+                auto m = reSn.match(l);
+                if (m.hasMatch()) sn = m.captured(1);
+            }
+            if (prevLine.contains("hardware id", Qt::CaseInsensitive)) {
+                if (!l.isEmpty()) hwid = l;
+            }
+
+            // 也支持不依赖标记的直匹配
+            if (imageVer.isEmpty()) {
+                QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))",
+                                        QRegularExpression::CaseInsensitiveOption);
+                auto m = reZZ.match(l);
+                if (m.hasMatch()) imageVer = m.captured(1);
+            }
+            if (ipkVer.isEmpty()) {
+                QRegularExpression reVer(R"(Version:\s*([0-9][0-9\.]*))",
+                                         QRegularExpression::CaseInsensitiveOption);
+                auto m = reVer.match(l);
+                if (m.hasMatch()) ipkVer = m.captured(1);
+            }
+            if (sn.isEmpty()) {
+                QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))",
+                                        QRegularExpression::CaseInsensitiveOption);
+                auto m = reSn.match(l);
+                if (m.hasMatch()) sn = m.captured(1);
+            }
+
+            prevLine = l;
+            if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !sn.isEmpty() && !hwid.isEmpty()) break;
+        }
+
+        QString info = QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
+                           .arg(imageVer.isEmpty() ? "-" : imageVer)
+                           .arg(ipkVer.isEmpty() ? "-" : ipkVer)
+                           .arg(sn.isEmpty() ? "-" : sn)
+                           .arg(hwid.isEmpty() ? "-" : hwid);
+        // 将持久信息放到右侧永久区域；左侧保持路径不变
+        if (statusInfoLabel) statusInfoLabel->setText(info);
+    };
+
+    QString syslogDir = findSystemLogDir(path);
+    if (!syslogDir.isEmpty()) {
+        QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
+        QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
+        if (QFileInfo::exists(userLog)) {
+            // 已解压，直接解析
+            parseUserLogHeader(userLog);
+        } else if (QFileInfo::exists(userLogZip)) {
+            // 解压 user.log.zip 到同目录（若已解压则 unzip 会覆盖或直接成功返回）
+            QProcess unzipProcess;
+            QStringList args;
+#ifdef Q_OS_WIN
+            args << "x" << userLogZip << "-o" << syslogDir << "-y";
+            unzipProcess.start("7z.exe", args);
+#else
+            args << "-o" << userLogZip << "-d" << syslogDir;
+            unzipProcess.start("unzip", args);
+#endif
+            unzipProcess.waitForFinished(-1);
+            if (unzipProcess.exitCode() == 0 && QFileInfo::exists(userLog)) {
+                parseUserLogHeader(userLog);
+            }
+        }
     }
 
     // 检查是否选择了control_engine_log目录，如果是则走loadAndAnalyzeLogs的逻辑
@@ -2061,7 +2376,7 @@ void PressAnalyzer::loadAndMergeLogs()
                 QString extractDir = entry.absolutePath();
 
                 // 更新状态栏显示当前处理的zip文件
-                statusBar->showMessage(QString("正在解压: %1").arg(entry.fileName()));
+                // 静默解压
                 QApplication::processEvents(); // 保持界面响应
 
                 QProcess unzipProcess;
@@ -2081,12 +2396,7 @@ void PressAnalyzer::loadAndMergeLogs()
                 unzipProcess.waitForFinished(-1);
 
                 // 检查解压结果
-                if (unzipProcess.exitCode() != 0) {
-                    QString errorOutput = unzipProcess.readAllStandardError();
-                    statusBar->showMessage(QString("解压失败: %1").arg(entry.fileName()));
-                } else {
-                    statusBar->showMessage(QString("解压成功: %1").arg(entry.fileName()));
-                }
+                // 静默处理成功/失败
 
                 // 处理Qt事件，保持界面响应
                 QApplication::processEvents();
@@ -2117,11 +2427,11 @@ void PressAnalyzer::loadAndMergeLogs()
     };
 
     // 先解压所有zip文件
-    statusBar->showMessage("正在解压zip文件...");
+    // 静默
     extractAllZips(path);
 
     // 然后收集所有相关文件
-    statusBar->showMessage("正在收集文件...");
+    // 静默
     QStringList allFiles = collectAllFiles(path);
 
         if (allFiles.isEmpty()) {
@@ -2346,7 +2656,8 @@ void PressAnalyzer::clearWindow()
     logView->setTextCursor(cursor);
     allusage.clear();
     if (usageChart) usageChart->setData(allusage);
-    statusBar->showMessage("就绪");
+    if (statusPathLabel) statusPathLabel->setText("就绪");
+    if (statusInfoLabel) statusInfoLabel->setText("");
     setWindowTitle("日志分析工具");
 
     // 重置全局按钮点击状态，下次点击任何文件按钮都会在当前窗口显示
@@ -2975,9 +3286,7 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
 
     for (const QString &filePath : sortedFiles) {
         processedFiles++;
-        statusBar->showMessage(QString("正在处理文件 %1/%2: %3...")
-                              .arg(processedFiles).arg(sortedFiles.size())
-                              .arg(QFileInfo(filePath).fileName()));
+        // 静默：原有进度提示已移除
 
         QFile file(filePath);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -3025,7 +3334,7 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
     }
 
     // 更新状态栏
-    statusBar->showMessage(QString("已合并 %1 个文件，共 %2 行").arg(sortedFiles.size()).arg(totalLineNumber));
+    // 静默
 
     // 设置窗口标题
     setWindowTitle(QString("日志查看器 - %1 个文件").arg(sortedFiles.size()));
@@ -3071,9 +3380,7 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
 
     for (const QString &filePath : filePaths) {
         processedFiles++;
-        statusBar->showMessage(QString("正在处理文件 %1/%2: %3...")
-                              .arg(processedFiles).arg(filePaths.size())
-                              .arg(QFileInfo(filePath).fileName()));
+        // 静默：原有进度提示已移除
 
         QFile file(filePath);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -3124,7 +3431,7 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
     logView->setPlainText(textBuffer);
 
     // 更新状态栏
-    statusBar->showMessage(QString("已合并 %1 个文件，共 %2 行").arg(filePaths.size()).arg(totalLineNumber));
+    // 静默
 
     // 设置窗口标题
     setWindowTitle(QString("日志查看器 - %1 个文件").arg(filePaths.size()));
