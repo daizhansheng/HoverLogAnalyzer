@@ -1616,7 +1616,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                         l.startsWith("errors:", Qt::CaseInsensitive)) {
                         QString display = QString("%1 | %2# %3")
                         .arg(lineNumber-1, 6, 10, QChar(' '))
-                            .arg(flightCount)
+                            .arg(triggerCount)
                             .arg(l.trimmed());
                         addEventToList(triggerCount, lineNumber-1, display);
                     }
