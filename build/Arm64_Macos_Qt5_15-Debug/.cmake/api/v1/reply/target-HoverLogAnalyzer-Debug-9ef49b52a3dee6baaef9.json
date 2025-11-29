@@ -31,25 +31,25 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 75,
+				"line" : 101,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 111,
+				"line" : 137,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 91,
+				"line" : 107,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 43,
+				"line" : 46,
 				"parent" : 0
 			},
 			{
@@ -97,6 +97,10 @@
 			[
 				{
 					"backtrace" : 3,
+					"define" : "QT_CHARTS_LIB"
+				},
+				{
+					"backtrace" : 3,
 					"define" : "QT_CORE_LIB"
 				},
 				{
@@ -124,6 +128,11 @@
 					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "/Users/dzs/Qt-5.15.10/lib/QtCore.framework"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/Users/dzs/Qt-5.15.10/lib/QtCharts.framework"
 				}
 			],
 			"includes" : 
@@ -156,6 +165,11 @@
 					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "/Users/dzs/Qt-5.15.10/./mkspecs/macx-clang"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/Users/dzs/Qt-5.15.10/lib/QtCharts.framework/Headers"
 				}
 			],
 			"language" : "CXX",
@@ -173,7 +187,8 @@
 				1,
 				2,
 				5,
-				18
+				7,
+				23
 			]
 		}
 	],
@@ -224,6 +239,11 @@
 			},
 			{
 				"backtrace" : 3,
+				"fragment" : "/Users/dzs/Qt-5.15.10/lib/QtCharts.framework/QtCharts",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
 				"fragment" : "/Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/QtWidgets",
 				"role" : "libraries"
 			},
@@ -257,7 +277,8 @@
 				1,
 				2,
 				5,
-				18
+				7,
+				23
 			]
 		},
 		{
@@ -266,6 +287,7 @@
 			[
 				3,
 				6,
+				8,
 				9,
 				10,
 				11,
@@ -273,7 +295,10 @@
 				13,
 				14,
 				15,
-				16
+				16,
+				17,
+				18,
+				21
 			]
 		},
 		{
@@ -287,23 +312,23 @@
 			"name" : "Resources",
 			"sourceIndexes" : 
 			[
-				7
+				19
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				8,
-				17
+				20,
+				22
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				19,
-				20
+				24,
+				25
 			]
 		}
 	],
@@ -351,13 +376,49 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "icon.qrc",
-			"sourceGroupIndex" : 3
+			"compileGroupIndex" : 0,
+			"path" : "SelectableListWidget.cpp",
+			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "logo.icns",
-			"sourceGroupIndex" : 4
+			"path" : "SelectableListWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BatteryChartWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "CameraTempChartWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ChartBaseWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "DockToggleButton.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "FlightAnimationWidget.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "LogNumberHighlighter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ModuleUsageChart.h",
+			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
@@ -371,28 +432,18 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BatteryChartWidget.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
 			"path" : "SocTempChartWidget.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "DockToggleButton.h",
-			"sourceGroupIndex" : 1
+			"path" : "icon.qrc",
+			"sourceGroupIndex" : 3
 		},
 		{
 			"backtrace" : 1,
-			"path" : "CameraTempChartWidget.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"path" : "ModuleUsageChart.h",
-			"sourceGroupIndex" : 1
+			"path" : "logo.icns",
+			"sourceGroupIndex" : 4
 		},
 		{
 			"backtrace" : 0,

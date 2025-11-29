@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(HoverLogAnalyzer VERSION 0.1 LANGUAGES CXX)
 
+# --- 1. 基础设置 ---
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -9,9 +10,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# -------- macOS SDK/arch auto-detect --------
+# [调试开关] Windows下如果程序闪退，请把 OFF 改为 ON，这样能看到控制台报错
+option(ENABLE_CONSOLE_DEBUG "Enable console output on Windows for debugging" OFF)
+
+# --- 2. macOS SDK 设置 (保持原样) ---
 if(APPLE)
-    # Prefer auto-detected SDK from xcrun to avoid stale/invalid sysroot paths
     execute_process(
         COMMAND xcrun --sdk macosx --show-sdk-path
         OUTPUT_VARIABLE MACOSX_SDK_PATH
@@ -21,92 +24,115 @@ if(APPLE)
     if(MACOSX_SDK_PATH AND EXISTS "${MACOSX_SDK_PATH}")
         set(CMAKE_OSX_SYSROOT "${MACOSX_SDK_PATH}" CACHE PATH "macOS SDK" FORCE)
     endif()
-    # Fallback to CommandLineTools SDK if OpenGL headers are missing in primary SDK (Xcode 16/macOS 15)
+
+    # 自动处理 OpenGL 头文件路径问题
     set(_GL_HEADER "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
     if(NOT EXISTS "${_GL_HEADER}")
         set(_CLT_SDK "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk")
         if(EXISTS "${_CLT_SDK}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
-            message(STATUS "OpenGL headers not found in ${CMAKE_OSX_SYSROOT}, switching sysroot to CommandLineTools SDK: ${_CLT_SDK}")
             set(CMAKE_OSX_SYSROOT "${_CLT_SDK}" CACHE PATH "macOS SDK" FORCE)
-        else()
-            message(WARNING "OpenGL headers not found in current SDKs. Qt5 may fail to configure. Install Command Line Tools (xcode-select --install) or use an older SDK that contains OpenGL headers.")
         endif()
     endif()
-    # Ensure correct arch for Apple Silicon kit
+
     if(NOT CMAKE_OSX_ARCHITECTURES)
-        set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+        set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "Build architectures" FORCE)
     endif()
 endif()
 
-# 查找 Qt Widgets
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+# --- 3. 查找 Qt 组件 ---
+# 注意：你的文件名包含 Chart，如果你使用了 QtCharts，必须在这里加上 Charts
+# 如果没有用 Charts 模块，请删除 "Charts" 字样
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Charts)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Charts)
 
-# 项目源文件
+# --- 4. 源文件列表 (基于你提供的 ls 输出) ---
 set(PROJECT_SOURCES
+    # Main
     main.cpp
+
+    # PressAnalyzer
     PressAnalyzer.cpp
     PressAnalyzer.h
     PressAnalyzer.ui
+
+    # ChartStyleManager
     ChartStyleManager.cpp
     ChartStyleManager.h
-    icon.qrc          # 窗口图标和按钮图标资源
+
+    # SelectableListWidget
+    SelectableListWidget.cpp
+    SelectableListWidget.h
+
+    # --- 只有头文件的类 (Header Only) ---
+    # 注意：如果这些其实有 .cpp 但你没发出来，必须把 .cpp 也加上！
+    # 即使只有 .h，为了让 MOC 正常工作，也必须列在这里。
+    BatteryChartWidget.h
+    CameraTempChartWidget.h
+    ChartBaseWidget.h
+    DockToggleButton.h
+    FlightAnimationWidget.h
+    LogNumberHighlighter.h
+    ModuleUsageChart.h
+    SearchResultHighlighter.h
+    SearchResultTextView.h
+    SocTempChartWidget.h
+
+    # 资源
+    icon.qrc
 )
 
-# macOS Dock 图标 (.icns)
+# macOS 图标
 set(APP_ICON_MACOS "${CMAKE_CURRENT_SOURCE_DIR}/logo.icns")
 set_source_files_properties(${APP_ICON_MACOS} PROPERTIES
     MACOSX_PACKAGE_LOCATION "Resources"
 )
 
-# 可执行文件
+# --- 5. 生成可执行文件 ---
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(HoverLogAnalyzer
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        ${APP_ICON_MACOS}   # 加入 Dock 图标
+        ${APP_ICON_MACOS}
     )
 else()
     if(ANDROID)
-        add_library(HoverLogAnalyzer SHARED
-            ${PROJECT_SOURCES}
-        )
+        add_library(HoverLogAnalyzer SHARED ${PROJECT_SOURCES})
     else()
-        add_executable(HoverLogAnalyzer
-            ${PROJECT_SOURCES}
-            ${APP_ICON_MACOS}
-            SearchResultHighlighter.h
-            SearchResultTextView.h
-            BatteryChartWidget.h
-            SocTempChartWidget.h
-            DockToggleButton.h
-            CameraTempChartWidget.h
-
-            ModuleUsageChart.h
-            # 加入 Dock 图标
-        )
+        add_executable(HoverLogAnalyzer ${PROJECT_SOURCES} ${APP_ICON_MACOS})
     endif()
 endif()
 
-target_link_libraries(HoverLogAnalyzer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+# --- 6. 链接库 ---
+# 链接 Widgets 和 Charts
+target_link_libraries(HoverLogAnalyzer PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Charts
+)
 
-# Bundle ID（Qt < 6.1 手动设置）
+# --- 7. 属性设置 ---
+# Bundle ID
 if(${QT_VERSION} VERSION_LESS 6.1.0)
     set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.HoverLogAnalyzer)
 endif()
 
-# 设置 macOS bundle 属性
+# 控制台设置
+if(ENABLE_CONSOLE_DEBUG)
+    set(WIN32_VAR FALSE) # 显示黑框
+else()
+    set(WIN32_VAR TRUE)  # 隐藏黑框
+endif()
+
 set_target_properties(HoverLogAnalyzer PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE_ICON_FILE logo         # 只写文件名，不写路径
+    WIN32_EXECUTABLE ${WIN32_VAR}
+    MACOSX_BUNDLE_ICON_FILE logo
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
-# 安装规则
+# --- 8. 安装部署 ---
 include(GNUInstallDirs)
 install(TARGETS HoverLogAnalyzer
     BUNDLE DESTINATION .
@@ -114,8 +140,6 @@ install(TARGETS HoverLogAnalyzer
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-# Qt6 执行最终化
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(HoverLogAnalyzer)
 endif()
-

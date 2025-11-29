@@ -158,10 +158,24 @@ CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp -o CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s
 
+CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
+CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o: /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SelectableListWidget.cpp
+CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SelectableListWidget.cpp
+
+CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SelectableListWidget.cpp > CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.i
+
+CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SelectableListWidget.cpp -o CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.s
+
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/flags.make
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o: HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o: CMakeFiles/HoverLogAnalyzer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o -MF CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o.d -o CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o -c /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp
 
 CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.i: cmake_force
@@ -178,6 +192,7 @@ HoverLogAnalyzer_OBJECTS = \
 "CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o" \
 "CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o" \
 "CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o" \
+"CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o" \
 "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o"
 
 # External object files for target HoverLogAnalyzer
@@ -187,13 +202,15 @@ HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyze
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o
+HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/build.make
+HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/QtCharts.framework/QtCharts
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/QtWidgets
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/QtGui.framework/QtGui
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: /Users/dzs/Qt-5.15.10/lib/QtCore.framework/QtCore
 HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer: CMakeFiles/HoverLogAnalyzer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HoverLogAnalyzer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

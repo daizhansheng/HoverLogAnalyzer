@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o.d"
   "CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o"
   "CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o.d"
+  "CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o"
+  "CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o.d"
   "CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o"
   "CMakeFiles/HoverLogAnalyzer.dir/main.cpp.o.d"
   "HoverLogAnalyzer.app/Contents/MacOS/HoverLogAnalyzer"

@@ -296,6 +296,30 @@ PressAnalyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.s
 .PHONY : PressAnalyzer.cpp.s
 
+SelectableListWidget.o: SelectableListWidget.cpp.o
+.PHONY : SelectableListWidget.o
+
+# target to build an object file
+SelectableListWidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.o
+.PHONY : SelectableListWidget.cpp.o
+
+SelectableListWidget.i: SelectableListWidget.cpp.i
+.PHONY : SelectableListWidget.i
+
+# target to preprocess a source file
+SelectableListWidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.i
+.PHONY : SelectableListWidget.cpp.i
+
+SelectableListWidget.s: SelectableListWidget.cpp.s
+.PHONY : SelectableListWidget.s
+
+# target to generate assembly for a file
+SelectableListWidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/SelectableListWidget.cpp.s
+.PHONY : SelectableListWidget.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -347,6 +371,9 @@ help:
 	@echo "... PressAnalyzer.o"
 	@echo "... PressAnalyzer.i"
 	@echo "... PressAnalyzer.s"
+	@echo "... SelectableListWidget.o"
+	@echo "... SelectableListWidget.i"
+	@echo "... SelectableListWidget.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
