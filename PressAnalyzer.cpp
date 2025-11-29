@@ -1453,9 +1453,29 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
             if (m.hasMatch()) {
                 int src = m.captured(1).toInt();
                 modeText = m.captured(2);
-                if (src == 1) triggerText = "MCU";
-                else if (src == 2) triggerText = "APP";
-                else if (src == 3) triggerText = "RC";
+                if(version == "H151"){
+                    switch (src) {
+                    case 0: triggerText = "NONE"; break;
+                    case 1: triggerText = "APP"; break;
+                    case 2: triggerText = "VOICE"; break;
+                    case 3: triggerText = "THROW"; break;
+                    case 4: triggerText = "RC102"; break;
+                    case 5: triggerText = "RC100"; break;
+                    case 10: triggerText = "BOARD"; break;
+                    case 11: triggerText = "MCU"; break;
+                    default:    triggerText = "UNKNOWN"; break;
+                    }
+                }else{
+                    switch (src) {
+                    case 0: triggerText = "BOARD"; break;
+                    case 1: triggerText = "MCU"; break;
+                    case 2: triggerText = "APP"; break;
+                    case 3: triggerText = "RC"; break;
+                    case 4: triggerText = "VOICE"; break;
+                    case 5: triggerText = "THROW"; break;
+                    default:    triggerText = "UNKNOWN"; break;
+                    }
+                }
             }
             QString display = QString("%1 | %2# starting takeoff : 方式:%3 模式:%4")
                                   .arg(lineNumber, 6, 10, QChar(' '))
@@ -1748,6 +1768,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
                 prev = l; if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !snLocal.isEmpty() && !hwid.isEmpty()) break;
             }
             sn = snLocal; // 覆盖全局 SN
+            version = imageVer.mid(0,4);
             if (statusInfoLabel) statusInfoLabel->setText(QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
                 .arg(imageVer.isEmpty()?"-":imageVer).arg(ipkVer.isEmpty()?"-":ipkVer)
                 .arg(snLocal.isEmpty()?"-":snLocal).arg(hwid.isEmpty()?"-":hwid));
@@ -1897,6 +1918,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
                                .arg(ipkVer.isEmpty() ? "-" : ipkVer)
                                .arg(sn.isEmpty() ? "-" : sn)
                                .arg(hwid.isEmpty() ? "-" : hwid);
+            version = imageVer.mid(0,4);
             if (statusInfoLabel) statusInfoLabel->setText(info);
         };
 
@@ -2298,6 +2320,7 @@ void PressAnalyzer::loadAndMergeLogs()
                            .arg(ipkVer.isEmpty() ? "-" : ipkVer)
                            .arg(sn.isEmpty() ? "-" : sn)
                            .arg(hwid.isEmpty() ? "-" : hwid);
+        version = imageVer.mid(0,4);
         // 将持久信息放到右侧永久区域；左侧保持路径不变
         if (statusInfoLabel) statusInfoLabel->setText(info);
     };

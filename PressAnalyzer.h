@@ -148,6 +148,7 @@ private:
     QAction *pinAction;
     QPushButton *pinTextButton;
     QWidget *checkBoxContainer;
+    QString version = "";
     // ==================== Dock 控件 ====================
     QDockWidget *eventDock;
     QListWidget *eventList;
