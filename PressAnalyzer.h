@@ -137,6 +137,7 @@ private:
     QPushButton *fileloadButton;
     QPushButton *saveButton;
     QPushButton *clearButton;
+    QPushButton *newWindowButton;  // 新建窗口按钮
 
     SearchComboBox *searchCombo;
     QLineEdit *searchEdit;

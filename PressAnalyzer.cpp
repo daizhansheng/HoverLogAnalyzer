@@ -37,6 +37,7 @@
 #include <QScreen>
 #include <QSettings>
 #include <QMenu>
+#include <QStyle>
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -303,6 +304,18 @@ void PressAnalyzer::setupToolBar()
     clearButton->setToolTip("清除窗口");
     clearButton->setIconSize(QSize(20, 20));
 
+    newWindowButton = new QPushButton(this);
+    // 使用新窗口图标，如果图标不存在则使用Qt标准图标作为备选
+    QIcon windowIcon(":/icons/icons/window-new.png");
+    if (windowIcon.isNull() || windowIcon.pixmap(20, 20).isNull()) {
+        // 如果图标文件不存在，使用Qt标准图标
+        newWindowButton->setIcon(style()->standardIcon(QStyle::SP_FileDialogNewFolder));
+    } else {
+        newWindowButton->setIcon(windowIcon);
+    }
+    newWindowButton->setToolTip("新建窗口");
+    newWindowButton->setIconSize(QSize(20, 20));
+
     searchAllButton = new QPushButton(this);
     searchAllButton->setIcon(QIcon(":/icons/icons/search.png"));
     searchAllButton->setToolTip("搜索");
@@ -366,7 +379,8 @@ void PressAnalyzer::setupToolBar()
         searchCombo->setFont(cbFont);
     }
 
-    // 添加到工具栏
+    // 添加到工具栏（新窗口按钮放在最左侧）
+    toolBar->addWidget(newWindowButton);
     toolBar->addWidget(dirloadButton);
     toolBar->addWidget(fileloadButton);
     toolBar->addWidget(analyzeControlButton);
@@ -540,6 +554,7 @@ void PressAnalyzer::applyButtonStyles()
     styleButton(analyzeControlButton, themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 分析（主色）
     styleButton(saveButton,      themeSuccess.bg, themeSuccess.hover, themeSuccess.pressed, themeSuccess.fg);   // 保存
     styleButton(clearButton,     themeDanger.bg,  themeDanger.hover,  themeDanger.pressed,  themeDanger.fg);    // 清除
+    styleButton(newWindowButton, themeIndigo.bg,   themeIndigo.hover,   themeIndigo.pressed,   themeIndigo.fg);   // 新建窗口
     styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);      // 搜索
     styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向前
     styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向后
@@ -1006,48 +1021,19 @@ void PressAnalyzer::setupUsageContainer()
 
 void PressAnalyzer::setupConnections()
 {
-    // 文件操作连接 - 第一次点击任何按钮在当前窗口操作，之后点击任何按钮都创建新窗口
-    connect(analyzeControlButton, &QPushButton::clicked, this, [this](){
-        if (!anyFileButtonClicked) {
-            // 第一次点击任何文件按钮：在当前窗口操作
-            anyFileButtonClicked = true;
-            loadAndAnalyzeLogs();
-        } else {
-            // 之后点击任何文件按钮：创建新窗口
-            auto *w = new PressAnalyzer(nullptr);
-            w->setAttribute(Qt::WA_DeleteOnClose, true);
-            w->show();
-            w->loadAndAnalyzeLogs();
-        }
-    });
-    connect(dirloadButton, &QPushButton::clicked, this, [this](){
-        if (!anyFileButtonClicked) {
-            // 第一次点击任何文件按钮：在当前窗口操作
-            anyFileButtonClicked = true;
-            loadAndMergeLogs();
-        } else {
-            // 之后点击任何文件按钮：创建新窗口
-            auto *w = new PressAnalyzer(nullptr);
-            w->setAttribute(Qt::WA_DeleteOnClose, true);
-            w->show();
-            w->loadAndMergeLogs();
-        }
-    });
-    connect(fileloadButton, &QPushButton::clicked, this, [this](){
-        if (!anyFileButtonClicked) {
-            // 第一次点击任何文件按钮：在当前窗口操作
-            anyFileButtonClicked = true;
-            loadAndAnalyzeLog();
-        } else {
-            // 之后点击任何文件按钮：创建新窗口
-            auto *w = new PressAnalyzer(nullptr);
-            w->setAttribute(Qt::WA_DeleteOnClose, true);
-            w->show();
-            w->loadAndAnalyzeLog();
-        }
-    });
+    // 文件操作连接 - 始终在当前窗口操作
+    connect(analyzeControlButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
+    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndMergeLogs);
+    connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
     connect(saveButton, &QPushButton::clicked, this, &PressAnalyzer::saveEventListToFile);
     connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
+
+    // 新建窗口按钮
+    connect(newWindowButton, &QPushButton::clicked, this, [this](){
+        auto *w = new PressAnalyzer(nullptr);
+        w->setAttribute(Qt::WA_DeleteOnClose, true);
+        w->show();
+    });
 
     // 事件列表连接
     connect(eventList, &QListWidget::itemClicked, this, &PressAnalyzer::onEventClicked);

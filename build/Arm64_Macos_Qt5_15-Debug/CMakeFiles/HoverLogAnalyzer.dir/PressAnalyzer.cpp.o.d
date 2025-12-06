@@ -1088,4 +1088,5 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRect \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSize \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSizeF \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform \
+  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyle

@@ -971,7 +971,7 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "Build architectures for Mac OS X"
+					"value" : "Build architectures"
 				}
 			],
 			"type" : "STRING",

@@ -170,7 +170,7 @@ CMAKE_OBJCOPY:FILEPATH=CMAKE_OBJCOPY-NOTFOUND
 //Path to a program.
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
-//Build architectures for Mac OS X
+//Build architectures
 CMAKE_OSX_ARCHITECTURES:STRING=arm64
 
 //Minimum OS X version to target for deployment (at runtime); newer

@@ -1,6 +1,7 @@
 #ifndef FLIGHTANIMATIONWIDGET_H
 #define FLIGHTANIMATIONWIDGET_H
 
+#include <math.h>
 #include <QWidget>
 #include <QVector>
 #include <QTimer>
@@ -271,6 +272,7 @@ private:
 };
 
 #endif // FLIGHTANIMATIONWIDGET_H
+
 
 
 
