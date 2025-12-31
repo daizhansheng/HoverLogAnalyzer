@@ -1090,6 +1090,12 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSizeF \
   /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform \
   /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyle \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QWindow \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qwindow.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QEvent \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMargins \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsurface.h \
+  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsurfaceformat.h \
   /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogBinaryParser.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QByteArray \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QIODevice \

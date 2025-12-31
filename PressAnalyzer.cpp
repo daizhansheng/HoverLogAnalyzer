@@ -38,6 +38,7 @@
 #include <QSettings>
 #include <QMenu>
 #include <QStyle>
+#include <QWindow>
 #include "HLogBinaryParser.h"
 #include "HLogParser.h"
 
@@ -1711,6 +1712,15 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 // loadAndAnalyzeLog 保持之前逻辑
 void PressAnalyzer::loadAndAnalyzeLog()
 {
+    // 确保窗口在前台，避免对话框被遮挡
+    raise();
+    activateWindow();
+#ifdef Q_OS_MAC
+    if (QWindow *w = windowHandle()) {
+        w->requestActivate();
+    }
+#endif
+    
     QString filePath = QFileDialog::getOpenFileName(this, "选择日志文件", "", "日志文件 (*.txt *.log *.hlog);;所有文件 (*)");
     if (filePath.isEmpty()) return;
 
@@ -1858,6 +1868,15 @@ void PressAnalyzer::loadAndAnalyzeLog()
 
 void PressAnalyzer::loadAndAnalyzeLogs()
 {
+    // 确保窗口在前台，避免对话框被遮挡
+    raise();
+    activateWindow();
+#ifdef Q_OS_MAC
+    if (QWindow *w = windowHandle()) {
+        w->requestActivate();
+    }
+#endif
+    
     QString path = QFileDialog::getExistingDirectory(this, "选择日志文件或目录", "");
     if (path.isEmpty()) return;
 
@@ -2297,6 +2316,15 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
 
 void PressAnalyzer::loadAndMergeLogs()
 {
+    // 确保窗口在前台，避免对话框被遮挡
+    raise();
+    activateWindow();
+#ifdef Q_OS_MAC
+    if (QWindow *w = windowHandle()) {
+        w->requestActivate();
+    }
+#endif
+    
     QString path = QFileDialog::getExistingDirectory(this, "选择日志目录");
     if (path.isEmpty()) {
         return;
