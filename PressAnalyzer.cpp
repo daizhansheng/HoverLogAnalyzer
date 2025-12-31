@@ -38,7 +38,6 @@
 #include <QSettings>
 #include <QMenu>
 #include <QStyle>
-#include <QWindow>
 #include "HLogBinaryParser.h"
 #include "HLogParser.h"
 
@@ -1407,12 +1406,6 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     static const QRegularExpression reFcState(R"(Detected fc state changed to\s+(\d+))");
     static const QRegularExpression reInsertSql(R"(insertMediaDataIntoDb insert media sql.*\[(.*)\])", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression reSqlValues(R"('([^']*)'|(\d+))");
-    
-    // 用于检测日志条目开始的正则表达式
-    static const QRegularExpression timestampPattern(R"(\[\d+\.?\d*\s+\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\])");
-    static const QRegularExpression levelFilePattern(R"(\[[IDWEF]\|[^:]+\:\d+\])");
-    
-    bool inMultiLineEntry = false;
 
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -1420,35 +1413,9 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
         allLogLines << line;
 
         textBuffer.reserve(textBuffer.size() + line.size() + 16);
-        
-        QString trimmedLine = line.trimmed();
-        bool isLogEntryStart = false;
-        
-        // 检查是否是日志条目开始（包含时间戳或级别信息）
-        if (!trimmedLine.isEmpty()) {
-            QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
-            QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
-            isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
-        }
-        
-        if (isLogEntryStart) {
-            // 新的日志条目开始，添加行号
-            inMultiLineEntry = true;
-            textBuffer.append(QString("%1 %2\n")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(line));
-        } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
-            // 多行日志的后续行，添加8个空格而不是行号
-            textBuffer.append(QString("        %1\n").arg(line));  // 8个空格
-        } else {
-            // 空行或独立行，正常处理
-            if (trimmedLine.isEmpty()) {
-                inMultiLineEntry = false;  // 空行结束多行条目
-            }
-            textBuffer.append(QString("%1 %2\n")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(line));
-        }
+        textBuffer.append(QString("%1 %2\n")
+                              .arg(lineNumber, 6, 10, QChar(' '))
+                              .arg(line));
 
         // 不再从日志正文解析 SN，改为从 system_log/user.log 中获取
 
@@ -1677,7 +1644,10 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
         }
 
         // ==================== Camera 温度 ====================
-        if (line.contains("[I|Camera]: camera temp:", Qt::CaseInsensitive)) {
+        // 兼容两种格式：
+        // 1. "soc temp and camera temp %d : %d" - 第二个值是 camera temp
+        // 2. "camera temp: %d" - 直接是 camera temp
+        if (line.contains("camera temp", Qt::CaseInsensitive)) {
             // 提取时间戳和日期时间
             QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
             QDateTime ts;
@@ -1690,13 +1660,26 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                 int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
                 ts = ts.addMSecs(msecs);
             }
-            // 提取温度
-            QRegExp rxTemp("camera temp:\\s*(\\-?\\d+)");
+            
             int tempVal = 0;
-            if (rxTemp.indexIn(line) != -1) {
-                tempVal = rxTemp.cap(1).toInt();
+            bool found = false;
+            
+            // 先尝试匹配 "soc temp and camera temp %d : %d" 格式（第二个值是 camera temp）
+            QRegExp rxTempBoth("soc\\s+temp\\s+and\\s+camera\\s+temp\\s+(\\-?\\d+)\\s*:\\s*(\\-?\\d+)", Qt::CaseInsensitive);
+            if (rxTempBoth.indexIn(line) != -1) {
+                // 格式1: "soc temp and camera temp %d : %d" - 第二个值是 camera temp
+                tempVal = rxTempBoth.cap(2).toInt();
+                found = true;
+            } else {
+                // 格式2: "camera temp: %d" 或 "camera temp %d"
+                QRegExp rxTemp("camera\\s+temp:?\\s*(\\-?\\d+)", Qt::CaseInsensitive);
+                if (rxTemp.indexIn(line) != -1) {
+                    tempVal = rxTemp.cap(1).toInt();
+                    found = true;
+                }
             }
-            if (tempVal != -128) {
+            
+            if (found && tempVal != -128) {
                 cameraTemps.push_back({ts, tempVal});
             }
         }
@@ -1712,15 +1695,6 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 // loadAndAnalyzeLog 保持之前逻辑
 void PressAnalyzer::loadAndAnalyzeLog()
 {
-    // 确保窗口在前台，避免对话框被遮挡
-    raise();
-    activateWindow();
-#ifdef Q_OS_MAC
-    if (QWindow *w = windowHandle()) {
-        w->requestActivate();
-    }
-#endif
-    
     QString filePath = QFileDialog::getOpenFileName(this, "选择日志文件", "", "日志文件 (*.txt *.log *.hlog);;所有文件 (*)");
     if (filePath.isEmpty()) return;
 
@@ -1868,15 +1842,6 @@ void PressAnalyzer::loadAndAnalyzeLog()
 
 void PressAnalyzer::loadAndAnalyzeLogs()
 {
-    // 确保窗口在前台，避免对话框被遮挡
-    raise();
-    activateWindow();
-#ifdef Q_OS_MAC
-    if (QWindow *w = windowHandle()) {
-        w->requestActivate();
-    }
-#endif
-    
     QString path = QFileDialog::getExistingDirectory(this, "选择日志文件或目录", "");
     if (path.isEmpty()) return;
 
@@ -2060,9 +2025,6 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
     if (info.isDir()) {
         controlLogs = collectLogs(path, "control_engine_log", "control_engine*.log", "control_engine*.log.zip");
-        // 也收集 .hlog 文件
-        QStringList hlogFiles = collectLogs(path, "control_engine_log", "*.hlog", "*.hlog.zip");
-        controlLogs.append(hlogFiles);
         topLogs     = collectLogs(path, "system_log/top_log", "top*.log", "top*.log.zip");
 
         if (controlLogs.isEmpty() && topLogs.isEmpty()) {
@@ -2098,61 +2060,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
     // 分开解析 control_engine_log
     for (const QString &filePath : controlLogs) {
-        QFileInfo fileInfo(filePath);
-        QString extension = fileInfo.suffix().toLower();
-        
-        // 检查是否是 .hlog 二进制文件
-        if (extension == "hlog") {
-            HLogBinaryParser binaryParser;
-            QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
-            
-            if (entries.isEmpty()) {
-                qWarning() << "无法解析 .hlog 文件:" << filePath;
-                continue;
-            }
-
-            // 将解析的条目添加到缓冲区
-            for (const HLogEntry &entry : entries) {
-                lineNumber++;
-                allLogLines << entry.fullText;
-                
-                // 处理多行对齐
-                QStringList lines = entry.fullText.split('\n');
-                if (lines.size() > 1) {
-                    // 多行内容，需要对齐
-                    QString firstLine = lines[0];
-                    int colonPos = firstLine.indexOf("]: ");
-                    if (colonPos >= 0) {
-                        // 第一行
-                        textBuffer.append(QString("%1 %2\n")
-                                             .arg(lineNumber, 6, 10, QChar(' '))
-                                             .arg(firstLine));
-                        
-                        // 后续行对齐：添加8个空格
-                        for (int i = 1; i < lines.size(); ++i) {
-                            if (!lines[i].isEmpty()) {
-                                textBuffer.append(QString("        %1\n").arg(lines[i]));  // 8个空格
-                            } else {
-                                textBuffer.append("\n");
-                            }
-                        }
-                    } else {
-                        // 找不到对齐点，使用原始格式
-                        textBuffer.append(QString("%1 %2\n")
-                                             .arg(lineNumber, 6, 10, QChar(' '))
-                                             .arg(entry.fullText));
-                    }
-                } else {
-                    // 单行内容
-                    textBuffer.append(QString("%1 %2\n")
-                                         .arg(lineNumber, 6, 10, QChar(' '))
-                                         .arg(entry.fullText));
-                }
-            }
-        } else {
-            // 处理文本文件
-            analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
-        }
+        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
     }
 
 
@@ -2316,15 +2224,6 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
 
 void PressAnalyzer::loadAndMergeLogs()
 {
-    // 确保窗口在前台，避免对话框被遮挡
-    raise();
-    activateWindow();
-#ifdef Q_OS_MAC
-    if (QWindow *w = windowHandle()) {
-        w->requestActivate();
-    }
-#endif
-    
     QString path = QFileDialog::getExistingDirectory(this, "选择日志目录");
     if (path.isEmpty()) {
         return;
