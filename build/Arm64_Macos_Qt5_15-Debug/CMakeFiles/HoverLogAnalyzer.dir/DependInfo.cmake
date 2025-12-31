@@ -10,6 +10,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "" "HoverLogAnalyzer_autogen/timestamp" "custom" "HoverLogAnalyzer_autogen/deps"
   "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.cpp" "CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o" "gcc" "CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.o.d"
+  "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogBinaryParser.cpp" "CMakeFiles/HoverLogAnalyzer.dir/HLogBinaryParser.cpp.o" "gcc" "CMakeFiles/HoverLogAnalyzer.dir/HLogBinaryParser.cpp.o.d"
+  "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogParser.cpp" "CMakeFiles/HoverLogAnalyzer.dir/HLogParser.cpp.o" "gcc" "CMakeFiles/HoverLogAnalyzer.dir/HLogParser.cpp.o.d"
   "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp" "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o" "gcc" "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o.d"
   "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/HoverLogAnalyzer_autogen/mocs_compilation.cpp" "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/HoverLogAnalyzer.dir/HoverLogAnalyzer_autogen/mocs_compilation.cpp.o.d"
   "/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp" "CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o" "gcc" "CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o.d"

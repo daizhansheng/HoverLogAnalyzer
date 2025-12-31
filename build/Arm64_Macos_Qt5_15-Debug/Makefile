@@ -224,6 +224,54 @@ ChartStyleManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/ChartStyleManager.cpp.s
 .PHONY : ChartStyleManager.cpp.s
 
+HLogBinaryParser.o: HLogBinaryParser.cpp.o
+.PHONY : HLogBinaryParser.o
+
+# target to build an object file
+HLogBinaryParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/HLogBinaryParser.cpp.o
+.PHONY : HLogBinaryParser.cpp.o
+
+HLogBinaryParser.i: HLogBinaryParser.cpp.i
+.PHONY : HLogBinaryParser.i
+
+# target to preprocess a source file
+HLogBinaryParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/HLogBinaryParser.cpp.i
+.PHONY : HLogBinaryParser.cpp.i
+
+HLogBinaryParser.s: HLogBinaryParser.cpp.s
+.PHONY : HLogBinaryParser.s
+
+# target to generate assembly for a file
+HLogBinaryParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/HLogBinaryParser.cpp.s
+.PHONY : HLogBinaryParser.cpp.s
+
+HLogParser.o: HLogParser.cpp.o
+.PHONY : HLogParser.o
+
+# target to build an object file
+HLogParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/HLogParser.cpp.o
+.PHONY : HLogParser.cpp.o
+
+HLogParser.i: HLogParser.cpp.i
+.PHONY : HLogParser.i
+
+# target to preprocess a source file
+HLogParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/HLogParser.cpp.i
+.PHONY : HLogParser.cpp.i
+
+HLogParser.s: HLogParser.cpp.s
+.PHONY : HLogParser.s
+
+# target to generate assembly for a file
+HLogParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HoverLogAnalyzer.dir/build.make CMakeFiles/HoverLogAnalyzer.dir/HLogParser.cpp.s
+.PHONY : HLogParser.cpp.s
+
 HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.o: HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.cpp.o
 .PHONY : HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.o
 
@@ -362,6 +410,12 @@ help:
 	@echo "... ChartStyleManager.o"
 	@echo "... ChartStyleManager.i"
 	@echo "... ChartStyleManager.s"
+	@echo "... HLogBinaryParser.o"
+	@echo "... HLogBinaryParser.i"
+	@echo "... HLogBinaryParser.s"
+	@echo "... HLogParser.o"
+	@echo "... HLogParser.i"
+	@echo "... HLogParser.s"
 	@echo "... HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.o"
 	@echo "... HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.i"
 	@echo "... HoverLogAnalyzer_autogen/EWIEGA46WW/qrc_icon.s"

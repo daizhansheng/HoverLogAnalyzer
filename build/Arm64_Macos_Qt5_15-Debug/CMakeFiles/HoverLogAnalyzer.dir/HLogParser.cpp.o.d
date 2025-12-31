@@ -1,10 +1,9 @@
-CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.cpp \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/PressAnalyzer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMainWindow \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmainwindow.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtguiglobal.h \
+CMakeFiles/HoverLogAnalyzer.dir/HLogParser.cpp.o: \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogParser.cpp \
+  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogParser.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstring.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qchar.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qglobal.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/type_traits \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__config \
@@ -806,25 +805,21 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/cstdarg \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qnumeric.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qversiontagging.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtgui-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtwidgets-config.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qwindowdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobjectdefs.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qnamespace.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobjectdefs_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstring.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qchar.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qbytearray.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qrefcount.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qnamespace.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qarraydata.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringliteral.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringalgorithms.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringview.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QByteArray \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qshareddata.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qhash.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qiterator.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qlist.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qalgorithms.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qiterator.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qhashfunctions.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qpair.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/numeric \
@@ -849,248 +844,31 @@ CMakeFiles/HoverLogAnalyzer.dir/PressAnalyzer.cpp.o: \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringlist.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qregexp.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringmatcher.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qscopedpointer.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegularExpression \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qregularexpression.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qvariant.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qmetatype.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qvarlengtharray.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcontainerfwd.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobjectdefs.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobjectdefs_impl.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/map \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__tree \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobject_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qmargins.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpaintdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qrect.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsize.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qpoint.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpalette.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcolor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgb.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrgba64.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qbrush.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qmatrix.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpolygon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qregion.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatastream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qiodevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qline.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtransform.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qimage.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpixelformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpixmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsharedpointer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qshareddata.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qhash.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsharedpointer_impl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontmetrics.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qsizepolicy.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qkeysequence.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtabwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qicon.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QListWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlistwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlistview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractitemview.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractscrollarea.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qframe.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qabstractitemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qvariant.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qmap.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qitemselectionmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qset.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractitemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qlocale.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractspinbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvalidator.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qregularexpression.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractslider.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyle.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtabbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qrubberband.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPlainTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qplaintextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtextedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextdocument.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qurl.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextoption.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextcursor.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextformat.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qabstracttextdocumentlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qevent.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreevent.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobject.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qscopedpointer.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qobject_impl.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QFile \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfile.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfiledevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qvector2d.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtouchdevice.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qglyphrun.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qrawfont.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qfontdatabase.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QPushButton \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qpushbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qabstractbutton.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLineEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlineedit.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QComboBox \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcombobox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDateTime \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdatetime.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringList \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QDockWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdockwidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QToolBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qtoolbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qaction.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qactiongroup.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStatusBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstatusbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenu \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenu.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextBlock \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qtextobject.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QTextEdit \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QLabel \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlabel.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultHighlighter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyledItemDelegate \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qstyleditemdelegate.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPainter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qpainter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegExp \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QVector \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QPair \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SearchResultTextView.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCursor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextCharFormat \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextOption \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QMouseEvent \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/BatteryChartWidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QWidget \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QString \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ChartStyleManager.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QColor \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFont \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QBrush \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/SocTempChartWidget.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/DockToggleButton.h \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/ModuleUsageChart.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QMap \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QPolygon \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/CameraTempChartWidget.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSettings \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsettings.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QAction \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QVBoxLayout \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qboxlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qlayoutitem.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qgridlayout.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QHBoxLayout \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QFileDialog \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qfiledialog.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdir.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qfileinfo.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qdialog.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QFile \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qiodevice.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QTextStream \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qtextstream.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMessageBox \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmessagebox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QSplitter \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qsplitter.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qlocale.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QDebug \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qdebug.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qset.h \
   /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcontiguouscache.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QProcess \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qprocess.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRandomGenerator \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qrandom.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/random \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/bernoulli_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/uniform_real_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/generate_canonical.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/binomial_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/cauchy_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/chi_squared_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/gamma_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/exponential_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/default_random_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/linear_congruential_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/is_seed_sequence.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/discard_block_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/discrete_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/extreme_value_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/fisher_f_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/geometric_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/negative_binomial_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/poisson_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/clamp_to_integral.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/normal_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/independent_bits_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/knuth_b.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/shuffle_order_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/lognormal_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/mersenne_twister_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/piecewise_constant_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/piecewise_linear_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/random_device.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/ranlux.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/subtract_with_carry_engine.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/seed_seq.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/student_t_distribution.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/uniform_random_bit_generator.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1/__random/weibull_distribution.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QCheckBox \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcheckbox.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QCompleter \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qcompleter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QStringListModel \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qstringlistmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QShortcut \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qshortcut.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QKeyEvent \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QTimer \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qtimer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qbasictimer.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QMenuBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qmenubar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QInputDialog \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qinputdialog.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QApplication \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qapplication.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qcoreapplication.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qeventloop.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qguiapplication.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qinputmethod.h \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QScrollBar \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/qscrollbar.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QChar \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/LogNumberHighlighter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QSyntaxHighlighter \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRegularExpression \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTextDocument \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QListView \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QFontMetrics \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItemModel \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qstandarditemmodel.h \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QStandardItem \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QGuiApplication \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QScreen \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/qscreen.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QList \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QObject \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QRect \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSize \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QSizeF \
-  /Users/dzs/Qt-5.15.10/lib/QtGui.framework/Headers/QTransform \
-  /Users/dzs/Qt-5.15.10/lib/QtWidgets.framework/Headers/QStyle \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogBinaryParser.h \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QByteArray \
-  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/QIODevice \
-  /Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/HLogParser.h
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsharedpointer.h \
+  /Users/dzs/Qt-5.15.10/lib/QtCore.framework/Headers/qsharedpointer_impl.h

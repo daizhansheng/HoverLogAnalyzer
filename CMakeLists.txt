@@ -63,6 +63,14 @@ set(PROJECT_SOURCES
     SelectableListWidget.cpp
     SelectableListWidget.h
 
+    # HLogParser
+    HLogParser.cpp
+    HLogParser.h
+
+    # HLogBinaryParser
+    HLogBinaryParser.cpp
+    HLogBinaryParser.h
+
     # --- 只有头文件的类 (Header Only) ---
     # 注意：如果这些其实有 .cpp 但你没发出来，必须把 .cpp 也加上！
     # 即使只有 .h，为了让 MOC 正常工作，也必须列在这里。

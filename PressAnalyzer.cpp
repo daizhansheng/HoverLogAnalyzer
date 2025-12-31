@@ -38,6 +38,8 @@
 #include <QSettings>
 #include <QMenu>
 #include <QStyle>
+#include "HLogBinaryParser.h"
+#include "HLogParser.h"
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -1404,6 +1406,12 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     static const QRegularExpression reFcState(R"(Detected fc state changed to\s+(\d+))");
     static const QRegularExpression reInsertSql(R"(insertMediaDataIntoDb insert media sql.*\[(.*)\])", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression reSqlValues(R"('([^']*)'|(\d+))");
+    
+    // 用于检测日志条目开始的正则表达式
+    static const QRegularExpression timestampPattern(R"(\[\d+\.?\d*\s+\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\])");
+    static const QRegularExpression levelFilePattern(R"(\[[IDWEF]\|[^:]+\:\d+\])");
+    
+    bool inMultiLineEntry = false;
 
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -1411,9 +1419,35 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
         allLogLines << line;
 
         textBuffer.reserve(textBuffer.size() + line.size() + 16);
-        textBuffer.append(QString("%1 %2\n")
-                              .arg(lineNumber, 6, 10, QChar(' '))
-                              .arg(line));
+        
+        QString trimmedLine = line.trimmed();
+        bool isLogEntryStart = false;
+        
+        // 检查是否是日志条目开始（包含时间戳或级别信息）
+        if (!trimmedLine.isEmpty()) {
+            QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
+            QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
+            isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
+        }
+        
+        if (isLogEntryStart) {
+            // 新的日志条目开始，添加行号
+            inMultiLineEntry = true;
+            textBuffer.append(QString("%1 %2\n")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(line));
+        } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
+            // 多行日志的后续行，添加8个空格而不是行号
+            textBuffer.append(QString("        %1\n").arg(line));  // 8个空格
+        } else {
+            // 空行或独立行，正常处理
+            if (trimmedLine.isEmpty()) {
+                inMultiLineEntry = false;  // 空行结束多行条目
+            }
+            textBuffer.append(QString("%1 %2\n")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(line));
+        }
 
         // 不再从日志正文解析 SN，改为从 system_log/user.log 中获取
 
@@ -1677,7 +1711,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 // loadAndAnalyzeLog 保持之前逻辑
 void PressAnalyzer::loadAndAnalyzeLog()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, "选择日志文件", "", "日志文件 (*.txt *.log);;所有文件 (*)");
+    QString filePath = QFileDialog::getOpenFileName(this, "选择日志文件", "", "日志文件 (*.txt *.log *.hlog);;所有文件 (*)");
     if (filePath.isEmpty()) return;
 
     // 减少大文件解析时的界面重绘
@@ -2007,6 +2041,9 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
     if (info.isDir()) {
         controlLogs = collectLogs(path, "control_engine_log", "control_engine*.log", "control_engine*.log.zip");
+        // 也收集 .hlog 文件
+        QStringList hlogFiles = collectLogs(path, "control_engine_log", "*.hlog", "*.hlog.zip");
+        controlLogs.append(hlogFiles);
         topLogs     = collectLogs(path, "system_log/top_log", "top*.log", "top*.log.zip");
 
         if (controlLogs.isEmpty() && topLogs.isEmpty()) {
@@ -2042,7 +2079,61 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
     // 分开解析 control_engine_log
     for (const QString &filePath : controlLogs) {
-        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+        QFileInfo fileInfo(filePath);
+        QString extension = fileInfo.suffix().toLower();
+        
+        // 检查是否是 .hlog 二进制文件
+        if (extension == "hlog") {
+            HLogBinaryParser binaryParser;
+            QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+            
+            if (entries.isEmpty()) {
+                qWarning() << "无法解析 .hlog 文件:" << filePath;
+                continue;
+            }
+
+            // 将解析的条目添加到缓冲区
+            for (const HLogEntry &entry : entries) {
+                lineNumber++;
+                allLogLines << entry.fullText;
+                
+                // 处理多行对齐
+                QStringList lines = entry.fullText.split('\n');
+                if (lines.size() > 1) {
+                    // 多行内容，需要对齐
+                    QString firstLine = lines[0];
+                    int colonPos = firstLine.indexOf("]: ");
+                    if (colonPos >= 0) {
+                        // 第一行
+                        textBuffer.append(QString("%1 %2\n")
+                                             .arg(lineNumber, 6, 10, QChar(' '))
+                                             .arg(firstLine));
+                        
+                        // 后续行对齐：添加8个空格
+                        for (int i = 1; i < lines.size(); ++i) {
+                            if (!lines[i].isEmpty()) {
+                                textBuffer.append(QString("        %1\n").arg(lines[i]));  // 8个空格
+                            } else {
+                                textBuffer.append("\n");
+                            }
+                        }
+                    } else {
+                        // 找不到对齐点，使用原始格式
+                        textBuffer.append(QString("%1 %2\n")
+                                             .arg(lineNumber, 6, 10, QChar(' '))
+                                             .arg(entry.fullText));
+                    }
+                } else {
+                    // 单行内容
+                    textBuffer.append(QString("%1 %2\n")
+                                         .arg(lineNumber, 6, 10, QChar(' '))
+                                         .arg(entry.fullText));
+                }
+            }
+        } else {
+            // 处理文本文件
+            analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+        }
     }
 
 
@@ -2426,7 +2517,7 @@ void PressAnalyzer::loadAndMergeLogs()
                 qint64 fileSize = entry.size();
                 // 收集所有相关文件类型
                 if (fileName.endsWith(".log") || fileName.endsWith(".ulg") || fileName.endsWith(".csv") ||
-                    fileName.endsWith(".txt")) {
+                    fileName.endsWith(".txt") || fileName.endsWith(".hlog")) {
                     allFiles.append(entry.filePath());
                 }
             }
@@ -3297,49 +3388,106 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
         processedFiles++;
         // 静默：原有进度提示已移除
 
-        QFile file(filePath);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            continue;
-        }
+        QFileInfo fileInfo(filePath);
+        QString extension = fileInfo.suffix().toLower();
 
         // 添加文件分隔符
         if (totalLineNumber > 0) {
-            logView->appendPlainText(QString("\n\n=== 文件: %1 ===\n\n").arg(QFileInfo(filePath).fileName()));
+            logView->appendPlainText(QString("\n\n=== 文件: %1 ===\n\n").arg(fileInfo.fileName()));
         }
 
-        QTextStream in(&file);
-        in.setCodec("UTF-8");
+        // 检查是否是 .hlog 二进制文件
+        if (extension == "hlog") {
+            HLogBinaryParser binaryParser;
+            QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+            
+            if (entries.isEmpty()) {
+                qWarning() << "无法解析 .hlog 文件:" << filePath;
+                continue;
+            }
 
-        // 分块读取文件，避免一次性加载大文件到内存
-        const int chunkSize = 1000; // 每次处理1000行
-        QStringList lines;
-        int lineCount = 0;
-
-        while (!in.atEnd()) {
-            lines.clear();
-
-            // 读取一个块的行
-            for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
-                QString line = in.readLine();
-                lines.append(line);
+            // 将解析的条目添加到视图
+            for (const HLogEntry &entry : entries) {
                 totalLineNumber++;
-                allLogLines << line;
-            }
-
-            // 处理这个块的行
-            for (const QString &line : lines) {
+                allLogLines << entry.fullText;
                 QString numberedLine = QString("%1 %2")
-                                         .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
-                                         .arg(line);
+                                         .arg(totalLineNumber, 6, 10, QChar(' '))
+                                         .arg(entry.fullText);
                 logView->appendPlainText(numberedLine);
-                lineCount++;
+            }
+        } else {
+            // 处理文本文件
+            QFile file(filePath);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                continue;
             }
 
-            // 处理Qt事件，保持界面响应
-            QApplication::processEvents();
-        }
+            QTextStream in(&file);
+            in.setCodec("UTF-8");
 
-        file.close();
+            // 正则表达式用于检测日志条目开始
+            static const QRegularExpression timestampPattern(R"(\[\d+\.?\d*\s+\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\])");
+            static const QRegularExpression levelFilePattern(R"(\[[IDWEF]\|[^:]+\:\d+\])");
+
+            // 分块读取文件，避免一次性加载大文件到内存
+            const int chunkSize = 1000; // 每次处理1000行
+            QStringList lines;
+            int lineCount = 0;
+            bool inMultiLineEntry = false;
+
+            while (!in.atEnd()) {
+                lines.clear();
+
+                // 读取一个块的行
+                for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
+                    QString line = in.readLine();
+                    lines.append(line);
+                    totalLineNumber++;
+                    allLogLines << line;
+                }
+
+                // 处理这个块的行
+                for (const QString &line : lines) {
+                    QString trimmedLine = line.trimmed();
+                    bool isLogEntryStart = false;
+                    
+                    // 检查是否是日志条目开始（包含时间戳或级别信息）
+                    if (!trimmedLine.isEmpty()) {
+                        QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
+                        QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
+                        isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
+                    }
+                    
+                    if (isLogEntryStart) {
+                        // 新的日志条目开始，添加行号
+                        inMultiLineEntry = true;
+                        QString numberedLine = QString("%1 %2")
+                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
+                                                 .arg(line);
+                        logView->appendPlainText(numberedLine);
+                    } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
+                        // 多行日志的后续行，添加8个空格而不是行号
+                        QString indentedLine = QString("        %1").arg(line);  // 8个空格
+                        logView->appendPlainText(indentedLine);
+                    } else {
+                        // 空行或独立行，正常处理
+                        if (trimmedLine.isEmpty()) {
+                            inMultiLineEntry = false;  // 空行结束多行条目
+                        }
+                        QString numberedLine = QString("%1 %2")
+                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
+                                                 .arg(line);
+                        logView->appendPlainText(numberedLine);
+                    }
+                    lineCount++;
+                }
+
+                // 处理Qt事件，保持界面响应
+                QApplication::processEvents();
+            }
+
+            file.close();
+        }
     }
 
     // 更新状态栏
@@ -3391,49 +3539,106 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
         processedFiles++;
         // 静默：原有进度提示已移除
 
-        QFile file(filePath);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            continue;
-        }
+        QFileInfo fileInfo(filePath);
+        QString extension = fileInfo.suffix().toLower();
 
         // 添加文件分隔符
         if (totalLineNumber > 0) {
-            textBuffer += QString("\n\n=== 文件: %1 ===\n\n").arg(QFileInfo(filePath).fileName());
+            textBuffer += QString("\n\n=== 文件: %1 ===\n\n").arg(fileInfo.fileName());
         }
 
-        QTextStream in(&file);
-        in.setCodec("UTF-8");
+        // 检查是否是 .hlog 二进制文件
+        if (extension == "hlog") {
+            HLogBinaryParser binaryParser;
+            QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+            
+            if (entries.isEmpty()) {
+                qWarning() << "无法解析 .hlog 文件:" << filePath;
+                continue;
+            }
 
-        // 分块读取文件，避免一次性加载大文件到内存
-        const int chunkSize = 1000; // 每次处理1000行
-        QStringList lines;
-        int lineCount = 0;
-
-        while (!in.atEnd()) {
-            lines.clear();
-
-            // 读取一个块的行
-            for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
-                QString line = in.readLine();
-                lines.append(line);
+            // 将解析的条目添加到缓冲区
+            for (const HLogEntry &entry : entries) {
                 totalLineNumber++;
-                allLogLines << line;
-            }
-
-            // 处理这个块的行
-            for (const QString &line : lines) {
+                allLogLines << entry.fullText;
                 QString numberedLine = QString("%1 %2\n")
-                                         .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
-                                         .arg(line);
+                                         .arg(totalLineNumber, 6, 10, QChar(' '))
+                                         .arg(entry.fullText);
                 textBuffer += numberedLine;
-                lineCount++;
+            }
+        } else {
+            // 处理文本文件
+            QFile file(filePath);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                continue;
             }
 
-            // 处理Qt事件，保持界面响应
-            QApplication::processEvents();
-        }
+            QTextStream in(&file);
+            in.setCodec("UTF-8");
 
-        file.close();
+            // 正则表达式用于检测日志条目开始
+            static const QRegularExpression timestampPattern(R"(\[\d+\.?\d*\s+\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\])");
+            static const QRegularExpression levelFilePattern(R"(\[[IDWEF]\|[^:]+\:\d+\])");
+
+            // 分块读取文件，避免一次性加载大文件到内存
+            const int chunkSize = 1000; // 每次处理1000行
+            QStringList lines;
+            int lineCount = 0;
+            bool inMultiLineEntry = false;
+
+            while (!in.atEnd()) {
+                lines.clear();
+
+                // 读取一个块的行
+                for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
+                    QString line = in.readLine();
+                    lines.append(line);
+                    totalLineNumber++;
+                    allLogLines << line;
+                }
+
+                // 处理这个块的行
+                for (const QString &line : lines) {
+                    QString trimmedLine = line.trimmed();
+                    bool isLogEntryStart = false;
+                    
+                    // 检查是否是日志条目开始（包含时间戳或级别信息）
+                    if (!trimmedLine.isEmpty()) {
+                        QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
+                        QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
+                        isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
+                    }
+                    
+                    if (isLogEntryStart) {
+                        // 新的日志条目开始，添加行号
+                        inMultiLineEntry = true;
+                        QString numberedLine = QString("%1 %2\n")
+                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
+                                                 .arg(line);
+                        textBuffer += numberedLine;
+                    } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
+                        // 多行日志的后续行，添加8个空格而不是行号
+                        QString indentedLine = QString("        %1\n").arg(line);  // 8个空格
+                        textBuffer += indentedLine;
+                    } else {
+                        // 空行或独立行，正常处理
+                        if (trimmedLine.isEmpty()) {
+                            inMultiLineEntry = false;  // 空行结束多行条目
+                        }
+                        QString numberedLine = QString("%1 %2\n")
+                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
+                                                 .arg(line);
+                        textBuffer += numberedLine;
+                    }
+                    lineCount++;
+                }
+
+                // 处理Qt事件，保持界面响应
+                QApplication::processEvents();
+            }
+
+            file.close();
+        }
     }
 
     // 一次性设置所有内容
