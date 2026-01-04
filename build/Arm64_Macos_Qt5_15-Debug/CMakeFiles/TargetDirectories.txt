@@ -1,9 +1,0 @@
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/edit_cache.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/rebuild_cache.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/list_install_components.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/install.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/install/local.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/install/strip.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen_timestamp_deps.dir
-/Users/dzs/Downloads/ZZTools/HoverLogAnalyzer/build/Arm64_Macos_Qt5_15-Debug/CMakeFiles/HoverLogAnalyzer_autogen.dir
