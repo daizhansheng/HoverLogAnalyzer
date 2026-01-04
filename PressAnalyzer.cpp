@@ -1406,6 +1406,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     static const QRegularExpression reFcState(R"(Detected fc state changed to\s+(\d+))");
     static const QRegularExpression reInsertSql(R"(insertMediaDataIntoDb insert media sql.*\[(.*)\])", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression reSqlValues(R"('([^']*)'|(\d+))");
+    static const QRegularExpression reCameraAction(R"(recv action from camera\s*:\s*(\d+))", QRegularExpression::CaseInsensitiveOption);
 
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -1467,7 +1468,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
             }
             QString display = QString("%1 | %2# starting takeoff : 方式:%3 模式:%4")
                                   .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(flightCount)
+                                  .arg(triggerCount)
                                   .arg(triggerText)
                                   .arg(modeText);
             addEventToList(triggerCount, lineNumber, display);
@@ -1481,7 +1482,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 
             QString display = QString("%1 | %2# takeoff success,Flying")
                                   .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(flightCount);
+                                  .arg(triggerCount);
             addEventToList(triggerCount, lineNumber, display);
         }
 
@@ -1500,7 +1501,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
             }
             QString display = QString("%1 | %2# FC STATE -> %3")
                                   .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(flightCount)
+                                  .arg(triggerCount)
                                   .arg(stateName, -12);
             addEventToList(triggerCount, lineNumber, display);
         }
@@ -1514,7 +1515,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                     qint64 flightSeconds = currentTakeoffTime.secsTo(landingTime);
                     QString display = QString("%1 | %2# will Landing, Flight Duration: %3 seconds")
                                           .arg(lineNumber, 6, 10, QChar(' '))
-                                          .arg(flightCount)
+                                          .arg(triggerCount)
                                           .arg(flightSeconds);
                     addEventToList(triggerCount, lineNumber, display);
                     currentTakeoffTime = QDateTime();
@@ -1600,7 +1601,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 
                 QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5%6")
                                       .arg(lineNumber, 6, 10, QChar(' '))
-                                      .arg(flightCount)
+                                      .arg(triggerCount)
                                       .arg(uuid)
                                       .arg(typeStr)
                                       .arg(storagePrefix)
@@ -1637,16 +1638,43 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
         if (line.contains("manual_control_takeover_request", Qt::CaseInsensitive)) {
             QString display = QString("%1 | %2# 模式:%3 -> MANUAL")
                                   .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(flightCount)
+                                  .arg(triggerCount)
                                   .arg(modeText);
             addEventToList(triggerCount, lineNumber, display);
             continue;
         }
 
+        // ==================== Camera recv action from camera ====================
+        if (line.contains("recv action from camera", Qt::CaseInsensitive)) {
+            auto mCamAct = reCameraAction.match(line);
+            if (mCamAct.hasMatch()) {
+                int actionValue = mCamAct.captured(1).toInt();
+                QString actionName;
+                switch (actionValue) {
+                case 0:  actionName = "INIT"; break;
+                case 1:  actionName = "START_VIDEO"; break;
+                case 2:  actionName = "FINISH_VIDEO"; break;
+                case 3:  actionName = "SNAP_DONE"; break;
+                case 4:  actionName = "START_PREVIEW"; break;
+                case 5:  actionName = "STOP_PREVIEW"; break;
+                case 6:  actionName = "START_CONTINOUS_PICTURE"; break;
+                case 7:  actionName = "STOP_CONTINOUS_PICTURE"; break;
+                case 8:  actionName = "IN_PREVIEWING"; break;
+                case 9:  actionName = "IN_VIDEO_RECORDING"; break;
+                case 10: actionName = "SNAP_FILE_SAVE_DONE"; break;
+                default: actionName = QString("UNKNOWN(%1)").arg(actionValue); break;
+                }
+
+                QString display = QString("%1 | %2# CS ACTION -> %3")
+                                      .arg(lineNumber, 6, 10, QChar(' '))
+                                      .arg(triggerCount)
+                                      .arg(actionName);
+                addEventToList(triggerCount, lineNumber, display);
+                continue;
+            }
+        }
         // ==================== Camera 温度 ====================
-        // 兼容两种格式：
-        // 1. "soc temp and camera temp %d : %d" - 第二个值是 camera temp
-        // 2. "camera temp: %d" - 直接是 camera temp
+
         if (line.contains("camera temp", Qt::CaseInsensitive)) {
             // 提取时间戳和日期时间
             QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
@@ -1684,7 +1712,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
             }
         }
 
-        // ==================== 其他解析 ====================
+
         parseCameraStatus(lineNumber, line);
         parseStatusHeartbeat(lineNumber, line);
         parseStatusBattery(lineNumber, line);
