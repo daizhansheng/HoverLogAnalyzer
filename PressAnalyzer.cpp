@@ -1450,6 +1450,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                     case 3: triggerText = "THROW"; break;
                     case 4: triggerText = "RC102"; break;
                     case 5: triggerText = "RC100"; break;
+                    case 6: triggerText = "ROPE"; break;
                     case 10: triggerText = "BOARD"; break;
                     case 11: triggerText = "MCU"; break;
                     default:    triggerText = "UNKNOWN"; break;
