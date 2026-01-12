@@ -76,8 +76,9 @@ QList<HLogEntry> HLogBinaryParser::parse(QIODevice *device)
         else {
             // 普通日志条目
             if (entry_meta_map_.contains(entry.type_id)) {
-                uint64_t walltime = entry.monotonic_raw_timestamp_ms + diff_from_utc_to_monotonic_ms_ 
-                                    + timezone_offset_s_ * 1000;
+                // walltime 应该是 UTC 时间，QDateTime::fromMSecsSinceEpoch 会自动转换为本地时区
+                // 不要加上 timezone_offset_s_，否则会重复加上时区偏移导致时间多 8 小时
+                uint64_t walltime = entry.monotonic_raw_timestamp_ms + diff_from_utc_to_monotonic_ms_;
                 
                 HLogEntry logEntry;
                 if (handleLogEntry(entry, entry_meta_map_[entry.type_id], walltime, logEntry)) {

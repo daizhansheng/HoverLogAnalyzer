@@ -146,7 +146,7 @@ private:
     QPushButton *searchPrevButton;
     QPushButton *searchNextButton;
     QPushButton *pinButton;
-    QAction *pinAction;
+    QAction *pinAction = nullptr;
     QPushButton *pinTextButton;
     QWidget *checkBoxContainer;
     QString version = "";
