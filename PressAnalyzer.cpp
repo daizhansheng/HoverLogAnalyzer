@@ -1498,6 +1498,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
             case 2: stateName = "TAKINGOFF"; break;
             case 3: stateName = "FLYING";    break;
             case 4: stateName = "LANDING";   break;
+            case 5: stateName = "TURTLE_ROLLING"; break;
             default: stateName = QString("UNKNOWN(%1)").arg(stateValue); break;
             }
             QString display = QString("%1 | %2# FC STATE -> %3")
@@ -1826,13 +1827,40 @@ void PressAnalyzer::loadAndAnalyzeLog()
         }
     }
 
-    int lineNumber = 0;
-    QDateTime currentTakeoffTime;
+    // 检查是否是 .hlog 二进制文件
+    QFileInfo fileInfo(filePath);
+    QString extension = fileInfo.suffix().toLower();
+    
     QString textBuffer;
-    bool inRecvException = false;
-    QStringList recvExceptionLines;
+    int lineNumber = 0;
+    
+    if (extension == "hlog") {
+        // 使用二进制解析器处理 .hlog 文件
+        HLogBinaryParser binaryParser;
+        QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+        
+        if (entries.isEmpty()) {
+            QMessageBox::warning(this, "错误", "无法解析 .hlog 文件：" + filePath);
+            logView->setUpdatesEnabled(true);
+            return;
+        }
+        
+        // 构建文本缓冲区
+        for (const HLogEntry &entry : entries) {
+            lineNumber++;
+            allLogLines << entry.fullText;
+            textBuffer.append(QString("%1 %2\n")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(entry.fullText));
+        }
+    } else {
+        // 处理文本文件
+        QDateTime currentTakeoffTime;
+        bool inRecvException = false;
+        QStringList recvExceptionLines;
 
-    analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    }
 
     logView->setPlainText(textBuffer);
     // 首次统一高亮一次，点击时不再重复全量高亮
