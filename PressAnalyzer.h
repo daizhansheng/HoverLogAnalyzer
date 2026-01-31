@@ -115,6 +115,11 @@ private:
     void updatePinButtonState();
     void updateVisibleHighlights();
     QColor getEventColor(const QString &eventType);
+    
+    // 解压工具函数
+    bool extractZipFile(const QString &zipPath, const QString &extractDir);
+    // 等待文件出现（用于解压后确保文件系统同步）
+    bool waitForFile(const QString &filePath, int maxWaitMs = 500);
 
     // 构造函数初始化方法
     void setupMainWindow();

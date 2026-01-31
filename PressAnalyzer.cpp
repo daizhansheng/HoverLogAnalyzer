@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QFileDialog>
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 #include <QMessageBox>
 #include <QSplitter>
@@ -25,6 +26,8 @@
 #include <QInputDialog>
 #include <QMap>
 #include <QApplication>
+#include <QThread>
+#include <QEventLoop>
 #include <QScrollBar>
 #include <QChar>
 #include <functional>
@@ -112,6 +115,83 @@ void PressAnalyzer::updateVisibleHighlights()
     }
     logView->setExtraSelections(selections);
 }
+
+bool PressAnalyzer::extractZipFile(const QString &zipPath, const QString &extractDir)
+{
+    if (!QFileInfo::exists(zipPath)) {
+        qWarning() << "ERROR: zipPath does not exist!";
+        return false;
+    }
+
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels); // 合并输出，避免阻塞
+
+#ifdef Q_OS_WIN
+    QStringList args;
+    args << "-xf" << zipPath << "-C" << extractDir;
+    process.start("tar.exe", args);
+#else
+    // Linux/macOS: 使用unzip命令
+    QStringList args;
+    args << "-o" << "-q" << zipPath << "-d" << extractDir; // -q 静默模式，提高性能
+    process.start("unzip", args);
+#endif
+
+    bool hasFiles = false;
+    while (!process.waitForFinished(50)) {
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
+        // 实时检查解压目录，提前判断成功
+        QDir extractDirObj(extractDir);
+        if (extractDirObj.exists()) {
+            QStringList files = extractDirObj.entryList(QDir::Files | QDir::NoDotAndDotDot);
+            if (!files.isEmpty()) {
+                hasFiles = true;
+            }
+        }
+    }
+
+    if (hasFiles) {
+        return true;
+    }
+    QThread::msleep(20);
+    bool success = false;
+    QDir extractDirObj(extractDir);
+    if (extractDirObj.exists()) {
+        QStringList files = extractDirObj.entryList(QDir::Files | QDir::NoDotAndDotDot);
+        success = !files.isEmpty();
+    }
+
+    if (!success) {
+        QByteArray output = process.readAllStandardOutput();
+        qWarning() << "ERROR: extract failed, exit code:" << process.exitCode();
+    }
+
+    return success;
+}
+
+bool PressAnalyzer::waitForFile(const QString &filePath, int maxWaitMs)
+{
+    if (QFileInfo::exists(filePath)) {
+        return true;
+    }
+
+    int waited = 0;
+    const int checkInterval = 50; // 每50ms检查一次
+
+    while (waited < maxWaitMs) {
+        QThread::msleep(checkInterval);
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        waited += checkInterval;
+
+        if (QFileInfo::exists(filePath)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
 {
@@ -1413,6 +1493,9 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
         lineNumber++;
         allLogLines << line;
 
+        // 用于跟踪当前行是否已经递增过 triggerCount，避免同一行重复递增
+        bool currentLineIncremented = false;
+
         textBuffer.reserve(textBuffer.size() + line.size() + 16);
         textBuffer.append(QString("%1 %2\n")
                               .arg(lineNumber, 6, 10, QChar(' '))
@@ -1422,21 +1505,21 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
 
         // ==================== press once power key ====================
         if (line.contains("press once power key", Qt::CaseInsensitive)) {
-            triggerCount++;
+            // 先显示当前的 triggerCount 值，然后递增开始新序列
             QString timestamp;
             auto m = rePressPower.match(line);
             if (m.hasMatch()) timestamp = m.captured(2);
-
+            triggerCount++;
             QString display = QString("%1 | %2# press power key : [%3]")
                                   .arg(lineNumber, 6, 10, QChar(' '))
                                   .arg(triggerCount)
                                   .arg(timestamp);
             addEventToList(triggerCount, lineNumber, display);
+            currentLineIncremented = true;
         }
 
         // ==================== 起飞事件 ====================
         if (line.contains("start takeoff. powerkey trigger source", Qt::CaseInsensitive)) {
-            flightCount++;
             QString triggerText = "未知";
             auto m = reTakeoff.match(line);
             if (m.hasMatch()) {
@@ -1625,11 +1708,23 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                 for (const QString &l : recvExceptionLines) {
                     if (l.startsWith("event:", Qt::CaseInsensitive) ||
                         l.startsWith("errors:", Qt::CaseInsensitive)) {
-                        QString display = QString("%1 | %2# %3")
-                        .arg(lineNumber-1, 6, 10, QChar(' '))
-                            .arg(triggerCount)
-                            .arg(l.trimmed());
-                        addEventToList(triggerCount, lineNumber-1, display);
+                        // 检查是否是 NOTIFY_TURTLE_FLIP 事件，如果是则先递增 triggerCount，然后显示递增后的值
+                        if (l.contains("NOTIFY_TURTLE_FLIP", Qt::CaseInsensitive)) {
+                            // 先递增 triggerCount，然后显示递增后的值
+                            triggerCount++;
+                            QString display = QString("%1 | %2# %3")
+                            .arg(lineNumber-1, 6, 10, QChar(' '))
+                                .arg(triggerCount)
+                                .arg(l.trimmed());
+                            addEventToList(triggerCount, lineNumber-1, display);
+                        } else {
+                            // 其他 event 或 errors，使用当前的 triggerCount
+                            QString display = QString("%1 | %2# %3")
+                            .arg(lineNumber-1, 6, 10, QChar(' '))
+                                .arg(triggerCount)
+                                .arg(l.trimmed());
+                            addEventToList(triggerCount, lineNumber-1, display);
+                        }
                     }
                 }
             }
@@ -1690,10 +1785,10 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                 int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
                 ts = ts.addMSecs(msecs);
             }
-            
+
             int tempVal = 0;
             bool found = false;
-            
+
             // 先尝试匹配 "soc temp and camera temp %d : %d" 格式（第二个值是 camera temp）
             QRegExp rxTempBoth("soc\\s+temp\\s+and\\s+camera\\s+temp\\s+(\\-?\\d+)\\s*:\\s*(\\-?\\d+)", Qt::CaseInsensitive);
             if (rxTempBoth.indexIn(line) != -1) {
@@ -1708,7 +1803,7 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
                     found = true;
                 }
             }
-            
+
             if (found && tempVal != -128) {
                 cameraTemps.push_back({ts, tempVal});
             }
@@ -1815,14 +1910,9 @@ void PressAnalyzer::loadAndAnalyzeLog()
             QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
             if (QFileInfo::exists(userLog)) parseHeader(userLog);
             else if (QFileInfo::exists(userLogZip)) {
-                QProcess p; QStringList args;
-#ifdef Q_OS_WIN
-                args << "x" << userLogZip << "-o" << syslogDir << "-y"; p.start("7z.exe", args);
-#else
-                args << "-o" << userLogZip << "-d" << syslogDir; p.start("unzip", args);
-#endif
-                p.waitForFinished(-1);
-                if (p.exitCode() == 0 && QFileInfo::exists(userLog)) parseHeader(userLog);
+                if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
+                    parseHeader(userLog);
+                }
             }
         }
     }
@@ -1830,21 +1920,21 @@ void PressAnalyzer::loadAndAnalyzeLog()
     // 检查是否是 .hlog 二进制文件
     QFileInfo fileInfo(filePath);
     QString extension = fileInfo.suffix().toLower();
-    
+
     QString textBuffer;
     int lineNumber = 0;
-    
+
     if (extension == "hlog") {
         // 使用二进制解析器处理 .hlog 文件
         HLogBinaryParser binaryParser;
         QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
-        
+
         if (entries.isEmpty()) {
             QMessageBox::warning(this, "错误", "无法解析 .hlog 文件：" + filePath);
             logView->setUpdatesEnabled(true);
             return;
         }
-        
+
         // 构建文本缓冲区
         for (const HLogEntry &entry : entries) {
             lineNumber++;
@@ -1990,17 +2080,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
             if (QFileInfo::exists(userLog)) {
                 parseUserLogHeaderCE(userLog);
             } else if (QFileInfo::exists(userLogZip)) {
-                QProcess unzipProcess;
-                QStringList args;
-#ifdef Q_OS_WIN
-                args << "x" << userLogZip << "-o" << syslogDir << "-y";
-                unzipProcess.start("7z.exe", args);
-#else
-                args << "-o" << userLogZip << "-d" << syslogDir;
-                unzipProcess.start("unzip", args);
-#endif
-                unzipProcess.waitForFinished(-1);
-                if (unzipProcess.exitCode() == 0 && QFileInfo::exists(userLog)) {
+                if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
                     parseUserLogHeaderCE(userLog);
                 }
             }
@@ -2017,7 +2097,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
-    auto collectLogs = [](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
+    auto collectLogs = [this](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
         QStringList result;
         QDir dir(baseDir + "/" + subDir);
         if (!dir.exists()) return result;
@@ -2030,18 +2110,12 @@ void PressAnalyzer::loadAndAnalyzeLogs()
             QStringList zipFiles = dir.entryList(QStringList() << zipPattern, QDir::Files);
             for (const QString &zipName : zipFiles) {
                 QString zipPath = dir.filePath(zipName);
-                QProcess unzipProcess;
-                QStringList args;
-#ifdef Q_OS_WIN
-                args << "x" << zipPath << "-o" + dir.absolutePath();
-                unzipProcess.start("7z.exe", args);
-#else
-                args << zipPath << "-d" << dir.absolutePath();
-                unzipProcess.start("unzip", args);
-#endif
-                unzipProcess.waitForFinished(-1);
+                extractZipFile(zipPath, dir.absolutePath());
+                QApplication::processEvents(); // 处理事件，保持UI响应
             }
-            // 解压完重新获取日志文件列表
+            // 解压完等待文件系统同步，然后重新获取日志文件列表
+            QThread::msleep(100); // 额外延迟，确保文件系统完全同步
+            QApplication::processEvents();
             logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
         }
 
@@ -2155,7 +2229,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
-    auto collectLogs = [](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
+    auto collectLogs = [this](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
         QStringList result;
         QDir dir(baseDir + "/" + subDir);
         if (!dir.exists()) return result;
@@ -2168,18 +2242,12 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
             QStringList zipFiles = dir.entryList(QStringList() << zipPattern, QDir::Files);
             for (const QString &zipName : zipFiles) {
                 QString zipPath = dir.filePath(zipName);
-                QProcess unzipProcess;
-                QStringList args;
-#ifdef Q_OS_WIN
-                args << "x" << zipPath << "-o" + dir.absolutePath();
-                unzipProcess.start("7z.exe", args);
-#else
-                args << zipPath << "-d" << dir.absolutePath();
-                unzipProcess.start("unzip", args);
-#endif
-                unzipProcess.waitForFinished(-1);
+                extractZipFile(zipPath, dir.absolutePath());
+                QApplication::processEvents(); // 处理事件，保持UI响应
             }
-            // 解压完重新获取日志文件列表
+            // 解压完等待文件系统同步，然后重新获取日志文件列表
+            QThread::msleep(100); // 额外延迟，确保文件系统完全同步
+            QApplication::processEvents();
             logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
         }
 
@@ -2395,17 +2463,7 @@ void PressAnalyzer::loadAndMergeLogs()
             parseUserLogHeader(userLog);
         } else if (QFileInfo::exists(userLogZip)) {
             // 解压 user.log.zip 到同目录（若已解压则 unzip 会覆盖或直接成功返回）
-            QProcess unzipProcess;
-            QStringList args;
-#ifdef Q_OS_WIN
-            args << "x" << userLogZip << "-o" << syslogDir << "-y";
-            unzipProcess.start("7z.exe", args);
-#else
-            args << "-o" << userLogZip << "-d" << syslogDir;
-            unzipProcess.start("unzip", args);
-#endif
-            unzipProcess.waitForFinished(-1);
-            if (unzipProcess.exitCode() == 0 && QFileInfo::exists(userLog)) {
+            if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
                 parseUserLogHeader(userLog);
             }
         }
@@ -2463,24 +2521,8 @@ void PressAnalyzer::loadAndMergeLogs()
                 // 静默解压
                 QApplication::processEvents(); // 保持界面响应
 
-                QProcess unzipProcess;
-                QStringList args;
-
-#ifdef Q_OS_WIN
-                // Windows: 使用7z.exe
-                args << "x" << zipPath << "-o" << extractDir << "-y";
-                unzipProcess.start("7z.exe", args);
-#else
-                // Linux/macOS: 使用unzip
-                args << "-o" << zipPath << "-d" << extractDir;
-                unzipProcess.start("unzip", args);
-#endif
-
-                // 等待解压完成
-                unzipProcess.waitForFinished(-1);
-
-                // 检查解压结果
-                // 静默处理成功/失败
+                // 使用统一的解压函数（Windows使用PowerShell，Linux/macOS使用unzip）
+                extractZipFile(zipPath, extractDir);
 
                 // 处理Qt事件，保持界面响应
                 QApplication::processEvents();
@@ -3384,7 +3426,7 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
         if (extension == "hlog") {
             HLogBinaryParser binaryParser;
             QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
-            
+
             if (entries.isEmpty()) {
                 qWarning() << "无法解析 .hlog 文件:" << filePath;
                 continue;
@@ -3434,14 +3476,14 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
                 for (const QString &line : lines) {
                     QString trimmedLine = line.trimmed();
                     bool isLogEntryStart = false;
-                    
+
                     // 检查是否是日志条目开始（包含时间戳或级别信息）
                     if (!trimmedLine.isEmpty()) {
                         QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
                         QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
                         isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
                     }
-                    
+
                     if (isLogEntryStart) {
                         // 新的日志条目开始，添加行号
                         inMultiLineEntry = true;
@@ -3535,7 +3577,7 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
         if (extension == "hlog") {
             HLogBinaryParser binaryParser;
             QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
-            
+
             if (entries.isEmpty()) {
                 qWarning() << "无法解析 .hlog 文件:" << filePath;
                 continue;
@@ -3585,14 +3627,14 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
                 for (const QString &line : lines) {
                     QString trimmedLine = line.trimmed();
                     bool isLogEntryStart = false;
-                    
+
                     // 检查是否是日志条目开始（包含时间戳或级别信息）
                     if (!trimmedLine.isEmpty()) {
                         QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
                         QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
                         isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
                     }
-                    
+
                     if (isLogEntryStart) {
                         // 新的日志条目开始，添加行号
                         inMultiLineEntry = true;
