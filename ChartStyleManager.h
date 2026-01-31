@@ -53,6 +53,11 @@ public:
         return fontTheme;
     }
 
+    // 设置统一的字体主题
+    static void setFontTheme(const FontTheme &theme) {
+        fontTheme = theme;
+    }
+
     // 获取统一的布局主题
     static LayoutTheme getLayoutTheme() {
         return layoutTheme;

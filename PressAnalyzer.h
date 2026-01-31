@@ -69,6 +69,12 @@ private slots:
     void addEventToList(int triggerCount, int lineNumber, const QString &display);
     void onEventClicked(QListWidgetItem *item);
 
+    // 字体设置功能
+    void setLogFont();
+    void setEventFont();
+    void setChartFont();
+    void resetAllFonts();
+
     // 搜索功能
     void searchAll();
     void goToPrevSearch();
@@ -115,7 +121,7 @@ private:
     void updatePinButtonState();
     void updateVisibleHighlights();
     QColor getEventColor(const QString &eventType);
-    
+
     // 解压工具函数
     bool extractZipFile(const QString &zipPath, const QString &extractDir);
     // 等待文件出现（用于解压后确保文件系统同步）
@@ -135,6 +141,7 @@ private:
     void setupConnections();
     void setupSearchCompleter();
     void applyButtonStyles();
+    void applySavedFonts();
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *analyzeControlButton;  // 专用分析按钮
@@ -213,6 +220,11 @@ private:
     QVector<AllModuleUsage> allusage;
     // 文本缩放：当前字体大小
     int logFontPointSize;
+
+    // 字体设置
+    QFont currentLogFont;      // 当前日志字体
+    QFont currentEventFont;    // 当前事件列表字体
+    QFont currentChartFont;     // 当前图表字体
 
     // 全局按钮点击状态跟踪
     bool anyFileButtonClicked;
