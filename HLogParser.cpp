@@ -7,7 +7,7 @@ HLogParser::HLogParser() {
     // 匹配格式：[时间戳毫秒 日期时间]
     // 例如：[7513 2025-12-30 01:56:03]
     timestampPattern = QRegularExpression(R"(\[(\d+)\s+(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\])");
-    
+
     // 匹配格式：[级别|文件名:行号]
     // 例如：[I|Config.cpp:46]
     levelFilePattern = QRegularExpression(R"(\[([IDWEF])\|([^:]+):(\d+)\])");
@@ -18,15 +18,15 @@ HLogParser::~HLogParser() {
 
 QList<HLogEntry> HLogParser::parse(const QByteArray &data) {
     QList<HLogEntry> entries;
-    
+
     // 将二进制数据转换为文本 - 使用简单直接的方法
     QString text;
     text.reserve(data.size());
-    
+
     // 直接遍历字节，保留所有可能的文本字符
     for (int i = 0; i < data.size(); ++i) {
         unsigned char ch = static_cast<unsigned char>(data[i]);
-        
+
         // 保留换行、制表符、回车符
         if (ch == '\n' || ch == '\r' || ch == '\t') {
             text.append(QChar(ch));
@@ -47,21 +47,21 @@ QList<HLogEntry> HLogParser::parse(const QByteArray &data) {
         }
         // 其他控制字符忽略
     }
-    
+
     // 按行分割，保留空行用于多行条目的识别
     QStringList lines = text.split('\n');
-    
+
     QString currentEntry;
     bool inMultiLineEntry = false;
-    
+
     for (const QString &line : lines) {
         QString trimmedLine = line.trimmed();
-        
+
         // 检查是否是新的日志条目开始（包含时间戳和级别信息）
         // 完整格式：[时间戳 日期时间] [级别|文件名:行号]: 内容
         QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
         bool hasLevelInfo = levelFilePattern.match(trimmedLine).hasMatch();
-        
+
         if (timestampMatch.hasMatch() || (hasLevelInfo && trimmedLine.contains(':'))) {
             // 如果之前有未保存的条目，先保存
             if (!currentEntry.isEmpty()) {
@@ -101,7 +101,7 @@ QList<HLogEntry> HLogParser::parse(const QByteArray &data) {
             inMultiLineEntry = false;
         }
     }
-    
+
     // 保存最后一个条目
     if (!currentEntry.isEmpty()) {
         HLogEntry entry;
@@ -109,17 +109,17 @@ QList<HLogEntry> HLogParser::parse(const QByteArray &data) {
             entries.append(entry);
         }
     }
-    
+
     // 按时间戳排序
     std::sort(entries.begin(), entries.end());
-    
+
     return entries;
 }
 
 bool HLogParser::parseLogLine(const QString &line, HLogEntry &entry) {
     // 直接保存原始行，不做任何修改
     entry.fullText = line;
-    
+
     // 提取时间戳（用于排序）
     // 匹配第一个时间戳（通常是日志条目的时间戳）
     QRegularExpressionMatchIterator timestampIterator = timestampPattern.globalMatch(line);
@@ -133,7 +133,7 @@ bool HLogParser::parseLogLine(const QString &line, HLogEntry &entry) {
             if (timestampMs < 10000000000LL) {
                 entry.timestampValue = timestampMs;
                 entry.hasTimestamp = true;
-                
+
                 // 解析日期时间
                 QString dateTimeStr = timestampMatch.captured(2);
                 entry.timestamp = QDateTime::fromString(dateTimeStr, "yyyy-MM-dd HH:mm:ss");
@@ -144,7 +144,7 @@ bool HLogParser::parseLogLine(const QString &line, HLogEntry &entry) {
             }
         }
     }
-    
+
     // 提取级别、文件名和行号
     QRegularExpressionMatch levelMatch = levelFilePattern.match(line);
     if (levelMatch.hasMatch()) {
@@ -156,7 +156,7 @@ bool HLogParser::parseLogLine(const QString &line, HLogEntry &entry) {
             entry.line = 0;
         }
     }
-    
+
     return true;
 }
 
@@ -166,21 +166,34 @@ QList<HLogEntry> HLogParser::parseFromFile(const QString &filePath) {
         qWarning() << "无法打开文件:" << filePath;
         return QList<HLogEntry>();
     }
-    
+
     QByteArray data = file.readAll();
     file.close();
-    
+
     return parse(data);
 }
 
 QString HLogParser::entriesToText(const QList<HLogEntry> &entries) {
     QString result;
-    result.reserve(entries.size() * 100); // 预分配空间
-    
+    // 估算每行平均长度，考虑行号占用的空间
+    int estimatedSize = 0;
     for (const HLogEntry &entry : entries) {
-        result += entry.fullText + "\n";
+        estimatedSize += entry.fullText.length() + 10; // 每行增加行号和换行符的空间
     }
-    
+    result.reserve(estimatedSize);
+
+    int lineNumber = 1;
+
+    for (const HLogEntry &entry : entries) {
+        // 处理多行日志内容，确保每一行都有行号
+        QStringList lines = entry.fullText.split('\n');
+
+        for (const QString &line : lines) {
+            result += QString("%1 %2\n").arg(lineNumber, 6, 10, QChar(' ')).arg(line);
+            lineNumber++;
+        }
+    }
+
     return result;
 }
 

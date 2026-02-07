@@ -3839,12 +3839,17 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
 
             // 将解析的条目添加到缓冲区
             for (const HLogEntry &entry : entries) {
-                totalLineNumber++;
-                allLogLines << entry.fullText;
-                QString numberedLine = QString("%1 %2\n")
+                // 处理多行日志内容，确保每一行都有行号
+                QStringList lines = entry.fullText.split('\n');
+
+                for (const QString &line : lines) {
+                    totalLineNumber++;
+                    allLogLines << line;
+                    QString numberedLine = QString("%1 %2\n")
                                          .arg(totalLineNumber, 6, 10, QChar(' '))
-                                         .arg(entry.fullText);
-                textBuffer += numberedLine;
+                                         .arg(line);
+                    textBuffer += numberedLine;
+                }
             }
         } else {
             // 处理文本文件
@@ -3889,27 +3894,20 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
                         isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
                     }
 
-                    if (isLogEntryStart) {
-                        // 新的日志条目开始，添加行号
+                    // 确保每一行都有连续的行号，无论是否是多行日志
+                    int currentLineNumber = totalLineNumber - lines.size() + lineCount + 1;
+
+                    if (trimmedLine.isEmpty()) {
+                        inMultiLineEntry = false;  // 空行结束多行条目
+                    } else if (trimmedLine.startsWith('[') && timestampPattern.match(trimmedLine).hasMatch()) {
+                        // 新的日志条目开始
                         inMultiLineEntry = true;
-                        QString numberedLine = QString("%1 %2\n")
-                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
-                                                 .arg(line);
-                        textBuffer += numberedLine;
-                    } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
-                        // 多行日志的后续行，添加8个空格而不是行号
-                        QString indentedLine = QString("        %1\n").arg(line);  // 8个空格
-                        textBuffer += indentedLine;
-                    } else {
-                        // 空行或独立行，正常处理
-                        if (trimmedLine.isEmpty()) {
-                            inMultiLineEntry = false;  // 空行结束多行条目
-                        }
-                        QString numberedLine = QString("%1 %2\n")
-                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
-                                                 .arg(line);
-                        textBuffer += numberedLine;
                     }
+
+                    QString numberedLine = QString("%1 %2\n")
+                                         .arg(currentLineNumber, 6, 10, QChar(' '))
+                                         .arg(line);
+                    textBuffer += numberedLine;
                     lineCount++;
                 }
 
