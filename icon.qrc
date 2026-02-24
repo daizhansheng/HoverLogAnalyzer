@@ -14,7 +14,7 @@
         <file>icons/analysis.png</file>
         <file>icons/camera.png</file>
         <file>icons/down-arrow.png</file>
-        <!-- window-new.png 图标文件尚未添加，暂时注释掉，代码中已有Qt标准图标作为备选 -->
-        <!-- <file>icons/window-new.png</file> -->
+        <file>icons/dir-arrow.png</file>
+        <file>icons/folder.png</file>
     </qresource>
 </RCC>

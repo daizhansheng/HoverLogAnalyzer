@@ -44,6 +44,8 @@
 #include <QFontDialog>
 #include "HLogBinaryParser.h"
 #include "HLogParser.h"
+#include <QHeaderView>
+#include <QFileSystemModel>
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -194,7 +196,8 @@ bool PressAnalyzer::waitForFile(const QString &filePath, int maxWaitMs)
 }
 
 PressAnalyzer::PressAnalyzer(QWidget *parent)
-    : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr)
+    : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr), fileBrowserToggleBtn(nullptr),
+      fileBrowserDock(nullptr), fileBrowserTree(nullptr), fileSystemModel(nullptr), fileBrowserButton(nullptr)
 {
     // 初始化成员变量
     triggerCount = 0;
@@ -231,6 +234,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     setupCentralWidget();
     setupEventDock();
     setupSearchDock();
+    setupFileBrowserDock();
     setupToolBar();
     setupStatusBar();
     setupCameraDock();
@@ -294,16 +298,13 @@ void PressAnalyzer::setupCentralWidget()
     logView = new QPlainTextEdit(this);
     setCentralWidget(logView);
 
-    // 数字高亮（跳过前7列行号+空格）
     new LogNumberHighlighter(logView->document(), 7);
 
-    // 设置日志字体为 Menlo 11
     QFont f("Menlo");
     f.setStyleHint(QFont::Monospace);
     f.setFixedPitch(true);
     f.setPointSize(11);
     logView->setFont(f);
-    // 统一设置选中文本的颜色（蓝色），避免与浅灰行高亮混淆
     logView->setStyleSheet(
         "QPlainTextEdit{selection-background-color:#80BFFF; selection-color:white;}"
     );
@@ -383,30 +384,551 @@ void PressAnalyzer::setupSearchDock()
     });
 }
 
+void PressAnalyzer::setupFileBrowserDock()
+{
+    // 创建文件系统模型
+    fileSystemModel = new QFileSystemModel(this);
+    fileSystemModel->setReadOnly(true);
+    // 显示所有文件，不过滤
+    fileSystemModel->setNameFilterDisables(false);
+
+    // 创建树形视图
+    fileBrowserTree = new QTreeView(this);
+    fileBrowserTree->setModel(fileSystemModel);
+    fileBrowserTree->setAnimated(true);
+    fileBrowserTree->setIndentation(16);
+    fileBrowserTree->setSortingEnabled(true);
+    fileBrowserTree->sortByColumn(0, Qt::AscendingOrder);
+
+    // 只显示名称和大小列，隐藏类型和修改日期
+    fileBrowserTree->setColumnHidden(2, true); // Type
+    fileBrowserTree->setColumnHidden(3, true); // Date Modified
+
+    // 设置列宽
+    fileBrowserTree->setColumnWidth(0, 250); // Name
+    fileBrowserTree->setColumnWidth(1, 80);  // Size
+
+    // 设置头部
+    fileBrowserTree->header()->setStretchLastSection(false);
+    fileBrowserTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+
+    // 设置样式 - 移除箭头图标
+    fileBrowserTree->setStyleSheet(
+        "QTreeView {"
+        "  border: none;"
+        "  background-color: #FAFAFA;"
+        "  font-size: 12px;"
+        "  show-decoration-selected: 0;"
+        "}"
+        "QTreeView::item {"
+        "  padding: 3px 4px;"
+        "  border-radius: 3px;"
+        "}"
+        "QTreeView::item:hover {"
+        "  background-color: #E8F0FE;"
+        "}"
+        "QTreeView::item:selected {"
+        "  background-color: #D2E3FC;"
+        "  color: #1A73E8;"
+        "}"
+        "QHeaderView::section {"
+        "  background-color: #F0F0F0;"
+        "  border: none;"
+        "  border-bottom: 1px solid #D0D0D0;"
+        "  padding: 4px 6px;"
+        "  font-weight: bold;"
+        "  font-size: 11px;"
+        "}"
+        "QTreeView::branch {"
+        "  background: transparent;"
+        "}"
+        "QTreeView::branch:has-children:!has-siblings:closed,"
+        "QTreeView::branch:closed:has-children:has-siblings {"
+        "  border-image: none;"
+        "  background: transparent;"
+        "}"
+        "QTreeView::branch:open:has-children:!has-siblings,"
+        "QTreeView::branch:open:has-children:has-siblings {"
+        "  border-image: none;"
+        "  background: transparent;"
+        "}"
+    );
+
+    // 创建容器布局（带路径栏和导航按钮）
+    QWidget *browserContainer = new QWidget(this);
+    QVBoxLayout *browserLayout = new QVBoxLayout(browserContainer);
+    browserLayout->setContentsMargins(0, 0, 0, 0);
+    browserLayout->setSpacing(2);
+
+    // 顶部导航栏：返回上级 + 当前路径 + 选择目录
+    QHBoxLayout *navLayout = new QHBoxLayout();
+    navLayout->setContentsMargins(4, 4, 4, 2);
+    navLayout->setSpacing(4);
+
+    QPushButton *goUpButton = new QPushButton(this);
+    goUpButton->setIcon(QIcon(":/icons/icons/dir-arrow.png"));
+    goUpButton->setToolTip("返回上级目录");
+    goUpButton->setFixedSize(28, 28);
+    goUpButton->setStyleSheet(
+        "QPushButton{"
+        "  background-color:#E3F2FD;"
+        "  border:1px solid #90CAF9;"
+        "  border-radius:4px;"
+        "  padding:2px;"
+        "}"
+        "QPushButton:hover{ background-color:#BBDEFB; }"
+        "QPushButton:pressed{ background-color:#90CAF9; }"
+    );
+
+    QLabel *pathLabel = new QLabel(this);
+    pathLabel->setObjectName("fileBrowserPathLabel");
+    pathLabel->setText("未选择目录");
+    pathLabel->setStyleSheet(
+        "QLabel {"
+        "  color: #666666;"
+        "  font-size: 11px;"
+        "  padding: 2px 4px;"
+        "  background-color: #F8F8F8;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 3px;"
+        "}"
+    );
+    pathLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    QPushButton *chooseDirButton = new QPushButton(this);
+    chooseDirButton->setIcon(QIcon(":/icons/icons/folder-open.png"));
+    chooseDirButton->setToolTip("选择浏览目录");
+    chooseDirButton->setFixedSize(28, 28);
+    chooseDirButton->setStyleSheet(
+        "QPushButton{"
+        "  background-color:#E8F5E8;"
+        "  border:1px solid #81C784;"
+        "  border-radius:4px;"
+        "  padding:2px;"
+        "}"
+        "QPushButton:hover{ background-color:#C8E6C9; }"
+        "QPushButton:pressed{ background-color:#81C784; }"
+    );
+
+    navLayout->addWidget(goUpButton);
+    navLayout->addWidget(pathLabel, 1);
+    navLayout->addWidget(chooseDirButton);
+    browserLayout->addLayout(navLayout);
+    browserLayout->addWidget(fileBrowserTree, 1);
+
+    // 创建Dock - 放左侧
+    fileBrowserDock = new QDockWidget("文件浏览器", this);
+    fileBrowserDock->setWidget(browserContainer);
+    fileBrowserDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    fileBrowserDock->setMinimumWidth(250);
+    addDockWidget(Qt::LeftDockWidgetArea, fileBrowserDock);
+    fileBrowserDock->hide(); // 初始隐藏
+
+    // 为文件浏览器添加展开/折叠按钮
+    fileBrowserToggleBtn = new DockToggleButton(fileBrowserDock, this);
+    fileBrowserToggleBtn->setFixedSize(30, 30); // 设置固定大小
+    fileBrowserToggleBtn->move(5, 5); // 移动到窗口左上角
+    fileBrowserToggleBtn->show();
+
+    // 确保按钮在窗口大小变化时保持在左上角
+    installEventFilter(this);
+
+    // 将文件浏览器和分析结果做成Tab样式
+    tabifyDockWidget(fileBrowserDock, eventDock);
+    eventDock->raise(); // 默认显示分析结果
+
+    // 返回上级按钮连接
+    connect(goUpButton, &QPushButton::clicked, this, [this, pathLabel](){
+        if (fileBrowserRootPath.isEmpty()) return;
+        QDir dir(fileBrowserRootPath);
+        if (dir.cdUp()) {
+            openDirectoryInBrowser(dir.absolutePath());
+        }
+    });
+
+    // 选择目录按钮连接
+    connect(chooseDirButton, &QPushButton::clicked, this, [this](){
+        QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录",
+                                                         fileBrowserRootPath.isEmpty() ? QDir::homePath() : fileBrowserRootPath);
+        if (!dir.isEmpty()) {
+            openDirectoryInBrowser(dir);
+        }
+    });
+
+    // 双击文件/目录处理
+    connect(fileBrowserTree, &QTreeView::doubleClicked, this, &PressAnalyzer::onFileBrowserDoubleClicked);
+
+    // 右键菜单
+    fileBrowserTree->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(fileBrowserTree, &QTreeView::customContextMenuRequested, this, [this](const QPoint &pos){
+        QModelIndex index = fileBrowserTree->indexAt(pos);
+        if (!index.isValid()) return;
+
+        QString filePath = fileSystemModel->filePath(index);
+        QFileInfo info(filePath);
+
+        QMenu menu;
+        if (info.isDir()) {
+            QAction *actDelete = menu.addAction("Delete File");
+            QAction *actRename = menu.addAction("Rename File");
+            QAction *actOpen = menu.addAction("Open Directory");
+            QAction *actLoadDir = menu.addAction("Intelligent Analysis");
+            QAction *chosen = menu.exec(fileBrowserTree->mapToGlobal(pos));
+            if (chosen == actDelete) {
+                // 删除目录
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Confirm Delete", QString("Are you sure you want to delete directory %1?").arg(info.fileName()),
+                                            QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    QDir dir(filePath);
+                    if (dir.removeRecursively()) {
+                        // QFileSystemModel会自动监控文件系统变化，无需手动刷新
+                    } else {
+                        QMessageBox::warning(this, "Delete Failed", "Cannot delete directory. Please check permissions.");
+                    }
+                }
+            } else if (chosen == actRename) {
+                // 重命名目录 - 显示确认对话框
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Confirm Rename", QString("Are you sure you want to rename directory %1?").arg(info.fileName()),
+                                            QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    // 确保索引有效且模型可编辑
+                    if (index.isValid() && fileSystemModel->flags(index) & Qt::ItemIsEditable) {
+                        // 尝试使用内置编辑功能
+                        fileBrowserTree->edit(index);
+                    } else {
+                        // 如果项目不可编辑，使用自定义重命名对话框
+                        bool ok;
+                        QString newName = QInputDialog::getText(this, "Rename Directory",
+                                                               QString("Enter new name for directory %1:").arg(info.fileName()),
+                                                               QLineEdit::Normal, info.fileName(), &ok);
+                        if (ok && !newName.isEmpty()) {
+                            QString newPath = info.absolutePath() + "/" + newName;
+                            QDir dir;
+                            if (dir.rename(filePath, newPath)) {
+                                // 重命名成功
+                            } else {
+                                QMessageBox::warning(this, "Rename Failed", "Cannot rename directory. Please check permissions and ensure the name is valid.");
+                            }
+                        }
+                    }
+                }
+            } else if (chosen == actOpen) {
+                openDirectoryInBrowser(filePath);
+            } else if (chosen == actLoadDir) {
+                // 不改变文件浏览器目录，只加载日志
+                loadMergeLogsFromPath(filePath, false);
+            }
+        } else {
+            QAction *actOpen = menu.addAction("Open File");
+            QAction *actDelete = menu.addAction("Delete File");
+            QAction *actRename = menu.addAction("Rename File");
+            QAction *chosen = menu.exec(fileBrowserTree->mapToGlobal(pos));
+            if (chosen == actOpen) {
+                openFileFromBrowser(filePath);
+            } else if (chosen == actDelete) {
+                // 删除文件
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Confirm Delete", QString("Are you sure you want to delete file %1?").arg(info.fileName()),
+                                            QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    QFile file(filePath);
+                    if (file.remove()) {
+                        // QFileSystemModel会自动监控文件系统变化，无需手动刷新
+                    } else {
+                        QMessageBox::warning(this, "Delete Failed", "Cannot delete file. Please check permissions.");
+                    }
+                }
+            } else if (chosen == actRename) {
+                // 重命名文件 - 显示确认对话框
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Confirm Rename", QString("Are you sure you want to rename file %1?").arg(info.fileName()),
+                                            QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    // 确保索引有效且模型可编辑
+                    if (index.isValid() && fileSystemModel->flags(index) & Qt::ItemIsEditable) {
+                        // 尝试使用内置编辑功能
+                        fileBrowserTree->edit(index);
+                    } else {
+                        // 如果项目不可编辑，使用自定义重命名对话框
+                        bool ok;
+                        QString newName = QInputDialog::getText(this, "Rename File",
+                                                               QString("Enter new name for file %1:").arg(info.fileName()),
+                                                               QLineEdit::Normal, info.fileName(), &ok);
+                        if (ok && !newName.isEmpty()) {
+                            QString newPath = info.absolutePath() + "/" + newName;
+                            QFile file(filePath);
+                            if (file.rename(newPath)) {
+                                // 重命名成功
+                            } else {
+                                QMessageBox::warning(this, "Rename Failed", "Cannot rename file. Please check permissions and ensure the name is valid.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+void PressAnalyzer::openDirectoryInBrowser(const QString &dirPath)
+{
+    fileBrowserRootPath = dirPath;
+    fileSystemModel->setRootPath(dirPath);
+    fileBrowserTree->setRootIndex(fileSystemModel->index(dirPath));
+
+    // 更新路径标签
+    QLabel *pathLabel = fileBrowserDock->findChild<QLabel*>("fileBrowserPathLabel");
+    if (pathLabel) {
+        // 简化显示：只显示最后两级目录
+        QDir dir(dirPath);
+        QString displayPath = dir.dirName();
+        QDir parent = dir;
+        if (parent.cdUp()) {
+            displayPath = parent.dirName() + "/" + displayPath;
+        }
+        pathLabel->setText(displayPath);
+        pathLabel->setToolTip(dirPath);
+    }
+
+    // 展开根目录
+    QModelIndex rootIndex = fileSystemModel->index(dirPath);
+    fileBrowserTree->expand(rootIndex);
+
+    // 折叠所有子目录，保持界面整洁
+    int rowCount = fileSystemModel->rowCount(rootIndex);
+    for (int i = 0; i < rowCount; ++i) {
+        QModelIndex childIndex = fileSystemModel->index(i, 0, rootIndex);
+        fileBrowserTree->collapse(childIndex);
+    }
+
+    // 如果dock没有显示则显示
+    if (!fileBrowserDock->isVisible()) {
+        fileBrowserDock->show();
+    }
+}
+
+void PressAnalyzer::onFileBrowserClicked(const QModelIndex &index)
+{
+    // 单击暂不处理，使用双击
+}
+
+void PressAnalyzer::onFileBrowserDoubleClicked(const QModelIndex &index)
+{
+    if (!index.isValid()) return;
+    QString filePath = fileSystemModel->filePath(index);
+    QFileInfo info(filePath);
+
+    if (info.isDir()) {
+        // 双击目录：直接进入目录视图（浏览用）
+        openDirectoryInBrowser(filePath);
+    } else {
+        // 双击文件：打开
+        openFileFromBrowser(filePath, false); // 传入false表示不解压后进入目录
+    }
+}
+
+void PressAnalyzer::openFileFromBrowser(const QString &filePath, bool enterExtractDir)
+{
+    QFileInfo info(filePath);
+    QString suffix = info.suffix().toLower();
+
+    if (suffix == "zip") {
+        // 压缩包：自动解压到同名目录
+        QString extractDir = info.absolutePath() + "/" + info.completeBaseName();
+        QDir().mkpath(extractDir);
+
+        if (statusPathLabel) statusPathLabel->setText(QString("正在解压: %1").arg(info.fileName()));
+        QApplication::processEvents();
+
+        bool ok = extractZipFile(filePath, extractDir);
+        if (ok) {
+            // 解压成功，根据参数决定是否进入解压后的目录视图
+            if (enterExtractDir) {
+                openDirectoryInBrowser(extractDir);
+            } else {
+                // 保持当前目录视图不变，显示解压成功消息
+                if (statusPathLabel) statusPathLabel->setText(QString("解压完成: %1").arg(info.fileName()));
+                QApplication::processEvents();
+                QTimer::singleShot(1000, this, [this]() {
+                    if (statusPathLabel) statusPathLabel->setText("就绪");
+                });
+            }
+        } else {
+            QMessageBox::warning(this, "解压失败", QString("无法解压文件: %1").arg(info.fileName()));
+            if (statusPathLabel) statusPathLabel->setText("解压失败");
+        }
+    } else if (suffix == "log" || suffix == "txt" || suffix == "hlog" || suffix == "csv" || suffix == "ulg") {
+        // 日志文件：直接加载
+        if (statusPathLabel) statusPathLabel->setText(filePath);
+        loadFileToLogView(filePath);
+    } else {
+        // 其他文件类型（无扩展名等）：当作文本文件直接打开
+        if (statusPathLabel) statusPathLabel->setText(filePath);
+        loadFileToLogView(filePath);
+    }
+}
+
+void PressAnalyzer::loadFileToLogView(const QString &filePath)
+{
+    // 减少大文件解析时的界面重绘
+    logView->setUpdatesEnabled(false);
+    QSignalBlocker blocker1(eventList);
+    QSignalBlocker blocker2(searchResultView);
+    QSignalBlocker blocker3(cameraEventList);
+    QSignalBlocker blocker4(heartbeatLostEventList);
+
+    if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
+    allLogLines.clear();
+    allEvents.clear();
+    cameraEvents.clear();
+    eventList->clear();
+    eventDock->hide();
+    heartbeatLostEventList->clear();
+    statusEvents.clear();
+    batteryChart->clear();
+    searchResults.clear();
+    searchResultView->clearResults();
+    batteryinfo.clear();
+    cameraTemps.clear();
+    allusage.clear();
+    soctmp.clear();
+    triggerCount = 0;
+    flightCount = 0;
+
+    // 查找 system_log 并解析版本信息
+    {
+        auto climbToSystemLog = [](QDir dir) -> QString {
+            QDir cur = dir;
+            while (true) {
+                if (cur.dirName() == QStringLiteral("system_log")) return cur.absolutePath();
+                QDir up = cur; if (!up.cdUp()) break; cur = up;
+            }
+            return QString();
+        };
+        auto findSiblingSystemLog = [](const QString &baseDir) -> QString {
+            QDir d(baseDir);
+            if (d.exists("system_log")) return d.absoluteFilePath("system_log");
+            QDir parent(baseDir); if (parent.cdUp() && parent.exists("system_log")) return parent.absoluteFilePath("system_log");
+            return QString();
+        };
+        auto parseHeader = [this](const QString &userLogPath){
+            QFile f(userLogPath); if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+            QTextStream in(&f); in.setCodec("UTF-8");
+            QString imageVer, ipkVer, snLocal, hwid, prev; int lines = 0;
+            while (!in.atEnd() && lines < 400) {
+                QString l = in.readLine().trimmed(); ++lines;
+                if (prev.contains("image verison", Qt::CaseInsensitive)) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l);
+                    if (m.hasMatch()) imageVer = m.captured(1); else imageVer = l;
+                }
+                if (prev.contains("ipk version", Qt::CaseInsensitive)) {
+                    QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
+                }
+                if (prev.contains("hover.sn", Qt::CaseInsensitive)) {
+                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reSn.match(l);
+                    if (m.hasMatch()) snLocal = m.captured(1);
+                }
+                if (prev.contains("hardware id", Qt::CaseInsensitive)) { if (!l.isEmpty()) hwid = l; }
+                if (imageVer.isEmpty()) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l); if (m.hasMatch()) imageVer = m.captured(1);
+                }
+                if (ipkVer.isEmpty()) { QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption); auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); }
+                if (snLocal.isEmpty()) { QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption); auto m = reSn.match(l); if (m.hasMatch()) snLocal = m.captured(1); }
+                prev = l; if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !snLocal.isEmpty() && !hwid.isEmpty()) break;
+            }
+            sn = snLocal;
+            version = imageVer.mid(0,4);
+            if (statusInfoLabel) statusInfoLabel->setText(QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
+                .arg(imageVer.isEmpty()?"-":imageVer).arg(ipkVer.isEmpty()?"-":ipkVer)
+                .arg(snLocal.isEmpty()?"-":snLocal).arg(hwid.isEmpty()?"-":hwid));
+        };
+        QFileInfo fi(filePath); QString dirPath = fi.absolutePath();
+        QString syslogDir = climbToSystemLog(QDir(dirPath));
+        if (syslogDir.isEmpty()) syslogDir = findSiblingSystemLog(dirPath);
+        if (!syslogDir.isEmpty()) {
+            QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
+            QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
+            if (QFileInfo::exists(userLog)) parseHeader(userLog);
+            else if (QFileInfo::exists(userLogZip)) {
+                if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
+                    parseHeader(userLog);
+                }
+            }
+        }
+    }
+
+    QFileInfo fileInfo(filePath);
+    QString extension = fileInfo.suffix().toLower();
+
+    QString textBuffer;
+    int lineNumber = 0;
+
+    if (extension == "hlog") {
+        HLogBinaryParser binaryParser;
+        QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+
+        if (entries.isEmpty()) {
+            QMessageBox::warning(this, "错误", "无法解析 .hlog 文件：" + filePath);
+            logView->setUpdatesEnabled(true);
+            return;
+        }
+
+        for (const HLogEntry &entry : entries) {
+            lineNumber++;
+            allLogLines << entry.fullText;
+            textBuffer.append(QString("%1 %2\n")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(entry.fullText));
+        }
+    } else {
+        QDateTime currentTakeoffTime;
+        bool inRecvException = false;
+        QStringList recvExceptionLines;
+        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    }
+
+    logView->setPlainText(textBuffer);
+    highlightAllEvents();
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
+    batteryChart->setData(batteryinfo);
+    cameraTempChart->setData(cameraTemps);
+    socChart->clear();
+    socChart->addData(soctmp);
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
+                   .arg(sn.isEmpty() ? QString("-") : sn)
+                   .arg(triggerCount)
+                   .arg(flightCount));
+
+    // 解析cpu/mem占用率
+    auto getTopFilePath = [](const QString &selectedFilePath) -> QString {
+        QFileInfo fi(selectedFilePath);
+        QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
+        topPath = QFileInfo(topPath).canonicalFilePath();
+        return topPath;
+    };
+
+    QString topFilePath = getTopFilePath(filePath);
+    parseTopFile(topFilePath);
+    usageChart->setData(allusage);
+
+    logView->setUpdatesEnabled(true);
+}
+
 void PressAnalyzer::setupToolBar()
 {
     QToolBar *toolBar = addToolBar("主工具栏");
 
     // 创建图标按钮
-    dirloadButton = new QPushButton(this);
-    dirloadButton->setIcon(QIcon(":/icons/icons/folder-open.png"));
-    dirloadButton->setToolTip("打开日志目录（通用）");
-    dirloadButton->setIconSize(QSize(20, 20));
-
-    fileloadButton = new QPushButton(this);
-    fileloadButton->setIcon(QIcon(":/icons/icons/file-open.png"));
-    fileloadButton->setToolTip("选择Log文件");
-    fileloadButton->setIconSize(QSize(20, 20));
-
     analyzeControlButton = new QPushButton(this);
     analyzeControlButton->setIcon(QIcon(":/icons/icons/analysis.png"));
     analyzeControlButton->setToolTip("分析Control Engine日志(专用)");
     analyzeControlButton->setIconSize(QSize(20, 20));
-
-    saveButton = new QPushButton(this);
-    saveButton->setIcon(QIcon(":/icons/icons/save.png"));
-    saveButton->setToolTip("保存分析结果");
-    saveButton->setIconSize(QSize(20, 20));
 
     clearButton = new QPushButton(this);
     clearButton->setIcon(QIcon(":/icons/icons/clear.png"));
@@ -414,10 +936,8 @@ void PressAnalyzer::setupToolBar()
     clearButton->setIconSize(QSize(20, 20));
 
     newWindowButton = new QPushButton(this);
-    // 使用新窗口图标，如果图标不存在则使用Qt标准图标作为备选
     QIcon windowIcon(":/icons/icons/window-new.png");
     if (windowIcon.isNull() || windowIcon.pixmap(20, 20).isNull()) {
-        // 如果图标文件不存在，使用Qt标准图标
         newWindowButton->setIcon(style()->standardIcon(QStyle::SP_FileDialogNewFolder));
     } else {
         newWindowButton->setIcon(windowIcon);
@@ -488,12 +1008,16 @@ void PressAnalyzer::setupToolBar()
         searchCombo->setFont(cbFont);
     }
 
-    // 添加到工具栏（新窗口按钮放在最左侧）
-    toolBar->addWidget(newWindowButton);
-    toolBar->addWidget(dirloadButton);
-    toolBar->addWidget(fileloadButton);
+    // 文件浏览器按钮
+    fileBrowserButton = new QPushButton(this);
+    fileBrowserButton->setIcon(QIcon(":/icons/icons/folder.png"));
+    fileBrowserButton->setToolTip("文件浏览器");
+    fileBrowserButton->setIconSize(QSize(20, 20));
+
+    // 工具栏按钮顺序: 文件浏览器|分析ControlEngine|新开窗口|清除窗口
+    toolBar->addWidget(fileBrowserButton);
     toolBar->addWidget(analyzeControlButton);
-    toolBar->addWidget(saveButton);
+    toolBar->addWidget(newWindowButton);
     toolBar->addWidget(clearButton);
     toolBar->addSeparator();
     toolBar->addWidget(searchCombo);
@@ -616,60 +1140,6 @@ void PressAnalyzer::setupSearchCompleter()
     }
     updatePinButtonState();
 }
-
-void PressAnalyzer::applyButtonStyles()
-{
-    // 统一浅色主题：集中管理色值
-    struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
-    const ButtonTheme themePrimary  {"#E8F3FF", "#D9ECFF", "#C6E2FF", "#1F2D3D"};
-    const ButtonTheme themeSuccess  {"#EDF9E5", "#E0F3D3", "#CCE9BB", "#1F2D3D"};
-    const ButtonTheme themeDanger   {"#FDECEA", "#F9DAD7", "#F3C5C1", "#611A15"};
-    const ButtonTheme themeInfo     {"#F0EEFF", "#E6E3FF", "#D9D4FF", "#1F2D3D"};
-    const ButtonTheme themeNeutral  {"#F4F4F5", "#ECECEC", "#E2E3E4", "#1F2D3D"};
-    const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
-    const ButtonTheme themeIndigo   {"#EDF2FF", "#E0E7FF", "#D0D8FF", "#1F2D3D"};
-
-    // 图标按钮样式助手：简化样式确保图标可见
-    auto styleButton = [](QPushButton *button,
-                          const QString &bg,
-                          const QString &hover,
-                          const QString &pressed,
-                          const QString &fg = QString("#1F2D3D")){
-        if (!button) return;
-        button->setFlat(false);
-        button->setStyleSheet(
-            QString(
-                "QPushButton{"
-                "  background-color:%1;"
-                "  border:1px solid #CCCCCC;"
-                "  border-radius:4px;"
-                "  padding:4px;"
-                "  min-width:28px;"
-                "  min-height:28px;"
-                "}"
-                "QPushButton:hover{"
-                "  background-color:%2;"
-                "}"
-                "QPushButton:pressed{"
-                "  background-color:%3;"
-                "}"
-            ).arg(bg, hover, pressed)
-        );
-    };
-
-    // 应用样式到已创建的按钮（统一浅色主题）
-    styleButton(dirloadButton,   themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 目录
-    styleButton(fileloadButton,  themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 文件（与目录同属主色）
-    styleButton(analyzeControlButton, themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);   // 分析（主色）
-    styleButton(saveButton,      themeSuccess.bg, themeSuccess.hover, themeSuccess.pressed, themeSuccess.fg);   // 保存
-    styleButton(clearButton,     themeDanger.bg,  themeDanger.hover,  themeDanger.pressed,  themeDanger.fg);    // 清除
-    styleButton(newWindowButton, themeIndigo.bg,   themeIndigo.hover,   themeIndigo.pressed,   themeIndigo.fg);   // 新建窗口
-    styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);      // 搜索
-    styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向前
-    styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);   // 向后
-}
-
-// removed dynamic width adjustment
 
 void PressAnalyzer::setupStatusBar()
 {
@@ -852,13 +1322,10 @@ void PressAnalyzer::setupMenuBar()
     fileMenu->addSeparator();
 
 
-    // 通用按钮：打开任意目录并合并log文件
-    QAction *actOpenDir = fileMenu->addAction("打开日志目录");
+    // 通用按钮：打开文件浏览器
+    QAction *actOpenDir = fileMenu->addAction("文件浏览器");
     actOpenDir->setIcon(QIcon(":/icons/folder-open.png")); // 使用文件夹图标
     actOpenDir->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_D));
-
-    QAction *actOpenFile = fileMenu->addAction("选择Log文件");
-    actOpenFile->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
 
     // 专用按钮：分析control_engine_log
     QAction *actAnalyzeControlLog = fileMenu->addAction("分析Control Engine日志");
@@ -878,7 +1345,6 @@ void PressAnalyzer::setupMenuBar()
     });
 
     connect(actOpenDir, &QAction::triggered, this, &PressAnalyzer::loadAndMergeLogs);
-    connect(actOpenFile, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLog);
     connect(actAnalyzeControlLog, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLogs);
     connect(actSave, &QAction::triggered, this, &PressAnalyzer::saveEventListToFile);
     connect(actClear, &QAction::triggered, this, &PressAnalyzer::clearWindow);
@@ -935,6 +1401,8 @@ void PressAnalyzer::setupMenuBar()
 
     // 视图菜单
     QMenu *viewMenu = menuBar()->addMenu("视图");
+    QAction *actToggleFileBrowser = viewMenu->addAction("切换 文件浏览器 面板");
+    actToggleFileBrowser->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_B));
     QAction *actToggleCamera = viewMenu->addAction("切换 Camera状态 面板");
     QAction *actToggleStatus = viewMenu->addAction("切换 状态面板");
     QAction *actToggleEvent  = viewMenu->addAction("切换 分析结果 面板");
@@ -954,6 +1422,20 @@ void PressAnalyzer::setupMenuBar()
     QAction *actResetFonts = viewMenu->addAction("重置所有字体");
     actResetFonts->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_R));
 
+    connect(actToggleFileBrowser, &QAction::triggered, this, [this](){
+        if (fileBrowserDock->isVisible()) {
+            fileBrowserDock->hide();
+        } else {
+            if (fileBrowserRootPath.isEmpty()) {
+                QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", QDir::homePath());
+                if (!dir.isEmpty()) {
+                    openDirectoryInBrowser(dir);
+                }
+            } else {
+                fileBrowserDock->show();
+            }
+        }
+    });
     connect(actToggleCamera, &QAction::triggered, this, [this](){
         cameraDock->setVisible(!cameraDock->isVisible());
     });
@@ -1144,10 +1626,25 @@ void PressAnalyzer::setupConnections()
 {
     // 文件操作连接 - 始终在当前窗口操作
     connect(analyzeControlButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
-    connect(dirloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndMergeLogs);
-    connect(fileloadButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLog);
-    connect(saveButton, &QPushButton::clicked, this, &PressAnalyzer::saveEventListToFile);
     connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
+
+    // 文件浏览器按钮 - 切换文件浏览器面板或选择目录打开
+    connect(fileBrowserButton, &QPushButton::clicked, this, [this](){
+        if (!fileBrowserDock->isVisible()) {
+            if (fileBrowserRootPath.isEmpty()) {
+                // 尚未设置根目录，弹出选择
+                QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", QDir::homePath());
+                if (!dir.isEmpty()) {
+                    openDirectoryInBrowser(dir);
+                }
+            } else {
+                fileBrowserDock->show();
+                fileBrowserDock->raise(); // 确保文件浏览器成为活动标签页
+            }
+        }
+        // 确保文件浏览器成为活动标签页
+        fileBrowserDock->raise();
+    });
 
     // 新建窗口按钮
     connect(newWindowButton, &QPushButton::clicked, this, [this](){
@@ -1234,6 +1731,14 @@ bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
                 // 让事件继续传播到QShortcut处理
                 return false;
             }
+        }
+    } else if (event->type() == QEvent::Resize && obj == this) {
+        // 窗口大小变化时，确保切换按钮保持在左上角
+        if (toggleBtn) {
+            toggleBtn->move(5, 5);
+        }
+        if (fileBrowserToggleBtn) {
+            fileBrowserToggleBtn->move(5, 5);
         }
     }
     return QObject::eventFilter(obj, event);
@@ -1496,9 +2001,10 @@ void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QStri
     item->setBackground(bgColors[colorIndex]);
     eventList->addItem(item);
 
-    // 如果是第一个事件，显示eventDock
+    // 如果是第一个事件，显示eventDock并切换到分析结果标签页
     if (eventList->count() == 1) {
         eventDock->show();
+        eventDock->raise(); // 切换到分析结果标签页
     }
 }
 
@@ -2246,7 +2752,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     QString path = QFileDialog::getExistingDirectory(this, "选择日志文件或目录", "");
     if (path.isEmpty()) return;
 
-    // 在“分析Control Engine日志”场景下：仅在当前目录的下一级（直接子目录）查找 system_log
+    // 在"分析Control Engine日志"场景下：仅在当前目录的下一级（直接子目录）查找 system_log
     {
         auto findChildSystemLog = [](const QString &base) -> QString {
             QDir dir(base);
@@ -2607,9 +3113,21 @@ void PressAnalyzer::loadAndMergeLogs()
     if (path.isEmpty()) {
         return;
     }
+    loadMergeLogsFromPath(path);
+}
+
+void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
+{
+    // 执行智能分析前先清除窗口内容，避免上次分析结果的干扰
+    clearWindow();
 
     // 显示用户选择的通用目录路径（后续过程保持静默，不覆盖）
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
+
+    // 根据参数决定是否在文件浏览器中打开此目录
+    if (navigate) {
+        openDirectoryInBrowser(path);
+    }
 
     // 先在所选目录向下（最多两级）寻找 system_log 目录，并尝试解析 user.log 头部信息
     auto findSystemLogDir = [](const QString &base) -> QString {
@@ -3930,4 +4448,51 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
 
     // 解析完成后恢复更新
     logView->setUpdatesEnabled(true);
+}
+
+void PressAnalyzer::applyButtonStyles()
+{
+    struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
+    const ButtonTheme themePrimary  {"#E8F3FF", "#D9ECFF", "#C6E2FF", "#1F2D3D"};
+    const ButtonTheme themeSuccess  {"#EDF9E5", "#E0F3D3", "#CCE9BB", "#1F2D3D"};
+    const ButtonTheme themeDanger   {"#FDECEA", "#F9DAD7", "#F3C5C1", "#611A15"};
+    const ButtonTheme themeInfo     {"#F0EEFF", "#E6E3FF", "#D9D4FF", "#1F2D3D"};
+    const ButtonTheme themeNeutral  {"#F4F4F5", "#ECECEC", "#E2E3E4", "#1F2D3D"};
+    const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
+    const ButtonTheme themeIndigo   {"#EDF2FF", "#E0E7FF", "#D0D8FF", "#1F2D3D"};
+
+    auto styleButton = [](QPushButton *button,
+                          const QString &bg,
+                          const QString &hover,
+                          const QString &pressed,
+                          const QString &fg = QString("#1F2D3D")){
+        if (!button) return;
+        button->setFlat(false);
+        button->setStyleSheet(
+            QString(
+                "QPushButton{"
+                "  background-color:%1;"
+                "  border:1px solid #CCCCCC;"
+                "  border-radius:4px;"
+                "  padding:4px;"
+                "  min-width:28px;"
+                "  min-height:28px;"
+                "}"
+                "QPushButton:hover{"
+                "  background-color:%2;"
+                "}"
+                "QPushButton:pressed{"
+                "  background-color:%3;"
+                "}"
+            ).arg(bg, hover, pressed)
+        );
+    };
+
+    styleButton(analyzeControlButton, themePrimary.bg, themePrimary.hover, themePrimary.pressed, themePrimary.fg);
+    styleButton(fileBrowserButton, themeInfo.bg,  themeInfo.hover,  themeInfo.pressed,  themeInfo.fg);
+    styleButton(clearButton,     themeDanger.bg,  themeDanger.hover,  themeDanger.pressed,  themeDanger.fg);
+    styleButton(newWindowButton, themeIndigo.bg,   themeIndigo.hover,   themeIndigo.pressed,   themeIndigo.fg);
+    styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);
+    styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);
+    styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);
 }

@@ -41,6 +41,8 @@ protected:
 #include "CameraTempChartWidget.h"
 #include <QSettings>
 #include <QAction>
+#include <QTreeView>
+#include <QFileSystemModel>
 
 class QStandardItemModel;
 
@@ -127,11 +129,20 @@ private:
     // 等待文件出现（用于解压后确保文件系统同步）
     bool waitForFile(const QString &filePath, int maxWaitMs = 500);
 
+    // 文件浏览器
+    void onFileBrowserClicked(const QModelIndex &index);
+    void onFileBrowserDoubleClicked(const QModelIndex &index);
+    void openFileFromBrowser(const QString &filePath, bool enterExtractDir = true);
+    void openDirectoryInBrowser(const QString &dirPath);
+    void loadFileToLogView(const QString &filePath);
+    void loadMergeLogsFromPath(const QString &path, bool navigate = true);
+
     // 构造函数初始化方法
     void setupMainWindow();
     void setupCentralWidget();
     void setupEventDock();
     void setupSearchDock();
+    void setupFileBrowserDock();
     void setupToolBar();
     void setupStatusBar();
     void setupCameraDock();
@@ -145,9 +156,6 @@ private:
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *analyzeControlButton;  // 专用分析按钮
-    QPushButton *dirloadButton;
-    QPushButton *fileloadButton;
-    QPushButton *saveButton;
     QPushButton *clearButton;
     QPushButton *newWindowButton;  // 新建窗口按钮
 
@@ -171,6 +179,7 @@ private:
     QPushButton *clearSearchButton;
     QPushButton *closeSearchButton;
     DockToggleButton *toggleBtn;
+    DockToggleButton *fileBrowserToggleBtn;
     // ==================== 中心控件 ====================
     QPlainTextEdit *logView;
     // ==================== 状态栏控件 ====================
@@ -218,6 +227,13 @@ private:
     QWidget *usageContainer;
     ModuleUsageChart *usageChart;
     QVector<AllModuleUsage> allusage;
+    // ==================== 文件浏览器 ====================
+    QDockWidget *fileBrowserDock;
+    QTreeView *fileBrowserTree;
+    QFileSystemModel *fileSystemModel;
+    QPushButton *fileBrowserButton;   // 工具栏按钮
+    QString fileBrowserRootPath;       // 当前浏览根目录
+
     // 文本缩放：当前字体大小
     int logFontPointSize;
 
