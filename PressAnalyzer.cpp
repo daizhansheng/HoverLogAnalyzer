@@ -863,34 +863,16 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
         }
     }
 
-    QFileInfo fileInfo(filePath);
-    QString extension = fileInfo.suffix().toLower();
-
     QString textBuffer;
     int lineNumber = 0;
 
-    if (extension == "hlog") {
-        HLogBinaryParser binaryParser;
-        QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
-
-        if (entries.isEmpty()) {
-            QMessageBox::warning(this, "错误", "无法解析 .hlog 文件：" + filePath);
-            logView->setUpdatesEnabled(true);
-            return;
-        }
-
-        for (const HLogEntry &entry : entries) {
-            lineNumber++;
-            allLogLines << entry.fullText;
-            textBuffer.append(QString("%1 %2\n")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(entry.fullText));
-        }
-    } else {
-        QDateTime currentTakeoffTime;
-        bool inRecvException = false;
-        QStringList recvExceptionLines;
-        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    QDateTime currentTakeoffTime;
+    bool inRecvException = false;
+    QStringList recvExceptionLines;
+    if (!analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
+                              inRecvException, recvExceptionLines, true)) {
+        logView->setUpdatesEnabled(true);
+        return;
     }
 
     logView->setPlainText(textBuffer);
@@ -2008,6 +1990,113 @@ void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QStri
     }
 }
 
+bool PressAnalyzer::analyzeLogSourceFile(const QString &filePath,
+                                        int &lineNumber,
+                                        QDateTime &currentTakeoffTime,
+                                        QString &textBuffer,
+                                        bool &inRecvException,
+                                        QStringList &recvExceptionLines,
+                                        bool showWarning)
+{
+    const QString extension = QFileInfo(filePath).suffix().toLower();
+    if (extension == "hlog") {
+        HLogBinaryParser binaryParser;
+        const QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+        if (entries.isEmpty()) {
+            if (showWarning) {
+                QMessageBox::warning(this, "错误", "无法解析 .hlog 文件：" + filePath);
+            } else {
+                qWarning() << "无法解析 .hlog 文件:" << filePath;
+            }
+            return false;
+        }
+
+        for (const HLogEntry &entry : entries) {
+            const QStringList lines = entry.fullText.split('\n');
+            for (const QString &line : lines) {
+                analyzeLogLine(line, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+            }
+        }
+        return true;
+    }
+
+    analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    return true;
+}
+
+QStringList PressAnalyzer::collectOrderedLogFiles(const QString &baseDir,
+                                                 const QString &subDir,
+                                                 const QString &baseName,
+                                                 const QStringList &extensions)
+{
+    QStringList result;
+    QDir dir(baseDir + "/" + subDir);
+    if (!dir.exists() || extensions.isEmpty()) {
+        return result;
+    }
+
+    auto buildFilePatterns = [&](bool zipped) {
+        QStringList patterns;
+        for (const QString &ext : extensions) {
+            patterns << QString("%1*.%2%3").arg(baseName, ext, zipped ? ".zip" : "");
+        }
+        return patterns;
+    };
+
+    QStringList logFiles = dir.entryList(buildFilePatterns(false), QDir::Files, QDir::Name);
+    if (logFiles.isEmpty()) {
+        const QStringList zipFiles = dir.entryList(buildFilePatterns(true), QDir::Files, QDir::Name);
+        for (const QString &zipName : zipFiles) {
+            extractZipFile(dir.filePath(zipName), dir.absolutePath());
+            QApplication::processEvents();
+        }
+        if (!zipFiles.isEmpty()) {
+            QThread::msleep(100);
+            QApplication::processEvents();
+            logFiles = dir.entryList(buildFilePatterns(false), QDir::Files, QDir::Name);
+        }
+    }
+
+    if (logFiles.isEmpty()) {
+        return result;
+    }
+
+    const QString extPattern = extensions.join('|');
+    const QRegularExpression numberedRe(
+        QString("^%1(?:\\.?([0-9]+))?\\.(%2)$")
+            .arg(QRegularExpression::escape(baseName), extPattern),
+        QRegularExpression::CaseInsensitiveOption);
+
+    QList<QPair<int, QString>> numberedFiles;
+    QStringList lastFiles;
+    for (const QString &fileName : logFiles) {
+        const QRegularExpressionMatch match = numberedRe.match(fileName);
+        if (!match.hasMatch()) {
+            continue;
+        }
+        if (match.captured(1).isEmpty()) {
+            lastFiles << dir.filePath(fileName);
+        } else {
+            numberedFiles.append(qMakePair(match.captured(1).toInt(), dir.filePath(fileName)));
+        }
+    }
+
+    std::sort(numberedFiles.begin(), numberedFiles.end(),
+              [](const QPair<int, QString> &a, const QPair<int, QString> &b) {
+                  if (a.first != b.first) {
+                      return a.first < b.first;
+                  }
+                  return a.second < b.second;
+              });
+
+    for (const auto &item : numberedFiles) {
+        result << item.second;
+    }
+    std::sort(lastFiles.begin(), lastFiles.end());
+    result << lastFiles;
+    return result;
+}
+
 void PressAnalyzer::analyzeFile(const QString &filePath,
                                 int &lineNumber,
                                 QDateTime &currentTakeoffTime,
@@ -2024,342 +2113,334 @@ void PressAnalyzer::analyzeFile(const QString &filePath,
     QTextStream in(&file);
     in.setCodec("UTF-8");
 
+    while (!in.atEnd()) {
+        const QString line = in.readLine();
+        analyzeLogLine(line, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    }
+}
+
+void PressAnalyzer::analyzeLogLine(const QString &line,
+                                  int &lineNumber,
+                                  QDateTime &currentTakeoffTime,
+                                  QString &textBuffer,
+                                  bool &inRecvException,
+                                  QStringList &recvExceptionLines)
+{
+    lineNumber++;
+    allLogLines << line;
+
+    textBuffer.reserve(textBuffer.size() + line.size() + 16);
+    textBuffer.append(QString("%1 %2\n")
+                          .arg(lineNumber, 6, 10, QChar(' '))
+                          .arg(line));
+
     // ==================== 预编译正则表达式 ====================
-    static const QRegularExpression rePressPower(R"(\[(\d+\.\d+)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");
+    static const QRegularExpression rePressPower(R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");
     static const QRegularExpression reTakeoff(R"(trigger source:\s*(\d+)\s+flight mode:\s*(\w+))", QRegularExpression::CaseInsensitiveOption);
-    static const QRegularExpression reTs(R"(\[\d+\.\d+\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    static const QRegularExpression reTs(R"(\[\d+(?:\.\d+)?\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
     static const QRegularExpression reFcState(R"(Detected fc state changed to\s+(\d+))");
     static const QRegularExpression reInsertSql(R"(insertMediaDataIntoDb insert media sql.*\[(.*)\])", QRegularExpression::CaseInsensitiveOption);
     static const QRegularExpression reSqlValues(R"('([^']*)'|(\d+))");
     static const QRegularExpression reCameraAction(R"(recv action from camera\s*:\s*(\d+))", QRegularExpression::CaseInsensitiveOption);
 
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        lineNumber++;
-        allLogLines << line;
+    // 不再从日志正文解析 SN，改为从 system_log/user.log 中获取
 
-        // 用于跟踪当前行是否已经递增过 triggerCount，避免同一行重复递增
-        bool currentLineIncremented = false;
-
-        textBuffer.reserve(textBuffer.size() + line.size() + 16);
-        textBuffer.append(QString("%1 %2\n")
+    // ==================== press once power key ====================
+    if (line.contains("press once power key", Qt::CaseInsensitive)) {
+        QString timestamp;
+        auto m = rePressPower.match(line);
+        if (m.hasMatch()) timestamp = m.captured(2);
+        triggerCount++;
+        QString display = QString("%1 | %2# press power key : [%3]")
                               .arg(lineNumber, 6, 10, QChar(' '))
-                              .arg(line));
+                              .arg(triggerCount)
+                              .arg(timestamp);
+        addEventToList(triggerCount, lineNumber, display);
+    }
 
-        // 不再从日志正文解析 SN，改为从 system_log/user.log 中获取
-
-        // ==================== press once power key ====================
-        if (line.contains("press once power key", Qt::CaseInsensitive)) {
-            // 先显示当前的 triggerCount 值，然后递增开始新序列
-            QString timestamp;
-            auto m = rePressPower.match(line);
-            if (m.hasMatch()) timestamp = m.captured(2);
-            triggerCount++;
-            QString display = QString("%1 | %2# press power key : [%3]")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(triggerCount)
-                                  .arg(timestamp);
-            addEventToList(triggerCount, lineNumber, display);
-            currentLineIncremented = true;
-        }
-
-        // ==================== 起飞事件 ====================
-        if (line.contains("start takeoff. powerkey trigger source", Qt::CaseInsensitive)) {
-            QString triggerText = "未知";
-            auto m = reTakeoff.match(line);
-            if (m.hasMatch()) {
-                int src = m.captured(1).toInt();
-                modeText = m.captured(2);
-                if(version == "H151"){
-                    switch (src) {
-                    case 0: triggerText = "NONE"; break;
-                    case 1: triggerText = "APP"; break;
-                    case 2: triggerText = "VOICE"; break;
-                    case 3: triggerText = "THROW"; break;
-                    case 4: triggerText = "RC102"; break;
-                    case 5: triggerText = "RC100"; break;
-                    case 6: triggerText = "ROPE"; break;
-                    case 10: triggerText = "BOARD"; break;
-                    case 11: triggerText = "MCU"; break;
-                    default:    triggerText = "UNKNOWN"; break;
-                    }
-                }else{
-                    switch (src) {
-                    case 0: triggerText = "BOARD"; break;
-                    case 1: triggerText = "MCU"; break;
-                    case 2: triggerText = "APP"; break;
-                    case 3: triggerText = "RC"; break;
-                    case 4: triggerText = "VOICE"; break;
-                    case 5: triggerText = "THROW"; break;
-                    default:    triggerText = "UNKNOWN"; break;
-                    }
+    // ==================== 起飞事件 ====================
+    if (line.contains("start takeoff. powerkey trigger source", Qt::CaseInsensitive)) {
+        QString triggerText = "未知";
+        auto m = reTakeoff.match(line);
+        if (m.hasMatch()) {
+            int src = m.captured(1).toInt();
+            modeText = m.captured(2);
+            if (version == "H151") {
+                switch (src) {
+                case 0: triggerText = "NONE"; break;
+                case 1: triggerText = "APP"; break;
+                case 2: triggerText = "VOICE"; break;
+                case 3: triggerText = "THROW"; break;
+                case 4: triggerText = "RC102"; break;
+                case 5: triggerText = "RC100"; break;
+                case 6: triggerText = "ROPE"; break;
+                case 10: triggerText = "BOARD"; break;
+                case 11: triggerText = "MCU"; break;
+                default: triggerText = "UNKNOWN"; break;
                 }
-            }
-            QString display = QString("%1 | %2# starting takeoff : 方式:%3 模式:%4")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(triggerCount)
-                                  .arg(triggerText)
-                                  .arg(modeText);
-            addEventToList(triggerCount, lineNumber, display);
-        }
-
-        // ==================== fly_power: takeoff success ====================
-        if (line.contains("fly_power: takeoff success", Qt::CaseInsensitive)) {
-            auto m = reTs.match(line);
-            if (m.hasMatch())
-                currentTakeoffTime = QDateTime::fromString(m.captured(1), "yyyy-MM-dd HH:mm:ss");
-
-            QString display = QString("%1 | %2# takeoff success,Flying")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(triggerCount);
-            addEventToList(triggerCount, lineNumber, display);
-        }
-
-        // ==================== FC STATE ====================
-        auto mFc = reFcState.match(line);
-        if (mFc.hasMatch()) {
-            int stateValue = mFc.captured(1).toInt();
-            QString stateName;
-            switch (stateValue) {
-            case 0: stateName = "DISARM";    break;
-            case 1: stateName = "ARM";       break;
-            case 2: stateName = "TAKINGOFF"; break;
-            case 3: stateName = "FLYING";    break;
-            case 4: stateName = "LANDING";   break;
-            case 5: stateName = "TURTLE_ROLLING"; break;
-            default: stateName = QString("UNKNOWN(%1)").arg(stateValue); break;
-            }
-            QString display = QString("%1 | %2# FC STATE -> %3")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(triggerCount)
-                                  .arg(stateName, -12);
-            addEventToList(triggerCount, lineNumber, display);
-        }
-
-        // ==================== fly_power: will landing ====================
-        if (line.contains("fly_power: will landing", Qt::CaseInsensitive)) {
-            auto m = reTs.match(line);
-            if (m.hasMatch()) {
-                QDateTime landingTime = QDateTime::fromString(m.captured(1), "yyyy-MM-dd HH:mm:ss");
-                if (currentTakeoffTime.isValid() && landingTime.isValid()) {
-                    qint64 flightSeconds = currentTakeoffTime.secsTo(landingTime);
-                    QString display = QString("%1 | %2# will Landing, Flight Duration: %3 seconds")
-                                          .arg(lineNumber, 6, 10, QChar(' '))
-                                          .arg(triggerCount)
-                                          .arg(flightSeconds);
-                    addEventToList(triggerCount, lineNumber, display);
-                    currentTakeoffTime = QDateTime();
+            } else {
+                switch (src) {
+                case 0: triggerText = "BOARD"; break;
+                case 1: triggerText = "MCU"; break;
+                case 2: triggerText = "APP"; break;
+                case 3: triggerText = "RC"; break;
+                case 4: triggerText = "VOICE"; break;
+                case 5: triggerText = "THROW"; break;
+                default: triggerText = "UNKNOWN"; break;
                 }
             }
         }
+        QString display = QString("%1 | %2# starting takeoff : 方式:%3 模式:%4")
+                              .arg(lineNumber, 6, 10, QChar(' '))
+                              .arg(triggerCount)
+                              .arg(triggerText)
+                              .arg(modeText);
+        addEventToList(triggerCount, lineNumber, display);
+    }
 
-        // ==================== insertMediaDataIntoDb ====================
-        auto mSql = reInsertSql.match(line);
-        if (mSql.hasMatch()) {
-            QString sql = mSql.captured(1);
+    // ==================== fly_power: takeoff success ====================
+    if (line.contains("fly_power: takeoff success", Qt::CaseInsensitive)) {
+        auto m = reTs.match(line);
+        if (m.hasMatch()) {
+            currentTakeoffTime = QDateTime::fromString(m.captured(1), "yyyy-MM-dd HH:mm:ss");
+        }
 
-            // 1) 解析列名顺序
-            QRegularExpression reCols(R"(INSERT\s+INTO\s+MEDIADATA\s*\(([^)]*)\)\s*VALUES)",
-                                      QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch mc = reCols.match(sql);
-            QStringList colNames;
-            if (mc.hasMatch()) {
-                QString colsStr = mc.captured(1);
-                for (QString c : colsStr.split(',', Qt::SkipEmptyParts)) {
-                    colNames << c.trimmed().toLower();
+        QString display = QString("%1 | %2# takeoff success,Flying")
+                              .arg(lineNumber, 6, 10, QChar(' '))
+                              .arg(triggerCount);
+        addEventToList(triggerCount, lineNumber, display);
+    }
+
+    // ==================== FC STATE ====================
+    auto mFc = reFcState.match(line);
+    if (mFc.hasMatch()) {
+        int stateValue = mFc.captured(1).toInt();
+        QString stateName;
+        switch (stateValue) {
+        case 0: stateName = "DISARM"; break;
+        case 1: stateName = "ARM"; break;
+        case 2: stateName = "TAKINGOFF"; break;
+        case 3: stateName = "FLYING"; break;
+        case 4: stateName = "LANDING"; break;
+        case 5: stateName = "TURTLE_ROLLING"; break;
+        default: stateName = QString("UNKNOWN(%1)").arg(stateValue); break;
+        }
+        QString display = QString("%1 | %2# FC STATE -> %3")
+                              .arg(lineNumber, 6, 10, QChar(' '))
+                              .arg(triggerCount)
+                              .arg(stateName, -12);
+        addEventToList(triggerCount, lineNumber, display);
+    }
+
+    // ==================== fly_power: will landing ====================
+    if (line.contains("fly_power: will landing", Qt::CaseInsensitive)) {
+        auto m = reTs.match(line);
+        if (m.hasMatch()) {
+            QDateTime landingTime = QDateTime::fromString(m.captured(1), "yyyy-MM-dd HH:mm:ss");
+            if (currentTakeoffTime.isValid() && landingTime.isValid()) {
+                qint64 flightSeconds = currentTakeoffTime.secsTo(landingTime);
+                QString display = QString("%1 | %2# will Landing, Flight Duration: %3 seconds")
+                                      .arg(lineNumber, 6, 10, QChar(' '))
+                                      .arg(triggerCount)
+                                      .arg(flightSeconds);
+                addEventToList(triggerCount, lineNumber, display);
+                currentTakeoffTime = QDateTime();
+            }
+        }
+    }
+
+    // ==================== insertMediaDataIntoDb ====================
+    auto mSql = reInsertSql.match(line);
+    if (mSql.hasMatch()) {
+        QString sql = mSql.captured(1);
+
+        QRegularExpression reCols(R"(INSERT\s+INTO\s+MEDIADATA\s*\(([^)]*)\)\s*VALUES)",
+                                  QRegularExpression::CaseInsensitiveOption);
+        QRegularExpressionMatch mc = reCols.match(sql);
+        QStringList colNames;
+        if (mc.hasMatch()) {
+            QString colsStr = mc.captured(1);
+            for (QString c : colsStr.split(',', Qt::SkipEmptyParts)) {
+                colNames << c.trimmed().toLower();
+            }
+        }
+
+        QStringList values;
+        auto it = reSqlValues.globalMatch(sql);
+        while (it.hasNext()) {
+            auto mm = it.next();
+            values << (mm.captured(1).isEmpty() ? mm.captured(2) : mm.captured(1));
+        }
+
+        auto indexOfCol = [&](const QString &name, int fallback) -> int {
+            int idx = colNames.indexOf(name);
+            return idx >= 0 ? idx : fallback;
+        };
+
+        int idxUuid = indexOfCol("uuid", 0);
+        int idxType = indexOfCol("type", 1);
+        int idxPath = indexOfCol("path", 3);
+
+        if (!colNames.isEmpty() && colNames.contains("flightid")) {
+            idxType = indexOfCol("type", 2);
+            idxPath = indexOfCol("path", 4);
+        }
+
+        if (values.size() > qMax(idxPath, qMax(idxType, idxUuid))) {
+            QString uuid = values.value(idxUuid);
+            int type = values.value(idxType).toInt();
+            QString path = values.value(idxPath);
+
+            auto typeToString = [](int type) -> QString {
+                switch (type) {
+                case 1: return "METADATA";
+                case 2: return "THUMBNAIL";
+                case 3: return "VIDEO";
+                case 4: return "PICTURE";
+                case 5: return "IMU_DATA";
+                case 6: return "ANIMATED_THUMBNAIL";
+                case 7: return "GROUP_DATA";
+                case 8: return "AUDIO";
+                case 9: return "TRAJECTORY_DATA";
+                default: return "UNKNOWN";
                 }
-            }
-
-            // 2) 提取 VALUES 的值（字符串或数字）
-            QStringList values;
-            auto it = reSqlValues.globalMatch(sql);
-            while (it.hasNext()) {
-                auto mm = it.next();
-                values << (mm.captured(1).isEmpty() ? mm.captured(2) : mm.captured(1));
-            }
-
-            // 3) 根据列名定位 uuid/type/path 的索引；若没有列名则回退到旧版固定位置
-            auto indexOfCol = [&](const QString &name, int fallback) -> int {
-                int idx = colNames.indexOf(name);
-                return idx >= 0 ? idx : fallback;
             };
 
-            int idxUuid = indexOfCol("uuid", 0);
-            int idxType = indexOfCol("type", 1);          // 旧格式：第二个是 type
-            int idxPath = indexOfCol("path", 3);          // 旧格式：第四个是 path
+            QString typeStr = typeToString(type);
 
-            if (!colNames.isEmpty() && colNames.contains("flightid")) {
-                // 新格式：uuid, flightid, type, createtime, path, ...
-                idxType = indexOfCol("type", 2);
-                idxPath = indexOfCol("path", 4);
+            QString storagePrefix;
+            QString displayPath;
+            if (path.startsWith("/media/internal/")) {
+                storagePrefix = "Internal:";
+                displayPath = path.mid(16);
+            } else if (path.startsWith("/media/external/")) {
+                storagePrefix = "External:";
+                displayPath = path.mid(16);
+            } else {
+                storagePrefix = "Unknown:";
+                displayPath = path;
             }
 
-            if (values.size() > qMax(idxPath, qMax(idxType, idxUuid))) {
-                QString uuid = values.value(idxUuid);
-                int type = values.value(idxType).toInt();
-                QString path = values.value(idxPath);
-
-                auto typeToString = [](int type) -> QString {
-                    switch (type) {
-                    case 1: return "METADATA";
-                    case 2: return "THUMBNAIL";
-                    case 3: return "VIDEO";
-                    case 4: return "PICTURE";
-                    case 5: return "IMU_DATA";
-                    case 6: return "ANIMATED_THUMBNAIL";
-                    case 7: return "GROUP_DATA";
-                    case 8: return "AUDIO";
-                    case 9: return "TRAJECTORY_DATA";
-                    default: return "UNKNOWN";
-                    }
-                };
-
-                QString typeStr = typeToString(type);
-
-                QString storagePrefix;
-                QString displayPath;
-                if (path.startsWith("/media/internal/")) {
-                    storagePrefix = "Internal:";
-                    displayPath = path.mid(16);
-                } else if (path.startsWith("/media/external/")) {
-                    storagePrefix = "External:";
-                    displayPath = path.mid(16);
-                } else {
-                    storagePrefix = "Unknown:";
-                    displayPath = path;
-                }
-
-                QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5%6")
-                                      .arg(lineNumber, 6, 10, QChar(' '))
-                                      .arg(triggerCount)
-                                      .arg(uuid)
-                                      .arg(typeStr)
-                                      .arg(storagePrefix)
-                                      .arg(displayPath);
-                addEventToList(triggerCount, lineNumber, display);
-            }
-        }
-
-        // ==================== recv exception ====================
-        if (line.contains("recv exception :", Qt::CaseInsensitive)) {
-            inRecvException = true;
-            recvExceptionLines.clear();
-            continue;
-        }
-        if (inRecvException) {
-            recvExceptionLines << line.trimmed();
-            if (line.contains('}')) {
-                inRecvException = false;
-                for (const QString &l : recvExceptionLines) {
-                    if (l.startsWith("event:", Qt::CaseInsensitive) ||
-                        l.startsWith("errors:", Qt::CaseInsensitive)) {
-                        // 检查是否是 NOTIFY_TURTLE_FLIP 事件，如果是则先递增 triggerCount，然后显示递增后的值
-                        if (l.contains("NOTIFY_TURTLE_FLIP", Qt::CaseInsensitive)) {
-                            // 先递增 triggerCount，然后显示递增后的值
-                            triggerCount++;
-                            QString display = QString("%1 | %2# %3")
-                            .arg(lineNumber-1, 6, 10, QChar(' '))
-                                .arg(triggerCount)
-                                .arg(l.trimmed());
-                            addEventToList(triggerCount, lineNumber-1, display);
-                        } else {
-                            // 其他 event 或 errors，使用当前的 triggerCount
-                            QString display = QString("%1 | %2# %3")
-                            .arg(lineNumber-1, 6, 10, QChar(' '))
-                                .arg(triggerCount)
-                                .arg(l.trimmed());
-                            addEventToList(triggerCount, lineNumber-1, display);
-                        }
-                    }
-                }
-            }
-            continue;
-        }
-
-        // ==================== manual_control_takeover_request ====================
-        if (line.contains("manual_control_takeover_request", Qt::CaseInsensitive)) {
-            QString display = QString("%1 | %2# 模式:%3 -> MANUAL")
+            QString display = QString("%1 | %2# Media UUID:%3 Type:%4 %5%6")
                                   .arg(lineNumber, 6, 10, QChar(' '))
                                   .arg(triggerCount)
-                                  .arg(modeText);
+                                  .arg(uuid)
+                                  .arg(typeStr)
+                                  .arg(storagePrefix)
+                                  .arg(displayPath);
             addEventToList(triggerCount, lineNumber, display);
-            continue;
         }
-
-        // ==================== Camera recv action from camera ====================
-        if (line.contains("recv action from camera", Qt::CaseInsensitive)) {
-            auto mCamAct = reCameraAction.match(line);
-            if (mCamAct.hasMatch()) {
-                int actionValue = mCamAct.captured(1).toInt();
-                QString actionName;
-                switch (actionValue) {
-                case 0:  actionName = "INIT"; break;
-                case 1:  actionName = "START_VIDEO"; break;
-                case 2:  actionName = "FINISH_VIDEO"; break;
-                case 3:  actionName = "SNAP_DONE"; break;
-                case 4:  actionName = "START_PREVIEW"; break;
-                case 5:  actionName = "STOP_PREVIEW"; break;
-                case 6:  actionName = "START_CONTINOUS_PICTURE"; break;
-                case 7:  actionName = "STOP_CONTINOUS_PICTURE"; break;
-                case 8:  actionName = "IN_PREVIEWING"; break;
-                case 9:  actionName = "IN_VIDEO_RECORDING"; break;
-                case 10: actionName = "SNAP_FILE_SAVE_DONE"; break;
-                default: actionName = QString("UNKNOWN(%1)").arg(actionValue); break;
-                }
-
-                QString display = QString("%1 | %2# CS ACTION -> %3")
-                                      .arg(lineNumber, 6, 10, QChar(' '))
-                                      .arg(triggerCount)
-                                      .arg(actionName);
-                addEventToList(triggerCount, lineNumber, display);
-                continue;
-            }
-        }
-        // ==================== Camera 温度 ====================
-
-        if (line.contains("camera temp", Qt::CaseInsensitive)) {
-            // 提取时间戳和日期时间
-            QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
-            QDateTime ts;
-            if (rxTimestamp.indexIn(line) != -1) {
-                QString dtStr = rxTimestamp.cap(2);
-                ts = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
-                // 尝试从秒.毫秒取 ms
-                QString tsStr = rxTimestamp.cap(1);
-                double tsDouble = tsStr.toDouble();
-                int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
-                ts = ts.addMSecs(msecs);
-            }
-
-            int tempVal = 0;
-            bool found = false;
-
-            // 先尝试匹配 "soc temp and camera temp %d : %d" 格式（第二个值是 camera temp）
-            QRegExp rxTempBoth("soc\\s+temp\\s+and\\s+camera\\s+temp\\s+(\\-?\\d+)\\s*:\\s*(\\-?\\d+)", Qt::CaseInsensitive);
-            if (rxTempBoth.indexIn(line) != -1) {
-                // 格式1: "soc temp and camera temp %d : %d" - 第二个值是 camera temp
-                tempVal = rxTempBoth.cap(2).toInt();
-                found = true;
-            } else {
-                // 格式2: "camera temp: %d" 或 "camera temp %d"
-                QRegExp rxTemp("camera\\s+temp:?\\s*(\\-?\\d+)", Qt::CaseInsensitive);
-                if (rxTemp.indexIn(line) != -1) {
-                    tempVal = rxTemp.cap(1).toInt();
-                    found = true;
-                }
-            }
-
-            if (found && tempVal != -128) {
-                cameraTemps.push_back({ts, tempVal});
-            }
-        }
-
-
-        parseCameraStatus(lineNumber, line);
-        parseStatusHeartbeat(lineNumber, line);
-        parseStatusBattery(lineNumber, line);
-        parseStatusSocTemp(lineNumber, line);
     }
+
+    // ==================== recv exception ====================
+    if (line.contains("recv exception :", Qt::CaseInsensitive)) {
+        inRecvException = true;
+        recvExceptionLines.clear();
+        return;
+    }
+    if (inRecvException) {
+        recvExceptionLines << line.trimmed();
+        if (line.contains('}')) {
+            inRecvException = false;
+            for (const QString &l : recvExceptionLines) {
+                if (l.startsWith("event:", Qt::CaseInsensitive) ||
+                    l.startsWith("errors:", Qt::CaseInsensitive)) {
+                    if (l.contains("NOTIFY_TURTLE_FLIP", Qt::CaseInsensitive)) {
+                        triggerCount++;
+                        QString display = QString("%1 | %2# %3")
+                                             .arg(lineNumber - 1, 6, 10, QChar(' '))
+                                             .arg(triggerCount)
+                                             .arg(l.trimmed());
+                        addEventToList(triggerCount, lineNumber - 1, display);
+                    } else {
+                        QString display = QString("%1 | %2# %3")
+                                             .arg(lineNumber - 1, 6, 10, QChar(' '))
+                                             .arg(triggerCount)
+                                             .arg(l.trimmed());
+                        addEventToList(triggerCount, lineNumber - 1, display);
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+    // ==================== manual_control_takeover_request ====================
+    if (line.contains("manual_control_takeover_request", Qt::CaseInsensitive)) {
+        QString display = QString("%1 | %2# 模式:%3 -> MANUAL")
+                              .arg(lineNumber, 6, 10, QChar(' '))
+                              .arg(triggerCount)
+                              .arg(modeText);
+        addEventToList(triggerCount, lineNumber, display);
+        return;
+    }
+
+    // ==================== Camera recv action from camera ====================
+    if (line.contains("recv action from camera", Qt::CaseInsensitive)) {
+        auto mCamAct = reCameraAction.match(line);
+        if (mCamAct.hasMatch()) {
+            int actionValue = mCamAct.captured(1).toInt();
+            QString actionName;
+            switch (actionValue) {
+            case 0: actionName = "INIT"; break;
+            case 1: actionName = "START_VIDEO"; break;
+            case 2: actionName = "FINISH_VIDEO"; break;
+            case 3: actionName = "SNAP_DONE"; break;
+            case 4: actionName = "START_PREVIEW"; break;
+            case 5: actionName = "STOP_PREVIEW"; break;
+            case 6: actionName = "START_CONTINOUS_PICTURE"; break;
+            case 7: actionName = "STOP_CONTINOUS_PICTURE"; break;
+            case 8: actionName = "IN_PREVIEWING"; break;
+            case 9: actionName = "IN_VIDEO_RECORDING"; break;
+            case 10: actionName = "SNAP_FILE_SAVE_DONE"; break;
+            default: actionName = QString("UNKNOWN(%1)").arg(actionValue); break;
+            }
+
+            QString display = QString("%1 | %2# CS ACTION -> %3")
+                                  .arg(lineNumber, 6, 10, QChar(' '))
+                                  .arg(triggerCount)
+                                  .arg(actionName);
+            addEventToList(triggerCount, lineNumber, display);
+            return;
+        }
+    }
+
+    // ==================== Camera 温度 ====================
+    if (line.contains("camera temp", Qt::CaseInsensitive)) {
+        QRegExp rxTimestamp("\\[(\\d+(?:\\.\\d+)?)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+        QDateTime ts;
+        if (rxTimestamp.indexIn(line) != -1) {
+            QString dtStr = rxTimestamp.cap(2);
+            ts = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
+            QString tsStr = rxTimestamp.cap(1);
+            double tsDouble = tsStr.toDouble();
+            int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+            ts = ts.addMSecs(msecs);
+        }
+
+        int tempVal = 0;
+        bool found = false;
+        QRegExp rxTempBoth("soc\\s+temp\\s+and\\s+camera\\s+temp\\s+(\\-?\\d+)\\s*:\\s*(\\-?\\d+)", Qt::CaseInsensitive);
+        if (rxTempBoth.indexIn(line) != -1) {
+            tempVal = rxTempBoth.cap(2).toInt();
+            found = true;
+        } else {
+            QRegExp rxTemp("camera\\s+temp:?\\s*(\\-?\\d+)", Qt::CaseInsensitive);
+            if (rxTemp.indexIn(line) != -1) {
+                tempVal = rxTemp.cap(1).toInt();
+                found = true;
+            }
+        }
+
+        if (found && tempVal != -128) {
+            cameraTemps.push_back({ts, tempVal});
+        }
+    }
+
+    parseCameraStatus(lineNumber, line);
+    parseStatusHeartbeat(lineNumber, line);
+    parseStatusBattery(lineNumber, line);
+    parseStatusSocTemp(lineNumber, line);
 }
 
 // loadAndAnalyzeLog 保持之前逻辑
@@ -2462,39 +2543,17 @@ void PressAnalyzer::loadAndAnalyzeLog()
         }
     }
 
-    // 检查是否是 .hlog 二进制文件
-    QFileInfo fileInfo(filePath);
-    QString extension = fileInfo.suffix().toLower();
-
     QString textBuffer;
     int lineNumber = 0;
 
-    if (extension == "hlog") {
-        // 使用二进制解析器处理 .hlog 文件
-        HLogBinaryParser binaryParser;
-        QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+    QDateTime currentTakeoffTime;
+    bool inRecvException = false;
+    QStringList recvExceptionLines;
 
-        if (entries.isEmpty()) {
-            QMessageBox::warning(this, "错误", "无法解析 .hlog 文件：" + filePath);
-            logView->setUpdatesEnabled(true);
-            return;
-        }
-
-        // 构建文本缓冲区
-        for (const HLogEntry &entry : entries) {
-            lineNumber++;
-            allLogLines << entry.fullText;
-            textBuffer.append(QString("%1 %2\n")
-                                  .arg(lineNumber, 6, 10, QChar(' '))
-                                  .arg(entry.fullText));
-        }
-    } else {
-        // 处理文本文件
-        QDateTime currentTakeoffTime;
-        bool inRecvException = false;
-        QStringList recvExceptionLines;
-
-        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+    if (!analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
+                              inRecvException, recvExceptionLines, true)) {
+        logView->setUpdatesEnabled(true);
+        return;
     }
 
     logView->setPlainText(textBuffer);
@@ -2857,66 +2916,11 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
-    auto collectLogs = [this](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
-        QStringList result;
-        QDir dir(baseDir + "/" + subDir);
-        if (!dir.exists()) return result;
-
-        // 获取日志文件
-        QStringList logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
-
-        // 如果没有日志，但存在 zip 文件，解压
-        if (logFiles.isEmpty()) {
-            QStringList zipFiles = dir.entryList(QStringList() << zipPattern, QDir::Files);
-            for (const QString &zipName : zipFiles) {
-                QString zipPath = dir.filePath(zipName);
-                extractZipFile(zipPath, dir.absolutePath());
-                QApplication::processEvents(); // 处理事件，保持UI响应
-            }
-            // 解压完等待文件系统同步，然后重新获取日志文件列表
-            QThread::msleep(100); // 额外延迟，确保文件系统完全同步
-            QApplication::processEvents();
-            logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
-        }
-
-        if (logFiles.isEmpty()) return result;
-
-        // 按自然顺序排序
-        QStringList sortedFiles;
-        QList<QPair<int, QString>> numberedFiles;
-        QString lastFile;
-        for (const QString &f : logFiles) {
-            // 生成临时变量
-            QString baseName = logPattern.left(logPattern.indexOf('*')); // control_engine
-            if (f == baseName + ".log") {
-                lastFile = f;
-            } else {
-                // 构造正则表达式匹配 control_engine.1.log、control_engine.2.log ...
-                QRegExp rx(baseName + "\\.(\\d+)\\.log");
-                if (rx.indexIn(f) != -1) {
-                    int num = rx.cap(1).toInt();
-                    numberedFiles.append(qMakePair(num, f));
-                }
-            }
-        }
-
-        std::sort(numberedFiles.begin(), numberedFiles.end(),
-                  [](const QPair<int, QString> &a, const QPair<int, QString> &b){ return a.first < b.first; });
-
-        for (const auto &p : numberedFiles)
-            sortedFiles << dir.filePath(p.second);
-
-        if (!lastFile.isEmpty())
-            sortedFiles << dir.filePath(lastFile);
-
-        return sortedFiles;
-    };
-
     QStringList controlLogs, topLogs;
 
     if (info.isDir()) {
-        controlLogs = collectLogs(path, "control_engine_log", "control_engine*.log", "control_engine*.log.zip");
-        topLogs     = collectLogs(path, "system_log/top_log", "top*.log", "top*.log.zip");
+        controlLogs = collectOrderedLogFiles(path, "control_engine_log", "control_engine", {"log", "hlog"});
+        topLogs = collectOrderedLogFiles(path, "system_log/top_log", "top", {"log"});
 
         if (controlLogs.isEmpty() && topLogs.isEmpty()) {
             QMessageBox::warning(this, "错误", "日志文件不存在");
@@ -2949,9 +2953,9 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     bool inRecvException = false;
     QStringList recvExceptionLines;
 
-    // 分开解析 control_engine_log
     for (const QString &filePath : controlLogs) {
-        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+        analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
+                             inRecvException, recvExceptionLines, false);
     }
 
 
@@ -2989,66 +2993,11 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
-    auto collectLogs = [this](const QString &baseDir, const QString &subDir, const QString &logPattern, const QString &zipPattern) -> QStringList {
-        QStringList result;
-        QDir dir(baseDir + "/" + subDir);
-        if (!dir.exists()) return result;
-
-        // 获取日志文件
-        QStringList logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
-
-        // 如果没有日志，但存在 zip 文件，解压
-        if (logFiles.isEmpty()) {
-            QStringList zipFiles = dir.entryList(QStringList() << zipPattern, QDir::Files);
-            for (const QString &zipName : zipFiles) {
-                QString zipPath = dir.filePath(zipName);
-                extractZipFile(zipPath, dir.absolutePath());
-                QApplication::processEvents(); // 处理事件，保持UI响应
-            }
-            // 解压完等待文件系统同步，然后重新获取日志文件列表
-            QThread::msleep(100); // 额外延迟，确保文件系统完全同步
-            QApplication::processEvents();
-            logFiles = dir.entryList(QStringList() << logPattern, QDir::Files);
-        }
-
-        if (logFiles.isEmpty()) return result;
-
-        // 按自然顺序排序
-        QStringList sortedFiles;
-        QList<QPair<int, QString>> numberedFiles;
-        QString lastFile;
-        for (const QString &f : logFiles) {
-            // 生成临时变量
-            QString baseName = logPattern.left(logPattern.indexOf('*')); // control_engine
-            if (f == baseName + ".log") {
-                lastFile = f;
-            } else {
-                // 构造正则表达式匹配 control_engine.1.log、control_engine.2.log ...
-                QRegExp rx(baseName + "\\.(\\d+)\\.log");
-                if (rx.indexIn(f) != -1) {
-                    int num = rx.cap(1).toInt();
-                    numberedFiles.append(qMakePair(num, f));
-                }
-            }
-        }
-
-        std::sort(numberedFiles.begin(), numberedFiles.end(),
-                  [](const QPair<int, QString> &a, const QPair<int, QString> &b){ return a.first < b.first; });
-
-        for (const auto &p : numberedFiles)
-            sortedFiles << dir.filePath(p.second);
-
-        if (!lastFile.isEmpty())
-            sortedFiles << dir.filePath(lastFile);
-
-        return sortedFiles;
-    };
-
     QStringList controlLogs, topLogs;
 
     if (info.isDir()) {
-        controlLogs = collectLogs(path, "control_engine_log", "control_engine*.log", "control_engine*.log.zip");
-        topLogs     = collectLogs(path, "system_log/top_log", "top*.log", "top*.log.zip");
+        controlLogs = collectOrderedLogFiles(path, "control_engine_log", "control_engine", {"log", "hlog"});
+        topLogs = collectOrderedLogFiles(path, "system_log/top_log", "top", {"log"});
 
         if (controlLogs.isEmpty() && topLogs.isEmpty()) {
             QMessageBox::warning(this, "错误", "日志文件不存在");
@@ -3081,9 +3030,9 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     bool inRecvException = false;
     QStringList recvExceptionLines;
 
-    // 分开解析 control_engine_log
     for (const QString &filePath : controlLogs) {
-        analyzeFile(filePath, lineNumber, currentTakeoffTime, textBuffer, inRecvException, recvExceptionLines);
+        analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
+                             inRecvException, recvExceptionLines, false);
     }
 
     logView->setPlainText(textBuffer);
@@ -3241,13 +3190,16 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
         }
     }
 
-    // 检查是否选择了control_engine_log目录，如果是则走loadAndAnalyzeLogs的逻辑
+    // 如果当前目录本身是 control_engine_log，或其下包含 control_engine_log 子目录，
+    // 都走专用的 control_engine 分析逻辑。
     QFileInfo pathInfo(path);
     if (pathInfo.fileName() == "control_engine_log") {
-        // 获取父目录路径
         QString parentPath = pathInfo.absolutePath();
-        // 调用loadAndAnalyzeLogs的逻辑
         loadAndAnalyzeLogsFromPath(parentPath);
+        return;
+    }
+    if (pathInfo.isDir() && QDir(path).exists("control_engine_log")) {
+        loadAndAnalyzeLogsFromPath(path);
         return;
     }
 
@@ -3278,14 +3230,20 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
     triggerCount = 0;
     flightCount = 0;
 
-        // 第一步：快速解压所有zip文件（不递归，遇到目录跳过）
+    // 第一步：快速解压所有 zip 文件（递归扫描子目录）
     std::function<void(const QString&)> extractAllZips;
     extractAllZips = [&extractAllZips, this](const QString &dirPath) {
         QDir dir(dirPath);
-        QFileInfoList entries = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+        QFileInfoList entries = dir.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot,
+                                                  QDir::DirsFirst | QDir::Name);
 
         for (const QFileInfo &entry : entries) {
-            if (entry.isFile() && entry.fileName().endsWith(".zip")) {
+            if (entry.isDir()) {
+                extractAllZips(entry.filePath());
+                continue;
+            }
+
+            if (entry.isFile() && entry.fileName().endsWith(".zip", Qt::CaseInsensitive)) {
                 QString zipPath = entry.filePath();
                 QString extractDir = entry.absolutePath();
 
@@ -3302,20 +3260,27 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
         }
     };
 
-    // 第二步：收集所有相关文件（不递归，遇到目录跳过）
+    // 第二步：递归收集所有相关文件
     std::function<QStringList(const QString&)> collectAllFiles;
     collectAllFiles = [&collectAllFiles, this](const QString &dirPath) -> QStringList {
         QStringList allFiles;
         QDir dir(dirPath);
-        QFileInfoList entries = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+        QFileInfoList entries = dir.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot,
+                                                  QDir::DirsFirst | QDir::Name);
 
         for (const QFileInfo &entry : entries) {
+            if (entry.isDir()) {
+                allFiles += collectAllFiles(entry.filePath());
+                continue;
+            }
+
             if (entry.isFile()) {
                 QString fileName = entry.fileName();
-                qint64 fileSize = entry.size();
-                // 收集所有相关文件类型
-                if (fileName.endsWith(".log") || fileName.endsWith(".ulg") || fileName.endsWith(".csv") ||
-                    fileName.endsWith(".txt") || fileName.endsWith(".hlog")) {
+                if (fileName.endsWith(".log", Qt::CaseInsensitive) ||
+                    fileName.endsWith(".ulg", Qt::CaseInsensitive) ||
+                    fileName.endsWith(".csv", Qt::CaseInsensitive) ||
+                    fileName.endsWith(".txt", Qt::CaseInsensitive) ||
+                    fileName.endsWith(".hlog", Qt::CaseInsensitive)) {
                     allFiles.append(entry.filePath());
                 }
             }
@@ -3944,7 +3909,7 @@ void PressAnalyzer::parseStatusBattery(int lineNumber, const QString &line)
     if (line.contains("battery info", Qt::CaseInsensitive)) {
         BatteryTimeInfo timeinfo;
         // 提取时间戳和日期时间
-        QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+        QRegExp rxTimestamp("\\[(\\d+(?:\\.\\d+)?)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
         if (rxTimestamp.indexIn(line) != -1) {
             QString tsStr = rxTimestamp.cap(1);   // 9733.000
             QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
@@ -4204,14 +4169,17 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
                 continue;
             }
 
-            // 将解析的条目添加到视图
+            // 将解析的条目添加到视图（保证多行内容逐行编号）
             for (const HLogEntry &entry : entries) {
-                totalLineNumber++;
-                allLogLines << entry.fullText;
-                QString numberedLine = QString("%1 %2")
-                                         .arg(totalLineNumber, 6, 10, QChar(' '))
-                                         .arg(entry.fullText);
-                logView->appendPlainText(numberedLine);
+                const QStringList lines = entry.fullText.split('\n');
+                for (const QString &l : lines) {
+                    totalLineNumber++;
+                    allLogLines << l;
+                    QString numberedLine = QString("%1 %2")
+                                             .arg(totalLineNumber, 6, 10, QChar(' '))
+                                             .arg(l);
+                    logView->appendPlainText(numberedLine);
+                }
             }
         } else {
             // 处理文本文件
@@ -4357,15 +4325,13 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
 
             // 将解析的条目添加到缓冲区
             for (const HLogEntry &entry : entries) {
-                // 处理多行日志内容，确保每一行都有行号
-                QStringList lines = entry.fullText.split('\n');
-
-                for (const QString &line : lines) {
+                const QStringList lines = entry.fullText.split('\n');
+                for (const QString &l : lines) {
                     totalLineNumber++;
-                    allLogLines << line;
+                    allLogLines << l;
                     QString numberedLine = QString("%1 %2\n")
-                                         .arg(totalLineNumber, 6, 10, QChar(' '))
-                                         .arg(line);
+                                             .arg(totalLineNumber, 6, 10, QChar(' '))
+                                             .arg(l);
                     textBuffer += numberedLine;
                 }
             }

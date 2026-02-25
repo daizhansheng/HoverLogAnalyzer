@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QTextStream>
 #include <QRegularExpression>
+#include <QByteArray>
 
 HLogBinaryParser::HLogBinaryParser()
     : hlog_version_(0)
@@ -11,6 +12,7 @@ HLogBinaryParser::HLogBinaryParser()
     , timezone_offset_s_(0)
     , diff_from_utc_to_monotonic_ms_(0)
     , magic_number_parsed_(false)
+    , entry_layout_(EntryLayout::Unknown)
 {
 }
 
@@ -32,7 +34,13 @@ QList<HLogEntry> HLogBinaryParser::parseFromFile(const QString &filePath)
 QList<HLogEntry> HLogBinaryParser::parse(QIODevice *device)
 {
     QList<HLogEntry> entries;
-    
+    struct PendingLogEntry {
+        RawEntry entry;
+        EntryMeta meta;
+        uint64_t diffFromUtcToMonotonicMs = 0;
+    };
+    QList<PendingLogEntry> pendingEntries;
+
     // 重置状态
     hlog_version_ = 0;
     hlog_flags_ = 0;
@@ -40,9 +48,9 @@ QList<HLogEntry> HLogBinaryParser::parse(QIODevice *device)
     diff_from_utc_to_monotonic_ms_ = 0;
     entry_meta_map_.clear();
     magic_number_parsed_ = false;
+    entry_layout_ = EntryLayout::Unknown;
 
     RawEntry entry;
-    uint64_t currentWalltime = 0;
 
     // 解析所有条目
     while (parseNextRawEntry(device, entry)) {
@@ -65,6 +73,10 @@ QList<HLogEntry> HLogBinaryParser::parse(QIODevice *device)
             if (handleTimeSync(entry, timezoneOffset, utcWalltime)) {
                 timezone_offset_s_ = timezoneOffset;
                 diff_from_utc_to_monotonic_ms_ = utcWalltime - entry.monotonic_raw_timestamp_ms;
+                if (utcWalltime < 946684800000ULL && entry.has_utc_walltime_timestamp &&
+                    entry.utc_walltime_timestamp_ms >= 946684800000ULL) {
+                    diff_from_utc_to_monotonic_ms_ = entry.utc_walltime_timestamp_ms - entry.monotonic_raw_timestamp_ms;
+                }
             }
         }
         else if (entry.type_id == ENTRY_TYPE_ID_META) {
@@ -76,15 +88,29 @@ QList<HLogEntry> HLogBinaryParser::parse(QIODevice *device)
         else {
             // 普通日志条目
             if (entry_meta_map_.contains(entry.type_id)) {
-                // walltime 应该是 UTC 时间，QDateTime::fromMSecsSinceEpoch 会自动转换为本地时区
-                // 不要加上 timezone_offset_s_，否则会重复加上时区偏移导致时间多 8 小时
-                uint64_t walltime = entry.monotonic_raw_timestamp_ms + diff_from_utc_to_monotonic_ms_;
-                
-                HLogEntry logEntry;
-                if (handleLogEntry(entry, entry_meta_map_[entry.type_id], walltime, logEntry)) {
-                    entries.append(logEntry);
-                }
+                pendingEntries.append({entry, entry_meta_map_[entry.type_id], diff_from_utc_to_monotonic_ms_});
             }
+        }
+    }
+
+    static constexpr uint64_t kMinReasonableWalltimeMs = 946684800000ULL;
+    for (const PendingLogEntry &pending : pendingEntries) {
+        uint64_t walltime = 0;
+        if (pending.entry.has_utc_walltime_timestamp &&
+            pending.entry.utc_walltime_timestamp_ms >= kMinReasonableWalltimeMs) {
+            walltime = pending.entry.utc_walltime_timestamp_ms;
+        } else if (pending.diffFromUtcToMonotonicMs != 0) {
+            walltime = pending.entry.monotonic_raw_timestamp_ms + pending.diffFromUtcToMonotonicMs;
+        } else if (diff_from_utc_to_monotonic_ms_ != 0) {
+            walltime = pending.entry.monotonic_raw_timestamp_ms + diff_from_utc_to_monotonic_ms_;
+        } else {
+            walltime = pending.entry.monotonic_raw_timestamp_ms;
+        }
+
+        HLogEntry logEntry;
+        if (handleLogEntry(pending.entry, pending.meta,
+                           pending.entry.monotonic_raw_timestamp_ms, walltime, logEntry)) {
+            entries.append(logEntry);
         }
     }
 
@@ -96,6 +122,8 @@ QList<HLogEntry> HLogBinaryParser::parse(QIODevice *device)
 
 bool HLogBinaryParser::parseNextRawEntry(QIODevice *device, RawEntry &entry)
 {
+    entry = RawEntry{};
+
     // 读取 type_id (4 bytes)
     QByteArray typeIdData = device->read(4);
     if (typeIdData.size() != 4) {
@@ -117,10 +145,78 @@ bool HLogBinaryParser::parseNextRawEntry(QIODevice *device, RawEntry &entry)
     }
     entry.monotonic_raw_timestamp_ms = *reinterpret_cast<const uint64_t*>(timestampData.constData());
 
+    auto looksLikeMagicPayload = [](const QByteArray &bytes, int offset) -> bool {
+        if (bytes.size() < offset + 2) {
+            return false;
+        }
+        const uint8_t version = static_cast<uint8_t>(bytes[offset]);
+        const uint8_t flags = static_cast<uint8_t>(bytes[offset + 1]);
+        return version > 0 && version <= 8 && flags <= 0x3F;
+    };
+
+    if (entry_layout_ == EntryLayout::Unknown &&
+        entry.type_id == ENTRY_TYPE_ID_MAGIC_NUMBER &&
+        entry.size == 2) {
+        const QByteArray sniff = device->peek(10);
+        const bool legacyPayloadValid = looksLikeMagicPayload(sniff, 0);
+        const bool walltimePayloadValid = looksLikeMagicPayload(sniff, 8);
+        if (!legacyPayloadValid && walltimePayloadValid) {
+            entry_layout_ = EntryLayout::WithWalltime;
+        } else if (legacyPayloadValid && !walltimePayloadValid) {
+            entry_layout_ = EntryLayout::Legacy;
+        }
+    }
+
+    if (entry_layout_ != EntryLayout::Legacy && device->bytesAvailable() >= static_cast<qint64>(sizeof(uint64_t))) {
+        const qint64 payloadPos = device->pos();
+        QByteArray walltimeData = device->read(sizeof(uint64_t));
+        if (walltimeData.size() == static_cast<int>(sizeof(uint64_t))) {
+            const uint64_t candidateWalltime = *reinterpret_cast<const uint64_t*>(walltimeData.constData());
+            const qint64 remainingAfterWalltime = device->bytesAvailable();
+            const bool looksLikeWalltime = candidateWalltime > 1000000000000ULL;
+            const bool hasEnoughPayload = remainingAfterWalltime >= static_cast<qint64>(entry.size);
+
+            if ((entry_layout_ == EntryLayout::WithWalltime || looksLikeWalltime) && hasEnoughPayload) {
+                entry_layout_ = EntryLayout::WithWalltime;
+                entry.utc_walltime_timestamp_ms = candidateWalltime;
+                entry.has_utc_walltime_timestamp = true;
+            } else {
+                if (entry_layout_ == EntryLayout::Unknown) {
+                    entry_layout_ = EntryLayout::Legacy;
+                }
+                if (!device->seek(payloadPos)) {
+                    return false;
+                }
+            }
+        } else {
+            if (!device->seek(payloadPos)) {
+                return false;
+            }
+        }
+    }
+
+    if (entry_layout_ == EntryLayout::WithWalltime &&
+        !entry.has_utc_walltime_timestamp &&
+        diff_from_utc_to_monotonic_ms_ != 0) {
+        entry.utc_walltime_timestamp_ms = entry.monotonic_raw_timestamp_ms + diff_from_utc_to_monotonic_ms_;
+        entry.has_utc_walltime_timestamp = true;
+    }
+
     // 读取 data
     entry.data = device->read(entry.size);
     if (entry.data.size() != static_cast<int>(entry.size)) {
         return false;
+    }
+
+    if (entry.has_utc_walltime_timestamp && entry.utc_walltime_timestamp_ms < 946684800000ULL) {
+        const QByteArray futureBytes = device->peek(sizeof(uint64_t) + static_cast<int>(entry.size));
+        for (int i = 0; i + static_cast<int>(sizeof(uint64_t)) <= futureBytes.size(); ++i) {
+            const uint64_t candidate = *reinterpret_cast<const uint64_t*>(futureBytes.constData() + i);
+            if (candidate >= 946684800000ULL) {
+                entry.utc_walltime_timestamp_ms = candidate;
+                break;
+            }
+        }
     }
 
     return true;
@@ -154,10 +250,10 @@ bool HLogBinaryParser::handleTimeSync(const RawEntry &entry, int32_t &timezoneOf
     const char *data = entry.data.constData();
     uint32_t sourceId = *reinterpret_cast<const uint32_t*>(data);
     Q_UNUSED(sourceId);
-    
+
     timezoneOffset = *reinterpret_cast<const int32_t*>(data + sizeof(uint32_t));
     utcWalltime = *reinterpret_cast<const uint64_t*>(data + sizeof(uint32_t) + sizeof(int32_t));
-    
+
     return true;
 }
 
@@ -168,7 +264,7 @@ bool HLogBinaryParser::handleEntryMeta(const RawEntry &entry, EntryMeta &meta)
     }
 
     const uint8_t *data = reinterpret_cast<const uint8_t*>(entry.data.constData());
-    
+
     meta.type_id = *reinterpret_cast<const uint32_t*>(data);
     meta.level = data[4];
     meta.num_args = data[5];
@@ -216,10 +312,10 @@ bool HLogBinaryParser::handleEntryMeta(const RawEntry &entry, EntryMeta &meta)
     return true;
 }
 
-bool HLogBinaryParser::handleLogEntry(const RawEntry &entry, const EntryMeta &meta, 
-                                      uint64_t walltime, HLogEntry &logEntry)
+bool HLogBinaryParser::handleLogEntry(const RawEntry &entry, const EntryMeta &meta,
+                                      uint64_t monotonicTimestampMs, uint64_t walltime, HLogEntry &logEntry)
 {
-    logEntry.fullText = formatLogEntry(meta, entry, walltime);
+    logEntry.fullText = formatLogEntry(meta, entry, monotonicTimestampMs, walltime);
     logEntry.timestampValue = walltime;
     logEntry.hasTimestamp = true;
     logEntry.timestamp = QDateTime::fromMSecsSinceEpoch(static_cast<qint64>(walltime));
@@ -230,14 +326,15 @@ bool HLogBinaryParser::handleLogEntry(const RawEntry &entry, const EntryMeta &me
     return true;
 }
 
-QString HLogBinaryParser::formatLogEntry(const EntryMeta &meta, const RawEntry &entry, uint64_t walltime)
+QString HLogBinaryParser::formatLogEntry(const EntryMeta &meta, const RawEntry &entry,
+                                         uint64_t monotonicTimestampMs, uint64_t walltime)
 {
     QString result;
     QTextStream stream(&result);
 
     // 格式化时间戳: [时间戳毫秒 日期时间]
     QString timeStr = formatTimestamp(walltime);
-    stream << "[" << walltime << " " << timeStr << "] ";
+    stream << "[" << monotonicTimestampMs << " " << timeStr << "] ";
 
     // 格式化级别和文件信息: [级别|文件名:行号]
     // 从完整路径中提取文件名
@@ -252,57 +349,7 @@ QString HLogBinaryParser::formatLogEntry(const EntryMeta &meta, const RawEntry &
     }
     stream << "[" << levelToChar(meta.level) << "|" << fileName << ":" << meta.linenum << "]: ";
 
-    // 格式化日志内容
-    QString content;
-    QTextStream contentStream(&content);
-    
-    if (meta.format.isEmpty()) {
-        // 如果没有格式字符串，直接显示原始数据（十六进制）
-        for (int i = 0; i < entry.data.size(); ++i) {
-            contentStream << QString::asprintf("%02X ", static_cast<unsigned char>(entry.data[i]));
-        }
-    } else {
-        // 解析格式字符串并格式化参数
-        const char *dataPtr = entry.data.constData();
-        int argIndex = 0;
-        QString format = meta.format;
-
-        // 简单的格式字符串解析（支持基本的 %s, %d, %f 等）
-        int pos = 0;
-        while (pos < format.length()) {
-            if (format[pos] == '%' && pos + 1 < format.length()) {
-                if (format[pos + 1] == '%') {
-                    // 转义的 %
-                    contentStream << '%';
-                    pos += 2;
-                } else {
-                    // 格式说明符
-                    QString formatSpec;
-                    int specStart = pos;
-                    pos++;
-                    while (pos < format.length() && 
-                           (format[pos].isLetterOrNumber() || format[pos] == '.' || 
-                            format[pos] == '-' || format[pos] == '+' || format[pos] == ' ' ||
-                            format[pos] == '#' || format[pos] == '0' || format[pos] == '*' ||
-                            format[pos] == 'h' || format[pos] == 'l' || format[pos] == 'L')) {
-                        pos++;
-                    }
-                    if (pos < format.length()) {
-                        formatSpec = format.mid(specStart, pos - specStart + 1);
-                        pos++;
-                    } else {
-                        formatSpec = format.mid(specStart);
-                    }
-
-                    QString value = formatValue(meta, entry, argIndex, dataPtr, formatSpec);
-                    contentStream << value;
-                }
-            } else {
-                contentStream << format[pos];
-                pos++;
-            }
-        }
-    }
+    const QString content = formatContent(meta, entry);
 
     // 处理多行内容：如果内容包含换行，在后续行前添加8个空格
     QStringList lines = content.split('\n');
@@ -325,33 +372,234 @@ QString HLogBinaryParser::formatLogEntry(const EntryMeta &meta, const RawEntry &
     return result;
 }
 
-QString HLogBinaryParser::formatValue(const EntryMeta &meta, const RawEntry &entry, 
-                                     int &argIndex, const char *&dataPtr, const QString &formatSpec)
+QString HLogBinaryParser::formatContent(const EntryMeta &meta, const RawEntry &entry)
 {
-    Q_UNUSED(formatSpec);
-    
-    if (argIndex >= meta.num_args) {
-        return QString("<?>");
+    if (meta.format.isEmpty()) {
+        QString hex;
+        QTextStream stream(&hex);
+        for (int i = 0; i < entry.data.size(); ++i) {
+            stream << QString::asprintf("%02X ", static_cast<unsigned char>(entry.data[i]));
+        }
+        return hex;
     }
 
-    // 边界检查
-    const char *dataStart = entry.data.constData();
-    const char *dataEnd = dataStart + entry.data.size();
-    if (dataPtr >= dataEnd) {
-        return QString("<?>");
+    QString content;
+    QTextStream contentStream(&content);
+    const QString &format = meta.format;
+    const char *dataPtr = entry.data.constData();
+    const char *dataEnd = dataPtr + entry.data.size();
+    int argIndex = 0;
+    int pos = 0;
+
+    while (pos < format.length()) {
+        if (format[pos] != '%') {
+            contentStream << format[pos++];
+            continue;
+        }
+        if (pos + 1 < format.length() && format[pos + 1] == '%') {
+            contentStream << '%';
+            pos += 2;
+            continue;
+        }
+
+        FormatSpec spec;
+        const int specStart = pos;
+        if (!parseNextFormatSpec(format, pos, spec)) {
+            contentStream << '%';
+            pos = specStart + 1;
+            continue;
+        }
+        contentStream << formatValue(meta, entry, argIndex, dataPtr, spec.raw);
     }
 
-    quint8 argInfo = meta.argument_infos[argIndex];
-    argIndex++;
+    if (dataPtr < dataEnd) {
+        qWarning() << "HLog entry still has unread payload bytes:" << (dataEnd - dataPtr) << meta.format;
+    }
 
-    uint8_t argType = (argInfo >> 4) & 0x0F;
-    uint8_t argSizeBytes = argInfo & 0x0F;
+    return content;
+}
 
-    QString result;
+bool HLogBinaryParser::parseNextFormatSpec(const QString &format, int &pos, FormatSpec &spec)
+{
+    if (pos >= format.length() || format[pos] != '%') {
+        return false;
+    }
 
+    int scan = pos + 1;
+    while (scan < format.length() && QStringLiteral("-+ #0'").contains(format[scan])) {
+        ++scan;
+    }
+
+    if (scan < format.length() && format[scan] == '*') {
+        spec.dynamicWidth = true;
+        ++scan;
+    } else {
+        while (scan < format.length() && format[scan].isDigit()) {
+            ++scan;
+        }
+    }
+
+    if (scan < format.length() && format[scan] == '.') {
+        ++scan;
+        if (scan < format.length() && format[scan] == '*') {
+            spec.dynamicPrecision = true;
+            ++scan;
+        } else {
+            while (scan < format.length() && format[scan].isDigit()) {
+                ++scan;
+            }
+        }
+    }
+
+    if (scan + 1 < format.length() &&
+        ((format[scan] == 'h' && format[scan + 1] == 'h') ||
+         (format[scan] == 'l' && format[scan + 1] == 'l'))) {
+        scan += 2;
+    } else if (scan < format.length() && QStringLiteral("hljztL").contains(format[scan])) {
+        ++scan;
+    }
+
+    const QString conversions = QStringLiteral("cspdiuoxXfFeEgGaAn");
+    if (scan >= format.length() || !conversions.contains(format[scan])) {
+        return false;
+    }
+
+    spec.raw = format.mid(pos, scan - pos + 1);
+    spec.conversion = format[scan];
+    pos = scan + 1;
+    return true;
+}
+
+int HLogBinaryParser::consumeDynamicInt(const EntryMeta &meta, const RawEntry &entry, int &argIndex,
+                                        const char *&dataPtr, bool *ok)
+{
+    const QString value = formatValue(meta, entry, argIndex, dataPtr, "%d");
+    bool localOk = false;
+    const int intValue = value.toInt(&localOk);
+    if (ok) {
+        *ok = localOk;
+    }
+    return intValue;
+}
+
+void HLogBinaryParser::resolveArgumentInfo(quint8 argInfo,
+                                          const QString &resolvedFormat,
+                                          uint8_t &argType,
+                                          uint8_t &argSizeBytes) const
+{
+    argType = (argInfo >> 4) & 0x0F;
+    argSizeBytes = argInfo & 0x0F;
+    const QChar conversion = resolvedFormat.isEmpty() ? QChar() : resolvedFormat.back();
+
+    switch (conversion.toLatin1()) {
+    case 'd':
+    case 'i':
+    case 'c':
+        argType = ARGUMENT_TYPE_SIGN_INT;
+        break;
+    case 'u':
+    case 'o':
+    case 'x':
+    case 'X':
+        argType = ARGUMENT_TYPE_UNSIGN_INT;
+        break;
+    case 'f':
+    case 'F':
+    case 'e':
+    case 'E':
+    case 'g':
+    case 'G':
+    case 'a':
+    case 'A':
+        argType = ARGUMENT_TYPE_FLOAT;
+        break;
+    case 's':
+        argType = ARGUMENT_TYPE_STRING;
+        break;
+    case 'p':
+        argType = ARGUMENT_TYPE_POINTER;
+        break;
+    default:
+        break;
+    }
+
+    if (argSizeBytes == 0) {
+        switch (conversion.toLatin1()) {
+        case 'f':
+        case 'F':
+        case 'e':
+        case 'E':
+        case 'g':
+        case 'G':
+        case 'a':
+        case 'A':
+            argType = ARGUMENT_TYPE_FLOAT;
+            argSizeBytes = resolvedFormat.contains('L') ? 16 : 8;
+            break;
+        case 's':
+            argType = ARGUMENT_TYPE_STRING;
+            argSizeBytes = 0;
+            break;
+        case 'p':
+            argType = ARGUMENT_TYPE_POINTER;
+            argSizeBytes = sizeof(void*);
+            break;
+        case 'd':
+        case 'i':
+        case 'c':
+            argType = ARGUMENT_TYPE_SIGN_INT;
+            argSizeBytes = 1;
+            break;
+        case 'u':
+        case 'o':
+        case 'x':
+        case 'X':
+            argType = ARGUMENT_TYPE_UNSIGN_INT;
+            argSizeBytes = 1;
+            break;
+        default:
+            argSizeBytes = 1;
+            break;
+        }
+    }
+}
+
+QString HLogBinaryParser::applyResolvedFormat(const QString &resolvedFormat,
+                                             uint8_t argType,
+                                             uint8_t argSizeBytes,
+                                             const char *&dataPtr,
+                                             const char *dataEnd,
+                                             bool *ok)
+{
+    if (ok) {
+        *ok = true;
+    }
+
+    const QByteArray fmt = resolvedFormat.toUtf8();
+    const QChar conversion = resolvedFormat.isEmpty() ? QChar() : resolvedFormat.back();
+    auto fallbackIntegralString = [&](qulonglong value, bool signedValue) -> QString {
+        switch (conversion.toLatin1()) {
+        case 'd':
+        case 'i':
+        case 'c':
+            return signedValue ? QString::number(static_cast<qlonglong>(value))
+                               : QString::number(static_cast<qulonglong>(value));
+        case 'u':
+            return QString::number(static_cast<qulonglong>(value));
+        case 'o':
+            return QString::number(static_cast<qulonglong>(value), 8);
+        case 'x':
+            return QString::number(static_cast<qulonglong>(value), 16);
+        case 'X':
+            return QString::number(static_cast<qulonglong>(value), 16).toUpper();
+        default:
+            return signedValue ? QString::number(static_cast<qlonglong>(value))
+                               : QString::number(static_cast<qulonglong>(value));
+        }
+    };
     switch (argType) {
     case ARGUMENT_TYPE_UNSIGN_INT: {
-        uint64_t value = 0;
+        qulonglong value = 0;
         if (argSizeBytes == 1 && dataPtr + 1 <= dataEnd) {
             value = *reinterpret_cast<const uint8_t*>(dataPtr);
             dataPtr += 1;
@@ -365,13 +613,32 @@ QString HLogBinaryParser::formatValue(const EntryMeta &meta, const RawEntry &ent
             value = *reinterpret_cast<const uint64_t*>(dataPtr);
             dataPtr += 8;
         } else {
+            if (ok) *ok = false;
             return QString("<?>");
         }
-        result = QString::number(value);
-        break;
+        if (argSizeBytes == 1 && !resolvedFormat.contains('h') && !resolvedFormat.contains('l') &&
+            !resolvedFormat.contains('j') && !resolvedFormat.contains('z') && !resolvedFormat.contains('t')) {
+            return fallbackIntegralString(value, false);
+        }
+        if (conversion == 'c') {
+            return QString::asprintf(fmt.constData(), static_cast<unsigned int>(value));
+        }
+        if (resolvedFormat.contains("ll")) {
+            return QString::asprintf(fmt.constData(), static_cast<unsigned long long>(value));
+        }
+        if (resolvedFormat.contains('z')) {
+            return QString::asprintf(fmt.constData(), static_cast<size_t>(value));
+        }
+        if (resolvedFormat.contains('j')) {
+            return QString::asprintf(fmt.constData(), static_cast<uintmax_t>(value));
+        }
+        if (resolvedFormat.contains('l')) {
+            return QString::asprintf(fmt.constData(), static_cast<unsigned long>(value));
+        }
+        return QString::asprintf(fmt.constData(), static_cast<unsigned int>(value));
     }
     case ARGUMENT_TYPE_SIGN_INT: {
-        int64_t value = 0;
+        qlonglong value = 0;
         if (argSizeBytes == 1 && dataPtr + 1 <= dataEnd) {
             value = *reinterpret_cast<const int8_t*>(dataPtr);
             dataPtr += 1;
@@ -385,10 +652,32 @@ QString HLogBinaryParser::formatValue(const EntryMeta &meta, const RawEntry &ent
             value = *reinterpret_cast<const int64_t*>(dataPtr);
             dataPtr += 8;
         } else {
+            if (ok) *ok = false;
             return QString("<?>");
         }
-        result = QString::number(value);
-        break;
+        if (argSizeBytes == 1 && !resolvedFormat.contains('h') && !resolvedFormat.contains('l') &&
+            !resolvedFormat.contains('j') && !resolvedFormat.contains('z') && !resolvedFormat.contains('t')) {
+            return fallbackIntegralString(static_cast<qulonglong>(value), true);
+        }
+        if (conversion == 'c') {
+            return QString::asprintf(fmt.constData(), static_cast<int>(value));
+        }
+        if (resolvedFormat.contains("ll")) {
+            return QString::asprintf(fmt.constData(), static_cast<long long>(value));
+        }
+        if (resolvedFormat.contains('z')) {
+            return QString::asprintf(fmt.constData(), static_cast<qsizetype>(value));
+        }
+        if (resolvedFormat.contains('j')) {
+            return QString::asprintf(fmt.constData(), static_cast<intmax_t>(value));
+        }
+        if (resolvedFormat.contains('t')) {
+            return QString::asprintf(fmt.constData(), static_cast<ptrdiff_t>(value));
+        }
+        if (resolvedFormat.contains('l')) {
+            return QString::asprintf(fmt.constData(), static_cast<long>(value));
+        }
+        return QString::asprintf(fmt.constData(), static_cast<int>(value));
     }
     case ARGUMENT_TYPE_FLOAT: {
         double value = 0.0;
@@ -399,61 +688,100 @@ QString HLogBinaryParser::formatValue(const EntryMeta &meta, const RawEntry &ent
             value = *reinterpret_cast<const double*>(dataPtr);
             dataPtr += 8;
         } else {
+            if (ok) *ok = false;
             return QString("<?>");
         }
-        result = QString::number(value, 'f', 6);
-        break;
+        return QString::asprintf(fmt.constData(), value);
     }
     case ARGUMENT_TYPE_STRING: {
-        // 字符串格式：先读取长度（uint32_t），然后是字符串数据
-        if (dataPtr + sizeof(uint32_t) > dataEnd) {
+        if (dataPtr + static_cast<int>(sizeof(uint32_t)) > dataEnd) {
+            if (ok) *ok = false;
             return QString("<?>");
         }
-        uint32_t strLen = *reinterpret_cast<const uint32_t*>(dataPtr);
+        const uint32_t strLen = *reinterpret_cast<const uint32_t*>(dataPtr);
         dataPtr += sizeof(uint32_t);
         if (dataPtr + strLen > dataEnd) {
+            if (ok) *ok = false;
             return QString("<?>");
         }
-        result = QString::fromUtf8(dataPtr, strLen);
+        const QByteArray utf8Value(dataPtr, static_cast<int>(strLen));
         dataPtr += strLen;
-        break;
+        return QString::asprintf(fmt.constData(), utf8Value.constData());
     }
     case ARGUMENT_TYPE_POINTER: {
-        void *ptr = nullptr;
+        quintptr ptrValue = 0;
         if (argSizeBytes == 4 && dataPtr + 4 <= dataEnd) {
-            ptr = reinterpret_cast<void*>(static_cast<uintptr_t>(*reinterpret_cast<const uint32_t*>(dataPtr)));
+            ptrValue = *reinterpret_cast<const uint32_t*>(dataPtr);
             dataPtr += 4;
         } else if (argSizeBytes == 8 && dataPtr + 8 <= dataEnd) {
-            ptr = reinterpret_cast<void*>(static_cast<uintptr_t>(*reinterpret_cast<const uint64_t*>(dataPtr)));
+            ptrValue = static_cast<quintptr>(*reinterpret_cast<const uint64_t*>(dataPtr));
             dataPtr += 8;
         } else {
+            if (ok) *ok = false;
             return QString("<?>");
         }
-        result = QString::asprintf("%p", ptr);
-        break;
+        return QString::asprintf(fmt.constData(), reinterpret_cast<void*>(ptrValue));
     }
     default:
-        result = QString("<?>");
-        break;
+        if (ok) *ok = false;
+        return QString("<?>");
     }
-
-    return result;
 }
 
-int HLogBinaryParser::getArgumentSize(quint8 argInfo, const char *&dataPtr)
+QString HLogBinaryParser::formatValue(const EntryMeta &meta, const RawEntry &entry,
+                                      int &argIndex, const char *&dataPtr, const QString &formatSpec)
 {
-    Q_UNUSED(dataPtr);
-    uint8_t argType = (argInfo >> 4) & 0x0F;
-    uint8_t argSizeBytes = argInfo & 0x0F;
-
-    if (argType == ARGUMENT_TYPE_STRING) {
-        // 字符串：长度字段（4字节）+ 字符串数据（长度在 formatValue 中读取）
-        return sizeof(uint32_t);  // 最小大小，实际大小在 formatValue 中计算
+    if (argIndex >= meta.num_args) {
+        return QString("<?>");
     }
 
-    // 其他类型直接返回大小
-    if (argSizeBytes == 0) return 1;
-    return argSizeBytes;
+    FormatSpec spec;
+    int formatPos = 0;
+    spec.raw = formatSpec;
+    parseNextFormatSpec(formatSpec, formatPos, spec);
+
+    const char *dataEnd = entry.data.constData() + entry.data.size();
+    if (dataPtr >= dataEnd) {
+        return QString("<?>");
+    }
+
+    QString resolvedFormat = formatSpec;
+    if (spec.dynamicWidth) {
+        bool widthOk = false;
+        const int width = consumeDynamicInt(meta, entry, argIndex, dataPtr, &widthOk);
+        if (!widthOk) {
+            return QString("<?>");
+        }
+        const int starIndex = resolvedFormat.indexOf('*');
+        if (starIndex >= 0) {
+            resolvedFormat.replace(starIndex, 1, QString::number(width));
+        }
+    }
+    if (spec.dynamicPrecision) {
+        bool precisionOk = false;
+        const int precision = consumeDynamicInt(meta, entry, argIndex, dataPtr, &precisionOk);
+        if (!precisionOk) {
+            return QString("<?>");
+        }
+        const int dotStarIndex = resolvedFormat.indexOf(QLatin1String(".*"));
+        if (dotStarIndex >= 0) {
+            resolvedFormat.replace(dotStarIndex, 2, QString(".%1").arg(precision));
+        }
+    }
+
+    const quint8 argInfo = meta.argument_infos[argIndex];
+    argIndex++;
+
+    uint8_t argType = 0;
+    uint8_t argSizeBytes = 0;
+    resolveArgumentInfo(argInfo, resolvedFormat, argType, argSizeBytes);
+
+    bool ok = false;
+    const QString value = applyResolvedFormat(resolvedFormat, argType, argSizeBytes, dataPtr, dataEnd, &ok);
+    if (!ok) {
+        return QString("<?>");
+    }
+    return value;
 }
 
 QString HLogBinaryParser::formatTimestamp(uint64_t walltimeMs)
@@ -465,12 +793,12 @@ QString HLogBinaryParser::formatTimestamp(uint64_t walltimeMs)
 QChar HLogBinaryParser::levelToChar(uint8_t level)
 {
     switch (level) {
-    case LOG_LEVEL_FATAL: return 'F';
-    case LOG_LEVEL_ERROR: return 'E';
-    case LOG_LEVEL_WARN: return 'W';
+    case LOG_LEVEL_UNKNOWN: return 'U';
     case LOG_LEVEL_DEBUG: return 'D';
     case LOG_LEVEL_INFO: return 'I';
+    case LOG_LEVEL_WARN: return 'W';
+    case LOG_LEVEL_ERROR: return 'E';
+    case LOG_LEVEL_FATAL: return 'F';
     default: return 'U';
     }
 }
-

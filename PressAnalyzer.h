@@ -94,6 +94,25 @@ private:
                      bool &inRecvException,
                      QStringList &recvExceptionLines);
 
+    // 单行解析（供文本日志与 .hlog 复用）
+    void analyzeLogLine(const QString &line,
+                        int &lineNumber,
+                        QDateTime &currentTakeoffTime,
+                        QString &textBuffer,
+                        bool &inRecvException,
+                        QStringList &recvExceptionLines);
+    bool analyzeLogSourceFile(const QString &filePath,
+                              int &lineNumber,
+                              QDateTime &currentTakeoffTime,
+                              QString &textBuffer,
+                              bool &inRecvException,
+                              QStringList &recvExceptionLines,
+                              bool showWarning = true);
+    QStringList collectOrderedLogFiles(const QString &baseDir,
+                                       const QString &subDir,
+                                       const QString &baseName,
+                                       const QStringList &extensions);
+
     // 文件加载
     void loadSelectedFiles(const QStringList &filePaths);
     void loadSelectedFilesInOrder(const QStringList &filePaths);
