@@ -41,6 +41,8 @@
 #include <QSettings>
 #include <QMenu>
 #include <QStyle>
+#include <QDirIterator>
+#include <QTabWidget>
 #include <QFontDialog>
 #include "HLogBinaryParser.h"
 #include "HLogParser.h"
@@ -196,7 +198,7 @@ bool PressAnalyzer::waitForFile(const QString &filePath, int maxWaitMs)
 }
 
 PressAnalyzer::PressAnalyzer(QWidget *parent)
-    : QMainWindow(parent), currentSearchIndex(-1), toggleBtn(nullptr), fileBrowserToggleBtn(nullptr),
+    : QMainWindow(parent), currentSearchIndex(-1),
       fileBrowserDock(nullptr), fileBrowserTree(nullptr), fileSystemModel(nullptr), fileBrowserButton(nullptr)
 {
     // 初始化成员变量
@@ -289,6 +291,9 @@ void PressAnalyzer::setupMainWindow()
     setWindowIcon(QIcon(":/new/image/logo.icns"));
     resize(1200, 700);
 
+    setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowTabbedDocks);
+    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::South);
+
     // 撤销自定义居中标题栏
 }
 // 撤销自定义更新接口，保持系统默认标题行为
@@ -315,13 +320,10 @@ void PressAnalyzer::setupEventDock()
     eventList = new QListWidget(this);
     eventDock = new QDockWidget("分析结果", this);
     eventDock->setWidget(eventList);
-    eventDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    eventDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    eventDock->setAllowedAreas(Qt::LeftDockWidgetArea);
+    eventDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
     addDockWidget(Qt::LeftDockWidgetArea, eventDock);
     eventDock->hide();
-    toggleBtn = new DockToggleButton(eventDock, this);
-    toggleBtn->move(0, (height() - toggleBtn->height()) / 2);
-    toggleBtn->show();
 }
 
 void PressAnalyzer::setupSearchDock()
@@ -496,8 +498,8 @@ void PressAnalyzer::setupFileBrowserDock()
     pathLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     QPushButton *chooseDirButton = new QPushButton(this);
-    chooseDirButton->setIcon(QIcon(":/icons/icons/folder-open.png"));
-    chooseDirButton->setToolTip("选择浏览目录");
+    chooseDirButton->setIcon(QIcon(":/icons/icons/analytics_ce.png"));
+    chooseDirButton->setToolTip("智能解析Control Engine日志");
     chooseDirButton->setFixedSize(28, 28);
     chooseDirButton->setStyleSheet(
         "QPushButton{"
@@ -519,23 +521,16 @@ void PressAnalyzer::setupFileBrowserDock()
     // 创建Dock - 放左侧
     fileBrowserDock = new QDockWidget("文件浏览器", this);
     fileBrowserDock->setWidget(browserContainer);
-    fileBrowserDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    fileBrowserDock->setAllowedAreas(Qt::LeftDockWidgetArea);
+    fileBrowserDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
     fileBrowserDock->setMinimumWidth(250);
     addDockWidget(Qt::LeftDockWidgetArea, fileBrowserDock);
     fileBrowserDock->hide(); // 初始隐藏
 
-    // 为文件浏览器添加展开/折叠按钮
-    fileBrowserToggleBtn = new DockToggleButton(fileBrowserDock, this);
-    fileBrowserToggleBtn->setFixedSize(30, 30); // 设置固定大小
-    fileBrowserToggleBtn->move(5, 5); // 移动到窗口左上角
-    fileBrowserToggleBtn->show();
-
-    // 确保按钮在窗口大小变化时保持在左上角
-    installEventFilter(this);
-
-    // 将文件浏览器和分析结果做成Tab样式
     tabifyDockWidget(fileBrowserDock, eventDock);
-    eventDock->raise(); // 默认显示分析结果
+    eventDock->raise();
+
+    installEventFilter(this);
 
     // 返回上级按钮连接
     connect(goUpButton, &QPushButton::clicked, this, [this, pathLabel](){
@@ -546,13 +541,20 @@ void PressAnalyzer::setupFileBrowserDock()
         }
     });
 
-    // 选择目录按钮连接
+    // 智能解析按钮连接
     connect(chooseDirButton, &QPushButton::clicked, this, [this](){
-        QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录",
-                                                         fileBrowserRootPath.isEmpty() ? QDir::homePath() : fileBrowserRootPath);
-        if (!dir.isEmpty()) {
-            openDirectoryInBrowser(dir);
+        if (fileBrowserRootPath.isEmpty()) {
+            QMessageBox::information(this, "提示", "请先在文件浏览器中打开一个日志目录");
+            return;
         }
+
+        const QString analysisRoot = findControlEngineAnalysisRoot(fileBrowserRootPath);
+        if (analysisRoot.isEmpty()) {
+            QMessageBox::warning(this, "提示", "当前目录下未找到 control_engine_log 目录");
+            return;
+        }
+
+        loadAndAnalyzeLogsFromPath(analysisRoot);
     });
 
     // 双击文件/目录处理
@@ -1405,8 +1407,9 @@ void PressAnalyzer::setupMenuBar()
     actResetFonts->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_R));
 
     connect(actToggleFileBrowser, &QAction::triggered, this, [this](){
-        if (fileBrowserDock->isVisible()) {
+        if (fileBrowserDock->isVisible() || eventDock->isVisible()) {
             fileBrowserDock->hide();
+            eventDock->hide();
         } else {
             if (fileBrowserRootPath.isEmpty()) {
                 QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", QDir::homePath());
@@ -1415,6 +1418,9 @@ void PressAnalyzer::setupMenuBar()
                 }
             } else {
                 fileBrowserDock->show();
+                if (eventList->count() > 0) {
+                    eventDock->show();
+                }
             }
         }
     });
@@ -1610,22 +1616,23 @@ void PressAnalyzer::setupConnections()
     connect(analyzeControlButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
     connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
 
-    // 文件浏览器按钮 - 切换文件浏览器面板或选择目录打开
+    // 文件浏览器按钮 - 每次点击都允许重新选择目录；取消时仅显示当前浏览器
     connect(fileBrowserButton, &QPushButton::clicked, this, [this](){
-        if (!fileBrowserDock->isVisible()) {
-            if (fileBrowserRootPath.isEmpty()) {
-                // 尚未设置根目录，弹出选择
-                QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", QDir::homePath());
-                if (!dir.isEmpty()) {
-                    openDirectoryInBrowser(dir);
-                }
-            } else {
-                fileBrowserDock->show();
-                fileBrowserDock->raise(); // 确保文件浏览器成为活动标签页
-            }
+        const QString initialDir = fileBrowserRootPath.isEmpty() ? QDir::homePath() : fileBrowserRootPath;
+        const QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", initialDir);
+
+        if (!dir.isEmpty()) {
+            clearWindow();
+            openDirectoryInBrowser(dir);
+            fileBrowserDock->show();
+            fileBrowserDock->raise();
+            return;
         }
-        // 确保文件浏览器成为活动标签页
-        fileBrowserDock->raise();
+
+        if (!fileBrowserRootPath.isEmpty()) {
+            fileBrowserDock->show();
+            fileBrowserDock->raise();
+        }
     });
 
     // 新建窗口按钮
@@ -1713,14 +1720,6 @@ bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
                 // 让事件继续传播到QShortcut处理
                 return false;
             }
-        }
-    } else if (event->type() == QEvent::Resize && obj == this) {
-        // 窗口大小变化时，确保切换按钮保持在左上角
-        if (toggleBtn) {
-            toggleBtn->move(5, 5);
-        }
-        if (fileBrowserToggleBtn) {
-            fileBrowserToggleBtn->move(5, 5);
         }
     }
     return QObject::eventFilter(obj, event);
@@ -3054,6 +3053,31 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
 
     // 解析完成后恢复更新
     logView->setUpdatesEnabled(true);
+}
+
+QString PressAnalyzer::findControlEngineAnalysisRoot(const QString &basePath) const
+{
+    QFileInfo baseInfo(basePath);
+    if (!baseInfo.exists()) {
+        return QString();
+    }
+
+    if (baseInfo.isDir() && baseInfo.fileName() == "control_engine_log") {
+        return baseInfo.absolutePath();
+    }
+
+    const QDir rootDir(baseInfo.isDir() ? baseInfo.absoluteFilePath() : baseInfo.absolutePath());
+    QDirIterator it(rootDir.absolutePath(),
+                    QDir::Dirs | QDir::NoDotAndDotDot,
+                    QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        const QString dirPath = it.next();
+        if (QFileInfo(dirPath).fileName() == "control_engine_log") {
+            return QFileInfo(dirPath).absolutePath();
+        }
+    }
+
+    return QString();
 }
 
 void PressAnalyzer::loadAndMergeLogs()

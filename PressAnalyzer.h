@@ -43,6 +43,7 @@ protected:
 #include <QAction>
 #include <QTreeView>
 #include <QFileSystemModel>
+#include <QDir>
 
 class QStandardItemModel;
 
@@ -155,6 +156,7 @@ private:
     void openDirectoryInBrowser(const QString &dirPath);
     void loadFileToLogView(const QString &filePath);
     void loadMergeLogsFromPath(const QString &path, bool navigate = true);
+    QString findControlEngineAnalysisRoot(const QString &basePath) const;
 
     // 构造函数初始化方法
     void setupMainWindow();
@@ -197,8 +199,6 @@ private:
     SearchResultTextView *searchResultView;
     QPushButton *clearSearchButton;
     QPushButton *closeSearchButton;
-    DockToggleButton *toggleBtn;
-    DockToggleButton *fileBrowserToggleBtn;
     // ==================== 中心控件 ====================
     QPlainTextEdit *logView;
     // ==================== 状态栏控件 ====================
