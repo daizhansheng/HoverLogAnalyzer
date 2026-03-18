@@ -2982,6 +2982,101 @@ void PressAnalyzer::loadAndAnalyzeLogs()
 
 void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
 {
+    // 在"分析Control Engine日志"场景下：仅在当前目录的下一级（直接子目录）查找 system_log
+    {
+        auto findChildSystemLog = [](const QString &base) -> QString {
+            QDir dir(base);
+            // 当前目录本身
+            if (dir.exists("system_log")) return dir.absoluteFilePath("system_log");
+            // 直接子目录
+            QFileInfoList level1 = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+            for (const QFileInfo &d1 : level1) {
+                QDir dir1(d1.absoluteFilePath());
+                if (dir1.exists("system_log")) return dir1.absoluteFilePath("system_log");
+            }
+            return QString();
+        };
+
+        auto parseUserLogHeaderCE = [this](const QString &userLogPath){
+            QFile file(userLogPath);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+            QTextStream in(&file);
+            in.setCodec("UTF-8");
+            QString imageVer, ipkVer, sn, hwid;
+            QString prevLine;
+            int linesRead = 0;
+            while (!in.atEnd() && linesRead < 400) {
+                QString line = in.readLine();
+                ++linesRead;
+                QString l = line.trimmed();
+                if (prevLine.contains("image verison", Qt::CaseInsensitive)) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l);
+                    if (m.hasMatch()) imageVer = m.captured(1); else imageVer = l;
+                }
+                if (prevLine.contains("ipk version", Qt::CaseInsensitive)) {
+                    QRegularExpression reVer(R"(Version:\s*([0-9][0-9\.]*))",
+                                             QRegularExpression::CaseInsensitiveOption);
+                    auto m = reVer.match(l);
+                    if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
+                }
+                if (prevLine.contains("hover.sn", Qt::CaseInsensitive)) {
+                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reSn.match(l);
+                    if (m.hasMatch()) sn = m.captured(1);
+                }
+                if (prevLine.contains("hardware id", Qt::CaseInsensitive)) {
+                    if (!l.isEmpty()) hwid = l;
+                }
+                if (imageVer.isEmpty()) {
+                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reZZ.match(l);
+                    if (m.hasMatch()) imageVer = m.captured(1);
+                }
+                if (ipkVer.isEmpty()) {
+                    QRegularExpression reVer(R"(Version:\s*([0-9][0-9\.]*))",
+                                             QRegularExpression::CaseInsensitiveOption);
+                    auto m = reVer.match(l);
+                    if (m.hasMatch()) ipkVer = m.captured(1);
+                }
+                if (sn.isEmpty()) {
+                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))",
+                                            QRegularExpression::CaseInsensitiveOption);
+                    auto m = reSn.match(l);
+                    if (m.hasMatch()) sn = m.captured(1);
+                }
+                prevLine = l;
+                if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !sn.isEmpty() && !hwid.isEmpty()) break;
+            }
+            // 将解析到的 SN 写回成员变量，供窗口标题等使用
+            this->sn = sn;
+
+            QString info = QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
+                               .arg(imageVer.isEmpty() ? "-" : imageVer)
+                               .arg(ipkVer.isEmpty() ? "-" : ipkVer)
+                               .arg(sn.isEmpty() ? "-" : sn)
+                               .arg(hwid.isEmpty() ? "-" : hwid);
+            version = imageVer.mid(0,4);
+            if (statusInfoLabel) statusInfoLabel->setText(info);
+        };
+
+        QString syslogDir = findChildSystemLog(path);
+        if (!syslogDir.isEmpty()) {
+            QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
+            QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
+            if (QFileInfo::exists(userLog)) {
+                parseUserLogHeaderCE(userLog);
+            } else if (QFileInfo::exists(userLogZip)) {
+                if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
+                    parseUserLogHeaderCE(userLog);
+                }
+            }
+        }
+    }
+
     // 减少大文件解析时的界面重绘
     logView->setUpdatesEnabled(false);
     QSignalBlocker blocker1(eventList);
@@ -3341,13 +3436,16 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
     QVBoxLayout *layout = new QVBoxLayout(&dialog);
 
     // 添加说明标签
-    QLabel *label = new QLabel("请选择要显示的文件（支持多选，按选择顺序显示）:");
+    QLabel *label = new QLabel("请选择要显示的文件（支持多选，按点击顺序显示，再次点击取消选择）:");
     layout->addWidget(label);
 
-    // 创建文件列表，支持多选
+    // 创建文件列表，禁用系统多选，由点击事件手动管理选择顺序
     QListWidget *fileList = new QListWidget();
-    fileList->setSelectionMode(QAbstractItemView::MultiSelection);
+    fileList->setSelectionMode(QAbstractItemView::NoSelection);
     layout->addWidget(fileList);
+
+    // 用于记录按点击顺序排列的文件路径
+    QStringList *clickOrderFiles = new QStringList();
 
     // 添加文件到列表，显示文件名和大小
     for (const QString &filePath : allFiles) {
@@ -3361,8 +3459,45 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
         QString displayText = QString("%1 (%2)").arg(fileName).arg(sizeStr);
         QListWidgetItem *item = new QListWidgetItem(displayText);
         item->setData(Qt::UserRole, filePath); // 存储完整路径
+        // 用 Qt::UserRole+1 存储选择序号（0 = 未选）
+        item->setData(Qt::UserRole + 1, 0);
         fileList->addItem(item);
     }
+
+    // 点击时按序号管理选择顺序
+    connect(fileList, &QListWidget::itemClicked, [fileList, clickOrderFiles](QListWidgetItem *item){
+        QString filePath = item->data(Qt::UserRole).toString();
+        int currentOrder = item->data(Qt::UserRole + 1).toInt();
+
+        if (currentOrder > 0) {
+            // 已选中 -> 取消选择，移出列表，并更新其他项的序号
+            clickOrderFiles->removeAll(filePath);
+            item->setData(Qt::UserRole + 1, 0);
+            item->setBackground(QBrush());
+            item->setText(item->text().left(item->text().lastIndexOf(" [")));
+            // 重新编号剩余选中项
+            for (int i = 0; i < fileList->count(); ++i) {
+                QListWidgetItem *it = fileList->item(i);
+                int ord = it->data(Qt::UserRole + 1).toInt();
+                if (ord > 0) {
+                    int newOrd = clickOrderFiles->indexOf(it->data(Qt::UserRole).toString()) + 1;
+                    it->setData(Qt::UserRole + 1, newOrd);
+                    // 更新显示文本中的序号标记
+                    QString baseText = it->text();
+                    int bracketPos = baseText.lastIndexOf(" [");
+                    if (bracketPos >= 0) baseText = baseText.left(bracketPos);
+                    it->setText(QString("%1 [%2]").arg(baseText).arg(newOrd));
+                }
+            }
+        } else {
+            // 未选中 -> 追加到选择列表
+            clickOrderFiles->append(filePath);
+            int order = clickOrderFiles->size();
+            item->setData(Qt::UserRole + 1, order);
+            item->setBackground(QBrush(QColor(173, 216, 230))); // 浅蓝色背景
+            item->setText(QString("%1 [%2]").arg(item->text()).arg(order));
+        }
+    });
 
     // 添加按钮
     QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -3378,20 +3513,13 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
 
     // 显示对话框
     if (dialog.exec() == QDialog::Accepted) {
-        // 获取选中的文件，按选择顺序
-        QStringList selectedFiles;
-        for (int i = 0; i < fileList->count(); ++i) {
-            QListWidgetItem *item = fileList->item(i);
-            if (item->isSelected()) {
-                QString filePath = item->data(Qt::UserRole).toString();
-                selectedFiles.append(filePath);
-            }
-        }
-
-        if (!selectedFiles.isEmpty()) {
-            loadSelectedFilesInOrder(selectedFiles);
+        // 按点击顺序加载文件
+        if (!clickOrderFiles->isEmpty()) {
+            loadSelectedFilesInOrder(*clickOrderFiles);
         }
     }
+
+    delete clickOrderFiles;
 
     // 恢复界面更新
     logView->setUpdatesEnabled(true);
