@@ -42,8 +42,8 @@ endif()
 # --- 3. 查找 Qt 组件 ---
 # 注意：你的文件名包含 Chart，如果你使用了 QtCharts，必须在这里加上 Charts
 # 如果没有用 Charts 模块，请删除 "Charts" 字样
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Charts)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Charts)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Charts Sql)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Charts Sql)
 
 # --- 4. 源文件列表 (基于你提供的 ls 输出) ---
 set(PROJECT_SOURCES
@@ -115,6 +115,7 @@ endif()
 target_link_libraries(HoverLogAnalyzer PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Charts
+    Qt${QT_VERSION_MAJOR}::Sql
 )
 
 # --- 7. 属性设置 ---

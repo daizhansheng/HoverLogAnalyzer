@@ -44,6 +44,10 @@ protected:
 #include <QTreeView>
 #include <QFileSystemModel>
 #include <QDir>
+#include <QTableView>
+#include <QSqlDatabase>
+#include <QSqlTableModel>
+#include <QStackedWidget>
 
 class QStandardItemModel;
 
@@ -174,6 +178,10 @@ private:
     void setupSearchCompleter();
     void applyButtonStyles();
     void applySavedFonts();
+    // DB Viewer
+    void setupDbViewerDock();
+    void openDatabaseFile(const QString &filePath);
+    void loadDbTable(const QString &tableName);
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *analyzeControlButton;  // 专用分析按钮
@@ -201,6 +209,7 @@ private:
     QPushButton *closeSearchButton;
     // ==================== 中心控件 ====================
     QPlainTextEdit *logView;
+    QStackedWidget *centralStack;   // 0=logView, 1=dbViewerWidget
     // ==================== 状态栏控件 ====================
     QStatusBar *statusBar;          // 状态栏
     QLabel *statusPathLabel;        // 左侧：路径/状态
@@ -252,6 +261,14 @@ private:
     QFileSystemModel *fileSystemModel;
     QPushButton *fileBrowserButton;   // 工具栏按钮
     QString fileBrowserRootPath;       // 当前浏览根目录
+
+    // ==================== DB Viewer ====================
+    QWidget *dbViewerWidget;       // DB查看器页面（作为centralStack的第1页）
+    QListWidget *dbTableList;
+    QTableView *dbTableView;
+    QSqlDatabase currentDb;
+    QSqlTableModel *dbTableModel = nullptr;
+    QString currentDbPath;
 
     // 文本缩放：当前字体大小
     int logFontPointSize;
