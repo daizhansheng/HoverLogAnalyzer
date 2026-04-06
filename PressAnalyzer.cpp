@@ -28,6 +28,8 @@
 #include <QApplication>
 #include <QThread>
 #include <QEventLoop>
+#include <QProgressBar>
+#include "LogParserWorker.h"
 #include <QScrollBar>
 #include <QChar>
 #include <functional>
@@ -58,6 +60,11 @@
 #include <QStyledItemDelegate>
 #include <QClipboard>
 #include <QScrollArea>
+
+// 前向声明：定义在本文件下方的 static helper
+static void startBackgroundParseHelper(PressAnalyzer *self,
+                                        LogParserWorker *worker,
+                                        QThread *thread);
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -211,6 +218,9 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1),
       fileBrowserDock(nullptr), fileBrowserTree(nullptr), fileSystemModel(nullptr), fileBrowserButton(nullptr)
 {
+    // 注册跨线程 signal/slot 所需的自定义类型
+    qRegisterMetaType<ParseResult>("ParseResult");
+
     // 初始化成员变量
     triggerCount = 0;
     flightCount = 0;
@@ -801,14 +811,9 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     // 切换到日志视图页
     centralStack->setCurrentIndex(0);
 
-    // 减少大文件解析时的界面重绘
-    logView->setUpdatesEnabled(false);
-    QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultView);
-    QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(heartbeatLostEventList);
-
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
+
+    // 清空之前的数据
     allLogLines.clear();
     allEvents.clear();
     cameraEvents.clear();
@@ -826,109 +831,25 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     triggerCount = 0;
     flightCount = 0;
 
-    // 查找 system_log 并解析版本信息
-    {
-        auto climbToSystemLog = [](QDir dir) -> QString {
-            QDir cur = dir;
-            while (true) {
-                if (cur.dirName() == QStringLiteral("system_log")) return cur.absolutePath();
-                QDir up = cur; if (!up.cdUp()) break; cur = up;
-            }
-            return QString();
-        };
-        auto findSiblingSystemLog = [](const QString &baseDir) -> QString {
-            QDir d(baseDir);
-            if (d.exists("system_log")) return d.absoluteFilePath("system_log");
-            QDir parent(baseDir); if (parent.cdUp() && parent.exists("system_log")) return parent.absoluteFilePath("system_log");
-            return QString();
-        };
-        auto parseHeader = [this](const QString &userLogPath){
-            QFile f(userLogPath); if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-            QTextStream in(&f); in.setCodec("UTF-8");
-            QString imageVer, ipkVer, snLocal, hwid, prev; int lines = 0;
-            while (!in.atEnd() && lines < 400) {
-                QString l = in.readLine().trimmed(); ++lines;
-                if (prev.contains("image verison", Qt::CaseInsensitive)) {
-                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reZZ.match(l);
-                    if (m.hasMatch()) imageVer = m.captured(1); else imageVer = l;
-                }
-                if (prev.contains("ipk version", Qt::CaseInsensitive)) {
-                    QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
-                }
-                if (prev.contains("hover.sn", Qt::CaseInsensitive)) {
-                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reSn.match(l);
-                    if (m.hasMatch()) snLocal = m.captured(1);
-                }
-                if (prev.contains("hardware id", Qt::CaseInsensitive)) { if (!l.isEmpty()) hwid = l; }
-                if (imageVer.isEmpty()) {
-                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reZZ.match(l); if (m.hasMatch()) imageVer = m.captured(1);
-                }
-                if (ipkVer.isEmpty()) { QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption); auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); }
-                if (snLocal.isEmpty()) { QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption); auto m = reSn.match(l); if (m.hasMatch()) snLocal = m.captured(1); }
-                prev = l; if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !snLocal.isEmpty() && !hwid.isEmpty()) break;
-            }
-            sn = snLocal;
-            version = imageVer.mid(0,4);
-            if (statusInfoLabel) statusInfoLabel->setText(QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
-                .arg(imageVer.isEmpty()?"-":imageVer).arg(ipkVer.isEmpty()?"-":ipkVer)
-                .arg(snLocal.isEmpty()?"-":snLocal).arg(hwid.isEmpty()?"-":hwid));
-        };
-        QFileInfo fi(filePath); QString dirPath = fi.absolutePath();
-        QString syslogDir = climbToSystemLog(QDir(dirPath));
-        if (syslogDir.isEmpty()) syslogDir = findSiblingSystemLog(dirPath);
-        if (!syslogDir.isEmpty()) {
-            QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
-            QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
-            if (QFileInfo::exists(userLog)) parseHeader(userLog);
-            else if (QFileInfo::exists(userLogZip)) {
-                if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
-                    parseHeader(userLog);
-                }
-            }
-        }
-    }
-
-    QString textBuffer;
-    int lineNumber = 0;
-
-    QDateTime currentTakeoffTime;
-    bool inRecvException = false;
-    QStringList recvExceptionLines;
-    if (!analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
-                              inRecvException, recvExceptionLines, true)) {
-        logView->setUpdatesEnabled(true);
-        return;
-    }
-
-    logView->setPlainText(textBuffer);
-    highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
-    batteryChart->setData(batteryinfo);
-    cameraTempChart->setData(cameraTemps);
-    socChart->clear();
-    socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
-                   .arg(sn.isEmpty() ? QString("-") : sn)
-                   .arg(triggerCount)
-                   .arg(flightCount));
-
-    // 解析cpu/mem占用率
+    // 查找 top 文件路径（单文件模式）
     auto getTopFilePath = [](const QString &selectedFilePath) -> QString {
         QFileInfo fi(selectedFilePath);
         QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
         topPath = QFileInfo(topPath).canonicalFilePath();
         return topPath;
     };
-
     QString topFilePath = getTopFilePath(filePath);
-    parseTopFile(topFilePath);
-    usageChart->setData(allusage);
+    m_pendingTopLogs.clear();
+    if (!topFilePath.isEmpty() && QFileInfo::exists(topFilePath))
+        m_pendingTopLogs << topFilePath;
 
-    logView->setUpdatesEnabled(true);
+    // ---- 启动后台解析线程 ----
+    m_parseWorker = new LogParserWorker();
+    m_parseWorker->setFiles(QStringList() << filePath);
+    m_parseWorker->setVersion(version);
+
+    m_parseThread = new QThread(this);
+    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
 void PressAnalyzer::setupToolBar()
@@ -1159,6 +1080,14 @@ void PressAnalyzer::setupStatusBar()
     statusPathLabel = new QLabel(this);
     statusPathLabel->setText("就绪");
     statusBar->addWidget(statusPathLabel, 1); // 左侧可变信息：路径/进度
+
+    // 解析进度条（默认隐藏，解析时显示）
+    m_progressBar = new QProgressBar(this);
+    m_progressBar->setRange(0, 100);
+    m_progressBar->setTextVisible(true);
+    m_progressBar->setFixedWidth(160);
+    m_progressBar->hide();
+    statusBar->addWidget(m_progressBar);
 
     statusInfoLabel = new QLabel(this);
     statusInfoLabel->setText("");
@@ -2028,8 +1957,19 @@ void PressAnalyzer::setupConnections()
         }
     });
     connect(heartbeatLostEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
-    // 文本改变（例如跳转/选择变动）后也刷新一次可见黄色
-    connect(logView, &QPlainTextEdit::cursorPositionChanged, this, [this](){ updateVisibleHighlights(); });
+    // 文本改变（例如跳转/选择变动）后也刷新一次可见黄色（节流 50ms）
+    {
+        static QTimer *cursorTimer = nullptr;
+        if (!cursorTimer) {
+            cursorTimer = new QTimer(this);
+            cursorTimer->setSingleShot(true);
+            cursorTimer->setInterval(50);
+            connect(cursorTimer, &QTimer::timeout, this, [this](){ updateVisibleHighlights(); });
+        }
+        connect(logView, &QPlainTextEdit::cursorPositionChanged, this, [this](){
+            if (cursorTimer) cursorTimer->start();
+        });
+    }
     // 滚动节流：按可见区域增量更新搜索高亮
     connect(logView->verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int){
         static QTimer t; static bool inited = false;
@@ -2795,24 +2735,188 @@ void PressAnalyzer::analyzeLogLine(const QString &line,
 }
 
 // loadAndAnalyzeLog 保持之前逻辑
+// ============================================================
+// 后台解析公共辅助：连接信号并启动线程
+// ============================================================
+static void startBackgroundParseHelper(PressAnalyzer *self,
+                                        LogParserWorker *worker,
+                                        QThread *thread)
+{
+    worker->moveToThread(thread);
+    QObject::connect(thread,  &QThread::started,
+                     worker,  &LogParserWorker::run);
+    QObject::connect(worker,  &LogParserWorker::progressChanged,
+                     self,    &PressAnalyzer::onParseProgress,
+                     Qt::QueuedConnection);
+    QObject::connect(worker,  &LogParserWorker::parseFinished,
+                     self,    &PressAnalyzer::onParseFinished,
+                     Qt::QueuedConnection);
+    QObject::connect(worker,  &LogParserWorker::parseError,
+                     self,    [self](const QString &msg){
+                         QMessageBox::warning(self, "解析错误", msg);
+                     },
+                     Qt::QueuedConnection);
+    // 线程结束后自动清理
+    QObject::connect(thread,  &QThread::finished,
+                     worker,  &QObject::deleteLater);
+    QObject::connect(thread,  &QThread::finished,
+                     thread,  &QObject::deleteLater);
+    thread->start();
+}
+
+// ============================================================
+// 解析进度槽：更新状态栏
+// ============================================================
+void PressAnalyzer::onParseProgress(int percent, const QString &statusText)
+{
+    if (m_progressBar) {
+        m_progressBar->show();
+        m_progressBar->setValue(percent);
+    }
+    if (statusPathLabel) statusPathLabel->setText(statusText);
+}
+
+// ============================================================
+// 解析完成槽：将 ParseResult 分发到各 UI 控件
+// ============================================================
+void PressAnalyzer::onParseFinished(ParseResult result)
+{
+    // 清理线程对象（已通过 deleteLater 连接，无需手动 delete）
+    m_parseThread = nullptr;
+    m_parseWorker = nullptr;
+
+    if (m_progressBar) m_progressBar->hide();
+
+    // -------- 同步解析结果到成员变量 --------
+    allLogLines    = result.allLogLines;
+    triggerCount   = result.triggerCount;
+    flightCount    = result.flightCount;
+    batteryinfo    = result.batteryinfo;
+    cameraTemps    = result.cameraTemps;
+    soctmp         = result.soctmp;
+    if (!result.sn.isEmpty()) {
+        sn = result.sn;
+        if (statusInfoLabel) {
+            QString info = QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
+                .arg(result.imageVer.isEmpty() ? "-" : result.imageVer)
+                .arg(result.ipkVer.isEmpty()   ? "-" : result.ipkVer)
+                .arg(result.sn.isEmpty()        ? "-" : result.sn)
+                .arg(result.hwid.isEmpty()      ? "-" : result.hwid);
+            statusInfoLabel->setText(info);
+        }
+        if (!result.version.isEmpty()) version = result.version;
+    }
+
+    // -------- 先 setPlainText，再给 EventItem.block 赋值 --------
+    logView->setUpdatesEnabled(false);
+    logView->setPlainText(result.textBuffer);
+
+    // -------- 拆分事件到各自列表（block 赋值必须在 setPlainText 之后）--------
+    allEvents.clear();
+    cameraEvents.clear();
+    statusEvents.clear();
+    eventList->clear();
+    cameraEventList->clear();
+    heartbeatLostEventList->clear();
+
+    for (const ParsedEventItem &ev : result.events) {
+        if (ev.eventCategory == "camera") {
+            QListWidgetItem *item = new QListWidgetItem(ev.display);
+            int startBracket = ev.display.indexOf('[');
+            int endBracket   = ev.display.indexOf(']', startBracket);
+            QString note = (startBracket >= 0 && endBracket > startBracket)
+                               ? ev.display.mid(startBracket + 1, endBracket - startBracket - 1)
+                               : "";
+            QColor bg;
+            if (note == "close")      bg = QColor(169,169,169);
+            else if (note == "init")  bg = QColor(211,211,211);
+            else if (note.contains("recording")) bg = Qt::red;
+            else if (note.contains("stream") && note.contains("preview")) bg = QColor(255,165,0);
+            else if (note.contains("stream"))    bg = Qt::green;
+            else if (note.contains("preview"))   bg = Qt::yellow;
+            else if (note.contains("snapshot"))  bg = Qt::cyan;
+            else                                 bg = Qt::white;
+            item->setBackground(bg);
+            cameraEventList->addItem(item);
+
+            EventItem camEv;
+            camEv.lineNumber = ev.lineNumber;
+            camEv.display    = ev.display;
+            camEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            cameraEvents.push_back(camEv);
+
+        } else if (ev.eventCategory == "heartbeat") {
+            QListWidgetItem *item = new QListWidgetItem(ev.display);
+            item->setBackground(QColor(255, 182, 193));
+            heartbeatLostEventList->addItem(item);
+
+            EventItem stEv;
+            stEv.lineNumber = ev.lineNumber;
+            stEv.display    = ev.display;
+            stEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            statusEvents.push_back(stEv);
+
+        } else {
+            // "main" 事件 — 直接填充，确保 block 在 setPlainText 之后赋值
+            QList<QColor> bgColors = {
+                QColor("#FFCCCC"), QColor("#CCE5FF"), QColor("#CCFFCC"),
+                QColor("#FFF2CC"), QColor("#E5CCFF"), QColor("#FFCCE5"),
+                QColor("#CCE5FF"), QColor("#CCFFE5"), QColor("#FFE5CC"), QColor("#CCFFFF")
+            };
+            int colorIndex = ev.triggerCount % bgColors.size();
+            QListWidgetItem *item = new QListWidgetItem(ev.display);
+            item->setBackground(bgColors[colorIndex]);
+            eventList->addItem(item);
+
+            EventItem mainEv;
+            mainEv.lineNumber = ev.lineNumber;
+            mainEv.display    = ev.display;
+            mainEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            allEvents.push_back(mainEv);
+
+            if (eventList->count() == 1) {
+                eventDock->show();
+                eventDock->raise();
+            }
+        }
+    }
+
+    // -------- 高亮与 UI 更新 --------
+    highlightAllEvents();
+    logView->setUpdatesEnabled(true);
+
+    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
+    batteryChart->setData(batteryinfo);
+    cameraTempChart->setData(cameraTemps);
+    socChart->clear();
+    socChart->addData(soctmp);
+    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
+                       .arg(sn.isEmpty() ? QString("-") : sn)
+                       .arg(triggerCount)
+                       .arg(flightCount));
+
+    // 解析 top_log（这些文件通常较小，同步即可）
+    for (const QString &fp : m_pendingTopLogs)
+        parseTopFile(fp);
+    usageChart->setData(allusage);
+    m_pendingTopLogs.clear();
+
+    if (statusPathLabel) statusPathLabel->setText("解析完成");
+}
+
 void PressAnalyzer::loadAndAnalyzeLog()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "选择日志文件", "", "日志文件 (*.txt *.log *.hlog);;所有文件 (*)");
     if (filePath.isEmpty()) return;
 
-    // 减少大文件解析时的界面重绘
-    logView->setUpdatesEnabled(false);
-    QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultView);
-    QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(heartbeatLostEventList);
-
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
+
+    // 清空之前的数据
     allLogLines.clear();
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
-    eventDock->hide(); // 清空后隐藏eventDock
+    eventDock->hide();
     heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
@@ -2825,121 +2929,25 @@ void PressAnalyzer::loadAndAnalyzeLog()
     triggerCount = 0;
     flightCount = 0;
 
-    // 依据已选文件查找 system_log（当前目录的上溯链或同级），解析 user.log 填充右侧版本信息
-    {
-        auto climbToSystemLog = [](QDir dir) -> QString {
-            QDir cur = dir;
-            while (true) {
-                if (cur.dirName() == QStringLiteral("system_log")) return cur.absolutePath();
-                QDir up = cur; if (!up.cdUp()) break; cur = up;
-            }
-            return QString();
-        };
-        auto findSiblingSystemLog = [](const QString &baseDir) -> QString {
-            QDir d(baseDir);
-            if (d.exists("system_log")) return d.absoluteFilePath("system_log");
-            QDir parent(baseDir); if (parent.cdUp() && parent.exists("system_log")) return parent.absoluteFilePath("system_log");
-            return QString();
-        };
-        auto parseHeader = [this](const QString &userLogPath){
-            QFile f(userLogPath); if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-            QTextStream in(&f); in.setCodec("UTF-8");
-            QString imageVer, ipkVer, snLocal, hwid, prev; int lines = 0;
-            while (!in.atEnd() && lines < 400) {
-                QString l = in.readLine().trimmed(); ++lines;
-                if (prev.contains("image verison", Qt::CaseInsensitive)) {
-                    // 目标：从 zz.product.version=ZZ_IMG_H141B_V8.0.17 提取 H141B_V8.0.17
-                    // 允许字母数字、下划线与点
-                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reZZ.match(l);
-                    if (m.hasMatch()) imageVer = m.captured(1); else imageVer = l;
-                }
-                if (prev.contains("ipk version", Qt::CaseInsensitive)) {
-                    QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); else ipkVer = l;
-                }
-                if (prev.contains("hover.sn", Qt::CaseInsensitive)) {
-                    // 仅在匹配到“hover=”时才设置 SN，忽略诸如 board=... 的行
-                    QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reSn.match(l);
-                    if (m.hasMatch()) snLocal = m.captured(1);
-                }
-                if (prev.contains("hardware id", Qt::CaseInsensitive)) { if (!l.isEmpty()) hwid = l; }
-                if (imageVer.isEmpty()) {
-                    QRegularExpression reZZ(R"(zz\.product\.version=\s*ZZ_IMG_([A-Za-z0-9_\.]+))", QRegularExpression::CaseInsensitiveOption);
-                    auto m = reZZ.match(l); if (m.hasMatch()) imageVer = m.captured(1);
-                }
-                if (ipkVer.isEmpty()) { QRegularExpression reV(R"(Version:\s*([0-9][0-9\.]*))", QRegularExpression::CaseInsensitiveOption); auto m = reV.match(l); if (m.hasMatch()) ipkVer = m.captured(1); }
-                if (snLocal.isEmpty()) { QRegularExpression reSn(R"(hover\s*=\s*([A-Za-z0-9]+))", QRegularExpression::CaseInsensitiveOption); auto m = reSn.match(l); if (m.hasMatch()) snLocal = m.captured(1); }
-                prev = l; if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !snLocal.isEmpty() && !hwid.isEmpty()) break;
-            }
-            sn = snLocal; // 覆盖全局 SN
-            version = imageVer.mid(0,4);
-            if (statusInfoLabel) statusInfoLabel->setText(QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
-                .arg(imageVer.isEmpty()?"-":imageVer).arg(ipkVer.isEmpty()?"-":ipkVer)
-                .arg(snLocal.isEmpty()?"-":snLocal).arg(hwid.isEmpty()?"-":hwid));
-        };
-        QFileInfo fi(filePath); QString dirPath = fi.absolutePath();
-        QString syslogDir = climbToSystemLog(QDir(dirPath));
-        if (syslogDir.isEmpty()) syslogDir = findSiblingSystemLog(dirPath);
-        if (!syslogDir.isEmpty()) {
-            QString userLog = QDir(syslogDir).absoluteFilePath("user.log");
-            QString userLogZip = QDir(syslogDir).absoluteFilePath("user.log.zip");
-            if (QFileInfo::exists(userLog)) parseHeader(userLog);
-            else if (QFileInfo::exists(userLogZip)) {
-                if (extractZipFile(userLogZip, syslogDir) && waitForFile(userLog)) {
-                    parseHeader(userLog);
-                }
-            }
-        }
-    }
-
-    QString textBuffer;
-    int lineNumber = 0;
-
-    QDateTime currentTakeoffTime;
-    bool inRecvException = false;
-    QStringList recvExceptionLines;
-
-    if (!analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
-                              inRecvException, recvExceptionLines, true)) {
-        logView->setUpdatesEnabled(true);
-        return;
-    }
-
-    logView->setPlainText(textBuffer);
-    // 首次统一高亮一次，点击时不再重复全量高亮
-    highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
-    batteryChart->setData(batteryinfo);
-    cameraTempChart->setData(cameraTemps);
-    socChart->clear();
-    socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
-                   .arg(sn.isEmpty() ? QString("-") : sn)
-                   .arg(triggerCount)
-                   .arg(flightCount));
-
-    //解析cpu/mem占用率，绘制图案
-    // getTopFilePath lambda 函数
+    // 查找 top 文件路径（单文件模式）
     auto getTopFilePath = [](const QString &selectedFilePath) -> QString {
-        // 假设 top 日志都在 ../system_log/top_log/ 下
-        // 获取文件名
         QFileInfo fi(selectedFilePath);
-
-        // 构造 top 文件路径
         QString topPath = fi.absolutePath() + "/../system_log/top_log/top.1.log";
         topPath = QFileInfo(topPath).canonicalFilePath();
         return topPath;
     };
-
     QString topFilePath = getTopFilePath(filePath);
-    parseTopFile(topFilePath);
+    m_pendingTopLogs.clear();
+    if (!topFilePath.isEmpty() && QFileInfo::exists(topFilePath))
+        m_pendingTopLogs << topFilePath;
 
-    usageChart->setData(allusage);
+    // ---- 启动后台解析线程 ----
+    m_parseWorker = new LogParserWorker();
+    m_parseWorker->setFiles(QStringList() << filePath);
+    m_parseWorker->setVersion(version);
 
-    // 解析完成后恢复更新
-    logView->setUpdatesEnabled(true);
+    m_parseThread = new QThread(this);
+    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
 // ==================== 字体设置功能 ====================
@@ -3166,9 +3174,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     {
         auto findChildSystemLog = [](const QString &base) -> QString {
             QDir dir(base);
-            // 当前目录本身
             if (dir.exists("system_log")) return dir.absoluteFilePath("system_log");
-            // 直接子目录
             QFileInfoList level1 = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
             for (const QFileInfo &d1 : level1) {
                 QDir dir1(d1.absoluteFilePath());
@@ -3231,9 +3237,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
                 prevLine = l;
                 if (!imageVer.isEmpty() && !ipkVer.isEmpty() && !sn.isEmpty() && !hwid.isEmpty()) break;
             }
-            // 将解析到的 SN 写回成员变量，供窗口标题等使用
             this->sn = sn;
-
             QString info = QString("Image:%1 | IPK:%2 | SN:%3 | HW:%4")
                                .arg(imageVer.isEmpty() ? "-" : imageVer)
                                .arg(ipkVer.isEmpty() ? "-" : ipkVer)
@@ -3257,13 +3261,6 @@ void PressAnalyzer::loadAndAnalyzeLogs()
         }
     }
 
-    // 减少大文件解析时的界面重绘
-    logView->setUpdatesEnabled(false);
-    QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultView);
-    QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(heartbeatLostEventList);
-
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
@@ -3281,7 +3278,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
         controlLogs << info.filePath();
     }
 
-    // ---------------- 公共解析部分 ----------------
+    // ---------------- 清空之前的数据 ----------------
     allLogLines.clear();
     allEvents.clear();
     cameraEvents.clear();
@@ -3298,38 +3295,15 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     triggerCount = 0;
     flightCount = 0;
 
-    int lineNumber = 0;
-    QDateTime currentTakeoffTime;
-    QString textBuffer;
-    bool inRecvException = false;
-    QStringList recvExceptionLines;
+    // ---- 启动后台解析线程 ----
+    m_pendingTopLogs = topLogs;
 
-    for (const QString &filePath : controlLogs) {
-        analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
-                             inRecvException, recvExceptionLines, false);
-    }
+    m_parseWorker = new LogParserWorker();
+    m_parseWorker->setFiles(controlLogs);
+    m_parseWorker->setVersion(version);
 
-
-    logView->setPlainText(textBuffer);
-    // 首次统一高亮一次，点击时不再重复全量高亮
-    highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
-    batteryChart->setData(batteryinfo);
-    cameraTempChart->setData(cameraTemps);
-    socChart->clear();
-    socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
-                   .arg(sn.isEmpty() ? QString("-") : sn)
-                   .arg(triggerCount)
-                   .arg(flightCount));
-    // 分开解析 top_log
-    for (const QString &filePath : topLogs) {
-        parseTopFile(filePath);
-    }
-    usageChart->setData(allusage);
-
-    // 解析完成后恢复更新
-    logView->setUpdatesEnabled(true);
+    m_parseThread = new QThread(this);
+    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
 void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
@@ -3433,11 +3407,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     }
 
     // 减少大文件解析时的界面重绘
-    logView->setUpdatesEnabled(false);
-    QSignalBlocker blocker1(eventList);
-    QSignalBlocker blocker2(searchResultView);
-    QSignalBlocker blocker3(cameraEventList);
-    QSignalBlocker blocker4(heartbeatLostEventList);
+    // (blockers removed: parsing is now done in background thread)
 
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
@@ -3456,7 +3426,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
         controlLogs << info.filePath();
     }
 
-    // ---------------- 公共解析部分 ----------------
+    // ---------------- 清空之前的数据 ----------------
     allLogLines.clear();
     allEvents.clear();
     cameraEvents.clear();
@@ -3473,36 +3443,15 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     triggerCount = 0;
     flightCount = 0;
 
-    int lineNumber = 0;
-    QDateTime currentTakeoffTime;
-    QString textBuffer;
-    bool inRecvException = false;
-    QStringList recvExceptionLines;
+    // ---- 启动后台解析线程 ----
+    m_pendingTopLogs = topLogs;
 
-    for (const QString &filePath : controlLogs) {
-        analyzeLogSourceFile(filePath, lineNumber, currentTakeoffTime, textBuffer,
-                             inRecvException, recvExceptionLines, false);
-    }
+    m_parseWorker = new LogParserWorker();
+    m_parseWorker->setFiles(controlLogs);
+    m_parseWorker->setVersion(version);
 
-    logView->setPlainText(textBuffer);
-    // 首次统一高亮一次，点击时不再重复全量高亮
-    highlightAllEvents();
-    titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
-    batteryChart->setData(batteryinfo);
-    socChart->clear();
-    socChart->addData(soctmp);
-    setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
-                   .arg(sn.isEmpty() ? QString("-") : sn)
-                   .arg(triggerCount)
-                   .arg(flightCount));
-    // 分开解析 top_log
-    for (const QString &filePath : topLogs) {
-        parseTopFile(filePath);
-    }
-    usageChart->setData(allusage);
-
-    // 解析完成后恢复更新
-    logView->setUpdatesEnabled(true);
+    m_parseThread = new QThread(this);
+    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
 QString PressAnalyzer::findControlEngineAnalysisRoot(const QString &basePath) const
@@ -4212,20 +4161,20 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
 
             QString lineText = block.text();
             for (int k = 0; k < keys.size(); ++k) {
-                QString pattern = QRegExp::escape(keys[k]);
-                QRegExp rx(pattern, Qt::CaseInsensitive);
-                int pos = 0;
-                while ((pos = rx.indexIn(lineText, pos)) != -1) {
+                QString pattern = QRegularExpression::escape(keys[k]);
+                QRegularExpression rx(pattern, QRegularExpression::CaseInsensitiveOption);
+                QRegularExpressionMatchIterator it = rx.globalMatch(lineText);
+                while (it.hasNext()) {
+                    QRegularExpressionMatch match = it.next();
                     QTextEdit::ExtraSelection sel;
                     sel.cursor = QTextCursor(block);
-                    sel.cursor.setPosition(block.position() + pos);
-                    sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, rx.cap(0).length());
+                    sel.cursor.setPosition(block.position() + match.capturedStart());
+                    sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, match.capturedLength());
                     QTextCharFormat fmt;
                     fmt.setBackground(colors[k]);
                     fmt.setForeground(Qt::black);
                     sel.format = fmt;
                     selections.push_back(sel);
-                    pos += rx.cap(0).length();
                 }
             }
         }

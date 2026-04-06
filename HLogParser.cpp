@@ -167,10 +167,112 @@ QList<HLogEntry> HLogParser::parseFromFile(const QString &filePath) {
         return QList<HLogEntry>();
     }
 
-    QByteArray data = file.readAll();
+    QList<HLogEntry> entries;
+    // 流式逐块读取，避免一次性 readAll 占用大量内存
+    static const int CHUNK_SIZE = 256 * 1024; // 256 KB per chunk
+
+    QString currentEntry;
+    bool inMultiLineEntry = false;
+    QString leftover; // 跨块的不完整行残留
+
+    while (!file.atEnd()) {
+        QByteArray chunk = file.read(CHUNK_SIZE);
+        if (chunk.isEmpty()) break;
+
+        // 将 chunk 字节转换为文本（与 parse() 逻辑一致）
+        QString text;
+        text.reserve(chunk.size());
+        for (int i = 0; i < chunk.size(); ++i) {
+            unsigned char ch = static_cast<unsigned char>(chunk[i]);
+            if (ch == '\n' || ch == '\r' || ch == '\t') {
+                text.append(QChar(ch));
+            } else if (ch >= 32) {
+                text.append(QChar(ch));
+            } else if (ch == 0) {
+                if (i > 0 && i < chunk.size() - 1) {
+                    unsigned char prev = static_cast<unsigned char>(chunk[i-1]);
+                    unsigned char next = static_cast<unsigned char>(chunk[i+1]);
+                    if (prev >= 32 && next >= 32)
+                        text.append(' ');
+                }
+            }
+        }
+
+        // 拼接上一次残留的不完整行
+        text = leftover + text;
+        leftover.clear();
+
+        // 若 chunk 末尾不是换行，把最后一行留到下一轮
+        int lastNewline = text.lastIndexOf('\n');
+        if (!file.atEnd() && lastNewline != text.size() - 1) {
+            leftover = text.mid(lastNewline + 1);
+            text     = text.left(lastNewline + 1);
+        }
+
+        // 逐行处理（与 parse() 里的状态机完全相同）
+        const QStringList lines = text.split('\n');
+        for (const QString &rawLine : lines) {
+            QString trimmedLine = rawLine.trimmed();
+
+            QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
+            bool hasLevelInfo = levelFilePattern.match(trimmedLine).hasMatch();
+
+            if (timestampMatch.hasMatch() || (hasLevelInfo && trimmedLine.contains(':'))) {
+                if (!currentEntry.isEmpty()) {
+                    HLogEntry entry;
+                    if (parseLogLine(currentEntry, entry))
+                        entries.append(entry);
+                }
+                currentEntry = trimmedLine;
+                inMultiLineEntry = true;
+            } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
+                if (trimmedLine.startsWith('[') && timestampPattern.match(trimmedLine).hasMatch()) {
+                    if (!currentEntry.isEmpty()) {
+                        HLogEntry entry;
+                        if (parseLogLine(currentEntry, entry))
+                            entries.append(entry);
+                    }
+                    currentEntry = trimmedLine;
+                } else {
+                    currentEntry += "\n" + trimmedLine;
+                }
+            } else if (!trimmedLine.isEmpty()) {
+                if (!currentEntry.isEmpty()) {
+                    HLogEntry entry;
+                    if (parseLogLine(currentEntry, entry))
+                        entries.append(entry);
+                }
+                currentEntry = trimmedLine;
+                inMultiLineEntry = false;
+            }
+        }
+    }
+
+    // 处理最后残留的不完整行（文件末尾无换行时）
+    if (!leftover.isEmpty()) {
+        QString trimmedLine = leftover.trimmed();
+        if (!trimmedLine.isEmpty()) {
+            if (!currentEntry.isEmpty()) {
+                currentEntry += "\n" + trimmedLine;
+            } else {
+                currentEntry = trimmedLine;
+            }
+        }
+    }
+
+    // 保存最后一个条目
+    if (!currentEntry.isEmpty()) {
+        HLogEntry entry;
+        if (parseLogLine(currentEntry, entry))
+            entries.append(entry);
+    }
+
     file.close();
 
-    return parse(data);
+    // 按时间戳排序
+    std::sort(entries.begin(), entries.end());
+
+    return entries;
 }
 
 QString HLogParser::entriesToText(const QList<HLogEntry> &entries) {

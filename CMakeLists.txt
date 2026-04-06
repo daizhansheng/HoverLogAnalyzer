@@ -67,6 +67,10 @@ set(PROJECT_SOURCES
     HLogParser.cpp
     HLogParser.h
 
+    # LogParserWorker (后台解析线程)
+    LogParserWorker.cpp
+    LogParserWorker.h
+
     # HLogBinaryParser
     HLogBinaryParser.cpp
     HLogBinaryParser.h

@@ -48,6 +48,9 @@ protected:
 #include <QSqlDatabase>
 #include <QSqlTableModel>
 #include <QStackedWidget>
+#include <QThread>
+#include <QProgressBar>
+#include "LogParserWorker.h"
 
 class QStandardItemModel;
 
@@ -90,6 +93,11 @@ private slots:
     void onSearchResultRowDoubleClicked(int row);
     void onCameraEventClicked(QListWidgetItem *item);
     void onStatusEventClicked(QListWidgetItem *item);
+
+public slots:
+    // 后台解析槽（需要 public 以便 static helper 函数通过函数指针连接）
+    void onParseFinished(ParseResult result);
+    void onParseProgress(int percent, const QString &statusText);
 private:
     // 日志解析
     void analyzeFile(const QString &filePath,
@@ -280,6 +288,12 @@ private:
 
     // 全局按钮点击状态跟踪
     bool anyFileButtonClicked;
+
+    // ==================== 后台解析线程 ====================
+    QThread         *m_parseThread  = nullptr;
+    LogParserWorker *m_parseWorker  = nullptr;
+    QProgressBar    *m_progressBar  = nullptr;   // 状态栏进度条
+    QStringList      m_pendingTopLogs;            // 等待解析的 top_log 列表
 };
 
 #endif // PRESSANALYZER_H
