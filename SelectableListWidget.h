@@ -2,7 +2,6 @@
 #define SELECTABLELISTWIDGET_H
 
 #include <QListWidget>
-#include <QTextEdit>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QKeyEvent>

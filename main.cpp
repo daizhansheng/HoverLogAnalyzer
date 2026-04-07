@@ -8,7 +8,6 @@
 #include <QWidget>
 #include <QList>
 #include <QIcon>
-#include <QGuiApplication>
 #include <QWindow>
 #endif
 

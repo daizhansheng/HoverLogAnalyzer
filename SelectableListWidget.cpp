@@ -1,6 +1,5 @@
 #include "SelectableListWidget.h"
 #include <QFontMetrics>
-#include <QScrollBar>
 
 SelectableListWidget::SelectableListWidget(QWidget *parent)
     : QListWidget(parent)

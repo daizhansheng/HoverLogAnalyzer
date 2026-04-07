@@ -81,7 +81,13 @@ set(PROJECT_SOURCES
     BatteryChartWidget.h
     CameraTempChartWidget.h
     ChartBaseWidget.h
+    ChartSearchDialog.h
+    ChartViewportMixin.h
     DockToggleButton.h
+    DynamicChartWidget.h
+    DynamicChartWindow.h
+    DynamicChartManager.h
+    EventTimelineWidget.h
     FlightAnimationWidget.h
     LogNumberHighlighter.h
     ModuleUsageChart.h

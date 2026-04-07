@@ -3,10 +3,8 @@
 
 #include <QString>
 #include <QByteArray>
-#include <QDateTime>
 #include <QList>
 #include <QIODevice>
-#include <QRegularExpression>
 #include "HLogParser.h"
 
 // .hlog 二进制格式解析器

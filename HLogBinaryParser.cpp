@@ -1,10 +1,7 @@
 #include "HLogBinaryParser.h"
 #include <QFile>
-#include <QDataStream>
 #include <QDebug>
 #include <QTextStream>
-#include <QRegularExpression>
-#include <QByteArray>
 
 HLogBinaryParser::HLogBinaryParser()
     : hlog_version_(0)

@@ -1,6 +1,5 @@
 #include "HLogParser.h"
 #include <QFile>
-#include <QTextStream>
 #include <QDebug>
 
 HLogParser::HLogParser() {

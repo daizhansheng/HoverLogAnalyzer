@@ -6,9 +6,11 @@
 #include <QPainter>
 #include <QMap>
 #include <QString>
-#include <QPolygon>
 #include <QMouseEvent>
+#include <QWheelEvent>
+#include "ChartBaseWidget.h"
 #include "ChartStyleManager.h"
+#include "ChartViewportMixin.h"
 
 // ================= 模块占用结构体 =================
 struct ModuleUsage {
@@ -67,18 +69,36 @@ public:
         moduleColors.clear();
         for (int i = 0; i < moduleNames.size(); ++i) {
             moduleVisible[moduleNames[i]] = false;
-            moduleColors[moduleNames[i]] = colors[i];  // 直接对应
+            moduleColors[moduleNames[i]] = colors[i];
         }
     }
 
     void setData(const QVector<AllModuleUsage> &data) {
         allData = data;
+        // Compute tMin/tMax and reset viewport
+        QDateTime mn, mx;
+        for (const auto &d : allData) {
+            if (!d.timestamp.isValid()) continue;
+            if (!mn.isValid() || d.timestamp < mn) mn = d.timestamp;
+            if (!mx.isValid() || d.timestamp > mx) mx = d.timestamp;
+        }
+        if (mn.isValid()) {
+            m_vp.setRange(mn, mx);
+            if (allData.size() >= 2) {
+                qint64 span = mn.msecsTo(mx);
+                qint64 interval = span / (allData.size() - 1);
+                m_vp.minWindowMs = qMax((qint64)500, interval * 3);
+            }
+        } else {
+            m_vp.clear();
+        }
         update();
     }
 
     QMap<QString,bool>& getModuleVisibility() { return moduleVisible; }
 
-    QColor getModuleColor(QString name){return moduleColors[name];}
+    QColor getModuleColor(QString name) { return moduleColors[name]; }
+
 protected:
     void paintEvent(QPaintEvent *) override {
         if (allData.isEmpty()) return;
@@ -87,30 +107,27 @@ protected:
         p.fillRect(rect(), ChartStyleManager::getChartBackground());
 
         auto layout = ChartStyleManager::getLayoutTheme();
-        const int marginLeft = layout.marginLeft;
-        const int marginRight = layout.marginRight;
-        const int marginTop = layout.marginTop;
+        const int marginLeft   = layout.marginLeft;
+        const int marginRight  = layout.marginRight;
+        const int marginTop    = layout.marginTop;
         const int marginBottom = layout.marginBottom;
-        const int chartWidth = width() - marginLeft - marginRight;  // 动态宽度
-        const int chartHeight = height() - marginTop - marginBottom;
+        const int chartWidth   = width()  - marginLeft - marginRight;
+        const int chartHeight  = height() - marginTop  - marginBottom;
 
-        // ---------------- 绘制坐标轴 ----------------
-        p.setPen(ChartStyleManager::getBorderPen());
-        p.drawRect(marginLeft, marginTop, chartWidth, chartHeight);
+        // ---- Slice to visible window ----
+        QVector<AllModuleUsage> vis = visibleSlice();
+        int n = vis.size();
+        if (n < 1) return; // nothing visible in current zoom window
 
-        // ---------------- 绘制CPU/MEM占用率标题 ----------------
-        auto fontTheme = ChartStyleManager::getFontTheme();
-        p.setFont(fontTheme.title);
-        p.setPen(ChartStyleManager::getColorTheme().primary);
-        p.drawText(marginLeft + chartWidth - 120, marginTop + 20, "CPU/MEM占用率");
+        // ---- Viewport time boundaries ----
+        QDateTime vpStart = m_vp.hasData() ? m_vp.tMin.addMSecs(m_vp.vStart) : vis.first().timestamp;
+        QDateTime vpEnd   = m_vp.hasData() ? m_vp.tMin.addMSecs(m_vp.vEnd)   : vis.last().timestamp;
 
-        int n = allData.size();
-
-        // ---------------- 计算 Y 轴最大值 ----------------
+        // Compute Y axis max (25% steps)
         double maxCpu = 10.0, maxMem = 10.0;
         for (int m = 0; m < moduleNames.size(); ++m) {
             if (!moduleVisible[moduleNames[m]]) continue;
-            for (const auto &d : allData) {
+            for (const auto &d : vis) {
                 maxCpu = qMax(maxCpu, getCpuByIndex(d, m));
                 maxMem = qMax(maxMem, getMemByIndex(d, m));
             }
@@ -122,277 +139,273 @@ protected:
             return qMin(scaled, 250);
         };
         double yAxisMax = qMax(scaleValue(maxCpu), scaleValue(maxMem));
+        int ySteps = qMax(1, int(yAxisMax / 25));
 
-        // ---------------- 绘制 Y 轴刻度（主+次） ----------------
-        p.setFont(fontTheme.axis);
-        const int stepMajor = 25;
-        for (int val = 0; val <= yAxisMax; val += stepMajor) {
-            int py = marginTop + chartHeight - int(val * chartHeight / yAxisMax);
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawLine(marginLeft-5, py, marginLeft, py);                // 主刻度短线
-            p.drawText(5, py+4, QString::number(val) + "%");           // 主刻度文字
+        ChartWidgetBase::drawChartFrame(p, marginLeft, marginTop, chartWidth, chartHeight, "CPU/MEM占用率");
+        ChartWidgetBase::drawYAxis(p, marginLeft, marginTop, chartHeight, 5, 0, yAxisMax, ySteps, "%", 1);
 
-            // 在主刻度与下一个主刻度之间画一个次刻度短线（不画网格线）
-            int midVal = val + stepMajor/2; // 12.5%
-            if (midVal < yAxisMax) {
-                int pyMid = marginTop + chartHeight - int(midVal * chartHeight / yAxisMax);
-                p.setPen(ChartStyleManager::getGridPen());
-                p.drawLine(marginLeft-3, pyMid, marginLeft, pyMid);      // 次刻度短线（无文字）
-            }
-        }
+        QVector<QDateTime> timestamps;
+        timestamps.reserve(n);
+        for (const auto &d : vis) timestamps.append(d.timestamp);
+        ChartWidgetBase::drawXAxisTime(p, marginLeft, marginTop, chartWidth, chartHeight, timestamps, vpStart, vpEnd);
 
-        // ---------------- 绘制曲线 ----------------
-        for (int m=0; m<moduleNames.size(); ++m) {
+        for (int m = 0; m < moduleNames.size(); ++m) {
             if (!moduleVisible[moduleNames[m]]) continue;
-            QPolygon cpuPoly, memPoly;
-            for (int i=0; i<n; ++i) {
-                double px = marginLeft + i*chartWidth / double(n-1);
-                int pyCpu = marginTop + chartHeight - int(getCpuByIndex(allData[i], m)*chartHeight/yAxisMax);
-                int pyMem = marginTop + chartHeight - int(getMemByIndex(allData[i], m)*chartHeight/yAxisMax);
-                cpuPoly << QPoint(px, pyCpu);
-                memPoly << QPoint(px, pyMem);
+            QVector<double> cpuVals;
+            cpuVals.reserve(n);
+            for (int i = 0; i < n; ++i)
+                cpuVals.append(getCpuByIndex(vis[i], m));
+            ChartWidgetBase::drawPolyline(p, marginLeft, marginTop, chartWidth, chartHeight,
+                                          cpuVals, timestamps, 0, yAxisMax, vpStart, vpEnd,
+                                          QPen(colors[m % colors.size()], 2));
+        }
+
+        // ---- Hover crosshair + info box ----
+        if (mousePos.x() >= marginLeft && mousePos.x() <= marginLeft + chartWidth && n >= 2) {
+            qint64 vpSpan = vpStart.msecsTo(vpEnd);
+
+            int idx;
+            if (vpSpan > 0) {
+                qint64 targetMs = m_vp.vStart + (qint64)((mousePos.x() - marginLeft) * vpSpan / double(chartWidth));
+                int best = 0; qint64 bestDist = LLONG_MAX;
+                for (int i = 0; i < n; ++i) {
+                    qint64 ms   = m_vp.tMin.msecsTo(vis[i].timestamp);
+                    qint64 dist = qAbs(ms - targetMs);
+                    if (dist < bestDist) { bestDist = dist; best = i; }
+                }
+                idx = best;
+            } else {
+                idx = qBound(0, int((mousePos.x() - marginLeft) * (n - 1) / double(chartWidth)), n - 1);
             }
-            p.setPen(QPen(colors[m%colors.size()],2));
-            p.drawPolyline(cpuPoly);
-            // p.setPen(QPen(colors[m%colors.size()],1,Qt::DashLine));
-            // p.drawPolyline(memPoly);
-        }
 
-        // ---------------- 绘制 X 轴刻度 (时间) ----------------
-        QFontMetrics fm(p.font());
-        int textWidth = fm.horizontalAdvance("00:00:00") + 10;
-        int maxLabels = qMin(chartWidth / textWidth, 7);   // 最多显示 7 个刻度
-        int stepLabel = n > maxLabels ? n / maxLabels : 1;
+            int moduleIdx = 0;
+            for (int m = 0; m < moduleNames.size(); ++m)
+                if (moduleVisible[moduleNames[m]]) { moduleIdx = m; break; }
 
-        for (int i = 0; i < n; i += stepLabel) {
-            if (i == 0 || i == n-1 || i % stepLabel == 0) {
-                int px = marginLeft + i * chartWidth / double(n-1);
-                QString tStr = allData[i].timestamp.toString("HH:mm:ss");
-                p.setPen(ChartStyleManager::getAxisPen());
-                p.drawText(px - textWidth/2, marginTop + chartHeight + 20, tStr);
-                p.drawLine(px, marginTop + chartHeight, px, marginTop + chartHeight + 5);
+            double cpuVal = getCpuByIndex(vis[idx], moduleIdx);
+            int x = (vpSpan > 0)
+                ? marginLeft + int(vpStart.msecsTo(vis[idx].timestamp) * chartWidth / double(vpSpan))
+                : marginLeft + int(idx * chartWidth / double(n - 1));
+            int yCpu = marginTop + chartHeight - int(cpuVal * chartHeight / yAxisMax);
+
+            // 检查是否需要显示日期（如果数据跨越了不同日期）
+            qint64 spanMs = m_vp.totalSpanMs();
+            QString timeFormat = "HH:mm:ss";
+            if (spanMs > 24 * 60 * 60 * 1000) { // 如果时间跨度超过24小时
+                timeFormat = "MM-dd HH:mm";
             }
-        }
-        // ---------------- 绘制十字线 ----------------
-        if(mousePos.x()>=marginLeft && mousePos.x()<=marginLeft+chartWidth) {
-            int idx = qBound(0,int((mousePos.x()-marginLeft)*(n-1)/double(chartWidth)),n-1);
-
-            int moduleIdx=0;
-            for(int m=0;m<moduleNames.size();++m)
-                if(moduleVisible[moduleNames[m]]) { moduleIdx=m; break; }
-
-            double cpuVal = getCpuByIndex(allData[idx], moduleIdx);
-            double memVal = getMemByIndex(allData[idx], moduleIdx);
-            int x = marginLeft + idx*chartWidth/double(n-1);
-            int yCpu = marginTop + chartHeight - int(cpuVal*chartHeight/yAxisMax);
-            int yMem = marginTop + chartHeight - int(memVal*chartHeight/yAxisMax);
-
-            // 在十字线上方显示时间
-            QDateTime ts = allData[idx].timestamp;
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawText(x, marginTop - 2, ts.toString("HH:mm:ss"));
-
-            // 使用统一的深灰色虚线样式
-            p.setPen(ChartStyleManager::getHoverPen());
-            p.drawLine(x,marginTop,x,marginTop+chartHeight);
-            p.drawLine(marginLeft,yCpu,marginLeft+chartWidth,yCpu);
-            // p.drawLine(marginLeft,yMem,marginLeft+chartWidth,yMem);
-
-            // 绘制跟随鼠标的悬浮信息框
-            drawHoverInfo(p, allData[idx], mousePos);
+            ChartWidgetBase::drawCrosshair(p, marginLeft, marginTop, chartWidth, chartHeight,
+                                           x, yCpu, vis[idx].timestamp.toString(timeFormat));
+            drawHoverInfo(p, vis[idx]);
         }
 
+        // ---- Zoom hint ----
+        if (m_vp.isZoomed()) {
+            auto ft = ChartStyleManager::getFontTheme();
+            QFont smallF = ft.axis;
+            smallF.setPointSize(smallF.pointSize() - 1);
+            p.setFont(smallF);
+            p.setPen(QColor(150, 150, 150));
+            p.drawText(marginLeft + chartWidth - 80, marginTop + chartHeight - 2, "滚轮缩放/拖动");
+        }
+    }
+
+    // ---- Zoom ----
+    void wheelEvent(QWheelEvent *e) override {
+        auto layout = ChartStyleManager::getLayoutTheme();
+        int mL = layout.marginLeft;
+        int cW = width() - mL - layout.marginRight;
+        m_vp.handleWheel(e->angleDelta().y(), e->position().x(), mL, cW);
+        mousePos = QPoint(-1, -1);
+        hoverIndex = -1;
+        update();
+        e->accept();
+    }
+
+    // ---- Pan ----
+    void mousePressEvent(QMouseEvent *e) override {
+        if (e->button() == Qt::LeftButton) {
+            m_vp.beginDrag(e->pos().x());
+            setCursor(Qt::SizeHorCursor);
+        }
     }
 
     void mouseMoveEvent(QMouseEvent *event) override {
-        if(allData.isEmpty()) return;
+        if (allData.isEmpty()) return;
         auto layout = ChartStyleManager::getLayoutTheme();
-        const int marginLeft = layout.marginLeft;
-        const int chartWidth = width() - marginLeft - layout.marginRight;
-        int n = allData.size();
+        const int marginLeft  = layout.marginLeft;
+        const int chartWidth  = width() - marginLeft - layout.marginRight;
         int x = event->pos().x();
-        if(x<marginLeft) hoverIndex=0;
-        else if(x>marginLeft+chartWidth) hoverIndex=n-1;
-        else hoverIndex=qRound((x-marginLeft)*(n-1)/double(chartWidth));
+
+        if (m_vp.dragging && (event->buttons() & Qt::LeftButton)) {
+            m_vp.doDrag(event->pos().x(), chartWidth);
+            mousePos = QPoint(-1, -1);
+            hoverIndex = -1;
+            update();
+            return;
+        }
+
+        QVector<AllModuleUsage> vis = visibleSlice();
+        int n = vis.size();
+        if (n < 2 || chartWidth <= 0) { mousePos = QPoint(-1,-1); hoverIndex = -1; update(); return; }
+
+        if (!m_vp.hasData()) {
+            if (x < marginLeft)                hoverIndex = 0;
+            else if (x > marginLeft + chartWidth) hoverIndex = n - 1;
+            else hoverIndex = qRound((x - marginLeft) * (n - 1) / double(chartWidth));
+        } else {
+            qint64 vpSpan   = m_vp.vEnd - m_vp.vStart;
+            qint64 targetMs = m_vp.vStart + (qint64)((x - marginLeft) * vpSpan / double(chartWidth));
+            int best = 0; qint64 bestDist = LLONG_MAX;
+            for (int i = 0; i < n; ++i) {
+                qint64 ms   = m_vp.tMin.msecsTo(vis[i].timestamp);
+                qint64 dist = qAbs(ms - targetMs);
+                if (dist < bestDist) { bestDist = dist; best = i; }
+            }
+            hoverIndex = best;
+        }
         mousePos = event->pos();
+        update();
+    }
+
+    void mouseReleaseEvent(QMouseEvent *e) override {
+        if (e->button() == Qt::LeftButton) {
+            m_vp.endDrag();
+            setCursor(Qt::ArrowCursor);
+        }
+    }
+
+    // ---- Reset ----
+    void mouseDoubleClickEvent(QMouseEvent *) override {
+        m_vp.reset();
+        mousePos = QPoint(-1, -1);
+        hoverIndex = -1;
         update();
     }
 
     void leaveEvent(QEvent *event) override {
         Q_UNUSED(event);
-        hoverIndex = -1;          // 表示无效索引
-        mousePos = QPoint(-1,-1); // 鼠标位置设为无效
-        update();                 // 触发重绘，清除十字线
+        hoverIndex = -1;
+        mousePos   = QPoint(-1, -1);
+        update();
     }
 
 private:
     QVector<AllModuleUsage> allData;
     QStringList moduleNames;
-    QMap<QString,bool> moduleVisible;
+    QMap<QString,bool>  moduleVisible;
     QMap<QString,QColor> moduleColors;
     QPoint mousePos;
     int hoverIndex = -1;
+    ChartViewport m_vp;
 
-    void drawHoverInfo(QPainter &p, const AllModuleUsage &info, const QPointF &mousePos) {
-        auto fontTheme = ChartStyleManager::getFontTheme();
-        QFont smallerFont = fontTheme.tooltip;
-        smallerFont.setPointSize(smallerFont.pointSize());
-        smallerFont.setWeight(QFont::Light);  // 设置为细体
-        p.setFont(smallerFont);
+    QVector<AllModuleUsage> visibleSlice() const {
+        if (!m_vp.hasData()) return allData;
+        const int total = allData.size();
+        if (total == 0) return allData;
+        qint64 vS = m_vp.vStart, vE = m_vp.vEnd;
 
-        // 只显示选中的模块信息
-        QStringList visibleModules;
-        for (int i = 0; i < moduleNames.size(); ++i) {
-            if (moduleVisible[moduleNames[i]]) {
-                double cpuVal = getCpuByIndex(info, i);
-                double memVal = getMemByIndex(info, i);
-                QString moduleName = moduleNames[i];
-                // 将模块名缩写为更具体的缩写，并转为大写
-                QString shortName;
-                if (moduleName == "camera_service") {
-                    shortName = "CS";
-                } else if (moduleName == "control_engine") {
-                    shortName = "CE";
-                } else if (moduleName == "captain") {
-                    shortName = "CP";
-                } else if (moduleName == "fcs") {
-                    shortName = "FC";
-                } else if (moduleName == "drvf_msg_monito") {
-                    shortName = "DM";
-                } else if (moduleName == "top") {
-                    shortName = "TP";
-                } else if (moduleName == "vio_hover") {
-                    shortName = "VH";
-                } else if (moduleName == "logd") {
-                    shortName = "LD";
-                } else if (moduleName == "exception_manag") {
-                    shortName = "EM";
-                } else if (moduleName == "bt_service") {
-                    shortName = "BS";
-                } else if (moduleName == "battery_service") {
-                    shortName = "BS";
-                } else if (moduleName == "gimbal_service") {
-                    shortName = "GS";
-                } else if (moduleName == "kworker_u18_icp_message_q") {
-                    shortName = "K1";
-                } else if (moduleName == "logcat") {
-                    shortName = "LC";
-                } else if (moduleName == "kworker_u19_kgsl_events") {
-                    shortName = "K2";
-                } else if (moduleName == "systemd") {
-                    shortName = "SD";
-                } else if (moduleName == "kthreadd") {
-                    shortName = "KT";
-                } else if (moduleName == "rcu_gp") {
-                    shortName = "RG";
-                } else if (moduleName == "rcu_par_gp") {
-                    shortName = "RP";
-                } else if (moduleName == "kworker_0_events") {
-                    shortName = "K0";
-                } else if (moduleName == "fpv_service") {
-                    shortName = "FS";
-                } else {
-                    shortName = moduleName.left(2).toUpper();  // 默认取前两个字符
-                }
-                visibleModules.append(QString("%1: CPU:%2%,MEM:%3%")
-                    .arg(shortName)
-                    .arg(cpuVal, 0, 'f', 1)
-                    .arg(memVal, 0, 'f', 1));
-            }
+        int first = total, last = -1;
+        for (int i = 0; i < total; ++i) {
+            qint64 ms = m_vp.tMin.msecsTo(allData[i].timestamp);
+            if (ms >= vS && first == total) first = i;
+            if (ms <= vE) last = i;
         }
+        int lo = qMax(0, first - 1);
+        int hi = qMin(total - 1, last + 1);
+        if (lo > hi) return allData;
 
-        if (visibleModules.isEmpty()) {
-            return; // 没有选中的模块，不显示悬浮框
-        }
-
-        QString text = visibleModules.join("\n");
-
-        QFontMetrics fm(p.font());
-
-        // 计算实际文本尺寸
-        QStringList lines = text.split('\n');
-        int maxWidth = 0;
-        for (const QString &line : lines) {
-            int lineWidth = fm.horizontalAdvance(line);
-            if (lineWidth > maxWidth) {
-                maxWidth = lineWidth;
-            }
-        }
-
-        // 计算外框尺寸，添加内边距
-        int wBox = maxWidth + 10;  // 左右各5px内边距
-        int hBox = lines.size() * fm.height() + 8;  // 上下各4px内边距
-
-        // 智能定位，避免遮挡
-        QPointF pos;
-        if (mousePos.x() + 40 + wBox/2 < width() - 10) {
-            // 右侧有空间，显示在右侧
-            pos = QPointF(mousePos.x() + 40, mousePos.y() - 20);
-        } else {
-            // 右侧空间不够，显示在左侧
-            pos = QPointF(mousePos.x() - 40 - wBox/2, mousePos.y() - 20);
-        }
-
-        // 垂直位置调整
-        if (pos.y() - hBox/2 < 10) {
-            pos.setY(10 + hBox/2);
-        }
-        if (pos.y() + hBox/2 > height() - 10) {
-            pos.setY(height() - 10 - hBox/2);
-        }
-
-        // 绘制背景和边框
-        p.setBrush(ChartStyleManager::getTooltipBackground());
-        p.setPen(ChartStyleManager::getTooltipBorder());
-        p.drawRect(pos.x(), pos.y(), wBox, hBox);
-
-        // 设置字体和颜色，统一使用黑色
-        int ty = pos.y() + fm.ascent() + 4;
-        p.setPen(QColor(0, 0, 0));  // 统一使用黑色
-        for (auto &s : lines) {
-            p.drawText(pos.x() + 5, ty, s);
-            ty += fm.height();
-        }
+        QVector<AllModuleUsage> vis;
+        vis.reserve(hi - lo + 1);
+        for (int i = lo; i <= hi; ++i) vis.append(allData[i]);
+        return vis;
     }
+
+    // 模块名缩写表
+    static QString moduleShortName(const QString &name) {
+        static const QMap<QString,QString> table = {
+            {"camera_service",            "CS"},
+            {"control_engine",            "CE"},
+            {"captain",                   "CP"},
+            {"fcs",                       "FC"},
+            {"drvf_msg_monito",           "DM"},
+            {"top",                       "TP"},
+            {"vio_hover",                 "VH"},
+            {"logd",                      "LD"},
+            {"exception_manag",           "EM"},
+            {"bt_service",                "BS"},
+            {"battery_service",           "BS"},
+            {"gimbal_service",            "GS"},
+            {"kworker_u18_icp_message_q", "K1"},
+            {"logcat",                    "LC"},
+            {"kworker_u19_kgsl_events",   "K2"},
+            {"systemd",                   "SD"},
+            {"kthreadd",                  "KT"},
+            {"rcu_gp",                    "RG"},
+            {"rcu_par_gp",                "RP"},
+            {"kworker_0_events",          "K0"},
+            {"fpv_service",               "FS"},
+        };
+        return table.value(name, name.left(2).toUpper());
+    }
+
+    void drawHoverInfo(QPainter &p, const AllModuleUsage &info) {
+        QStringList lines;
+        for (int i = 0; i < moduleNames.size(); ++i) {
+            if (!moduleVisible[moduleNames[i]]) continue;
+            double cpuVal = getCpuByIndex(info, i);
+            double memVal = getMemByIndex(info, i);
+            lines << QString("%1: CPU:%2%,MEM:%3%")
+                         .arg(moduleShortName(moduleNames[i]))
+                         .arg(cpuVal, 0, 'f', 1)
+                         .arg(memVal, 0, 'f', 1);
+        }
+        if (lines.isEmpty()) return;
+
+        auto fontTheme = ChartStyleManager::getFontTheme();
+        QFont f = fontTheme.tooltip;
+        f.setWeight(QFont::Light);
+        p.setFont(f);
+        QFontMetrics fm(p.font());
+        int maxW = 0;
+        for (const QString &s : lines) maxW = qMax(maxW, fm.horizontalAdvance(s));
+        int wBox = maxW + 10;
+
+        int rightX;
+        if (mousePos.x() + 40 + wBox < width() - 10)
+            rightX = mousePos.x() + 40 + wBox;
+        else
+            rightX = mousePos.x() - 40;
+
+        ChartWidgetBase::drawInfoPanel(p, lines, rightX,
+                                       mousePos.y() - 20,
+                                       Qt::black, height());
+    }
+
     QVector<QColor> colors = {
-        QColor(180, 0, 0),      // 暗红
-        QColor(0, 0, 180),      // 暗蓝
-        QColor(0, 150, 0),      // 暗绿
-        QColor(0, 120, 120),    // 暗青
-        QColor(120, 0, 120),    // 暗紫
-        QColor(180, 180, 0),    // 暗黄
-        QColor(0, 150, 150),    // 深青
-        QColor(120, 0, 0),      // 暗红2
-        QColor(0, 0, 120),      // 暗蓝2
-        QColor(0, 120, 0),      // 暗绿2
-        QColor(100, 100, 100),  // 灰色
-        QColor(90, 0, 90),      // 暗紫2
-        QColor(100, 100, 0),    // 暗黄2
-        QColor(50, 50, 50),     // 深灰
-        QColor(160, 160, 160),  // 浅灰
-        QColor(0, 120, 120),    // 暗青2
-        QColor(0, 50, 180),     // 蓝2
-        QColor(180, 0, 0),      // 红2
-        QColor(0, 180, 0),      // 绿2
-        QColor(120, 60, 0),     // 棕色
-        QColor(180, 100, 100),  // 暖粉
-        QColor(100, 180, 100),  // 浅绿
-        QColor(100, 100, 180),  // 浅蓝
-        QColor(180, 180, 100),  // 柠檬黄
-        QColor(180, 100, 180)  // 紫粉
+        QColor(180, 0,   0),    QColor(0,   0,   180),  QColor(0,   150, 0),
+        QColor(0,   120, 120),  QColor(120, 0,   120),  QColor(180, 180, 0),
+        QColor(0,   150, 150),  QColor(120, 0,   0),    QColor(0,   0,   120),
+        QColor(0,   120, 0),    QColor(100, 100, 100),  QColor(90,  0,   90),
+        QColor(100, 100, 0),    QColor(50,  50,  50),   QColor(160, 160, 160),
+        QColor(0,   120, 120),  QColor(0,   50,  180),  QColor(180, 0,   0),
+        QColor(0,   180, 0),    QColor(120, 60,  0),    QColor(180, 100, 100),
+        QColor(100, 180, 100),  QColor(100, 100, 180),  QColor(180, 180, 100),
+        QColor(180, 100, 180)
     };
-    double getCpuByIndex(const AllModuleUsage &u, int idx) {
+
+    double getCpuByIndex(const AllModuleUsage &u, int idx) const {
         switch(idx){
-        case 0: return u.camera_service.cpu;
-        case 1: return u.captain.cpu;
-        case 2: return u.fcs.cpu;
-        case 3: return u.control_engine.cpu;
-        case 4: return u.drvf_msg_monito.cpu;
-        case 5: return u.top.cpu;
-        case 6: return u.vio_hover.cpu;
-        case 7: return u.logd.cpu;
-        case 8: return u.exception_manag.cpu;
-        case 9: return u.bt_service.cpu;
+        case 0:  return u.camera_service.cpu;
+        case 1:  return u.captain.cpu;
+        case 2:  return u.fcs.cpu;
+        case 3:  return u.control_engine.cpu;
+        case 4:  return u.drvf_msg_monito.cpu;
+        case 5:  return u.top.cpu;
+        case 6:  return u.vio_hover.cpu;
+        case 7:  return u.logd.cpu;
+        case 8:  return u.exception_manag.cpu;
+        case 9:  return u.bt_service.cpu;
         case 10: return u.battery_service.cpu;
         case 11: return u.gimbal_service.cpu;
         case 12: return u.kworker_u18_icp_message_q.cpu;
@@ -407,18 +420,18 @@ private:
         default: return 0.0;
         }
     }
-    double getMemByIndex(const AllModuleUsage &u, int idx) {
+    double getMemByIndex(const AllModuleUsage &u, int idx) const {
         switch(idx){
-        case 0: return u.camera_service.mem;
-        case 1: return u.captain.mem;
-        case 2: return u.fcs.mem;
-        case 3: return u.control_engine.mem;
-        case 4: return u.drvf_msg_monito.mem;
-        case 5: return u.top.mem;
-        case 6: return u.vio_hover.mem;
-        case 7: return u.logd.mem;
-        case 8: return u.exception_manag.mem;
-        case 9: return u.bt_service.mem;
+        case 0:  return u.camera_service.mem;
+        case 1:  return u.captain.mem;
+        case 2:  return u.fcs.mem;
+        case 3:  return u.control_engine.mem;
+        case 4:  return u.drvf_msg_monito.mem;
+        case 5:  return u.top.mem;
+        case 6:  return u.vio_hover.mem;
+        case 7:  return u.logd.mem;
+        case 8:  return u.exception_manag.mem;
+        case 9:  return u.bt_service.mem;
         case 10: return u.battery_service.mem;
         case 11: return u.gimbal_service.mem;
         case 12: return u.kworker_u18_icp_message_q.mem;

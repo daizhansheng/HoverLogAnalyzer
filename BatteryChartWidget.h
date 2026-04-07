@@ -4,9 +4,12 @@
 #include <QVector>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QWheelEvent>
 #include <QDateTime>
 #include <QString>
+#include "ChartBaseWidget.h"
 #include "ChartStyleManager.h"
+#include "ChartViewportMixin.h"
 
 struct BatteryInfo {
     int soc = 0;                 // 电量 0-100
@@ -38,11 +41,31 @@ public:
 
     void setData(const QVector<BatteryTimeInfo> &data) {
         batteryData = data;
+        // Compute tMin/tMax and reset viewport
+        QDateTime mn, mx;
+        for (const auto &d : batteryData) {
+            if (!d.timestamp.isValid()) continue;
+            if (!mn.isValid() || d.timestamp < mn) mn = d.timestamp;
+            if (!mx.isValid() || d.timestamp > mx) mx = d.timestamp;
+        }
+        if (mn.isValid()) {
+            m_vp.setRange(mn, mx);
+            // Set min zoom to 3× the typical data interval so at least 3 points are visible.
+            // Use the median interval if ≥2 points, else fall back to 3000 ms.
+            if (batteryData.size() >= 2) {
+                qint64 span = mn.msecsTo(mx);
+                qint64 interval = span / (batteryData.size() - 1);
+                m_vp.minWindowMs = qMax((qint64)500, interval * 3);
+            }
+        } else {
+            m_vp.clear();
+        }
         update();
     }
 
     void clear() {
         batteryData.clear();
+        m_vp.clear();
         update();
     }
 
@@ -59,304 +82,242 @@ protected:
         int marginTop    = layout.marginTop;
         int marginBottom = layout.marginBottom;
         int totalWidth   = width() - marginLeft - marginRight;
-        int chartSpacing = layout.chartSpacing + 30;  // 增加图表间距30像素
-        int chartHeight  = (height() - marginTop - marginBottom - chartSpacing) / 2;  // 均匀分配高度
+        int chartSpacing = layout.chartSpacing + 30;
+        int chartHeight  = (height() - marginTop - marginBottom - chartSpacing) / 2;
 
-        int n = batteryData.size();
         int chart1Top = marginTop;
         int chart2Top = chart1Top + chartHeight + chartSpacing;
 
-        drawSocChart(painter, marginLeft, chart1Top, totalWidth, chartHeight, n);
-        drawTempChart(painter, marginLeft, chart2Top, totalWidth, chartHeight, n);
+        // ---- Slice data to visible viewport window ----
+        QVector<BatteryTimeInfo> vis = visibleSlice();
 
-        // SOC 和 Temp 十字线
-        if (hoverIndex >= 0 && hoverIndex < n) {
-            int x = marginLeft + hoverIndex * totalWidth / double(n - 1);
-            QDateTime ts = batteryData[hoverIndex].timestamp;
-            painter.setPen(ChartStyleManager::getAxisPen());
+        int n = vis.size();
+        if (n < 1) return;
 
-            // 上面 SOC 图上方显示时间
-            painter.drawText(x, chart1Top - 2, ts.toString("HH:mm:ss"));
+        // ---- Viewport time boundaries for correct axis/polyline mapping ----
+        QDateTime vpStart = m_vp.hasData() ? m_vp.tMin.addMSecs(m_vp.vStart) : vis.first().timestamp;
+        QDateTime vpEnd   = m_vp.hasData() ? m_vp.tMin.addMSecs(m_vp.vEnd)   : vis.last().timestamp;
 
-            // 下面 Temp 图上方显示时间
-            painter.drawText(x, chart2Top - 2, ts.toString("HH:mm:ss"));
+        // ---- Build timestamp vector for sliced data ----
+        QVector<QDateTime> timestamps;
+        timestamps.reserve(n);
+        for (const auto &d : vis) timestamps.append(d.timestamp);
 
-            // 竖线覆盖两图
+        drawSocChart(painter, marginLeft, chart1Top, totalWidth, chartHeight, vis, timestamps, vpStart, vpEnd);
+        drawTempChart(painter, marginLeft, chart2Top, totalWidth, chartHeight, vis, timestamps, vpStart, vpEnd);
+
+        // ---- Hover crosshair ----
+        if (hoverActive && n >= 1) {
+            // 竖线直接跟鼠标 x 走，保证丝滑
+            int hx = qBound(marginLeft, (int)hoverPos.x(), marginLeft + totalWidth);
+
+            // 找时间上最近的数据点（用于数值气泡/横线吸附），跳过 guard 点
+            qint64 vpSpan = vpStart.msecsTo(vpEnd);
+            int idx = 0;
+            if (vpSpan > 0) {
+                qint64 targetMs = m_vp.vStart + (qint64)((hx - marginLeft) * vpSpan / double(totalWidth));
+                int best = -1; qint64 bestDist = LLONG_MAX;
+                for (int i = 0; i < n; ++i) {
+                    qint64 ms = m_vp.tMin.msecsTo(vis[i].timestamp);
+                    if (ms < m_vp.vStart || ms > m_vp.vEnd) continue;
+                    qint64 d = qAbs(ms - targetMs);
+                    if (d < bestDist) { bestDist = d; best = i; }
+                }
+                if (best < 0) { // fallback
+                    bestDist = LLONG_MAX;
+                    for (int i = 0; i < n; ++i) {
+                        qint64 ms = m_vp.tMin.msecsTo(vis[i].timestamp);
+                        qint64 d = qAbs(ms - targetMs);
+                        if (d < bestDist) { bestDist = d; best = i; }
+                    }
+                }
+                idx = (best >= 0) ? best : 0;
+            } else {
+                idx = qBound(0, int((hx - marginLeft) * (n - 1) / double(totalWidth)), n - 1);
+            }
+            const BatteryTimeInfo &cur = vis[idx];
+
+            // SOC 图：竖线 + 横线吸附数据点 y
+            int ySoc = chart1Top + chartHeight - int(cur.info.soc * chartHeight / 100.0);
+            // 检查是否需要显示日期（如果数据跨越了不同日期）
+            qint64 spanMs = m_vp.totalSpanMs();
+            QString timeFormat = "HH:mm:ss";
+            if (spanMs > 24 * 60 * 60 * 1000) { // 如果时间跨度超过24小时
+                timeFormat = "MM-dd HH:mm";
+            }
+            ChartWidgetBase::drawCrosshair(painter, marginLeft, chart1Top, totalWidth, chartHeight,
+                                           hx, ySoc, cur.timestamp.toString(timeFormat));
+            ChartWidgetBase::drawTooltipBubble(painter,
+                                               QString("%1%").arg(cur.info.soc),
+                                               QPointF(hx, ySoc), width(), height());
+
+            // 温度图：竖线 + 横线吸附数据点 y
+            const double tempMin = -20, tempMax = 80;
+            int yTemp = chart2Top + int((tempMax - cur.info.temp) * chartHeight / (tempMax - tempMin));
             painter.setPen(ChartStyleManager::getHoverPen());
-            painter.drawLine(x, chart1Top, x, chart2Top + chartHeight);
-
-            // SOC水平虚线
-            int ySoc = chart1Top + chartHeight - batteryData[hoverIndex].info.soc * chartHeight / 100.0;
-            painter.drawLine(marginLeft, ySoc, marginLeft + totalWidth, ySoc);
-
-            // Temp水平虚线
-            double temp = batteryData[hoverIndex].info.temp;
-            double tempMin = -20, tempMax = 80;
-            int yTemp = chart2Top + (tempMax - temp) * chartHeight / (tempMax - tempMin);
+            painter.drawLine(hx, chart2Top, hx, chart2Top + chartHeight);
             painter.drawLine(marginLeft, yTemp, marginLeft + totalWidth, yTemp);
+            painter.setPen(ChartStyleManager::getAxisPen());
+            painter.drawText(hx, chart2Top - 2, cur.timestamp.toString(timeFormat));
+            ChartWidgetBase::drawTooltipBubble(painter,
+                                               QString("%1°C").arg(cur.info.temp, 0, 'f', 1),
+                                               QPointF(hx, yTemp), width(), height());
 
-            // 悬浮数值
-            drawHoverText(painter, QString("%1%").arg(batteryData[hoverIndex].info.soc), QPointF(x, ySoc));
-            drawHoverText(painter, QString("%1°C").arg(temp, 0, 'f', 1), QPointF(x, yTemp));
+            drawBatteryInfoPanel(painter, cur.info);
+        }
 
-            // 右侧完整信息
-            drawHoverInfo(painter, batteryData[hoverIndex].info, QPointF(width() - 20, chart1Top));
+        // ---- Zoom hint ----
+        if (m_vp.isZoomed()) {
+            auto ft = ChartStyleManager::getFontTheme();
+            QFont smallF = ft.axis;
+            smallF.setPointSize(smallF.pointSize() - 1);
+            painter.setFont(smallF);
+            painter.setPen(QColor(150, 150, 150));
+            painter.drawText(marginLeft + totalWidth - 80, chart2Top + chartHeight - 2, "滚轮缩放/拖动");
+        }
+    }
+
+    // ---- Zoom ----
+    void wheelEvent(QWheelEvent *e) override {
+        auto layout = ChartStyleManager::getLayoutTheme();
+        int mL = layout.marginLeft;
+        int cW = width() - mL - layout.marginRight;
+        m_vp.handleWheel(e->angleDelta().y(), e->position().x(), mL, cW);
+        hoverActive = false;
+        update();
+        e->accept();
+    }
+
+    // ---- Pan ----
+    void mousePressEvent(QMouseEvent *e) override {
+        if (e->button() == Qt::LeftButton) {
+            m_vp.beginDrag(e->pos().x());
+            setCursor(Qt::SizeHorCursor);
         }
     }
 
     void mouseMoveEvent(QMouseEvent *event) override {
-        if (batteryData.isEmpty()) {
-            hoverIndex = -1;
+        auto layout = ChartStyleManager::getLayoutTheme();
+        int mL = layout.marginLeft;
+        int cW = width() - mL - layout.marginRight;
+
+        if (m_vp.dragging && (event->buttons() & Qt::LeftButton)) {
+            m_vp.doDrag(event->pos().x(), cW);
+            hoverActive = false;
+            update();
             return;
         }
 
-        auto layout = ChartStyleManager::getLayoutTheme();
-        int marginLeft = layout.marginLeft;
-        int chartWidth = width() - marginLeft - layout.marginRight;  // 动态宽度
+        hoverPos    = event->pos();
+        hoverActive = true;
+        update();
+    }
 
-        int n = batteryData.size();
-        int x = event->pos().x();
+    void mouseReleaseEvent(QMouseEvent *e) override {
+        if (e->button() == Qt::LeftButton) {
+            m_vp.endDrag();
+            setCursor(Qt::ArrowCursor);
+        }
+    }
 
-        // 限制 x 在绘图区域内
-        if (x < marginLeft) hoverIndex = 0;
-        else if (x > marginLeft + chartWidth) hoverIndex = n - 1;
-        else hoverIndex = qRound((x - marginLeft) * (n - 1) / double(chartWidth));
-
+    // ---- Reset ----
+    void mouseDoubleClickEvent(QMouseEvent *) override {
+        m_vp.reset();
+        hoverActive = false;
         update();
     }
 
     void leaveEvent(QEvent *) override {
-        hoverIndex = -1;
+        hoverActive = false;
         update();
     }
 
 private:
     QVector<BatteryTimeInfo> batteryData;
-    int hoverIndex = -1;
+    QPointF hoverPos;
+    bool hoverActive = false;
+    ChartViewport m_vp;
 
-    void drawSocChart(QPainter &p, int left, int top, int w, int h, int n) {
-        // 绘制边框
-        p.setPen(ChartStyleManager::getBorderPen());
-        p.drawRect(left, top, w, h);
+    QVector<BatteryTimeInfo> visibleSlice() const {
+        if (!m_vp.hasData()) return batteryData;
+        const int total = batteryData.size();
+        if (total == 0) return batteryData;
+        qint64 vS = m_vp.vStart, vE = m_vp.vEnd;
 
-        // 绘制标题
-        auto fontTheme = ChartStyleManager::getFontTheme();
-        p.setFont(fontTheme.title);
-        p.setPen(ChartStyleManager::getColorTheme().primary);
-        p.drawText(left + w - 80, top + 20, "电池电量");
-
-        // Y轴刻度
-        p.setFont(fontTheme.axis);
-        for (int i = 0; i <= 10; ++i) {
-            int y = top + h - i * h / 10;
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawLine(left - 5, y, left, y);
-            p.drawText(10, y + 5, QString::number(i * 10) + "%");
-
-            if (i < 10) {
-                int minorCount = 1;
-                for (int j = 1; j <= minorCount; ++j) {
-                    int yMinor = y - j * h / 10 / (minorCount + 1);
-                    p.setPen(ChartStyleManager::getGridPen());
-                    p.drawLine(left - 3, yMinor, left, yMinor);
-                }
-            }
+        // Single-pass: find first index >= vS and last index <= vE
+        int first = total, last = -1;
+        for (int i = 0; i < total; ++i) {
+            qint64 ms = m_vp.tMin.msecsTo(batteryData[i].timestamp);
+            if (ms >= vS && first == total) first = i;
+            if (ms <= vE) last = i;
         }
 
-        // X轴刻度，自动稀疏
-        QFontMetrics fm(p.font());
-        int textWidth = fm.horizontalAdvance("00:00:00") + 10;
-        int maxLabels = w / textWidth;
-        int step = qMax(1, n / maxLabels);
+        // Expand by one point on each side for line continuity
+        int lo = qMax(0, first - 1);
+        int hi = qMin(total - 1, last + 1);
+        if (lo > hi) return batteryData; // window completely outside data range — show all
 
-        for (int i = 0; i < n; i += step) {
-            int x = left + i * w / double(n - 1);
-            QDateTime ts = batteryData[i].timestamp;
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawLine(x, top + h, x, top + h + 5);
-            p.drawText(x-10 , top + h + 20, ts.toString("HH:mm:ss"));
-        }
-
-        // SOC曲线 - 使用统一的绿色
-        p.setPen(QPen(ChartStyleManager::getColorTheme().success, 2));
-        for (int i = 0; i < n - 1; ++i) {
-            double x1 = left + i * w / double(n - 1);
-            double y1 = top + h - batteryData[i].info.soc * h / 100.0;
-            double x2 = left + (i + 1) * w / double(n - 1);
-            double y2 = top + h - batteryData[i + 1].info.soc * h / 100.0;
-            p.drawLine(QPointF(x1, y1), QPointF(x2, y2));
-        }
+        QVector<BatteryTimeInfo> vis;
+        vis.reserve(hi - lo + 1);
+        for (int i = lo; i <= hi; ++i) vis.append(batteryData[i]);
+        return vis;
     }
 
-    void drawTempChart(QPainter &p, int left, int top, int w, int h, int n) {
-        // 绘制边框
-        p.setPen(ChartStyleManager::getBorderPen());
-        p.drawRect(left, top, w, h);
-
-        // 绘制标题
-        auto fontTheme = ChartStyleManager::getFontTheme();
-        p.setFont(fontTheme.title);
-        p.setPen(ChartStyleManager::getColorTheme().primary);
-        p.drawText(left + w - 80, top + 20, "电池温度");
-
-        double tempMin = -20, tempMax = 80;
-
-        // Y轴刻度
-        p.setFont(fontTheme.axis);
-        for (int i = 0; i <= 10; ++i) {
-            int y = top + i * h / 10;
-            double t = tempMax - i * (tempMax - tempMin) / 10;
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawLine(left - 5, y, left, y);
-            p.drawText(left - 45, y + 5, QString::number((int)t) + "°C");
-
-            if (i < 10) {
-                int minorCount = 1;
-                for (int j = 1; j <= minorCount; ++j) {
-                    int yMinor = y + j * h / 10 / (minorCount + 1);
-                    p.setPen(ChartStyleManager::getGridPen());
-                    p.drawLine(left - 3, yMinor, left, yMinor);
-                }
-            }
-        }
-
-        // X轴刻度，自动稀疏
-        QFontMetrics fm(p.font());
-        int textWidth = fm.horizontalAdvance("00:00:00") + 10;
-        int maxLabels = w / textWidth;
-        int step = qMax(1, n / maxLabels);
-
-        for (int i = 0; i < n; i += step) {
-            int x = left + i * w / double(n - 1);
-            QDateTime ts = batteryData[i].timestamp;
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawLine(x, top + h, x, top + h + 5);
-            p.drawText(x-10, top + h + 20, ts.toString("HH:mm:ss"));
-        }
-
-        // Temp曲线 - 使用统一的红色
-        p.setPen(QPen(ChartStyleManager::getColorTheme().accent, 2));
-        for (int i = 0; i < n - 1; ++i) {
-            double x1 = left + i * w / double(n - 1);
-            double y1 = top + (tempMax - batteryData[i].info.temp) * h / (tempMax - tempMin);
-            double x2 = left + (i + 1) * w / double(n - 1);
-            double y2 = top + (tempMax - batteryData[i + 1].info.temp) * h / (tempMax - tempMin);
-            p.drawLine(QPointF(x1, y1), QPointF(x2, y2));
-        }
-    }
-    void drawHoverText(QPainter &p, const QString &text, const QPointF &pos) {
-        auto fontTheme = ChartStyleManager::getFontTheme();
-        p.setFont(fontTheme.tooltip);
-        QFontMetrics fm(p.font());
-        QRect rect = fm.boundingRect(text).adjusted(-6, -3, 6, 3);
-
-        // 智能定位，避免遮挡
-        QPoint centerPos;
-        if (pos.x() + 40 + rect.width()/2 < width() - 10) {
-            // 右侧有空间，显示在右侧
-            centerPos = QPoint(pos.x() + 40, pos.y() - 20);
-        } else {
-            // 右侧空间不够，显示在左侧
-            centerPos = QPoint(pos.x() - 40 - rect.width()/2, pos.y() - 20);
-        }
-
-        // 垂直位置调整
-        if (centerPos.y() - rect.height()/2 < 10) {
-            centerPos.setY(10 + rect.height()/2);
-        }
-        if (centerPos.y() + rect.height()/2 > height() - 10) {
-            centerPos.setY(height() - 10 - rect.height()/2);
-        }
-
-        rect.moveCenter(centerPos);
-        p.setBrush(ChartStyleManager::getTooltipBackground());
-        p.setPen(ChartStyleManager::getTooltipBorder());
-        p.drawRect(rect);
-        p.setPen(ChartStyleManager::getColorTheme().text);
-        p.drawText(rect, Qt::AlignCenter, text);
+    void drawSocChart(QPainter &p, int left, int top, int w, int h,
+                      const QVector<BatteryTimeInfo> &data,
+                      const QVector<QDateTime> &timestamps,
+                      const QDateTime &vpStart, const QDateTime &vpEnd)
+    {
+        int n = data.size();
+        ChartWidgetBase::drawChartFrame(p, left, top, w, h, "电池电量");
+        ChartWidgetBase::drawYAxis(p, left, top, h, 10, 0, 100, 10, "%", 1);
+        ChartWidgetBase::drawXAxisTime(p, left, top, w, h, timestamps, vpStart, vpEnd);
+        QVector<double> vals;
+        vals.reserve(n);
+        for (const auto &d : data) vals.append(d.info.soc);
+        ChartWidgetBase::drawPolyline(p, left, top, w, h, vals, timestamps, 0, 100, vpStart, vpEnd,
+                                      QPen(ChartStyleManager::getColorTheme().success, 2));
     }
 
-    void drawHoverInfo(QPainter &p, const BatteryInfo &info, const QPointF &mousePos) {
-        auto fontTheme = ChartStyleManager::getFontTheme();
-        QFont smallerFont = fontTheme.tooltip;
-        smallerFont.setPointSize(smallerFont.pointSize());  // 减小字号
-        smallerFont.setWeight(QFont::Light);  // 设置为细体
-        p.setFont(smallerFont);
+    void drawTempChart(QPainter &p, int left, int top, int w, int h,
+                       const QVector<BatteryTimeInfo> &data,
+                       const QVector<QDateTime> &timestamps,
+                       const QDateTime &vpStart, const QDateTime &vpEnd)
+    {
+        int n = data.size();
+        const double tempMin = -20, tempMax = 80;
+        ChartWidgetBase::drawChartFrame(p, left, top, w, h, "电池温度");
+        ChartWidgetBase::drawYAxisTopDown(p, left, top, h, left - 45,
+                                          tempMin, tempMax, 10, "°C", 1);
+        ChartWidgetBase::drawXAxisTime(p, left, top, w, h, timestamps, vpStart, vpEnd);
+        QVector<double> vals;
+        vals.reserve(n);
+        for (const auto &d : data) vals.append(d.info.temp);
+        ChartWidgetBase::drawPolyline(p, left, top, w, h, vals, timestamps, tempMin, tempMax, vpStart, vpEnd,
+                                      QPen(ChartStyleManager::getColorTheme().accent, 2));
+    }
 
-        // 将电池序列号分成两行显示
+    void drawBatteryInfoPanel(QPainter &p, const BatteryInfo &info)
+    {
         QString sn = info.battery_sn;
-        QString snFirst = sn.left(8);   // 前8字节
-        QString snSecond = sn.mid(8);   // 后8字节
+        QStringList lines;
+        lines << QString("%1: %2%").arg("SOC",  -4).arg(info.soc)
+              << QString("%1: %2°C").arg("Temp", -4).arg(info.temp, 0, 'f', 1)
+              << QString("%1: %2").arg("Cur",  -4).arg(info.current)
+              << QString("%1: %2").arg("Vol",  -4).arg(info.voltage)
+              << QString("%1: %2").arg("Abn",  -4).arg(info.is_abnormal)
+              << QString("%1: %2").arg("Chrg", -4).arg(info.is_charging)
+              << QString("%1: %2").arg("Htg",  -4).arg(info.heating)
+              << QString("%1: %2").arg("CanH", -4).arg(info.can_heat)
+              << QString("%1: %2").arg("SN_1", -4).arg(sn.left(8))
+              << QString("%1: %2").arg("SN_2", -4).arg(sn.mid(8))
+              << QString("%1: %2").arg("Cyc",  -4).arg(info.battery_cycles_count)
+              << QString("%1: %2").arg("Heal", -4).arg(info.battery_health);
 
-        // 格式化文本，使标签左对齐，冒号对齐
-        QString text = QString(
-                           "%1: %2%\n%3: %4°C\n%5: %6\n%7: %8\n%9: %10\n%11: %12\n%13: %14\n%15: %16\n%17: %18\n%19: %20\n%21: %22\n%23: %24")
-                           .arg("SOC", -4)          // 左对齐，占8个字符宽度
-                           .arg(info.soc)
-                           .arg("Temp", -4)
-                           .arg(info.temp, 0, 'f', 1)
-                           .arg("Cur", -4)
-                           .arg(info.current)
-                           .arg("Vol", -4)
-                           .arg(info.voltage)
-                           .arg("Abn", -4)
-                           .arg(info.is_abnormal)
-                           .arg("Chrg", -4)
-                           .arg(info.is_charging)
-                           .arg("Htg", -4)
-                           .arg(info.heating)
-                           .arg("CanH", -4)
-                           .arg(info.can_heat)
-                           .arg("SN_1", -4)
-                           .arg(snFirst)
-                           .arg("SN_2", -4)
-                           .arg(snSecond)
-                           .arg("Cyc", -4)
-                           .arg(info.battery_cycles_count)
-                           .arg("Heal", -4)
-                           .arg(info.battery_health);
-
-        QFontMetrics fm(p.font());
-
-        // 计算实际文本尺寸
-        QStringList lines = text.split('\n');
-        int maxWidth = 0;
-        for (const QString &line : lines) {
-            int lineWidth = fm.horizontalAdvance(line);
-            if (lineWidth > maxWidth) {
-                maxWidth = lineWidth;
-            }
-        }
-
-        // 计算外框尺寸，添加内边距
-        int wBox = maxWidth + 10;  // 左右各5px内边距
-        int hBox = lines.size() * fm.height() + 8;  // 上下各4px内边距
-
-        // 固定在右侧预留空间内显示
-        QPointF pos;
-        pos.setX(width() - wBox - 10);  // 右侧预留空间内，留10px边距
-        pos.setY(mousePos.y());
-
-        // 垂直位置调整，避免超出边界
-        if (pos.y() + hBox > height() - 10) {
-            pos.setY(height() - hBox - 10);
-        }
-        if (pos.y() < 10) {
-            pos.setY(10);
-        }
-
-        // 绘制背景和边框
-        p.setBrush(ChartStyleManager::getTooltipBackground());
-        p.setPen(ChartStyleManager::getTooltipBorder());
-        p.drawRect(pos.x(), pos.y(), wBox+5, hBox);
-
-        // 设置字体和颜色
-        int ty = pos.y() + fm.ascent() + 4;
-        p.setPen(ChartStyleManager::getColorTheme().danger);
-        for (auto &s : lines) {
-            p.drawText(pos.x() + 5, ty, s);
-            ty += fm.height();
-        }
+        ChartWidgetBase::drawInfoPanel(p, lines, width(),
+                                       ChartStyleManager::getLayoutTheme().marginTop,
+                                       ChartStyleManager::getColorTheme().danger,
+                                       height());
     }
 };
 

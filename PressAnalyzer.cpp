@@ -12,9 +12,9 @@
 #include <QColor>
 #include <QTextBlock>
 #include <QRegExp>
+#include <QRegularExpression>
 #include <QDebug>
 #include <QProcess>
-#include <QRandomGenerator>
 #include <QCheckBox>
 #include <QCompleter>
 #include <QStringListModel>
@@ -29,10 +29,10 @@
 #include <QThread>
 #include <QEventLoop>
 #include <QProgressBar>
-#include "LogParserWorker.h"
 #include <QScrollBar>
 #include <QChar>
 #include <functional>
+#include <algorithm>
 #include "LogNumberHighlighter.h"
 #include <QListView>
 #include <QFontMetrics>
@@ -47,19 +47,14 @@
 #include <QTabWidget>
 #include <QFontDialog>
 #include "HLogBinaryParser.h"
-#include "HLogParser.h"
 #include <QHeaderView>
-#include <QFileSystemModel>
-#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
-#include <QSqlTableModel>
-#include <QTableView>
-#include <QHeaderView>
-#include <QStackedWidget>
 #include <QStyledItemDelegate>
 #include <QClipboard>
 #include <QScrollArea>
+#include <QSet>
+#include <QDialog>
 
 // 前向声明：定义在本文件下方的 static helper
 static void startBackgroundParseHelper(PressAnalyzer *self,
@@ -259,7 +254,6 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     setupFileBrowserDock();
     setupToolBar();
     setupStatusBar();
-    setupCameraDock();
     setupStatusDock();
     setupDbViewerDock();
     setupMenuBar();
@@ -848,7 +842,7 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     m_parseWorker->setFiles(QStringList() << filePath);
     m_parseWorker->setVersion(version);
 
-    m_parseThread = new QThread(this);
+    m_parseThread = new QThread();
     startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
@@ -945,6 +939,12 @@ void PressAnalyzer::setupToolBar()
     fileBrowserButton->setIcon(QIcon(":/icons/icons/folder.png"));
     fileBrowserButton->setToolTip("文件浏览器");
     fileBrowserButton->setIconSize(QSize(20, 20));
+
+    // 动态图表搜索按钮
+    chartSearchButton = new QPushButton(this);
+    chartSearchButton->setIcon(QIcon(":/icons/icons/motion-graphics.png"));
+    chartSearchButton->setToolTip("动态图表搜索");
+    chartSearchButton->setIconSize(QSize(20, 20));
 
     // 工具栏按钮顺序: 文件浏览器|分析ControlEngine|新开窗口|清除窗口
     toolBar->addWidget(fileBrowserButton);
@@ -1095,79 +1095,6 @@ void PressAnalyzer::setupStatusBar()
     statusBar->addPermanentWidget(statusInfoLabel);    // 右侧永久信息：Image/IPK/SN/HW
 }
 
-void PressAnalyzer::setupCameraDock()
-{
-    QToolBar *toolBar = findChild<QToolBar*>();
-    if (!toolBar) return;
-
-    cameraButton = new QPushButton(this);
-    cameraButton->setIcon(QIcon(":/icons/icons/camera.png"));
-    cameraButton->setToolTip("Camera状态");
-    cameraButton->setIconSize(QSize(20, 20));
-    toolBar->addWidget(cameraButton);
-
-    // 应用样式 - 使用与主工具栏一致的样式
-    struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
-    const ButtonTheme themeWarning  {"#FFF3E0", "#FFE4BA", "#FFDA9B", "#5C3B0A"};
-
-    auto styleButton = [](QPushButton *button,
-                          const QString &bg,
-                          const QString &hover,
-                          const QString &pressed,
-                          const QString &fg = QString("#1F2D3D")){
-        if (!button) return;
-        button->setFlat(false);
-        button->setStyleSheet(
-            QString(
-                "QPushButton{"
-                "  background-color:%1;"
-                "  border:1px solid #CCCCCC;"
-                "  border-radius:4px;"
-                "  padding:4px;"
-                "  min-width:28px;"
-                "  min-height:28px;"
-                "}"
-                "QPushButton:hover{"
-                "  background-color:%2;"
-                "}"
-                "QPushButton:pressed{"
-                "  background-color:%3;"
-                "}"
-            ).arg(bg, hover, pressed)
-        );
-    };
-    styleButton(cameraButton, themeWarning.bg, themeWarning.hover, themeWarning.pressed, themeWarning.fg);
-
-    // 创建容器来包含两个列表
-    QWidget *cameraContainer = new QWidget(this);
-    QVBoxLayout *cameraLayout = new QVBoxLayout(cameraContainer);
-    cameraLayout->setContentsMargins(10, 10, 10, 10);
-    cameraLayout->setSpacing(10);
-
-    // 标题标签 - 显示心跳丢失次数
-    titleLabel = new QLabel("心跳丢失次数:0", cameraContainer);
-    titleLabel->setStyleSheet(ChartStyleManager::getTitleStyle());
-    titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setMinimumHeight(30);
-    cameraLayout->addWidget(titleLabel);
-
-    // 心跳丢失事件列表 - 不设置样式，让动态设置的颜色能够正常显示
-    heartbeatLostEventList = new QListWidget(cameraContainer);
-    heartbeatLostEventList->setMaximumHeight(80);
-    cameraLayout->addWidget(heartbeatLostEventList);
-
-    // Camera事件列表
-    cameraEventList = new QListWidget(cameraContainer);
-    // 不设置样式，让动态设置的颜色能够正常显示
-    cameraLayout->addWidget(cameraEventList);
-
-    cameraDock = new QDockWidget("Camera状态", this);
-    cameraDock->setWidget(cameraContainer);
-    cameraDock->setAllowedAreas(Qt::RightDockWidgetArea);
-    addDockWidget(Qt::RightDockWidgetArea, cameraDock);
-    cameraDock->hide();
-}
-
 void PressAnalyzer::setupStatusDock()
 {
     QToolBar *toolBar = findChild<QToolBar*>();
@@ -1178,6 +1105,7 @@ void PressAnalyzer::setupStatusDock()
     statusButton->setToolTip("状态面板");
     statusButton->setIconSize(QSize(20, 20));
     toolBar->addWidget(statusButton);
+    toolBar->addWidget(chartSearchButton);
 
     // 应用样式 - 使用与主工具栏一致的样式
     struct ButtonTheme { QString bg; QString hover; QString pressed; QString fg; };
@@ -1211,18 +1139,53 @@ void PressAnalyzer::setupStatusDock()
     };
     styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);
 
-    // 创建状态容器 - 应用统一样式
+    // ---- Camera 区域（嵌入 statusContainer 顶部）----
+    // 心跳丢失事件列表 / Camera事件列表：仅用于数据跟踪，不显示
+    heartbeatLostEventList = new QListWidget(this);
+    heartbeatLostEventList->hide();
+    cameraEventList = new QListWidget(this);
+    cameraEventList->hide();
+
+    // 标题标签 - 显示心跳丢失次数
+    titleLabel = new QLabel("心跳丢失次数:0", this);
+    titleLabel->setStyleSheet(ChartStyleManager::getTitleStyle());
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setMinimumHeight(28);
+
+    // 事件时间轴
+    eventTimeline = new EventTimelineWidget(this);
+    eventTimeline->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    eventTimeline->setMinimumHeight(100);
+    eventTimeline->setMaximumHeight(160);
+
+    // Camera section widget
+    QWidget *cameraSection = new QWidget(this);
+    cameraSection->setStyleSheet(
+        "QWidget {"
+        "  background-color: white;"
+        "  border: 1px solid #E0E0E0;"
+        "  border-radius: 6px;"
+        "}"
+    );
+    QVBoxLayout *camLayout = new QVBoxLayout(cameraSection);
+    camLayout->setContentsMargins(8, 6, 8, 6);
+    camLayout->setSpacing(4);
+    camLayout->addWidget(titleLabel);
+    camLayout->addWidget(eventTimeline, 1);
+
+    // ---- 创建状态容器 ----
     statusContainer = new QWidget(this);
     statusContainer->setStyleSheet(ChartStyleManager::getStatusContainerStyle());
-    statusContainer->setMinimumWidth(400);  // 设置最小宽度400
+    statusContainer->setMinimumWidth(400);
 
     QVBoxLayout *vLayout = new QVBoxLayout(statusContainer);
     vLayout->setContentsMargins(10, 10, 10, 10);
     vLayout->setSpacing(10);
 
+    // Camera 信息放在最顶部
+    vLayout->addWidget(cameraSection);
 
-
-    // 电池图表 - 应用统一样式
+    // 电池图表
     batteryChart = new BatteryChartWidget(statusContainer);
     batteryChart->setMinimumHeight(500);
     batteryChart->setStyleSheet(
@@ -1247,7 +1210,6 @@ void PressAnalyzer::setupStatusDock()
         "}"
     );
     vLayout->addWidget(cameraTempChart);
-
 
     vLayout->addStretch(1);
     statusContainer->setLayout(vLayout);
@@ -1384,7 +1346,7 @@ void PressAnalyzer::setupMenuBar()
         }
     });
     connect(actToggleCamera, &QAction::triggered, this, [this](){
-        cameraDock->setVisible(!cameraDock->isVisible());
+        statusDock->setVisible(!statusDock->isVisible());
     });
     connect(actToggleStatus, &QAction::triggered, this, [this](){
         statusDock->setVisible(!statusDock->isVisible());
@@ -1937,24 +1899,26 @@ void PressAnalyzer::setupConnections()
     connect(searchResultView, &SearchResultTextView::rowClicked, this, &PressAnalyzer::onSearchResultRowClicked);
     connect(searchResultView, &SearchResultTextView::rowDoubleClicked, this, &PressAnalyzer::onSearchResultRowDoubleClicked);
 
-    // Camera功能连接
-    connect(cameraButton, &QPushButton::clicked, this, [this](){
-        cameraDock->setVisible(!cameraDock->isVisible());
-    });
+    // Camera事件列表（仅数据跟踪）
     connect(cameraEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onCameraEventClicked);
+    // 时间轴点击跳转
+    connect(eventTimeline, &EventTimelineWidget::jumpToLine,
+            this, &PressAnalyzer::onTimelineJumpToLine);
 
-    // 状态面板连接
+    // 状态面板连接：仅切换右侧状态面板的显示/隐藏，不影响左侧 dock
     connect(statusButton, &QPushButton::clicked, this, [this](){
-        if (!statusDock->isVisible()) {
-            statusDock->show();
-            eventDock->hide();
-        } else {
-            statusDock->hide();
-            // 只有当eventList有内容时才显示eventDock
-            if (eventList->count() > 0) {
-                eventDock->show();
-            }
+        statusDock->setVisible(!statusDock->isVisible());
+    });
+
+    // 动态图表搜索按钮 — 单例管理窗口，已打开则 raise
+    connect(chartSearchButton, &QPushButton::clicked, this, [this](){
+        if (!m_chartManager) {
+            m_chartManager = new DynamicChartManager(allLogLines, this);
+            m_chartManager->setAttribute(Qt::WA_DeleteOnClose, false);
         }
+        m_chartManager->show();
+        m_chartManager->raise();
+        m_chartManager->activateWindow();
     });
     connect(heartbeatLostEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
     // 文本改变（例如跳转/选择变动）后也刷新一次可见黄色（节流 50ms）
@@ -2702,10 +2666,27 @@ void PressAnalyzer::analyzeLogLine(const QString &line,
         QDateTime ts;
         if (rxTimestamp.indexIn(line) != -1) {
             QString dtStr = rxTimestamp.cap(2);
-            ts = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
             QString tsStr = rxTimestamp.cap(1);
-            double tsDouble = tsStr.toDouble();
-            int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+            
+        // 解析日期和时间
+        QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
+        QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
+        
+        // 创建本地时间（日志中的时间是北京时间）
+        ts = QDateTime(date, time, Qt::LocalTime);
+            
+            // 提取毫秒部分
+            int dotPos = tsStr.indexOf('.');
+            int msecs = 0;
+            if (dotPos != -1 && dotPos + 1 < tsStr.length()) {
+                QString msecStr = tsStr.mid(dotPos + 1);
+                // 确保毫秒部分有3位数字
+                while (msecStr.length() < 3) {
+                    msecStr += '0';
+                }
+                msecStr = msecStr.left(3); // 只取前3位
+                msecs = msecStr.toInt();
+            }
             ts = ts.addMSecs(msecs);
         }
 
@@ -2773,7 +2754,7 @@ void PressAnalyzer::onParseProgress(int percent, const QString &statusText)
         m_progressBar->show();
         m_progressBar->setValue(percent);
     }
-    if (statusPathLabel) statusPathLabel->setText(statusText);
+    // statusPathLabel 保持显示路径，不用进度文字覆盖
 }
 
 // ============================================================
@@ -2843,6 +2824,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             camEv.lineNumber = ev.lineNumber;
             camEv.display    = ev.display;
             camEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            camEv.timestamp  = ev.timestamp;
             cameraEvents.push_back(camEv);
 
         } else if (ev.eventCategory == "heartbeat") {
@@ -2854,6 +2836,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             stEv.lineNumber = ev.lineNumber;
             stEv.display    = ev.display;
             stEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            stEv.timestamp  = ev.timestamp;
             statusEvents.push_back(stEv);
 
         } else {
@@ -2885,6 +2868,40 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     highlightAllEvents();
     logView->setUpdatesEnabled(true);
 
+    // -------- 填充事件时间轴 --------
+    if (eventTimeline) {
+        QList<TimelineEvent> tlEvents;
+        for (const auto &ev : cameraEvents) {
+            TimelineEvent te;
+            te.lineNumber = ev.lineNumber;
+            te.timestamp  = ev.timestamp;
+            te.display    = ev.display;
+            te.category   = "camera";
+            // 从 display 中提取 note（格式："%1 | [%2] ..."）
+            int s = ev.display.indexOf('[');
+            int e = ev.display.indexOf(']', s);
+            te.note = (s >= 0 && e > s) ? ev.display.mid(s + 1, e - s - 1) : "";
+            tlEvents.append(te);
+        }
+        for (const auto &ev : statusEvents) {
+            TimelineEvent te;
+            te.lineNumber = ev.lineNumber;
+            te.timestamp  = ev.timestamp;
+            te.display    = ev.display;
+            te.category   = "heartbeat";
+            te.note       = "";
+            tlEvents.append(te);
+        }
+        // 按时间戳（有效则按时间，否则按行号）排序
+        std::sort(tlEvents.begin(), tlEvents.end(),
+                  [](const TimelineEvent &a, const TimelineEvent &b) {
+                      if (a.timestamp.isValid() && b.timestamp.isValid())
+                          return a.timestamp < b.timestamp;
+                      return a.lineNumber < b.lineNumber;
+                  });
+        eventTimeline->setEvents(tlEvents);
+    }
+
     titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
     batteryChart->setData(batteryinfo);
     cameraTempChart->setData(cameraTemps);
@@ -2901,7 +2918,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     usageChart->setData(allusage);
     m_pendingTopLogs.clear();
 
-    if (statusPathLabel) statusPathLabel->setText("解析完成");
+    // statusPathLabel intentionally left unchanged — path was set before parsing started
 }
 
 void PressAnalyzer::loadAndAnalyzeLog()
@@ -2946,7 +2963,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     m_parseWorker->setFiles(QStringList() << filePath);
     m_parseWorker->setVersion(version);
 
-    m_parseThread = new QThread(this);
+    m_parseThread = new QThread();
     startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
@@ -3261,6 +3278,14 @@ void PressAnalyzer::loadAndAnalyzeLogs()
         }
     }
 
+    // 如果用户直接选中了 control_engine_log 目录本身，自动上移到父目录
+    {
+        QFileInfo selInfo(path);
+        if (selInfo.isDir() && selInfo.fileName() == "control_engine_log") {
+            path = selInfo.absolutePath();
+        }
+    }
+
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
     QFileInfo info(path);
 
@@ -3302,7 +3327,7 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     m_parseWorker->setFiles(controlLogs);
     m_parseWorker->setVersion(version);
 
-    m_parseThread = new QThread(this);
+    m_parseThread = new QThread();
     startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
@@ -3450,7 +3475,7 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     m_parseWorker->setFiles(controlLogs);
     m_parseWorker->setVersion(version);
 
-    m_parseThread = new QThread(this);
+    m_parseThread = new QThread();
     startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
 }
 
@@ -3964,7 +3989,7 @@ void PressAnalyzer::clearWindow()
     triggerCount = 0;
     flightCount = 0;
     cameraEventList->clear();
-    cameraDock->hide();
+    if (eventTimeline) eventTimeline->clear();
     heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
@@ -4107,6 +4132,7 @@ void PressAnalyzer::searchAll()
     // 记录完整的原始搜索表达式，而不是分割后的关键字
     QString originalSearchText = searchEdit->text().trimmed();
     addSearchHistory(originalSearchText);
+
 }
 
 // 高亮搜索结果
@@ -4373,11 +4399,25 @@ void PressAnalyzer::parseStatusBattery(int lineNumber, const QString &line)
             QString tsStr = rxTimestamp.cap(1);   // 9733.000
             QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
 
-            timeinfo.timestamp = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
+            // 解析日期和时间
+            QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
+            QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
+            
+            // 创建本地时间（日志中的时间是北京时间）
+            timeinfo.timestamp = QDateTime(date, time, Qt::LocalTime);
 
-            // 补上毫秒部分
-            double tsDouble = tsStr.toDouble();
-            int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+            // 提取毫秒部分
+            int dotPos = tsStr.indexOf('.');
+            int msecs = 0;
+            if (dotPos != -1 && dotPos + 1 < tsStr.length()) {
+                QString msecStr = tsStr.mid(dotPos + 1);
+                // 确保毫秒部分有3位数字
+                while (msecStr.length() < 3) {
+                    msecStr += '0';
+                }
+                msecStr = msecStr.left(3); // 只取前3位
+                msecs = msecStr.toInt();
+            }
             timeinfo.timestamp = timeinfo.timestamp.addMSecs(msecs);
         }
         timeinfo.info = parseBatteryInfo(line);
@@ -4412,6 +4452,129 @@ void PressAnalyzer::onStatusEventClicked(QListWidgetItem *item)
     logView->centerCursor();  // 居中显示
 }
 
+void PressAnalyzer::onTimelineJumpToLine(int lineNumber)
+{
+    if (lineNumber <= 0) return;
+    QTextBlock block = logView->document()->findBlockByNumber(lineNumber - 1);
+    if (!block.isValid()) return;
+    QTextCursor cursor(block);
+    logView->setTextCursor(cursor);
+    logView->centerCursor();
+}
+
+void PressAnalyzer::offerChartFromSearchResults()
+{
+    if (searchResults.isEmpty()) return;
+
+    // 扫描所有匹配行，收集出现过的键名
+    QRegularExpression kvRx(R"(\b([A-Za-z_][A-Za-z0-9_]*)\s*[:=]\s*-?\d[\d.]*\b)");
+    QMap<QString, int> keyCount;
+
+    for (int idx : searchResults) {
+        if (idx < 0 || idx >= allLogLines.size()) continue;
+        const QString &line = allLogLines[idx];
+        QSet<QString> seenInLine;
+        auto it = kvRx.globalMatch(line);
+        while (it.hasNext()) {
+            auto m = it.next();
+            QString k = m.captured(1);
+            if (!seenInLine.contains(k)) { keyCount[k]++; seenInLine.insert(k); }
+        }
+    }
+
+    if (keyCount.isEmpty()) return;
+
+    QStringList keys = keyCount.keys();
+    std::sort(keys.begin(), keys.end(), [&](const QString &a, const QString &b){
+        return keyCount[a] > keyCount[b];
+    });
+
+    // 多选对话框
+    QDialog dlg(this);
+    dlg.setWindowTitle("选择要绘制的字段");
+    dlg.setMinimumWidth(300);
+    QVBoxLayout *dlgLayout = new QVBoxLayout(&dlg);
+
+    QLabel *hint = new QLabel(
+        QString("在 %1 条搜索结果中发现以下数值字段，\n选择后将添加到动态图表：")
+            .arg(searchResults.size()), &dlg);
+    hint->setWordWrap(true);
+    dlgLayout->addWidget(hint);
+
+    QListWidget *listW = new QListWidget(&dlg);
+    listW->setSelectionMode(QAbstractItemView::MultiSelection);
+    for (const QString &k : keys) {
+        auto *item = new QListWidgetItem(
+            QString("%1  （%2 行）").arg(k).arg(keyCount[k]), listW);
+        item->setData(Qt::UserRole, k);
+    }
+    dlgLayout->addWidget(listW);
+
+    QHBoxLayout *btnLayout = new QHBoxLayout;
+    QPushButton *btnOk     = new QPushButton("添加到图表", &dlg);
+    QPushButton *btnCancel = new QPushButton("取消",       &dlg);
+    btnLayout->addStretch();
+    btnLayout->addWidget(btnOk);
+    btnLayout->addWidget(btnCancel);
+    dlgLayout->addLayout(btnLayout);
+    connect(btnOk,     &QPushButton::clicked, &dlg, &QDialog::accept);
+    connect(btnCancel, &QPushButton::clicked, &dlg, &QDialog::reject);
+    if (dlg.exec() != QDialog::Accepted) return;
+
+    QStringList selectedKeys;
+    for (auto *item : listW->selectedItems())
+        selectedKeys << item->data(Qt::UserRole).toString();
+    if (selectedKeys.isEmpty()) return;
+
+    // 确保管理窗口已创建
+    if (!m_chartManager)
+        m_chartManager = new DynamicChartManager(allLogLines, this);
+
+    QRegularExpression tsRx(R"(\[\d+(?:\.\d+)?\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    const QString searchLabel = searchCombo->currentText();
+
+    QStringList seriesLabels;
+    QVector<QVector<double>>    valuesPerKey;
+    QVector<QVector<QDateTime>> timestampsPerKey;
+
+    for (const QString &fieldKey : selectedKeys) {
+        QRegularExpression valRx(
+            QString(R"(\b%1\s*[:=]\s*([-\d.]+))").arg(QRegularExpression::escape(fieldKey)));
+        QVector<double>    values;
+        QVector<QDateTime> timestamps;
+        for (int idx : searchResults) {
+            if (idx < 0 || idx >= allLogLines.size()) continue;
+            const QString &line = allLogLines[idx];
+            auto tsM  = tsRx.match(line);
+            auto valM = valRx.match(line);
+            if (!tsM.hasMatch() || !valM.hasMatch()) continue;
+            QDateTime dt = QDateTime::fromString(tsM.captured(1), "yyyy-MM-dd HH:mm:ss");
+            bool ok = false;
+            double v = valM.captured(1).toDouble(&ok);
+            if (!dt.isValid() || !ok) continue;
+            timestamps.append(dt);
+            values.append(v);
+        }
+        if (values.isEmpty()) continue;
+        seriesLabels << QString("%1 (%2)").arg(fieldKey, searchLabel);
+        valuesPerKey << values;
+        timestampsPerKey << timestamps;
+    }
+
+    if (seriesLabels.isEmpty()) return;
+
+    QString cardTitle = selectedKeys.size() == 1
+        ? QString("%1 (%2)").arg(selectedKeys.first(), searchLabel)
+        : QString("%1 等 %2 项 (%3)")
+              .arg(selectedKeys.first()).arg(selectedKeys.size()).arg(searchLabel);
+
+    m_chartManager->addChartDirect(cardTitle, selectedKeys,
+                                   valuesPerKey, timestampsPerKey, seriesLabels);
+    m_chartManager->show();
+    m_chartManager->raise();
+    m_chartManager->activateWindow();
+}
+
 void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
 {
     // 如果行中不包含关键字，直接跳过
@@ -4422,27 +4585,41 @@ void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
     SocTempInfo info;
 
     // 提取时间戳和日期时间
-    QRegExp rxTimestamp("\\[(\\d+\\.\\d+)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+    QRegExp rxTimestamp("\\[(\\d+(?:\\.\\d+)?)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]");
     if (rxTimestamp.indexIn(line) != -1) {
-        QString tsStr = rxTimestamp.cap(1);   // 9733.000
+        QString tsStr = rxTimestamp.cap(1);   // 9733 或 9733.000
         QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
 
-        info.timestamp = QDateTime::fromString(dtStr, "yyyy-MM-dd HH:mm:ss");
+        // 解析日期和时间
+        QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
+        QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
+        
+        // 创建本地时间（日志中的时间是北京时间）
+        info.timestamp = QDateTime(date, time, Qt::LocalTime);
 
-        // 补上毫秒部分
-        double tsDouble = tsStr.toDouble();
-        int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+        // 提取毫秒部分
+        int dotPos = tsStr.indexOf('.');
+        int msecs = 0;
+        if (dotPos != -1 && dotPos + 1 < tsStr.length()) {
+            QString msecStr = tsStr.mid(dotPos + 1);
+            // 确保毫秒部分有3位数字
+            while (msecStr.length() < 3) {
+                msecStr += '0';
+            }
+            msecStr = msecStr.left(3); // 只取前3位
+            msecs = msecStr.toInt();
+        }
         info.timestamp = info.timestamp.addMSecs(msecs);
     }
 
     // 提取 max temp
-    QRegExp rxMax("get soc max temp\\s*:\\s*(\\d+)");
+    QRegExp rxMax("get soc max temp\\s*[:=]\\s*(\\d+)");
     if (rxMax.indexIn(line) != -1) {
         info.maxTemp = rxMax.cap(1).toInt();
     }
 
     // 提取 core temp
-    QRegExp rxCore("core temp\\s*:\\s*([0-9:]+)");
+    QRegExp rxCore("core temp\\s*[:=]\\s*([0-9:]+)");
     if (rxCore.indexIn(line) != -1) {
         QStringList temps = rxCore.cap(1).split(":");
         for (const QString &t : temps) {
@@ -4450,7 +4627,8 @@ void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
         }
     }
 
-    // 保存到成员 QVector
+    // 只保留有效数据点：timestamp 必须 valid，maxTemp 必须 > 0
+    if (!info.timestamp.isValid() || info.maxTemp <= 0) return;
     soctmp.append(info);
 }
 
@@ -4461,7 +4639,8 @@ QDateTime PressAnalyzer::parseTopTime(const QString &line) {
     if (rx.indexIn(line) != -1) {
         QString timeStr = rx.cap(1);
         QTime t = QTime::fromString(timeStr, "HH:mm:ss");
-        return QDateTime(QDate::currentDate(), t); // 使用当天日期
+        // 使用当天日期，设置为本地时间（北京时间）
+        return QDateTime(QDate::currentDate(), t, Qt::LocalTime);
     }
     return QDateTime();
 }
@@ -4918,6 +5097,25 @@ void PressAnalyzer::applyButtonStyles()
     styleButton(clearButton,     themeDanger.bg,  themeDanger.hover,  themeDanger.pressed,  themeDanger.fg);
     styleButton(newWindowButton, themeIndigo.bg,   themeIndigo.hover,   themeIndigo.pressed,   themeIndigo.fg);
     styleButton(searchAllButton, themeInfo.bg,    themeInfo.hover,    themeInfo.pressed,    themeInfo.fg);
+    styleButton(chartSearchButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);
     styleButton(searchPrevButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);
     styleButton(searchNextButton,themeNeutral.bg, themeNeutral.hover, themeNeutral.pressed, themeNeutral.fg);
+}
+
+// ============================================================
+// closeEvent: safely stop any running background parse thread
+// before the window and its children are destroyed.
+// Without this, destroying PressAnalyzer while m_parseThread is
+// still running causes QThread::~QThread() to call fatal().
+// ============================================================
+void PressAnalyzer::closeEvent(QCloseEvent *event)
+{
+    if (m_parseThread && m_parseThread->isRunning()) {
+        m_parseThread->quit();          // ask event loop to exit
+        m_parseThread->wait(3000);      // wait up to 3 s
+        if (m_parseThread->isRunning())
+            m_parseThread->terminate(); // force-kill as last resort
+        m_parseThread->wait(500);
+    }
+    QMainWindow::closeEvent(event);
 }

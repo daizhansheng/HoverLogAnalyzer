@@ -2,7 +2,6 @@
 #define LOGPARSERWORKER_H
 
 #include <QObject>
-#include <QThread>
 #include <QStringList>
 #include <QDateTime>
 #include <QVector>
@@ -19,6 +18,7 @@ struct ParsedEventItem {
     QString display;
     int triggerCount;      // 用于 eventList 着色
     QString eventCategory; // "main" | "camera" | "heartbeat"
+    QDateTime timestamp;   // 事件时间戳（供 timeline 使用）
 };
 
 struct ParseResult {

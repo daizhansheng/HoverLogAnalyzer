@@ -2,6 +2,7 @@
 #define PRESSANALYZER_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include <QListWidget>
 #include <QPlainTextEdit>
 #include <QPushButton>
@@ -31,11 +32,9 @@ protected:
 #include <QTextBlock>
 #include <QTextEdit>
 #include <QLabel>
-#include "SearchResultHighlighter.h"
 #include "SearchResultTextView.h"
 #include "BatteryChartWidget.h"
 #include "SocTempChartWidget.h"
-#include "DockToggleButton.h"
 #include "ModuleUsageChart.h"
 #include "ChartStyleManager.h"
 #include "CameraTempChartWidget.h"
@@ -51,6 +50,10 @@ protected:
 #include <QThread>
 #include <QProgressBar>
 #include "LogParserWorker.h"
+#include "EventTimelineWidget.h"
+#include "DynamicChartWidget.h"
+#include "DynamicChartWindow.h"
+#include "DynamicChartManager.h"
 
 class QStandardItemModel;
 
@@ -58,6 +61,7 @@ struct EventItem {
     int lineNumber;    // 日志行号
     QString display;   // 显示文本
     QTextBlock block;  // 对应 viewLog 的文本块
+    QDateTime timestamp; // 事件时间戳（供 timeline 使用）
 };
 
 class PressAnalyzer : public QMainWindow
@@ -66,6 +70,9 @@ class PressAnalyzer : public QMainWindow
 
 public:
     explicit PressAnalyzer(QWidget *parent = nullptr);
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     // 文件操作
@@ -93,6 +100,7 @@ private slots:
     void onSearchResultRowDoubleClicked(int row);
     void onCameraEventClicked(QListWidgetItem *item);
     void onStatusEventClicked(QListWidgetItem *item);
+    void onTimelineJumpToLine(int lineNumber);
 
 public slots:
     // 后台解析槽（需要 public 以便 static helper 函数通过函数指针连接）
@@ -178,7 +186,6 @@ private:
     void setupFileBrowserDock();
     void setupToolBar();
     void setupStatusBar();
-    void setupCameraDock();
     void setupStatusDock();
     void setupMenuBar();
     void setupUsageContainer();
@@ -190,6 +197,8 @@ private:
     void setupDbViewerDock();
     void openDatabaseFile(const QString &filePath);
     void loadDbTable(const QString &tableName);
+    // 搜索结果键值对提取并加入动态图表（由 searchAll 调用）
+    void offerChartFromSearchResults();
 private:
     // ==================== 工具栏控件 ====================
     QPushButton *analyzeControlButton;  // 专用分析按钮
@@ -238,14 +247,13 @@ private:
     QStringList pinnedHints;      // user pinned hints (persistent)
     QStringList historyHints;
     // ==================== camera ====================
-    QDockWidget *cameraDock;
     QListWidget *cameraEventList;
-    QPushButton *cameraButton;   // 工具栏按钮
     QList<EventItem> cameraEvents;
+    EventTimelineWidget *eventTimeline = nullptr;  // 事件时间轴
     // ==================== status ====================
     QDockWidget *statusDock;
     QListWidget *heartbeatLostEventList;
-    QPushButton *statusButton;   // 工具栏按钮
+    QPushButton *statusButton;   // 工具栏按钮（状态面板，含 camera 信息）
     QList<EventItem> statusEvents;
     QString sn;      //飞机sn号
     // ==================== battery ====================
@@ -277,6 +285,10 @@ private:
     QSqlDatabase currentDb;
     QSqlTableModel *dbTableModel = nullptr;
     QString currentDbPath;
+
+     // ==================== 动态图表 ====================
+     QPushButton          *chartSearchButton  = nullptr;   // 工具栏：打开动态图表管理窗口
+     DynamicChartManager  *m_chartManager     = nullptr;   // 单例管理窗口
 
     // 文本缩放：当前字体大小
     int logFontPointSize;

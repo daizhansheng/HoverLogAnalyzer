@@ -521,11 +521,24 @@ void LogParserWorker::parseCameraStatus(int lineNumber, const QString &line, Par
                           .arg(bitToStr(recording))
                           .arg(bitToStr(snapshot));
 
+    // 提取时间戳
+    static const QRegularExpression rxTs(
+        R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    QDateTime evTs;
+    auto mTs = rxTs.match(line);
+    if (mTs.hasMatch()) {
+        evTs = QDateTime::fromString(mTs.captured(2), "yyyy-MM-dd HH:mm:ss");
+        double tsDouble = mTs.captured(1).toDouble();
+        int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+        evTs = evTs.addMSecs(msecs);
+    }
+
     ParsedEventItem ev;
     ev.lineNumber = lineNumber;
     ev.triggerCount = m_triggerCount;
     ev.eventCategory = "camera";
     ev.display = display;
+    ev.timestamp = evTs;
     result.events << ev;
 }
 
@@ -537,11 +550,24 @@ void LogParserWorker::parseStatusHeartbeat(int lineNumber, const QString &line, 
     if (!line.contains("APP heart timeout delay", Qt::CaseInsensitive))
         return;
 
+    // 提取时间戳
+    static const QRegularExpression rxTs(
+        R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    QDateTime evTs;
+    auto mTs = rxTs.match(line);
+    if (mTs.hasMatch()) {
+        evTs = QDateTime::fromString(mTs.captured(2), "yyyy-MM-dd HH:mm:ss");
+        double tsDouble = mTs.captured(1).toDouble();
+        int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+        evTs = evTs.addMSecs(msecs);
+    }
+
     ParsedEventItem ev;
     ev.lineNumber = lineNumber;
     ev.triggerCount = m_triggerCount;
     ev.eventCategory = "heartbeat";
     ev.display = QString("%1 | App/RC 连接超时10s").arg(lineNumber);
+    ev.timestamp = evTs;
     result.events << ev;
 }
 
@@ -561,9 +587,28 @@ void LogParserWorker::parseStatusBattery(int lineNumber, const QString &line, Pa
     BatteryTimeInfo timeinfo;
     auto mTs = rxTimestamp.match(line);
     if (mTs.hasMatch()) {
-        timeinfo.timestamp = QDateTime::fromString(mTs.captured(2), "yyyy-MM-dd HH:mm:ss");
-        double tsDouble = mTs.captured(1).toDouble();
-        int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+        QString dtStr = mTs.captured(2); // "2026-04-03 17:42:38"
+        QString tsStr = mTs.captured(1); // "7635.014"
+        
+        // 解析日期和时间
+        QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
+        QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
+        
+        // 创建本地时间（日志中的时间是北京时间）
+        timeinfo.timestamp = QDateTime(date, time, Qt::LocalTime);
+        
+        // 提取毫秒部分
+        int dotPos = tsStr.indexOf('.');
+        int msecs = 0;
+        if (dotPos != -1 && dotPos + 1 < tsStr.length()) {
+            QString msecStr = tsStr.mid(dotPos + 1);
+            // 确保毫秒部分有3位数字
+            while (msecStr.length() < 3) {
+                msecStr += '0';
+            }
+            msecStr = msecStr.left(3); // 只取前3位
+            msecs = msecStr.toInt();
+        }
         timeinfo.timestamp = timeinfo.timestamp.addMSecs(msecs);
     }
 
@@ -603,17 +648,36 @@ void LogParserWorker::parseStatusSocTemp(int lineNumber, const QString &line, Pa
         return;
 
     static const QRegularExpression rxTimestamp(
-        R"(\[(\d+\.\d+)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
-    static const QRegularExpression rxMax(R"(get soc max temp\s*:\s*(\d+))");
-    static const QRegularExpression rxCore(R"(core temp\s*:\s*([0-9:]+))");
+        R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    static const QRegularExpression rxMax(R"(get soc max temp\s*[:=]\s*(\d+))");
+    static const QRegularExpression rxCore(R"(core temp\s*[:=]\s*([0-9:]+))");
 
     SocTempInfo info;
 
     auto mTs = rxTimestamp.match(line);
     if (mTs.hasMatch()) {
-        info.timestamp = QDateTime::fromString(mTs.captured(2), "yyyy-MM-dd HH:mm:ss");
-        double tsDouble = mTs.captured(1).toDouble();
-        int msecs = static_cast<int>((tsDouble - static_cast<int>(tsDouble)) * 1000);
+        QString dtStr = mTs.captured(2); // "2026-04-03 17:42:38"
+        QString tsStr = mTs.captured(1); // "7635.014"
+        
+        // 解析日期和时间
+        QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
+        QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
+        
+        // 创建本地时间（日志中的时间是北京时间）
+        info.timestamp = QDateTime(date, time, Qt::LocalTime);
+        
+        // 提取毫秒部分
+        int dotPos = tsStr.indexOf('.');
+        int msecs = 0;
+        if (dotPos != -1 && dotPos + 1 < tsStr.length()) {
+            QString msecStr = tsStr.mid(dotPos + 1);
+            // 确保毫秒部分有3位数字
+            while (msecStr.length() < 3) {
+                msecStr += '0';
+            }
+            msecStr = msecStr.left(3); // 只取前3位
+            msecs = msecStr.toInt();
+        }
         info.timestamp = info.timestamp.addMSecs(msecs);
     }
 
@@ -627,6 +691,8 @@ void LogParserWorker::parseStatusSocTemp(int lineNumber, const QString &line, Pa
             info.coreTemps.append(t.toInt());
     }
 
+    // 只保留有效数据点：timestamp 必须 valid，maxTemp 必须 > 0
+    if (!info.timestamp.isValid() || info.maxTemp <= 0) return;
     result.soctmp.append(info);
 }
 

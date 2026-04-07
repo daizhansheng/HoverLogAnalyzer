@@ -17,5 +17,6 @@
         <file>icons/dir-arrow.png</file>
         <file>icons/folder.png</file>
         <file>icons/analytics_ce.png</file>
+        <file>icons/motion-graphics.png</file>
     </qresource>
 </RCC>

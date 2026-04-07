@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QDateTime>
 #include <QRegularExpression>
+#include "ChartBaseWidget.h"
 #include "ChartStyleManager.h"
 
 struct FlightEvent {
@@ -237,17 +238,12 @@ private:
         auto fontTheme = ChartStyleManager::getFontTheme();
         p.setFont(fontTheme.tooltip);
         QString text = label;
-        if (!notifyLabels.isEmpty() && label == "FLYING") {
+        if (!notifyLabels.isEmpty() && label == "FLYING")
             text += "  ·  " + notifyLabels.first();
-        }
         QFontMetrics fm(p.font());
         QRect rect = fm.boundingRect(text).adjusted(-8, -6, 8, 6);
         rect.moveTo(16, 36);
-        p.setBrush(ChartStyleManager::getTooltipBackground());
-        p.setPen(ChartStyleManager::getTooltipBorder());
-        p.drawRect(rect);
-        p.setPen(ChartStyleManager::getColorTheme().text);
-        p.drawText(rect, Qt::AlignCenter, text);
+        ChartWidgetBase::drawLabelBox(p, rect, text, ChartStyleManager::getColorTheme().text);
     }
 
     void drawTimeline(QPainter &p) {
@@ -260,12 +256,10 @@ private:
             QFontMetrics fm(p.font());
             int w = fm.horizontalAdvance(s) + 12;
             QRect r(x - w, y, w, 20);
-            p.setBrush(i == currentStepIndex ? ChartStyleManager::getColorTheme().primary.lighter(180)
-                                             : ChartStyleManager::getChartBackground());
-            p.setPen(ChartStyleManager::getAxisPen());
-            p.drawRect(r);
-            p.setPen(ChartStyleManager::getColorTheme().text);
-            p.drawText(r, Qt::AlignCenter, s);
+            QBrush bg = (i == currentStepIndex)
+                        ? QBrush(ChartStyleManager::getColorTheme().primary.lighter(180))
+                        : ChartStyleManager::getChartBackground();
+            ChartWidgetBase::drawLabelBox(p, r, s, ChartStyleManager::getColorTheme().text, bg);
             y += 24;
         }
     }
