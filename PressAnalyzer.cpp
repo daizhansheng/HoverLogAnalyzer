@@ -56,6 +56,36 @@
 #include <QSet>
 #include <QDialog>
 
+// 根据可用宽度自动省略路径，从左侧省略以保留末尾目录名
+class ElidedPathLabel : public QLabel {
+public:
+    explicit ElidedPathLabel(QWidget *parent = nullptr) : QLabel(parent) {
+        setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+        setMinimumWidth(0);
+    }
+
+    void setFullText(const QString &text) {
+        m_fullText = text;
+        updateElidedText();
+        setToolTip(text);
+    }
+
+protected:
+    void resizeEvent(QResizeEvent *e) override {
+        QLabel::resizeEvent(e);
+        updateElidedText();
+    }
+
+private:
+    void updateElidedText() {
+        QFontMetrics fm(font());
+        QString elided = fm.elidedText(m_fullText, Qt::ElideLeft, width() - 8);
+        setText(elided);
+    }
+
+    QString m_fullText;
+};
+
 // 前向声明：定义在本文件下方的 static helper
 static void startBackgroundParseHelper(PressAnalyzer *self,
                                         LogParserWorker *worker,
@@ -507,9 +537,9 @@ void PressAnalyzer::setupFileBrowserDock()
         "QPushButton:pressed{ background-color:#90CAF9; }"
     );
 
-    QLabel *pathLabel = new QLabel(this);
+    ElidedPathLabel *pathLabel = new ElidedPathLabel(this);
     pathLabel->setObjectName("fileBrowserPathLabel");
-    pathLabel->setText("未选择目录");
+    pathLabel->setFullText("未选择目录");
     pathLabel->setStyleSheet(
         "QLabel {"
         "  color: #666666;"
@@ -520,7 +550,6 @@ void PressAnalyzer::setupFileBrowserDock()
         "  border-radius: 3px;"
         "}"
     );
-    pathLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     QPushButton *chooseDirButton = new QPushButton(this);
     chooseDirButton->setIcon(QIcon(":/icons/icons/analytics_ce.png"));
@@ -548,7 +577,7 @@ void PressAnalyzer::setupFileBrowserDock()
     fileBrowserDock->setWidget(browserContainer);
     fileBrowserDock->setAllowedAreas(Qt::LeftDockWidgetArea);
     fileBrowserDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
-    fileBrowserDock->setMinimumWidth(250);
+    fileBrowserDock->setMinimumWidth(150);
     addDockWidget(Qt::LeftDockWidgetArea, fileBrowserDock);
     fileBrowserDock->hide(); // 初始隐藏
 
@@ -705,18 +734,10 @@ void PressAnalyzer::openDirectoryInBrowser(const QString &dirPath)
     fileSystemModel->setRootPath(dirPath);
     fileBrowserTree->setRootIndex(fileSystemModel->index(dirPath));
 
-    // 更新路径标签
-    QLabel *pathLabel = fileBrowserDock->findChild<QLabel*>("fileBrowserPathLabel");
+    // 更新路径标签：传入完整路径，由 ElidedPathLabel 根据宽度自动省略
+    ElidedPathLabel *pathLabel = fileBrowserDock->findChild<ElidedPathLabel*>("fileBrowserPathLabel");
     if (pathLabel) {
-        // 简化显示：只显示最后两级目录
-        QDir dir(dirPath);
-        QString displayPath = dir.dirName();
-        QDir parent = dir;
-        if (parent.cdUp()) {
-            displayPath = parent.dirName() + "/" + displayPath;
-        }
-        pathLabel->setText(displayPath);
-        pathLabel->setToolTip(dirPath);
+        pathLabel->setFullText(dirPath);
     }
 
     // 展开根目录
