@@ -1,4 +1,8 @@
 #include "PressAnalyzer.h"
+#include <QtConcurrent/QtConcurrent>
+#include <QFuture>
+#include <QFutureWatcher>
+#include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFileDialog>
@@ -86,10 +90,120 @@ private:
     QString m_fullText;
 };
 
+// ==================== 颜色标记：Notepad++ 风格5色 ====================
+const QColor PressAnalyzer::s_markColors[5] = {
+    QColor(  0, 180, 255),   // 0: 颜色1  深天蓝  (对比搜索浅黄/浅绿)
+    QColor(255,  80,   0),   // 1: 颜色2  深橙红  (对比搜索浅蓝/浅粉)
+    QColor(180,   0, 220),   // 2: 颜色3  深紫    (对比搜索浅黄/浅绿)
+    QColor(  0, 180,  60),   // 3: 颜色4  深绿    (对比搜索浅粉/浅蓝)
+    QColor(160,  80,   0),   // 4: 颜色5  深棕    (对比搜索浅色系，与其他4色差异大)
+};
+
 // 前向声明：定义在本文件下方的 static helper
 static void startBackgroundParseHelper(PressAnalyzer *self,
                                         LogParserWorker *worker,
                                         QThread *thread);
+
+void PressAnalyzer::applyLineColorMark(int colorIndex, const QString &keyword)
+{
+    if (colorIndex < 0 || colorIndex >= 5) return;
+
+    QString kw = keyword;
+    if (kw.isEmpty()) {
+        // 未传入关键字时，从 logView 取选中文本
+        QTextCursor cursor = logView->textCursor();
+        if (cursor.hasSelection())
+            kw = cursor.selectedText().trimmed();
+    }
+    if (kw.isEmpty()) return;
+
+    m_colorMarks[kw] = colorIndex;
+    m_colorMarkRebuildTimer->start(80);
+}
+
+void PressAnalyzer::clearColorMarkByText(const QString &text)
+{
+    m_colorMarks.remove(text);
+    m_colorMarkRebuildTimer->start(80);
+}
+
+void PressAnalyzer::clearLineColorMark(int /*lineNumber*/)
+{
+    // 保留接口兼容，实际已无整行标记逻辑
+}
+
+void PressAnalyzer::clearAllColorMarks()
+{
+    m_colorMarks.clear();
+    m_colorMarkHighlights.clear();
+    updateVisibleHighlights();
+    searchResultView->setColorMarkPatterns({});
+}
+
+void PressAnalyzer::rebuildColorMarkSelections()
+{
+    m_colorMarkHighlights.clear();
+    m_searchViewColorHighlights.clear();
+    if (m_colorMarks.isEmpty()) {
+        updateVisibleHighlights();
+        return;
+    }
+
+    const QString logText = logView->toPlainText();
+    QMap<QString, int> marks = m_colorMarks;
+
+    using Hit = std::tuple<int,int,int>;
+    QFuture<QList<Hit>> future = QtConcurrent::run(
+        [logText, marks]() -> QList<Hit> {
+            QList<Hit> hits;
+            for (auto it = marks.constBegin(); it != marks.constEnd(); ++it) {
+                const QString &kw = it.key();
+                int colorIdx = it.value();
+                if (kw.isEmpty()) continue;
+                int pos = 0;
+                while ((pos = logText.indexOf(kw, pos, Qt::CaseSensitive)) != -1) {
+                    hits.append({pos, kw.length(), colorIdx});
+                    pos += kw.length();
+                }
+            }
+            return hits;
+        }
+    );
+
+    auto *watcher = new QFutureWatcher<QList<Hit>>(this);
+    connect(watcher, &QFutureWatcher<QList<Hit>>::finished, this,
+        [this, watcher](){
+            using Hit = std::tuple<int,int,int>;
+            const auto &hits = watcher->result();
+            watcher->deleteLater();
+
+            QList<QTextEdit::ExtraSelection> sels;
+            for (const auto &h : hits) {
+                int pos  = std::get<0>(h);
+                int len  = std::get<1>(h);
+                int cidx = std::get<2>(h);
+                QTextCursor c(logView->document());
+                c.setPosition(pos);
+                c.setPosition(pos + len, QTextCursor::KeepAnchor);
+                QTextEdit::ExtraSelection sel;
+                sel.cursor = c;
+                QTextCharFormat fmt;
+                fmt.setBackground(s_markColors[cidx]);
+                fmt.setForeground(Qt::white);  // 深色背景配白色文字，对比度更高
+                sel.format = fmt;
+                sels.append(sel);
+            }
+            m_colorMarkHighlights = sels;
+            updateVisibleHighlights();
+            // 同步颜色标记到查找结果窗口
+            QMap<QString, QColor> markColors;
+            for (auto it = m_colorMarks.constBegin(); it != m_colorMarks.constEnd(); ++it)
+                markColors[it.key()] = s_markColors[it.value()];
+            searchResultView->setColorMarkPatterns(markColors);
+        }
+    );
+    watcher->setFuture(future);
+}
 
 void PressAnalyzer::updateVisibleHighlights()
 {
@@ -160,7 +274,9 @@ void PressAnalyzer::updateVisibleHighlights()
             }
         }
     }
-    logView->setExtraSelections(selections);
+    // 颜色标记高亮（全文，置于最底层，先加入）
+    QList<QTextEdit::ExtraSelection> allSelections = m_colorMarkHighlights + selections;
+    logView->setExtraSelections(allSelections);
 }
 
 bool PressAnalyzer::extractZipFile(const QString &zipPath, const QString &extractDir)
@@ -293,6 +409,11 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // 初始化后应用加载的字体到各个控件
     applySavedFonts();
 
+    // 颜色标记防抖 timer（单次触发，80ms 后执行全文扫描）
+    m_colorMarkRebuildTimer = new QTimer(this);
+    m_colorMarkRebuildTimer->setSingleShot(true);
+    connect(m_colorMarkRebuildTimer, &QTimer::timeout, this, &PressAnalyzer::rebuildColorMarkSelections);
+
 }
 
 // removed dynamic width adjustment
@@ -363,6 +484,186 @@ void PressAnalyzer::setupCentralWidget()
         "QPlainTextEdit{selection-background-color:#80BFFF; selection-color:white;}"
     );
 
+    // ---- logView 右键菜单（含颜色标记） ----
+    logView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(logView, &QPlainTextEdit::customContextMenuRequested, this, [this](const QPoint &pos){
+        QMenu *menu = new QMenu(logView);
+        // 统一菜单行高（一级菜单无图标，宽度按文字自适应）
+        const QString menuQss =
+            "QMenu {"
+            "  font-size: 13px;"
+            "  padding: 4px 0px;"
+            "}"
+            "QMenu::item {"
+            "  padding: 6px 8px 6px 20px;"
+            "  min-width: 100px;"
+            "}"
+            "QMenu::item:selected {"
+            "  background-color: #D2E3FC;"
+            "  color: #1A1A1A;"
+            "}"
+            "QMenu::separator {"
+            "  height: 1px;"
+            "  background: #DDDDDD;"
+            "  margin: 3px 8px;"
+            "}";
+        menu->setStyleSheet(menuQss);
+
+        // ---- 标准编辑操作（中文） ----
+        QAction *actUndo  = menu->addAction("撤销");
+        actUndo->setShortcut(QKeySequence::Undo);
+        actUndo->setEnabled(logView->document()->isUndoAvailable());
+        QAction *actRedo  = menu->addAction("重做");
+        actRedo->setShortcut(QKeySequence::Redo);
+        actRedo->setEnabled(logView->document()->isRedoAvailable());
+        menu->addSeparator();
+        QAction *actCut   = menu->addAction("剪切");
+        actCut->setShortcut(QKeySequence::Cut);
+        actCut->setEnabled(logView->textCursor().hasSelection());
+        QAction *actCopy  = menu->addAction("拷贝");
+        actCopy->setShortcut(QKeySequence::Copy);
+        actCopy->setEnabled(logView->textCursor().hasSelection());
+        QAction *actPaste = menu->addAction("粘贴");
+        actPaste->setShortcut(QKeySequence::Paste);
+        actPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
+        QAction *actDelete = menu->addAction("删除");
+        actDelete->setEnabled(logView->textCursor().hasSelection());
+        menu->addSeparator();
+        QAction *actSelectAll = menu->addAction("全选");
+        actSelectAll->setShortcut(QKeySequence::SelectAll);
+        menu->addSeparator();
+
+        connect(actUndo,      &QAction::triggered, logView, &QPlainTextEdit::undo);
+        connect(actRedo,      &QAction::triggered, logView, &QPlainTextEdit::redo);
+        connect(actCut,       &QAction::triggered, logView, &QPlainTextEdit::cut);
+        connect(actCopy,      &QAction::triggered, logView, &QPlainTextEdit::copy);
+        connect(actPaste,     &QAction::triggered, logView, &QPlainTextEdit::paste);
+        connect(actDelete,    &QAction::triggered, logView, [this](){ logView->textCursor().removeSelectedText(); });
+        connect(actSelectAll, &QAction::triggered, logView, &QPlainTextEdit::selectAll);
+
+        // ---- 颜色标记子菜单（QWidgetAction 自定义布局，完全控制色块大小和间距） ----
+        const QString subMenuQss =
+            "QMenu {"
+            "  font-size: 13px;"
+            "  padding: 2px 0px;"
+            "}"
+            "QMenu::item {"
+            "  padding: 0px 0px 0px 0px;"
+            "}"
+            "QMenu::item:selected {"
+            "  background-color: transparent;"
+            "}"
+            "QMenu::separator {"
+            "  height: 1px;"
+            "  background: #DDDDDD;"
+            "  margin: 2px 6px;"
+            "}";
+        QMenu *markMenu = menu->addMenu("颜色标记");
+        markMenu->setStyleSheet(subMenuQss);
+        markMenu->setMinimumWidth(120);
+        struct ColorInfo { QString name; QColor color; };
+        const ColorInfo infos[5] = {
+            {"颜色 1", s_markColors[0]},
+            {"颜色 2", s_markColors[1]},
+            {"颜色 3", s_markColors[2]},
+            {"颜色 4", s_markColors[3]},
+            {"颜色 5", s_markColors[4]},
+        };
+        for (int i = 0; i < 5; ++i) {
+            QWidgetAction *wa = new QWidgetAction(markMenu);
+            QWidget *row = new QWidget();
+            row->setFixedHeight(24);
+            row->setObjectName("colorRow");
+            // 悬停高亮
+            row->setStyleSheet(
+                "QWidget#colorRow { background: transparent; }"
+                "QWidget#colorRow:hover { background: #D2E3FC; }"
+            );
+            row->setAttribute(Qt::WA_Hover, true);
+
+            QHBoxLayout *hl = new QHBoxLayout(row);
+            hl->setContentsMargins(6, 0, 12, 0);
+            hl->setSpacing(6);
+
+            // 色块 label
+            QLabel *colorBox = new QLabel();
+            colorBox->setFixedSize(18, 18);
+            colorBox->setStyleSheet(QString(
+                "background-color: %1;"
+                "border: 1px solid rgba(0,0,0,80);"
+            ).arg(infos[i].color.name()));
+            colorBox->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
+            QLabel *textLabel = new QLabel(infos[i].name);
+            textLabel->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            textLabel->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
+            hl->addWidget(colorBox);
+            hl->addWidget(textLabel);
+            hl->addStretch();
+
+            wa->setDefaultWidget(row);
+            markMenu->addAction(wa);
+            connect(wa, &QWidgetAction::triggered, this, [this, i](){
+                QString kw = logView->textCursor().selectedText().trimmed();
+                applyLineColorMark(i, kw);
+            });
+        }
+        markMenu->addSeparator();
+
+        // 清除选择标记
+        QWidgetAction *waClearSel = new QWidgetAction(markMenu);
+        QWidget *rowClearSel = new QWidget();
+        rowClearSel->setFixedHeight(22);
+        rowClearSel->setObjectName("colorRow");
+        rowClearSel->setStyleSheet(
+            "QWidget#colorRow { background: transparent; }"
+            "QWidget#colorRow:hover { background: #D2E3FC; }"
+        );
+        rowClearSel->setAttribute(Qt::WA_Hover, true);
+        {
+            QHBoxLayout *hl = new QHBoxLayout(rowClearSel);
+            hl->setContentsMargins(6, 0, 12, 0);
+            QLabel *lbl = new QLabel("清除选择标记");
+            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            hl->addWidget(lbl);
+            hl->addStretch();
+        }
+        waClearSel->setDefaultWidget(rowClearSel);
+        markMenu->addAction(waClearSel);
+        connect(waClearSel, &QWidgetAction::triggered, this, [this](){
+            QString sel = logView->textCursor().selectedText().trimmed();
+            if (!sel.isEmpty()) clearColorMarkByText(sel);
+        });
+
+        // 清除全部标记
+        QWidgetAction *waClearAll = new QWidgetAction(markMenu);
+        QWidget *rowClearAll = new QWidget();
+        rowClearAll->setFixedHeight(22);
+        rowClearAll->setObjectName("colorRow");
+        rowClearAll->setStyleSheet(
+            "QWidget#colorRow { background: transparent; }"
+            "QWidget#colorRow:hover { background: #D2E3FC; }"
+        );
+        rowClearAll->setAttribute(Qt::WA_Hover, true);
+        {
+            QHBoxLayout *hl = new QHBoxLayout(rowClearAll);
+            hl->setContentsMargins(6, 0, 12, 0);
+            QLabel *lbl = new QLabel("清除全部标记");
+            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            hl->addWidget(lbl);
+            hl->addStretch();
+        }
+        waClearAll->setDefaultWidget(rowClearAll);
+        markMenu->addAction(waClearAll);
+        connect(waClearAll, &QWidgetAction::triggered, this, &PressAnalyzer::clearAllColorMarks);
+
+        menu->exec(logView->mapToGlobal(pos));
+        delete menu;
+    });
+
     // Page 1: DB 查看器（由 setupDbViewerDock() 填充后加入）
     dbViewerWidget = new QWidget(this);
     centralStack->addWidget(dbViewerWidget);  // index 1
@@ -409,21 +710,145 @@ void PressAnalyzer::setupSearchDock()
             currentSearchIndex = 0;
             searchResultView->clearResults();
             searchHighlights.clear();
-            logView->setExtraSelections(searchHighlights);
-            highlightSearchResults(currentSearchIndex);
+            updateVisibleHighlights();  // 清空搜索结果，但保留颜色标记
             searchDock->setWindowTitle("查找结果");
         } else if (selected == closeAction) {
             searchDock->hide();
         }
     });
 
-    // 在搜索结果视图内右键菜单：保留标准菜单（含复制/全选）+ 自定义 Clear / Close
+    // 在搜索结果视图内右键菜单：拷贝 / 全选 / 清空 / 关闭
     searchResultView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(searchResultView, &SearchResultTextView::customContextMenuRequested, this, [=](const QPoint &pos){
-        QMenu *menu = searchResultView->createStandardContextMenu();
+        QMenu *menu = new QMenu(searchResultView);
+        const QString menuQss =
+            "QMenu {"
+            "  font-size: 13px;"
+            "  padding: 4px 0px;"
+            "}"
+            "QMenu::item {"
+            "  padding: 6px 20px 6px 16px;"
+            "  min-width: 140px;"
+            "}"
+            "QMenu::item:selected {"
+            "  background-color: #D2E3FC;"
+            "  color: #1A1A1A;"
+            "}"
+            "QMenu::separator {"
+            "  height: 1px;"
+            "  background: #DDDDDD;"
+            "  margin: 3px 8px;"
+            "}";
+        menu->setStyleSheet(menuQss);
+
+        QAction *actCopy = menu->addAction("拷贝");
+        actCopy->setShortcut(QKeySequence::Copy);
+        actCopy->setEnabled(searchResultView->textCursor().hasSelection());
+        QAction *actSelectAll = menu->addAction("全选");
+        actSelectAll->setShortcut(QKeySequence::SelectAll);
         menu->addSeparator();
-        QAction *clearAction = menu->addAction("Clear");
-        QAction *closeAction = menu->addAction("Close");
+
+        connect(actCopy,      &QAction::triggered, searchResultView, &SearchResultTextView::copy);
+        connect(actSelectAll, &QAction::triggered, searchResultView, &SearchResultTextView::selectAll);
+
+        // ---- 颜色标记子菜单 ----
+        menu->addSeparator();
+        const QString subMenuQss2 =
+            "QMenu { font-size: 13px; padding: 2px 0px; }"
+            "QMenu::item { padding: 0px 0px 0px 0px; }"
+            "QMenu::item:selected { background-color: transparent; }"
+            "QMenu::separator { height: 1px; background: #DDDDDD; margin: 2px 6px; }";
+        QMenu *markMenu2 = menu->addMenu("颜色标记");
+        markMenu2->setStyleSheet(subMenuQss2);
+        markMenu2->setMinimumWidth(120);
+        struct ColorInfo2 { QString name; QColor color; };
+        const ColorInfo2 infos2[5] = {
+            {"颜色 1", s_markColors[0]},
+            {"颜色 2", s_markColors[1]},
+            {"颜色 3", s_markColors[2]},
+            {"颜色 4", s_markColors[3]},
+            {"颜色 5", s_markColors[4]},
+        };
+        for (int i = 0; i < 5; ++i) {
+            QWidgetAction *wa = new QWidgetAction(markMenu2);
+            QWidget *row = new QWidget();
+            row->setFixedHeight(24);
+            row->setObjectName("colorRow");
+            row->setStyleSheet(
+                "QWidget#colorRow { background: transparent; }"
+                "QWidget#colorRow:hover { background: #D2E3FC; }"
+            );
+            row->setAttribute(Qt::WA_Hover, true);
+            QHBoxLayout *hl = new QHBoxLayout(row);
+            hl->setContentsMargins(6, 0, 12, 0);
+            hl->setSpacing(6);
+            QLabel *colorBox = new QLabel();
+            colorBox->setFixedSize(18, 18);
+            colorBox->setStyleSheet(QString(
+                "background-color: %1; border: 1px solid rgba(0,0,0,80);"
+            ).arg(infos2[i].color.name()));
+            colorBox->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            QLabel *textLabel = new QLabel(infos2[i].name);
+            textLabel->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            textLabel->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            hl->addWidget(colorBox);
+            hl->addWidget(textLabel);
+            hl->addStretch();
+            wa->setDefaultWidget(row);
+            markMenu2->addAction(wa);
+            connect(wa, &QWidgetAction::triggered, this, [this, i](){
+                QString kw = searchResultView->textCursor().selectedText().trimmed();
+                applyLineColorMark(i, kw);
+            });
+        }
+        markMenu2->addSeparator();
+        QWidgetAction *waClearSel2 = new QWidgetAction(markMenu2);
+        QWidget *rowClearSel2 = new QWidget();
+        rowClearSel2->setFixedHeight(22);
+        rowClearSel2->setObjectName("colorRow");
+        rowClearSel2->setStyleSheet(
+            "QWidget#colorRow { background: transparent; }"
+            "QWidget#colorRow:hover { background: #D2E3FC; }"
+        );
+        rowClearSel2->setAttribute(Qt::WA_Hover, true);
+        {
+            QHBoxLayout *hl = new QHBoxLayout(rowClearSel2);
+            hl->setContentsMargins(6, 0, 12, 0);
+            QLabel *lbl = new QLabel("清除选择标记");
+            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            hl->addWidget(lbl); hl->addStretch();
+        }
+        waClearSel2->setDefaultWidget(rowClearSel2);
+        markMenu2->addAction(waClearSel2);
+        connect(waClearSel2, &QWidgetAction::triggered, this, [this](){
+            QString sel = searchResultView->textCursor().selectedText().trimmed();
+            if (!sel.isEmpty()) clearColorMarkByText(sel);
+        });
+        QWidgetAction *waClearAll2 = new QWidgetAction(markMenu2);
+        QWidget *rowClearAll2 = new QWidget();
+        rowClearAll2->setFixedHeight(22);
+        rowClearAll2->setObjectName("colorRow");
+        rowClearAll2->setStyleSheet(
+            "QWidget#colorRow { background: transparent; }"
+            "QWidget#colorRow:hover { background: #D2E3FC; }"
+        );
+        rowClearAll2->setAttribute(Qt::WA_Hover, true);
+        {
+            QHBoxLayout *hl = new QHBoxLayout(rowClearAll2);
+            hl->setContentsMargins(6, 0, 12, 0);
+            QLabel *lbl = new QLabel("清除全部标记");
+            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            hl->addWidget(lbl); hl->addStretch();
+        }
+        waClearAll2->setDefaultWidget(rowClearAll2);
+        markMenu2->addAction(waClearAll2);
+        connect(waClearAll2, &QWidgetAction::triggered, this, &PressAnalyzer::clearAllColorMarks);
+        menu->addSeparator();
+
+        QAction *clearAction = menu->addAction("清空搜索结果");
+        QAction *closeAction = menu->addAction("关闭面板");
 
         QAction *selected = menu->exec(searchResultView->mapToGlobal(pos));
         if (selected == clearAction) {
@@ -431,8 +856,7 @@ void PressAnalyzer::setupSearchDock()
             currentSearchIndex = 0;
             searchResultView->clearResults();
             searchHighlights.clear();
-            logView->setExtraSelections(searchHighlights);
-            highlightSearchResults(currentSearchIndex);
+            updateVisibleHighlights();  // 清空搜索结果，但保留颜色标记
             searchDock->setWindowTitle("查找结果");
         } else if (selected == closeAction) {
             searchDock->hide();
@@ -623,49 +1047,61 @@ void PressAnalyzer::setupFileBrowserDock()
         QString filePath = fileSystemModel->filePath(index);
         QFileInfo info(filePath);
 
+        const QString fileBrowserMenuQss =
+            "QMenu {"
+            "  font-size: 13px;"
+            "  padding: 4px 0px;"
+            "  min-width: 160px;"
+            "}"
+            "QMenu::item {"
+            "  padding: 7px 24px 7px 16px;"
+            "  min-width: 160px;"
+            "}"
+            "QMenu::item:selected {"
+            "  background-color: #D2E3FC;"
+            "  color: #1A1A1A;"
+            "}"
+            "QMenu::separator {"
+            "  height: 1px;"
+            "  background: #DDDDDD;"
+            "  margin: 3px 8px;"
+            "}";
         QMenu menu;
+        menu.setStyleSheet(fileBrowserMenuQss);
         if (info.isDir()) {
-            QAction *actDelete = menu.addAction("Delete File");
-            QAction *actRename = menu.addAction("Rename File");
-            QAction *actOpen = menu.addAction("Open Directory");
-            QAction *actLoadDir = menu.addAction("Intelligent Analysis");
+            QAction *actDelete  = menu.addAction("删除目录");
+            QAction *actRename  = menu.addAction("重命名目录");
+            QAction *actOpen    = menu.addAction("打开目录");
+            QAction *actLoadDir = menu.addAction("智能解析日志");
             QAction *chosen = menu.exec(fileBrowserTree->mapToGlobal(pos));
             if (chosen == actDelete) {
-                // 删除目录
-                QMessageBox::StandardButton reply;
-                reply = QMessageBox::question(this, "Confirm Delete", QString("Are you sure you want to delete directory %1?").arg(info.fileName()),
-                                            QMessageBox::Yes|QMessageBox::No);
+                QMessageBox::StandardButton reply =
+                    QMessageBox::question(this, "确认删除",
+                        QString("确定要删除目录 %1 吗？").arg(info.fileName()),
+                        QMessageBox::Yes | QMessageBox::No);
                 if (reply == QMessageBox::Yes) {
                     QDir dir(filePath);
-                    if (dir.removeRecursively()) {
-                        // QFileSystemModel会自动监控文件系统变化，无需手动刷新
-                    } else {
-                        QMessageBox::warning(this, "Delete Failed", "Cannot delete directory. Please check permissions.");
+                    if (!dir.removeRecursively()) {
+                        QMessageBox::warning(this, "删除失败", "无法删除目录，请检查权限。");
                     }
                 }
             } else if (chosen == actRename) {
-                // 重命名目录 - 显示确认对话框
-                QMessageBox::StandardButton reply;
-                reply = QMessageBox::question(this, "Confirm Rename", QString("Are you sure you want to rename directory %1?").arg(info.fileName()),
-                                            QMessageBox::Yes|QMessageBox::No);
+                QMessageBox::StandardButton reply =
+                    QMessageBox::question(this, "确认重命名",
+                        QString("确定要重命名目录 %1 吗？").arg(info.fileName()),
+                        QMessageBox::Yes | QMessageBox::No);
                 if (reply == QMessageBox::Yes) {
-                    // 确保索引有效且模型可编辑
                     if (index.isValid() && fileSystemModel->flags(index) & Qt::ItemIsEditable) {
-                        // 尝试使用内置编辑功能
                         fileBrowserTree->edit(index);
                     } else {
-                        // 如果项目不可编辑，使用自定义重命名对话框
                         bool ok;
-                        QString newName = QInputDialog::getText(this, "Rename Directory",
-                                                               QString("Enter new name for directory %1:").arg(info.fileName()),
-                                                               QLineEdit::Normal, info.fileName(), &ok);
+                        QString newName = QInputDialog::getText(this, "重命名目录",
+                            QString("请输入目录 %1 的新名称：").arg(info.fileName()),
+                            QLineEdit::Normal, info.fileName(), &ok);
                         if (ok && !newName.isEmpty()) {
-                            QString newPath = info.absolutePath() + "/" + newName;
                             QDir dir;
-                            if (dir.rename(filePath, newPath)) {
-                                // 重命名成功
-                            } else {
-                                QMessageBox::warning(this, "Rename Failed", "Cannot rename directory. Please check permissions and ensure the name is valid.");
+                            if (!dir.rename(filePath, info.absolutePath() + "/" + newName)) {
+                                QMessageBox::warning(this, "重命名失败", "无法重命名目录，请检查权限及名称是否合法。");
                             }
                         }
                     }
@@ -673,52 +1109,43 @@ void PressAnalyzer::setupFileBrowserDock()
             } else if (chosen == actOpen) {
                 openDirectoryInBrowser(filePath);
             } else if (chosen == actLoadDir) {
-                // 不改变文件浏览器目录，只加载日志
                 loadMergeLogsFromPath(filePath, false);
             }
         } else {
-            QAction *actOpen = menu.addAction("Open File");
-            QAction *actDelete = menu.addAction("Delete File");
-            QAction *actRename = menu.addAction("Rename File");
+            QAction *actOpen   = menu.addAction("打开文件");
+            QAction *actDelete = menu.addAction("删除文件");
+            QAction *actRename = menu.addAction("重命名文件");
             QAction *chosen = menu.exec(fileBrowserTree->mapToGlobal(pos));
             if (chosen == actOpen) {
                 openFileFromBrowser(filePath);
             } else if (chosen == actDelete) {
-                // 删除文件
-                QMessageBox::StandardButton reply;
-                reply = QMessageBox::question(this, "Confirm Delete", QString("Are you sure you want to delete file %1?").arg(info.fileName()),
-                                            QMessageBox::Yes|QMessageBox::No);
+                QMessageBox::StandardButton reply =
+                    QMessageBox::question(this, "确认删除",
+                        QString("确定要删除文件 %1 吗？").arg(info.fileName()),
+                        QMessageBox::Yes | QMessageBox::No);
                 if (reply == QMessageBox::Yes) {
                     QFile file(filePath);
-                    if (file.remove()) {
-                        // QFileSystemModel会自动监控文件系统变化，无需手动刷新
-                    } else {
-                        QMessageBox::warning(this, "Delete Failed", "Cannot delete file. Please check permissions.");
+                    if (!file.remove()) {
+                        QMessageBox::warning(this, "删除失败", "无法删除文件，请检查权限。");
                     }
                 }
             } else if (chosen == actRename) {
-                // 重命名文件 - 显示确认对话框
-                QMessageBox::StandardButton reply;
-                reply = QMessageBox::question(this, "Confirm Rename", QString("Are you sure you want to rename file %1?").arg(info.fileName()),
-                                            QMessageBox::Yes|QMessageBox::No);
+                QMessageBox::StandardButton reply =
+                    QMessageBox::question(this, "确认重命名",
+                        QString("确定要重命名文件 %1 吗？").arg(info.fileName()),
+                        QMessageBox::Yes | QMessageBox::No);
                 if (reply == QMessageBox::Yes) {
-                    // 确保索引有效且模型可编辑
                     if (index.isValid() && fileSystemModel->flags(index) & Qt::ItemIsEditable) {
-                        // 尝试使用内置编辑功能
                         fileBrowserTree->edit(index);
                     } else {
-                        // 如果项目不可编辑，使用自定义重命名对话框
                         bool ok;
-                        QString newName = QInputDialog::getText(this, "Rename File",
-                                                               QString("Enter new name for file %1:").arg(info.fileName()),
-                                                               QLineEdit::Normal, info.fileName(), &ok);
+                        QString newName = QInputDialog::getText(this, "重命名文件",
+                            QString("请输入文件 %1 的新名称：").arg(info.fileName()),
+                            QLineEdit::Normal, info.fileName(), &ok);
                         if (ok && !newName.isEmpty()) {
-                            QString newPath = info.absolutePath() + "/" + newName;
                             QFile file(filePath);
-                            if (file.rename(newPath)) {
-                                // 重命名成功
-                            } else {
-                                QMessageBox::warning(this, "Rename Failed", "Cannot rename file. Please check permissions and ensure the name is valid.");
+                            if (!file.rename(info.absolutePath() + "/" + newName)) {
+                                QMessageBox::warning(this, "重命名失败", "无法重命名文件，请检查权限及名称是否合法。");
                             }
                         }
                     }
@@ -845,6 +1272,9 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     soctmp.clear();
     triggerCount = 0;
     flightCount = 0;
+    // 清空颜色标记
+    m_colorMarks.clear();
+    m_colorMarkHighlights.clear();
 
     // 查找 top 文件路径（单文件模式）
     auto getTopFilePath = [](const QString &selectedFilePath) -> QString {
@@ -4227,7 +4657,9 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
         }
     }
 
-    logView->setExtraSelections(selections);
+    // 合并颜色标记（置于底层），再叠加搜索高亮
+    QList<QTextEdit::ExtraSelection> finalSelections = m_colorMarkHighlights + selections;
+    logView->setExtraSelections(finalSelections);
     // 同步一次可见区域黄色关键字，确保不滚动也能看到
     updateVisibleHighlights();
 }
@@ -4271,7 +4703,9 @@ void PressAnalyzer::jumpToSearchIndex(int index)
         lineFmt.setBackground(QColor(200, 200, 200));
         lineSel.format = lineFmt;
         combined.prepend(lineSel);
-        logView->setExtraSelections(combined);
+        // 合并颜色标记（底层）+ 搜索高亮，避免颜色标记被清除
+        QList<QTextEdit::ExtraSelection> finalCombined = m_colorMarkHighlights + combined;
+        logView->setExtraSelections(finalCombined);
         // 立刻补一次可见黄色，以免需要滚轮才出现
         updateVisibleHighlights();
     }

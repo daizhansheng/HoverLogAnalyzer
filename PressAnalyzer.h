@@ -40,6 +40,7 @@ protected:
 #include "CameraTempChartWidget.h"
 #include <QSettings>
 #include <QAction>
+#include <QWidgetAction>
 #include <QTreeView>
 #include <QFileSystemModel>
 #include <QDir>
@@ -150,7 +151,7 @@ private:
     void parseStatusSocTemp(int lineNumber, const QString &line);
     QDateTime parseTopTime(const QString &line);
     void parseTopFile(const QString &filePath);
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) override;
     void addSearchHistory(const QString &text);
     void showSearchHints();
     void updateCompleterWithSmartHints();
@@ -163,6 +164,13 @@ private:
     void updatePinButtonState();
     void updateVisibleHighlights();
     QColor getEventColor(const QString &eventType);
+
+    // 颜色标记
+    void applyLineColorMark(int colorIndex, const QString &keyword = QString()); // 对选中文本全文匹配应用颜色标记
+    void clearColorMarkByText(const QString &text); // 清除指定文本的颜色标记
+    void clearLineColorMark(int lineNumber);        // 清除指定行颜色标记（保留兼容）
+    void clearAllColorMarks();                      // 清除所有颜色标记
+    void rebuildColorMarkSelections();              // 重新生成 colorMarkHighlights
 
     // 解压工具函数
     bool extractZipFile(const QString &zipPath, const QString &extractDir);
@@ -300,6 +308,18 @@ private:
 
     // 全局按钮点击状态跟踪
     bool anyFileButtonClicked;
+
+    // ==================== 颜色标记 ====================
+    // 存储每个标记词的颜色索引：key=标记文本, value=颜色索引(0-4)
+    QMap<QString, int> m_colorMarks;
+    // 5种默认颜色
+    static const QColor s_markColors[5];
+    // logView 颜色标记高亮列表
+    QList<QTextEdit::ExtraSelection> m_colorMarkHighlights;
+    // searchResultView 颜色标记高亮列表（独立维护，不与搜索高亮冲突）
+    QList<QTextEdit::ExtraSelection> m_searchViewColorHighlights;
+    // 防抖 timer：避免连续触发时频繁全文扫描
+    QTimer *m_colorMarkRebuildTimer = nullptr;
 
     // ==================== 后台解析线程 ====================
     QThread         *m_parseThread  = nullptr;

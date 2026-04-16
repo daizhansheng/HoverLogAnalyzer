@@ -10,6 +10,7 @@
 #include <QVector>
 #include <QPair>
 #include <QRegExp>
+#include <QMap>
 #include <QMouseEvent>
 
 class SearchResultTextView : public QPlainTextEdit {
@@ -32,6 +33,12 @@ public:
 
     void setPatterns(const QVector<QPair<QRegExp, QColor>> &patterns) {
         patternList = patterns;
+        applyHighlighting();
+    }
+
+    // 颜色标记：keyword->color，独立于正则搜索高亮，深色背景+白色前景
+    void setColorMarkPatterns(const QMap<QString, QColor> &marks) {
+        colorMarkList = marks;
         applyHighlighting();
     }
 
@@ -81,6 +88,7 @@ private:
         // 遍历每一行，按关键字上色
         for (QTextBlock block = document()->firstBlock(); block.isValid(); block = block.next()) {
             const QString lineText = block.text();
+            // 1. 正则搜索高亮（浅色背景+黑色前景）
             for (const auto &p : patternList) {
                 int pos = 0;
                 while ((pos = p.first.indexIn(lineText, pos)) != -1) {
@@ -94,6 +102,25 @@ private:
                     sel.format = fmt;
                     selections.push_back(sel);
                     pos += qMax(1, p.first.cap(0).length());
+                }
+            }
+            // 2. 颜色标记高亮（深色背景+白色前景，覆盖在搜索高亮之上）
+            for (auto it = colorMarkList.constBegin(); it != colorMarkList.constEnd(); ++it) {
+                const QString &kw = it.key();
+                const QColor &color = it.value();
+                if (kw.isEmpty()) continue;
+                int pos = 0;
+                while ((pos = lineText.indexOf(kw, pos, Qt::CaseSensitive)) != -1) {
+                    QTextEdit::ExtraSelection sel;
+                    sel.cursor = QTextCursor(block);
+                    sel.cursor.setPosition(block.position() + pos);
+                    sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, kw.length());
+                    QTextCharFormat fmt;
+                    fmt.setBackground(color);
+                    fmt.setForeground(Qt::white);
+                    sel.format = fmt;
+                    selections.push_back(sel);
+                    pos += kw.length();
                 }
             }
         }
@@ -118,6 +145,7 @@ private:
 
 private:
     QVector<QPair<QRegExp, QColor>> patternList;
+    QMap<QString, QColor> colorMarkList;
     int selectedRow;
 };
 
