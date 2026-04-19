@@ -43,14 +43,22 @@ public:
     }
 
     void setResultsText(const QStringList &lines) {
+        QFont savedFont = this->font();  // 保存当前字体
         this->clear();
         this->setPlainText(lines.join("\n"));
+        // clear()/setPlainText() 可能重置文档默认字体，需要重新应用
+        this->setFont(savedFont);
+        this->document()->setDefaultFont(savedFont);
         selectedRow = -1;
         applyHighlighting();
     }
 
     void clearResults() {
+        QFont savedFont = this->font();  // 保存当前字体
         this->clear();
+        // clear() 可能重置文档默认字体，需要重新应用
+        this->setFont(savedFont);
+        this->document()->setDefaultFont(savedFont);
         this->setExtraSelections({});
         selectedRow = -1;
     }

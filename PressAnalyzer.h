@@ -50,6 +50,85 @@ protected:
 #include <QStackedWidget>
 #include <QThread>
 #include <QProgressBar>
+#include <QTabBar>
+#include <QScrollBar>
+#include <QPainter>
+#include <QHash>
+
+// QTabBar subclass that draws a colored strip at the bottom of each tab
+class ColoredTabBar : public QTabBar {
+    Q_OBJECT
+public:
+    explicit ColoredTabBar(QWidget *parent = nullptr) : QTabBar(parent) {
+        setUsesScrollButtons(false);
+        setElideMode(Qt::ElideNone);
+    }
+
+    QSize tabSizeHint(int index) const override {
+        // Use bold font metrics (selected tab is bold) to ensure full text fits
+        QFont boldFont = font();
+        boldFont.setBold(true);
+        QFontMetrics fmBold(boldFont);
+        int textW = fmBold.horizontalAdvance(tabText(index));
+        // left padding(10) + text + gap(8) + close button(16) + right padding(8)
+        int w = 10 + textW + 8 + 16 + 8;
+        QSize s = QTabBar::tabSizeHint(index);
+        return QSize(qMax(s.width(), w), s.height());
+    }
+
+    QSize minimumTabSizeHint(int index) const override {
+        return tabSizeHint(index);
+    }
+
+    void setTabColor(int index, const QColor &color) {
+        m_colors[index] = color;
+        update();
+    }
+
+    QColor tabColor(int index) const {
+        return m_colors.value(index, Qt::transparent);
+    }
+
+    // Call after removing a tab to keep color indices in sync
+    void shiftColorsAfterRemove(int removedIndex) {
+        QHash<int, QColor> newColors;
+        for (auto it = m_colors.begin(); it != m_colors.end(); ++it) {
+            if (it.key() < removedIndex)
+                newColors[it.key()] = it.value();
+            else if (it.key() > removedIndex)
+                newColors[it.key() - 1] = it.value();
+        }
+        m_colors = newColors;
+        update();
+    }
+
+protected:
+    void changeEvent(QEvent *event) override {
+        QTabBar::changeEvent(event);
+        if (event->type() == QEvent::StyleChange ||
+            event->type() == QEvent::FontChange) {
+            // Re-lock ElideNone; style changes can reset it
+            setElideMode(Qt::ElideNone);
+            updateGeometry();
+        }
+    }
+
+    void paintEvent(QPaintEvent *event) override {
+        QTabBar::paintEvent(event);
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing, false);
+        for (int i = 0; i < count(); ++i) {
+            if (!m_colors.contains(i)) continue;
+            QRect r = tabRect(i);
+            QColor bg = m_colors[i];
+            bg.setAlpha(45);  // very light tint over the full tab
+            painter.fillRect(r, bg);
+        }
+    }
+
+private:
+    QHash<int, QColor> m_colors;
+};
 #include "LogParserWorker.h"
 #include "EventTimelineWidget.h"
 #include "DynamicChartWidget.h"
@@ -63,6 +142,55 @@ struct EventItem {
     QString display;   // 显示文本
     QTextBlock block;  // 对应 viewLog 的文本块
     QDateTime timestamp; // 事件时间戳（供 timeline 使用）
+    QColor bgColor;    // 列表项背景色（用于标签页切换后复原）
+};
+
+// 每个标签页保存的完整状态快照
+struct TabState {
+    // 文档指针：nullptr 表示该标签当前处于激活状态（文档在 logView 中）
+    QTextDocument           *document              = nullptr;
+
+    // 日志数据
+    QStringList              allLogLines;
+    QList<EventItem>         allEvents;
+    QList<EventItem>         cameraEvents;
+    QList<EventItem>         statusEvents;
+    QVector<BatteryTimeInfo> batteryinfo;
+    QVector<SocTempInfo>     soctmp;
+    QVector<CameraTempSample>cameraTemps;
+    QVector<AllModuleUsage>  allusage;
+
+    // 颜色标记
+    QMap<QString, int>       colorMarks;
+    QList<QTextEdit::ExtraSelection> colorMarkHighlights;
+    QList<QTextEdit::ExtraSelection> searchViewColorHighlights;
+
+    // 搜索状态
+    QList<int>               searchResults;
+    int                      currentSearchIndex    = -1;
+    QList<QTextEdit::ExtraSelection> searchHighlights;
+
+    // 统计
+    int                      triggerCount          = 0;
+    int                      flightCount           = 0;
+    QString                  sn;
+    QStringList              pendingTopLogs;
+
+    // UI 状态
+    bool                     isControlEngine       = false;  // 是否 CE 日志（决定状态面板）
+    bool                     statusDockVisible      = false;
+    int                      scrollValue            = 0;
+    int                      cursorPosition         = 0;
+
+    // 每标签字体状态（记录该标签激活时的日志字体与缩放字号）
+    QFont                    logFont;              // 该标签的日志字体快照
+    int                      logFontPtSize         = -1; // -1 表示未初始化，使用窗口默认
+
+    // 标题/路径
+    QString                  windowTitle;
+    QString                  statusPath;
+    QString                  statusInfo;
+    QString                  sourcePath;           // 来源路径（用于标签名推断）
 };
 
 class PressAnalyzer : public QMainWindow
@@ -186,6 +314,20 @@ private:
     void loadMergeLogsFromPath(const QString &path, bool navigate = true);
     QString findControlEngineAnalysisRoot(const QString &basePath) const;
 
+    // 多标签页管理
+    void saveCurrentTabState();
+    void restoreTabState(int index);
+    void openInNewTab(const QString &path);
+    void closeTab(int index);
+    void detachTabToNewWindow(int index);
+    void loadPathSmart(const QString &path);
+    QString tabLabelForPath(const QString &path) const;
+    void repopulateEventLists();
+    QAbstractButton *makeTabCloseButton(int tabIndex);
+
+    // 后台解析（成员方法，支持 generation 守卫）
+    void startBackgroundParse(LogParserWorker *worker, QThread *thread, int generation);
+
     // 构造函数初始化方法
     void setupMainWindow();
     void setupCentralWidget();
@@ -306,6 +448,10 @@ private:
     QFont currentEventFont;    // 当前事件列表字体
     QFont currentChartFont;     // 当前图表字体
 
+    // 跨窗口共享字体（所有实例共用）
+    static QFont s_sharedLogFont;
+    static bool  s_sharedLogFontSet;  // 是否已被用户手动设置过
+
     // 全局按钮点击状态跟踪
     bool anyFileButtonClicked;
 
@@ -326,6 +472,13 @@ private:
     LogParserWorker *m_parseWorker  = nullptr;
     QProgressBar    *m_progressBar  = nullptr;   // 状态栏进度条
     QStringList      m_pendingTopLogs;            // 等待解析的 top_log 列表
+
+    // ==================== 多标签页 ====================
+    ColoredTabBar   *m_tabBar           = nullptr;
+    QWidget         *m_tabContainer     = nullptr;
+    QVector<TabState> m_tabStates;                // 每个标签的状态快照
+    int              m_currentTabIndex  = 0;      // 当前激活标签索引
+    int              m_parseGeneration  = 0;      // 解析代次（防止旧线程污染新标签）
 };
 
 #endif // PRESSANALYZER_H

@@ -47,6 +47,7 @@
 #include <QSettings>
 #include <QMenu>
 #include <QStyle>
+#include <QStyleFactory>
 #include <QDirIterator>
 #include <QTabWidget>
 #include <QFontDialog>
@@ -58,6 +59,7 @@
 #include <QClipboard>
 #include <QScrollArea>
 #include <QSet>
+#include <QPlainTextDocumentLayout>
 #include <QDialog>
 
 // 根据可用宽度自动省略路径，从左侧省略以保留末尾目录名
@@ -92,17 +94,18 @@ private:
 
 // ==================== 颜色标记：Notepad++ 风格5色 ====================
 const QColor PressAnalyzer::s_markColors[5] = {
-    QColor(  0, 180, 255),   // 0: 颜色1  深天蓝  (对比搜索浅黄/浅绿)
-    QColor(255,  80,   0),   // 1: 颜色2  深橙红  (对比搜索浅蓝/浅粉)
-    QColor(180,   0, 220),   // 2: 颜色3  深紫    (对比搜索浅黄/浅绿)
-    QColor(  0, 180,  60),   // 3: 颜色4  深绿    (对比搜索浅粉/浅蓝)
-    QColor(160,  80,   0),   // 4: 颜色5  深棕    (对比搜索浅色系，与其他4色差异大)
+    QColor(  0, 180, 255),
+    QColor(255,  80,   0),
+    QColor(180,   0, 220),
+    QColor(  0, 180,  60),
+    QColor(160,  80,   0),
 };
 
-// 前向声明：定义在本文件下方的 static helper
-static void startBackgroundParseHelper(PressAnalyzer *self,
-                                        LogParserWorker *worker,
-                                        QThread *thread);
+// 跨窗口共享字体
+QFont PressAnalyzer::s_sharedLogFont;
+bool  PressAnalyzer::s_sharedLogFontSet = false;
+
+// 前向声明已移除：startBackgroundParseHelper 已替换为成员方法 PressAnalyzer::startBackgroundParse
 
 void PressAnalyzer::applyLineColorMark(int colorIndex, const QString &keyword)
 {
@@ -371,14 +374,13 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
     // 从 QSettings 加载字体设置
     QSettings settings("ZZTools", "HoverLogAnalyzer");
+    // 清除历史保存的 logFont，确保每次启动都用 Menlo 11pt
+    settings.remove("fonts/logFont");
 
-    // 加载日志字体
+    // 日志字体固定使用 Menlo 11pt，不从 QSettings 读取（避免历史设置污染默认值）
     currentLogFont = QFont("Menlo", 11);
     currentLogFont.setStyleHint(QFont::Monospace);
     currentLogFont.setFixedPitch(true);
-    if (settings.contains("fonts/logFont")) {
-        currentLogFont = settings.value("fonts/logFont").value<QFont>();
-    }
 
     // 加载事件列表字体
     currentEventFont = QFont("Courier New", 11);
@@ -464,10 +466,130 @@ void PressAnalyzer::setupMainWindow()
 }
 // 撤销自定义更新接口，保持系统默认标题行为
 
+static QColor tabColorForIndex(int index)
+{
+    static const QColor palette[] = {
+        QColor(0x4C, 0xAF, 0x50),  // green
+        QColor(0x21, 0x96, 0xF3),  // blue
+        QColor(0xFF, 0x98, 0x00),  // orange
+        QColor(0xE9, 0x1E, 0x63),  // pink
+        QColor(0x9C, 0x27, 0xB0),  // purple
+        QColor(0x00, 0xBC, 0xD4),  // cyan
+        QColor(0xFF, 0x57, 0x22),  // deep orange
+        QColor(0x79, 0x55, 0x48),  // brown
+    };
+    const int n = static_cast<int>(sizeof(palette) / sizeof(palette[0]));
+    return palette[index % n];
+}
+
+QAbstractButton *PressAnalyzer::makeTabCloseButton(int /*tabIndex*/)
+{
+    QPushButton *btn = new QPushButton(m_tabBar);
+    btn->setFixedSize(16, 16);
+    btn->setFlat(true);
+    btn->setCursor(Qt::ArrowCursor);
+    btn->setFocusPolicy(Qt::NoFocus);
+    btn->setStyleSheet(
+        "QPushButton {"
+        "  border-radius: 7px;"
+        "  background-color: rgba(0,0,0,0);"
+        "  border: none;"
+        "  color: #999999;"
+        "  font-size: 11px;"
+        "  font-weight: bold;"
+        "  padding: 0px;"
+        "}"
+        "QPushButton:hover {"
+        "  background-color: #FF5F57;"
+        "  color: white;"
+        "}"
+    );
+    btn->setText("\xC3\x97");  // UTF-8 ×
+    connect(btn, &QPushButton::clicked, this, [this, btn]() {
+        for (int i = 0; i < m_tabBar->count(); ++i) {
+            if (m_tabBar->tabButton(i, QTabBar::RightSide) == btn) {
+                closeTab(i);
+                return;
+            }
+        }
+    });
+    return btn;
+}
+
 void PressAnalyzer::setupCentralWidget()
 {
-    centralStack = new QStackedWidget(this);
-    setCentralWidget(centralStack);
+    // ---- 外层容器：TabBar（上）+ centralStack（下）----
+    m_tabContainer = new QWidget(this);
+    QVBoxLayout *tabContainerLayout = new QVBoxLayout(m_tabContainer);
+    tabContainerLayout->setContentsMargins(0, 0, 0, 0);
+    tabContainerLayout->setSpacing(0);
+
+    m_tabBar = new ColoredTabBar(m_tabContainer);
+    // 强制 Fusion 风格，绕过 macOS 原生样式对 tab 宽度的限制
+    m_tabBar->setStyle(QStyleFactory::create("Fusion"));
+    m_tabBar->setTabsClosable(false);
+    m_tabBar->setMovable(false);
+    m_tabBar->setExpanding(false);
+    m_tabBar->setContextMenuPolicy(Qt::CustomContextMenu);
+    // 不在 stylesheet 中设置 font-size / font-weight，
+    // 否则 QStyleSheetStyle 会接管 CE_TabBarTabLabel 绘制并忽略 elideMode()。
+    // 字体通过 setFont() 设置，bold 选中效果由 paintEvent 处理。
+    m_tabBar->setStyleSheet(
+        "QTabBar::tab {"
+        "  padding: 4px 20px 4px 10px;"
+        "}"
+    );
+    // 在 setStyleSheet 之后锁定 ElideNone，防止被 style change 重置
+    QFont tabFont = m_tabBar->font();
+    tabFont.setPointSize(12);
+    m_tabBar->setFont(tabFont);
+    m_tabBar->setElideMode(Qt::ElideNone);
+
+    // 左对齐：tabBar 放入 HBoxLayout，右侧加 stretch
+    QHBoxLayout *tabBarRow = new QHBoxLayout();
+    tabBarRow->setContentsMargins(0, 0, 0, 0);
+    tabBarRow->setSpacing(0);
+    tabBarRow->addWidget(m_tabBar);
+    tabBarRow->addStretch(1);
+
+    centralStack = new QStackedWidget(m_tabContainer);
+    tabContainerLayout->addLayout(tabBarRow);
+    tabContainerLayout->addWidget(centralStack);
+    setCentralWidget(m_tabContainer);
+
+    // 初始化第一个标签（带字体状态初始化）
+    m_tabBar->addTab("新标签");
+    {
+        TabState initState;
+        initState.logFont       = currentLogFont;
+        initState.logFontPtSize = logFontPointSize;
+        m_tabStates.append(initState);
+    }
+    m_currentTabIndex = 0;
+    m_tabBar->setTabButton(0, QTabBar::RightSide, makeTabCloseButton(0));
+    m_tabBar->setTabColor(0, tabColorForIndex(0));
+
+    // Tab 切换信号
+    connect(m_tabBar, &QTabBar::currentChanged, this, [this](int index) {
+        if (index == m_currentTabIndex) return;
+        if (index < 0 || index >= m_tabStates.size()) return;
+        saveCurrentTabState();
+        restoreTabState(index);
+        m_currentTabIndex = index;
+    });
+    // Tab 关闭信号
+    connect(m_tabBar, &QTabBar::tabCloseRequested, this, [this](int index) {
+        closeTab(index);
+    });
+    // Tab 右键菜单
+    connect(m_tabBar, &QTabBar::customContextMenuRequested, this, [this](const QPoint &pos) {
+        int idx = m_tabBar->tabAt(pos);
+        if (idx < 0) return;
+        QMenu menu;
+        QAction *actDetach = menu.addAction("移到新窗口");
+        if (menu.exec(m_tabBar->mapToGlobal(pos)) == actDetach)
+            detachTabToNewWindow(idx);
+    });
 
     // Page 0: 日志视图
     logView = new QPlainTextEdit(this);
@@ -475,11 +597,9 @@ void PressAnalyzer::setupCentralWidget()
 
     new LogNumberHighlighter(logView->document(), 7);
 
-    QFont f("Menlo");
-    f.setStyleHint(QFont::Monospace);
-    f.setFixedPitch(true);
-    f.setPointSize(11);
-    logView->setFont(f);
+    // 使用 currentLogFont（在构造函数中已初始化），避免与硬编码字体不一致
+    logView->setFont(currentLogFont);
+    logView->document()->setDefaultFont(currentLogFont);
     logView->setStyleSheet(
         "QPlainTextEdit{selection-background-color:#80BFFF; selection-color:white;}"
     );
@@ -1069,10 +1189,11 @@ void PressAnalyzer::setupFileBrowserDock()
         QMenu menu;
         menu.setStyleSheet(fileBrowserMenuQss);
         if (info.isDir()) {
-            QAction *actDelete  = menu.addAction("删除目录");
-            QAction *actRename  = menu.addAction("重命名目录");
-            QAction *actOpen    = menu.addAction("打开目录");
-            QAction *actLoadDir = menu.addAction("智能解析日志");
+            QAction *actDelete        = menu.addAction("删除目录");
+            QAction *actRename        = menu.addAction("重命名目录");
+            QAction *actOpen          = menu.addAction("打开目录");
+            QAction *actLoadDir       = menu.addAction("智能解析日志");
+            QAction *actLoadDirNewTab = menu.addAction("在新标签页中智能解析");
             QAction *chosen = menu.exec(fileBrowserTree->mapToGlobal(pos));
             if (chosen == actDelete) {
                 QMessageBox::StandardButton reply =
@@ -1110,6 +1231,8 @@ void PressAnalyzer::setupFileBrowserDock()
                 openDirectoryInBrowser(filePath);
             } else if (chosen == actLoadDir) {
                 loadMergeLogsFromPath(filePath, false);
+            } else if (chosen == actLoadDirNewTab) {
+                openInNewTab(filePath);
             }
         } else {
             QAction *actOpen   = menu.addAction("打开文件");
@@ -1255,6 +1378,13 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
 
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
 
+    // 记录 sourcePath 并立即更新标签名（loadFileToLogView 不走 onParseFinished）
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+        m_tabStates[m_currentTabIndex].sourcePath = filePath;
+        if (m_tabBar)
+            m_tabBar->setTabText(m_currentTabIndex, QFileInfo(filePath).fileName());
+    }
+
     // 清空之前的数据
     allLogLines.clear();
     allEvents.clear();
@@ -1294,7 +1424,8 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     m_parseWorker->setVersion(version);
 
     m_parseThread = new QThread();
-    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
+    ++m_parseGeneration;
+    startBackgroundParse(m_parseWorker, m_parseThread, m_parseGeneration);
 }
 
 void PressAnalyzer::setupToolBar()
@@ -1696,6 +1827,7 @@ void PressAnalyzer::setupMenuBar()
         auto *w = new PressAnalyzer(nullptr);
         w->setAttribute(Qt::WA_DeleteOnClose, true);
         w->show();
+        // 字体在 setupMenuBar 末尾的 s_sharedLogFont 检查中自动应用
     });
 
     connect(actOpenDir, &QAction::triggered, this, &PressAnalyzer::loadAndMergeLogs);
@@ -1821,21 +1953,33 @@ void PressAnalyzer::setupMenuBar()
     connect(actResetFonts, &QAction::triggered, this, &PressAnalyzer::resetAllFonts);
 
     // 放大/缩小/重置文本大小
-    const int basePointSize = 11; // 基准字号固定为 11pt
-    logFontPointSize = 11; // 默认 11pt
+    // 如果已有跨窗口共享字体，优先使用，确保所有窗口字体一致
+    if (s_sharedLogFontSet) {
+        currentLogFont = s_sharedLogFont;
+    }
+    // basePointSize 从 currentLogFont 获取（已含 settings 或共享字体的字号），避免硬编码
+    const int basePointSize = (currentLogFont.pointSize() > 0) ? currentLogFont.pointSize() : 11;
+    logFontPointSize = basePointSize;
     auto applyLogFont = [this](int pt){
-        QFont f = this->logView->font();
+        QFont f = this->currentLogFont;   // 以当前字体（族、样式）为基础
         f.setPointSize(pt);
+        this->currentLogFont = f;         // 保持 currentLogFont 与实际显示同步
         this->logView->setFont(f);
+        this->logView->document()->setDefaultFont(f);  // 显式同步文档默认字体
         if (this->searchResultView) {
             this->searchResultView->setFont(f);
         }
+        if (this->searchCombo) {
+            this->searchCombo->setFont(f);
+        }
+        // 同步共享字体
+        s_sharedLogFont = f;
+        s_sharedLogFontSet = true;
     };
     connect(actZoomIn, &QAction::triggered, this, [=](){ logFontPointSize += 1; applyLogFont(logFontPointSize); });
     connect(actZoomOut, &QAction::triggered, this, [=](){ logFontPointSize = std::max(8, logFontPointSize - 1); applyLogFont(logFontPointSize); });
     connect(actZoomReset, &QAction::triggered, this, [=](){ logFontPointSize = basePointSize; applyLogFont(logFontPointSize); });
 
-    // 应用默认字号
     applyLogFont(logFontPointSize);
 
     // 帮助菜单
@@ -3168,24 +3312,28 @@ void PressAnalyzer::analyzeLogLine(const QString &line,
 
 // loadAndAnalyzeLog 保持之前逻辑
 // ============================================================
-// 后台解析公共辅助：连接信号并启动线程
+// 后台解析成员方法：连接信号并启动线程（含 generation 守卫）
 // ============================================================
-static void startBackgroundParseHelper(PressAnalyzer *self,
-                                        LogParserWorker *worker,
-                                        QThread *thread)
+void PressAnalyzer::startBackgroundParse(LogParserWorker *worker,
+                                          QThread *thread,
+                                          int generation)
 {
     worker->moveToThread(thread);
     QObject::connect(thread,  &QThread::started,
                      worker,  &LogParserWorker::run);
     QObject::connect(worker,  &LogParserWorker::progressChanged,
-                     self,    &PressAnalyzer::onParseProgress,
+                     this,    &PressAnalyzer::onParseProgress,
                      Qt::QueuedConnection);
+    // parseFinished 通过 lambda 捕获 generation，旧线程结果自动丢弃
     QObject::connect(worker,  &LogParserWorker::parseFinished,
-                     self,    &PressAnalyzer::onParseFinished,
+                     this,    [this, generation](ParseResult result){
+                         if (m_parseGeneration == generation)
+                             onParseFinished(result);
+                     },
                      Qt::QueuedConnection);
     QObject::connect(worker,  &LogParserWorker::parseError,
-                     self,    [self](const QString &msg){
-                         QMessageBox::warning(self, "解析错误", msg);
+                     this,    [this](const QString &msg){
+                         QMessageBox::warning(this, "解析错误", msg);
                      },
                      Qt::QueuedConnection);
     // 线程结束后自动清理
@@ -3198,6 +3346,390 @@ static void startBackgroundParseHelper(PressAnalyzer *self,
 
 // ============================================================
 // 解析进度槽：更新状态栏
+// ============================================================
+// 多标签页管理：保存/恢复/打开/关闭
+// ============================================================
+
+// 将当前激活标签的状态保存到 m_tabStates[m_currentTabIndex]，
+// 并将 logView 换为空文档（为下一个标签腾出空间）。
+void PressAnalyzer::saveCurrentTabState()
+{
+    if (m_currentTabIndex < 0 || m_currentTabIndex >= m_tabStates.size()) return;
+    TabState &st = m_tabStates[m_currentTabIndex];
+
+    // 保存当前标签的字体快照（缩放字号等）
+    st.logFont     = currentLogFont;
+    st.logFontPtSize = logFontPointSize;
+
+    // O(1) 文档交换：从 logView 取走文档，换入新空文档
+    st.document = logView->document();
+    st.document->setParent(this);   // 转交给 PressAnalyzer 管理，避免 Qt 内部 control 提前删除
+    QTextDocument *fresh = new QTextDocument(this);  // parent=this，窗口关闭时统一清理
+    fresh->setDocumentLayout(new QPlainTextDocumentLayout(fresh));  // QPlainTextEdit 要求此 layout
+    // 显式设置新文档默认字体为 currentLogFont，避免使用 QApplication 默认字体
+    fresh->setDefaultFont(currentLogFont);
+    logView->setDocument(fresh);
+    new LogNumberHighlighter(fresh, 7);
+    logView->setFont(currentLogFont);
+    logView->document()->setDefaultFont(currentLogFont);  // 双重保障
+
+    // 数据快照
+    st.allLogLines   = allLogLines;
+    st.allEvents     = allEvents;
+    st.cameraEvents  = cameraEvents;
+    st.statusEvents  = statusEvents;
+    st.batteryinfo   = batteryinfo;
+    st.soctmp        = soctmp;
+    st.cameraTemps   = cameraTemps;
+    st.allusage      = allusage;
+    st.colorMarks    = m_colorMarks;
+    st.colorMarkHighlights         = m_colorMarkHighlights;
+    st.searchViewColorHighlights   = m_searchViewColorHighlights;
+    st.searchResults               = searchResults;
+    st.currentSearchIndex          = currentSearchIndex;
+    st.searchHighlights            = searchHighlights;
+    st.triggerCount  = triggerCount;
+    st.flightCount   = flightCount;
+    st.sn            = sn;
+    st.pendingTopLogs = m_pendingTopLogs;
+
+    // UI 状态
+    st.scrollValue    = logView->verticalScrollBar()->value();
+    st.cursorPosition = logView->textCursor().position();
+    st.windowTitle    = windowTitle();
+    st.statusPath     = statusPathLabel ? statusPathLabel->text() : QString();
+    st.statusInfo     = statusInfoLabel ? statusInfoLabel->text() : QString();
+    st.statusDockVisible = statusDock && !statusDock->isHidden();
+}
+
+// 从 m_tabStates[index] 恢复状态到 UI（logView、事件列表、图表等）。
+void PressAnalyzer::restoreTabState(int index)
+{
+    if (index < 0 || index >= m_tabStates.size()) return;
+    TabState &st = m_tabStates[index];
+
+    // 文档还原：如果该标签有存储的文档，换入 logView
+    if (st.document) {
+        QTextDocument *old = logView->document();
+        logView->setDocument(st.document);
+        st.document = nullptr;
+        // 不 delete old：old 的 parent=this，由 PressAnalyzer 在关闭时统一销毁。
+        // 直接 delete 可能触发 LogNumberHighlighter 的 pending QTimer 事件，
+        // 导致 use-after-free crash。
+        Q_UNUSED(old);
+    }
+    // 否则 logView 已持有该标签的文档（理论上不应发生，但安全起见保持不变）
+
+    // 恢复该标签的字体状态
+    if (st.logFontPtSize > 0) {
+        currentLogFont    = st.logFont;
+        logFontPointSize  = st.logFontPtSize;
+    }
+
+    // setDocument 后 Qt 可能重置字体，确保始终应用当前字体到 logView 及其文档
+    logView->setFont(currentLogFont);
+    logView->document()->setDefaultFont(currentLogFont);  // 显式同步文档默认字体
+
+    // 同步其他关联控件的字体
+    if (searchResultView) searchResultView->setFont(currentLogFont);
+    if (searchCombo) searchCombo->setFont(currentLogFont);
+    if (eventList) eventList->setFont(currentEventFont);
+    if (cameraEventList) cameraEventList->setFont(currentEventFont);
+    if (heartbeatLostEventList) heartbeatLostEventList->setFont(currentEventFont);
+
+    // 恢复数据
+    allLogLines      = st.allLogLines;
+    allEvents        = st.allEvents;
+    cameraEvents     = st.cameraEvents;
+    statusEvents     = st.statusEvents;
+    batteryinfo      = st.batteryinfo;
+    soctmp           = st.soctmp;
+    cameraTemps      = st.cameraTemps;
+    allusage         = st.allusage;
+    m_colorMarks     = st.colorMarks;
+    m_colorMarkHighlights       = st.colorMarkHighlights;
+    m_searchViewColorHighlights = st.searchViewColorHighlights;
+    searchResults      = st.searchResults;
+    currentSearchIndex = st.currentSearchIndex;
+    searchHighlights   = st.searchHighlights;
+    triggerCount = st.triggerCount;
+    flightCount  = st.flightCount;
+    sn           = st.sn;
+    m_pendingTopLogs = st.pendingTopLogs;
+
+    // 重建事件列表控件
+    repopulateEventLists();
+
+    // 恢复滚动/光标
+    {
+        int maxPos = qMax(0, logView->document()->characterCount() - 1);
+        QTextCursor cur = logView->textCursor();
+        cur.setPosition(qBound(0, st.cursorPosition, maxPos));
+        logView->setTextCursor(cur);
+        logView->verticalScrollBar()->setValue(st.scrollValue);
+    }
+
+    // 窗口标题和状态栏
+    setWindowTitle(st.windowTitle.isEmpty() ? "日志分析工具" : st.windowTitle);
+    if (statusPathLabel) statusPathLabel->setText(st.statusPath);
+    if (statusInfoLabel) statusInfoLabel->setText(st.statusInfo);
+
+    // 状态面板：仅 CE 标签才更新图表/显示
+    if (st.isControlEngine) {
+        batteryChart->setData(batteryinfo);
+        cameraTempChart->setData(cameraTemps);
+        socChart->clear();
+        socChart->addData(soctmp);
+        usageChart->setData(allusage);
+        if (titleLabel)
+            titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEvents.size()));
+        if (st.statusDockVisible) statusDock->show();
+    } else {
+        statusDock->hide();
+    }
+
+    // 刷新高亮
+    updateVisibleHighlights();
+}
+
+// 重新填充 eventList / cameraEventList / heartbeatLostEventList 及时间轴，
+// 使用当前成员变量 allEvents / cameraEvents / statusEvents。
+void PressAnalyzer::repopulateEventLists()
+{
+    // 主事件列表
+    eventList->clear();
+    static const QList<QColor> bgColors = {
+        QColor("#FFCCCC"), QColor("#CCE5FF"), QColor("#CCFFCC"),
+        QColor("#FFF2CC"), QColor("#E5CCFF"), QColor("#FFCCE5"),
+        QColor("#CCE5FF"), QColor("#CCFFE5"), QColor("#FFE5CC"), QColor("#CCFFFF")
+    };
+    for (int i = 0; i < allEvents.size(); ++i) {
+        QListWidgetItem *item = new QListWidgetItem(allEvents[i].display);
+        // 优先使用存储的颜色（保持和原始渲染一致），回退到索引推导
+        QColor bg = allEvents[i].bgColor.isValid()
+                        ? allEvents[i].bgColor
+                        : bgColors[i % bgColors.size()];
+        item->setBackground(bg);
+        eventList->addItem(item);
+    }
+    if (!allEvents.isEmpty()) { eventDock->show(); eventDock->raise(); }
+
+    // 相机事件列表
+    cameraEventList->clear();
+    for (const EventItem &ev : cameraEvents) {
+        QListWidgetItem *item = new QListWidgetItem(ev.display);
+        QColor bg;
+        if (ev.bgColor.isValid()) {
+            bg = ev.bgColor;
+        } else {
+            int s = ev.display.indexOf('[');
+            int e = ev.display.indexOf(']', s);
+            QString note = (s >= 0 && e > s) ? ev.display.mid(s + 1, e - s - 1) : "";
+            if (note == "close")                                       bg = QColor(169,169,169);
+            else if (note == "init")                                   bg = QColor(211,211,211);
+            else if (note.contains("recording"))                       bg = Qt::red;
+            else if (note.contains("stream") && note.contains("preview")) bg = QColor(255,165,0);
+            else if (note.contains("stream"))                          bg = Qt::green;
+            else if (note.contains("preview"))                         bg = Qt::yellow;
+            else if (note.contains("snapshot"))                        bg = Qt::cyan;
+            else                                                       bg = Qt::white;
+        }
+        item->setBackground(bg);
+        cameraEventList->addItem(item);
+    }
+
+    // 心跳丢失列表
+    heartbeatLostEventList->clear();
+    for (const EventItem &ev : statusEvents) {
+        QListWidgetItem *item = new QListWidgetItem(ev.display);
+        item->setBackground(QColor(255, 182, 193));
+        heartbeatLostEventList->addItem(item);
+    }
+    if (titleLabel)
+        titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
+
+    // 时间轴
+    if (eventTimeline) {
+        QList<TimelineEvent> tlEvents;
+        for (const auto &ev : cameraEvents) {
+            TimelineEvent te;
+            te.lineNumber = ev.lineNumber;
+            te.timestamp  = ev.timestamp;
+            te.display    = ev.display;
+            te.category   = "camera";
+            int s = ev.display.indexOf('[');
+            int e = ev.display.indexOf(']', s);
+            te.note = (s >= 0 && e > s) ? ev.display.mid(s + 1, e - s - 1) : "";
+            tlEvents.append(te);
+        }
+        for (const auto &ev : statusEvents) {
+            TimelineEvent te;
+            te.lineNumber = ev.lineNumber;
+            te.timestamp  = ev.timestamp;
+            te.display    = ev.display;
+            te.category   = "heartbeat";
+            te.note       = "";
+            tlEvents.append(te);
+        }
+        std::sort(tlEvents.begin(), tlEvents.end(),
+                  [](const TimelineEvent &a, const TimelineEvent &b) {
+                      if (a.timestamp.isValid() && b.timestamp.isValid())
+                          return a.timestamp < b.timestamp;
+                      return a.lineNumber < b.lineNumber;
+                  });
+        eventTimeline->setEvents(tlEvents);
+    }
+}
+
+// 推断标签名：control_engine_log 路径→ "control_engine"；否则使用目录/文件名。
+QString PressAnalyzer::tabLabelForPath(const QString &path) const
+{
+    if (path.isEmpty()) return "新标签";
+    QFileInfo fi(path);
+    // 如果路径本身或父目录包含 control_engine_log，命名为 control_engine
+    if (path.contains("control_engine_log", Qt::CaseInsensitive) ||
+        fi.dir().dirName().contains("control_engine_log", Qt::CaseInsensitive))
+        return "control_engine";
+    return fi.fileName().isEmpty() ? "新标签" : fi.fileName();
+}
+
+// 在新标签页中智能解析指定路径（文件 or 目录）。
+void PressAnalyzer::openInNewTab(const QString &path)
+{
+    // 1. 保存当前标签
+    saveCurrentTabState();
+
+    // 2. 创建新的 TabState，继承当前字体设置
+    TabState newState;
+    newState.sourcePath    = path;
+    newState.logFont       = currentLogFont;
+    newState.logFontPtSize = logFontPointSize;
+    m_tabStates.append(newState);
+    int newIdx = m_tabStates.size() - 1;
+
+    // 3. 将标签栏切换到新标签（阻断 currentChanged 信号避免递归）
+    m_tabBar->blockSignals(true);
+    m_tabBar->addTab(tabLabelForPath(path));
+    m_tabBar->setCurrentIndex(newIdx);
+    m_tabBar->setTabButton(newIdx, QTabBar::RightSide, makeTabCloseButton(newIdx));
+    m_tabBar->setTabColor(newIdx, tabColorForIndex(newIdx));
+    m_tabBar->blockSignals(false);
+
+    // 4. 更新当前标签索引（logView 此时持有为新标签创建的空文档）
+    m_currentTabIndex = newIdx;
+
+    // 5. 智能解析：CE 路径 → loadAndAnalyzeLogsFromPath，目录 → loadMergeLogsFromPath，文件 → loadFileToLogView
+    QString analysisRoot = findControlEngineAnalysisRoot(path);
+    if (!analysisRoot.isEmpty()) {
+        loadAndAnalyzeLogsFromPath(analysisRoot);
+    } else {
+        QFileInfo fi(path);
+        if (fi.isFile()) {
+            loadFileToLogView(path);
+        } else {
+            loadMergeLogsFromPath(path, false);
+        }
+    }
+}
+
+// 关闭指定索引的标签页。若只剩一个标签则仅清空内容而不关闭。
+void PressAnalyzer::closeTab(int index)
+{
+    if (m_tabStates.size() == 1) {
+        // 最后一个标签：关闭窗口退出
+        close();
+        return;
+    }
+
+    if (index == m_currentTabIndex) {
+        // 关闭当前激活标签：选择相邻标签
+        // 优先选左侧；如果是第一个则选右侧（现在的 index 1）
+        int newIdx = (index > 0) ? index - 1 : 1;
+
+        // 删除 TabState（文档在 logView 中，不需要 delete）
+        m_tabStates.remove(index);
+
+        // 移除 tabBar 后，原 index 右侧的所有标签索引均左移 1。
+        // newIdx 若原本大于 index，需要相应减 1 指向正确标签。
+        if (newIdx > index) --newIdx;
+        if (newIdx >= m_tabStates.size()) newIdx = m_tabStates.size() - 1;
+
+        m_tabBar->blockSignals(true);
+        m_tabBar->removeTab(index);
+        m_tabBar->shiftColorsAfterRemove(index);
+        m_tabBar->setCurrentIndex(newIdx);
+        m_tabBar->blockSignals(false);
+
+        m_currentTabIndex = -1;  // 哨兵，避免 restoreTabState 提前写入
+        restoreTabState(newIdx);
+        m_currentTabIndex = newIdx;
+
+    } else {
+        // 关闭非激活标签：删除存储的文档并移除
+        if (m_tabStates[index].document) {
+            delete m_tabStates[index].document;
+            m_tabStates[index].document = nullptr;
+        }
+        m_tabStates.remove(index);
+
+        m_tabBar->blockSignals(true);
+        m_tabBar->removeTab(index);
+        m_tabBar->shiftColorsAfterRemove(index);
+        m_tabBar->blockSignals(false);
+
+        // 如果关闭的标签在当前标签之前，当前索引需要左移
+        if (index < m_currentTabIndex) {
+            --m_currentTabIndex;
+            m_tabBar->blockSignals(true);
+            m_tabBar->setCurrentIndex(m_currentTabIndex);
+            m_tabBar->blockSignals(false);
+        }
+    }
+}
+
+void PressAnalyzer::loadPathSmart(const QString &path)
+{
+    if (path.isEmpty()) return;
+    QString analysisRoot = findControlEngineAnalysisRoot(path);
+    if (!analysisRoot.isEmpty()) {
+        loadAndAnalyzeLogsFromPath(analysisRoot);
+    } else {
+        QFileInfo fi(path);
+        if (fi.isFile())
+            loadFileToLogView(path);
+        else
+            loadMergeLogsFromPath(path, false);
+    }
+}
+
+void PressAnalyzer::detachTabToNewWindow(int index)
+{
+    // 捕获 sourcePath（关闭 tab 之前）
+    QString sp = m_tabStates[index].sourcePath;
+
+    closeTab(index);
+
+    auto *w = new PressAnalyzer(nullptr);
+    w->setAttribute(Qt::WA_DeleteOnClose, true);
+    // 传递当前共享字体
+    if (s_sharedLogFontSet) {
+        w->currentLogFont = s_sharedLogFont;
+        w->logFontPointSize = s_sharedLogFont.pointSize();
+        if (w->logView) {
+            w->logView->setFont(s_sharedLogFont);
+            w->logView->document()->setDefaultFont(s_sharedLogFont);
+        }
+    }
+    w->show();
+
+    if (!sp.isEmpty()) {
+        // 用 QueuedConnection 确保新窗口完全初始化后再加载
+        QMetaObject::invokeMethod(w, [w, sp]() {
+            w->loadPathSmart(sp);
+        }, Qt::QueuedConnection);
+    }
+}
+
 // ============================================================
 void PressAnalyzer::onParseProgress(int percent, const QString &statusText)
 {
@@ -3242,6 +3774,9 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     // -------- 先 setPlainText，再给 EventItem.block 赋值 --------
     logView->setUpdatesEnabled(false);
     logView->setPlainText(result.textBuffer);
+    // setPlainText 内部调用 document->clear()，会重置 defaultFont，需要重新应用
+    logView->setFont(currentLogFont);
+    logView->document()->setDefaultFont(currentLogFont);  // 显式同步文档默认字体
 
     // -------- 拆分事件到各自列表（block 赋值必须在 setPlainText 之后）--------
     allEvents.clear();
@@ -3276,6 +3811,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             camEv.display    = ev.display;
             camEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
             camEv.timestamp  = ev.timestamp;
+            camEv.bgColor    = bg;
             cameraEvents.push_back(camEv);
 
         } else if (ev.eventCategory == "heartbeat") {
@@ -3306,6 +3842,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             mainEv.lineNumber = ev.lineNumber;
             mainEv.display    = ev.display;
             mainEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            mainEv.bgColor    = bgColors[colorIndex];
             allEvents.push_back(mainEv);
 
             if (eventList->count() == 1) {
@@ -3354,19 +3891,37 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     }
 
     titleLabel->setText(QString("心跳丢失次数:%1").arg(heartbeatLostEventList->count()));
-    batteryChart->setData(batteryinfo);
-    cameraTempChart->setData(cameraTemps);
-    socChart->clear();
-    socChart->addData(soctmp);
+
+    // 状态面板：仅 CE 标签才更新图表
+    bool isCE = (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+                    ? m_tabStates[m_currentTabIndex].isControlEngine : false;
+    if (isCE) {
+        batteryChart->setData(batteryinfo);
+        cameraTempChart->setData(cameraTemps);
+        socChart->clear();
+        socChart->addData(soctmp);
+    }
     setWindowTitle(QString("SN:%1 起飞次数: %2 | 成功起飞次数: %3")
                        .arg(sn.isEmpty() ? QString("-") : sn)
                        .arg(triggerCount)
                        .arg(flightCount));
 
+    // 更新标签栏文字（使用 SN 或 sourcePath 来命名）
+    if (m_tabBar && m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+        const QString &sp = m_tabStates[m_currentTabIndex].sourcePath;
+        QString label;
+        if (isCE) {
+            label = "control_engine";
+        } else {
+            label = sp.isEmpty() ? "标签" : QFileInfo(sp).fileName();
+        }
+        m_tabBar->setTabText(m_currentTabIndex, label);
+    }
+
     // 解析 top_log（这些文件通常较小，同步即可）
     for (const QString &fp : m_pendingTopLogs)
         parseTopFile(fp);
-    usageChart->setData(allusage);
+    if (isCE) usageChart->setData(allusage);
     m_pendingTopLogs.clear();
 
     // statusPathLabel intentionally left unchanged — path was set before parsing started
@@ -3378,6 +3933,10 @@ void PressAnalyzer::loadAndAnalyzeLog()
     if (filePath.isEmpty()) return;
 
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
+
+    // 更新当前标签的 sourcePath（onParseFinished 用它命名标签）
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        m_tabStates[m_currentTabIndex].sourcePath = filePath;
 
     // 清空之前的数据
     allLogLines.clear();
@@ -3415,7 +3974,8 @@ void PressAnalyzer::loadAndAnalyzeLog()
     m_parseWorker->setVersion(version);
 
     m_parseThread = new QThread();
-    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
+    ++m_parseGeneration;
+    startBackgroundParse(m_parseWorker, m_parseThread, m_parseGeneration);
 }
 
 // ==================== 字体设置功能 ====================
@@ -3428,10 +3988,14 @@ void PressAnalyzer::setLogFont()
     if (ok) {
         currentLogFont = font;
         logFontPointSize = font.pointSize();
+        // 更新跨窗口共享字体
+        s_sharedLogFont = font;
+        s_sharedLogFontSet = true;
 
         // 应用到日志视图
         if (logView) {
             logView->setFont(font);
+            logView->document()->setDefaultFont(font);  // 显式同步文档默认字体
         }
 
         // 应用到搜索结果视图
@@ -3444,9 +4008,8 @@ void PressAnalyzer::setLogFont()
             searchCombo->setFont(font);
         }
 
-        // 保存字体设置
-        QSettings settings("ZZTools", "HoverLogAnalyzer");
-        settings.setValue("fonts/logFont", font);
+        // 保存字体设置（日志字体不持久化，启动始终使用 Menlo 11pt）
+        // settings.setValue("fonts/logFont", font);
 
         QMessageBox::information(this, "字体设置", "日志字体已更新！");
     }
@@ -3529,9 +4092,13 @@ void PressAnalyzer::resetAllFonts()
     currentLogFont.setStyleHint(QFont::Monospace);
     currentLogFont.setFixedPitch(true);
     logFontPointSize = 11;
+    // 重置共享字体
+    s_sharedLogFont = currentLogFont;
+    s_sharedLogFontSet = false;
 
     if (logView) {
         logView->setFont(currentLogFont);
+        logView->document()->setDefaultFont(currentLogFont);
     }
     if (searchResultView) {
         searchResultView->setFont(currentLogFont);
@@ -3590,6 +4157,7 @@ void PressAnalyzer::applySavedFonts()
     // 应用日志字体
     if (logView) {
         logView->setFont(currentLogFont);
+        logView->document()->setDefaultFont(currentLogFont);
     }
     if (searchResultView) {
         searchResultView->setFont(currentLogFont);
@@ -3779,13 +4347,20 @@ void PressAnalyzer::loadAndAnalyzeLogs()
     m_parseWorker->setVersion(version);
 
     m_parseThread = new QThread();
-    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
+    ++m_parseGeneration;
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        m_tabStates[m_currentTabIndex].isControlEngine = true;
+    startBackgroundParse(m_parseWorker, m_parseThread, m_parseGeneration);
 }
 
 void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
 {
     // 切换到日志视图页
     centralStack->setCurrentIndex(0);
+
+    // 更新 sourcePath 供 onParseFinished 命名标签（CE 路径将以 CE:<SN> 命名）
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        m_tabStates[m_currentTabIndex].sourcePath = path;
 
     // 在"分析Control Engine日志"场景下：仅在当前目录的下一级（直接子目录）查找 system_log
     {
@@ -3927,7 +4502,10 @@ void PressAnalyzer::loadAndAnalyzeLogsFromPath(const QString &path)
     m_parseWorker->setVersion(version);
 
     m_parseThread = new QThread();
-    startBackgroundParseHelper(this, m_parseWorker, m_parseThread);
+    ++m_parseGeneration;
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        m_tabStates[m_currentTabIndex].isControlEngine = true;
+    startBackgroundParse(m_parseWorker, m_parseThread, m_parseGeneration);
 }
 
 QString PressAnalyzer::findControlEngineAnalysisRoot(const QString &basePath) const
@@ -3971,6 +4549,10 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
 
     // 显示用户选择的通用目录路径（后续过程保持静默，不覆盖）
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
+
+    // 更新 sourcePath 供 onParseFinished 命名标签
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        m_tabStates[m_currentTabIndex].sourcePath = path;
 
     // 根据参数决定是否在文件浏览器中打开此目录
     if (navigate) {
@@ -4205,6 +4787,12 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
     // 如果只有一个文件，直接打开
     if (allFiles.size() == 1) {
         loadSelectedFilesInOrder(allFiles);
+        // 更新标签名（loadSelectedFilesInOrder 不走 onParseFinished）
+        if (m_tabBar && m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+            const QString &sp = m_tabStates[m_currentTabIndex].sourcePath;
+            if (!sp.isEmpty())
+                m_tabBar->setTabText(m_currentTabIndex, QFileInfo(sp).fileName());
+        }
         return;
     }
 
@@ -4296,6 +4884,12 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
         // 按点击顺序加载文件
         if (!clickOrderFiles->isEmpty()) {
             loadSelectedFilesInOrder(*clickOrderFiles);
+            // 更新标签名（loadSelectedFilesInOrder 不走 onParseFinished）
+            if (m_tabBar && m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+                const QString &sp = m_tabStates[m_currentTabIndex].sourcePath;
+                if (!sp.isEmpty())
+                    m_tabBar->setTabText(m_currentTabIndex, QFileInfo(sp).fileName());
+            }
         }
     }
 
@@ -4432,7 +5026,12 @@ void PressAnalyzer::clearWindow()
     allLogLines.clear();
     eventList->clear();
     logView->clear();
+    // clear() 内部调用 document()->clear()，会重置 defaultFont，需要重新应用
+    logView->setFont(currentLogFont);
+    logView->document()->setDefaultFont(currentLogFont);  // 显式同步文档默认字体
     searchResultView->clearResults();
+    // clearResults() 内部调用 clear()，同样需要重新应用字体
+    searchResultView->setFont(currentLogFont);
     searchResultView->hide();
     searchResults.clear();
     searchDock->hide();
@@ -4457,6 +5056,14 @@ void PressAnalyzer::clearWindow()
     if (statusPathLabel) statusPathLabel->setText("就绪");
     if (statusInfoLabel) statusInfoLabel->setText("");
     setWindowTitle("日志分析工具");
+
+    // 重置当前标签页的 isControlEngine 标记
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+        m_tabStates[m_currentTabIndex].isControlEngine = false;
+        m_tabStates[m_currentTabIndex].sourcePath.clear();
+    }
+    if (m_tabBar && m_currentTabIndex >= 0)
+        m_tabBar->setTabText(m_currentTabIndex, "新标签");
 
     // 重置全局按钮点击状态，下次点击任何文件按钮都会在当前窗口显示
     anyFileButtonClicked = false;
@@ -5235,6 +5842,8 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
         // 清空之前的内容
     allLogLines.clear();
     logView->clear();
+    // clear() 内部调用 document()->clear()，会重置 defaultFont，需要重新应用
+    logView->setFont(currentLogFont);
 
     // 使用QPlainTextEdit的append方法，避免内存问题
     int totalLineNumber = 0;
@@ -5498,6 +6107,8 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
 
     // 一次性设置所有内容
     logView->setPlainText(textBuffer);
+    // setPlainText 内部调用 document->clear()，会重置 defaultFont，需要重新应用
+    logView->setFont(currentLogFont);
 
     // 更新状态栏
     // 静默
@@ -5572,5 +6183,6 @@ void PressAnalyzer::closeEvent(QCloseEvent *event)
             m_parseThread->terminate(); // force-kill as last resort
         m_parseThread->wait(500);
     }
+    // 非激活标签存储的文档 parent=this，Qt 析构时自动清理，无需手动 delete。
     QMainWindow::closeEvent(event);
 }
