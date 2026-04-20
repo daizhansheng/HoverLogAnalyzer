@@ -77,12 +77,12 @@ public:
 
         // ---- button row ----
         auto *btnRow = new QHBoxLayout;
+        btnRow->setSpacing(6);
         m_addBtn   = new QPushButton("添加到图表", this);
         m_addBtn->setEnabled(false);
         m_clearBtn = new QPushButton("清除图表", this);
-        btnRow->addStretch();
-        btnRow->addWidget(m_addBtn);
-        btnRow->addWidget(m_clearBtn);
+        btnRow->addWidget(m_addBtn, 1);
+        btnRow->addWidget(m_clearBtn, 1);
         root->addLayout(btnRow);
 
         // ---- chart widget (takes remaining space) ----

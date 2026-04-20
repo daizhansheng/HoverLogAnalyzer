@@ -52,6 +52,15 @@ set(PROJECT_SOURCES
 
     # PressAnalyzer
     PressAnalyzer.cpp
+    PressAnalyzerSetup.cpp
+    PressAnalyzerSearch.cpp
+    PressAnalyzerHighlight.cpp
+    PressAnalyzerParser.cpp
+    PressAnalyzerFileOps.cpp
+    PressAnalyzerFileBrowser.cpp
+    PressAnalyzerTabs.cpp
+    PressAnalyzerFonts.cpp
+    PressAnalyzerDbViewer.cpp
     PressAnalyzer.h
     PressAnalyzer.ui
 

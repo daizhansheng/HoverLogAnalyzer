@@ -8,6 +8,34 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QLabel>
+#include <QFontMetrics>
+
+// 根据可用宽度自动省略路径，从左侧省略以保留末尾目录名
+class ElidedPathLabel : public QLabel {
+public:
+    explicit ElidedPathLabel(QWidget *parent = nullptr) : QLabel(parent) {
+        setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+        setMinimumWidth(0);
+    }
+    void setFullText(const QString &text) {
+        m_fullText = text;
+        updateElidedText();
+        setToolTip(text);
+    }
+protected:
+    void resizeEvent(QResizeEvent *e) override {
+        QLabel::resizeEvent(e);
+        updateElidedText();
+    }
+private:
+    void updateElidedText() {
+        QFontMetrics fm(font());
+        QString elided = fm.elidedText(m_fullText, Qt::ElideLeft, width() - 8);
+        setText(elided);
+    }
+    QString m_fullText;
+};
 class SearchComboBox : public QComboBox {
     Q_OBJECT
 public:
@@ -494,5 +522,22 @@ private:
     int              m_statusToggleIndex     = -1;       // SideBar 中 statusDock 切换按钮的索引
     // Panel indices: 0 = 文件浏览器, 1 = 分析结果(事件列表)
 };
+
+// 标签页配色：根据索引循环返回不同颜色
+inline QColor tabColorForIndex(int index)
+{
+    static const QColor palette[] = {
+        QColor(0x4C, 0xAF, 0x50),  // green
+        QColor(0x21, 0x96, 0xF3),  // blue
+        QColor(0xFF, 0x98, 0x00),  // orange
+        QColor(0xE9, 0x1E, 0x63),  // pink
+        QColor(0x9C, 0x27, 0xB0),  // purple
+        QColor(0x00, 0xBC, 0xD4),  // cyan
+        QColor(0xFF, 0x57, 0x22),  // deep orange
+        QColor(0x79, 0x55, 0x48),  // brown
+    };
+    const int n = static_cast<int>(sizeof(palette) / sizeof(palette[0]));
+    return palette[index % n];
+}
 
 #endif // PRESSANALYZER_H
