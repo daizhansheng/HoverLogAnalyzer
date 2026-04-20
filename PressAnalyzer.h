@@ -37,6 +37,7 @@ protected:
 #include "SocTempChartWidget.h"
 #include "ModuleUsageChart.h"
 #include "ChartStyleManager.h"
+#include "VSCodeSideBar.h"
 #include "CameraTempChartWidget.h"
 #include <QSettings>
 #include <QAction>
@@ -145,6 +146,14 @@ struct EventItem {
     QColor bgColor;    // 列表项背景色（用于标签页切换后复原）
 };
 
+// 颜色标记命中数据（虚拟化：仅存储位置信息，按 blockNumber 排序）
+struct ColorMarkHit {
+    int blockNumber;   // 所在文本块编号
+    int posInBlock;    // 块内起始位置
+    int length;        // 匹配长度
+    int colorIndex;    // 颜色索引 (0-4)
+};
+
 // 每个标签页保存的完整状态快照
 struct TabState {
     // 文档指针：nullptr 表示该标签当前处于激活状态（文档在 logView 中）
@@ -162,7 +171,7 @@ struct TabState {
 
     // 颜色标记
     QMap<QString, int>       colorMarks;
-    QList<QTextEdit::ExtraSelection> colorMarkHighlights;
+    QVector<ColorMarkHit>    colorMarkHitData;
     QList<QTextEdit::ExtraSelection> searchViewColorHighlights;
 
     // 搜索状态
@@ -298,7 +307,7 @@ private:
     void clearColorMarkByText(const QString &text); // 清除指定文本的颜色标记
     void clearLineColorMark(int lineNumber);        // 清除指定行颜色标记（保留兼容）
     void clearAllColorMarks();                      // 清除所有颜色标记
-    void rebuildColorMarkSelections();              // 重新生成 colorMarkHighlights
+    void rebuildColorMarkSelections();              // 重新生成 m_colorMarkHitData
 
     // 解压工具函数
     bool extractZipFile(const QString &zipPath, const QString &extractDir);
@@ -367,7 +376,6 @@ private:
     QWidget *checkBoxContainer;
     QString version = "";
     // ==================== Dock 控件 ====================
-    QDockWidget *eventDock;
     QListWidget *eventList;
 
     QDockWidget *searchDock;
@@ -422,7 +430,6 @@ private:
     ModuleUsageChart *usageChart;
     QVector<AllModuleUsage> allusage;
     // ==================== 文件浏览器 ====================
-    QDockWidget *fileBrowserDock;
     QTreeView *fileBrowserTree;
     QFileSystemModel *fileSystemModel;
     QPushButton *fileBrowserButton;   // 工具栏按钮
@@ -437,8 +444,9 @@ private:
     QString currentDbPath;
 
      // ==================== 动态图表 ====================
-     QPushButton          *chartSearchButton  = nullptr;   // 工具栏：打开动态图表管理窗口
-     DynamicChartManager  *m_chartManager     = nullptr;   // 单例管理窗口
+     QPushButton          *chartSearchButton  = nullptr;   // 工具栏：切换侧边栏动态图表面板
+     DynamicChartManager  *m_chartManager     = nullptr;   // 嵌入侧边栏的图表管理器
+     int                   m_chartPanelIndex  = -1;        // SideBar 中动态图表面板的索引
 
     // 文本缩放：当前字体大小
     int logFontPointSize;
@@ -460,8 +468,8 @@ private:
     QMap<QString, int> m_colorMarks;
     // 5种默认颜色
     static const QColor s_markColors[5];
-    // logView 颜色标记高亮列表
-    QList<QTextEdit::ExtraSelection> m_colorMarkHighlights;
+    // 颜色标记命中数据（虚拟化：仅存储位置信息，按 blockNumber 排序）
+    QVector<ColorMarkHit> m_colorMarkHitData;   // 替代旧的 m_colorMarkHighlights
     // searchResultView 颜色标记高亮列表（独立维护，不与搜索高亮冲突）
     QList<QTextEdit::ExtraSelection> m_searchViewColorHighlights;
     // 防抖 timer：避免连续触发时频繁全文扫描
@@ -479,6 +487,12 @@ private:
     QVector<TabState> m_tabStates;                // 每个标签的状态快照
     int              m_currentTabIndex  = 0;      // 当前激活标签索引
     int              m_parseGeneration  = 0;      // 解析代次（防止旧线程污染新标签）
+
+    // ==================== VS Code 风格侧边栏 ====================
+    VSCodeSideBar   *m_sideBar              = nullptr;
+    QWidget         *m_fileBrowserContainer  = nullptr;  // 文件浏览器面板容器（sidebar panel 0）
+    int              m_statusToggleIndex     = -1;       // SideBar 中 statusDock 切换按钮的索引
+    // Panel indices: 0 = 文件浏览器, 1 = 分析结果(事件列表)
 };
 
 #endif // PRESSANALYZER_H

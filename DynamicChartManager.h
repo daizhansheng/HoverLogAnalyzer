@@ -7,6 +7,8 @@
 #include <QGridLayout>
 #include <QScrollArea>
 #include <QLineEdit>
+#include <QComboBox>
+#include <QAbstractItemView>
 #include <QPushButton>
 #include <QListWidget>
 #include <QLabel>
@@ -92,40 +94,39 @@ private:
 // ============================================================
 // DynamicChartManager
 //
-// 单一管理窗口。点击 chartSearchButton 时若已存在则 raise()，
-// 否则创建。
+// 嵌入侧边栏的动态图表管理器。
 //
 // 顶部：搜索栏 + 字段选择列表 + 「添加到图表」按钮
-// 下方：可滚动网格区域，动态布局：
-//   - 1张：居中占满
-//   - 2张：左右各半
-//   - 3张+：每行 2 列，自动换行
+// 下方：可滚动区域，单列垂直排列图表卡片
 // ============================================================
 class DynamicChartManager : public QWidget {
     Q_OBJECT
 public:
     explicit DynamicChartManager(const QStringList &logLines,
                                  QWidget            *parent = nullptr)
-        : QWidget(parent, Qt::Window)
+        : QWidget(parent)
         , m_logLines(logLines)
     {
-        setWindowTitle("动态图表");
-        setMinimumSize(800, 600);
-        resize(1000, 700);
         setAttribute(Qt::WA_DeleteOnClose, false);
 
         auto *root = new QVBoxLayout(this);
-        root->setContentsMargins(8, 8, 8, 8);
-        root->setSpacing(6);
+        root->setContentsMargins(6, 6, 6, 6);
+        root->setSpacing(4);
 
         // ---- 搜索行 ----
         auto *searchRow = new QHBoxLayout;
-        m_searchEdit = new QLineEdit(this);
-        m_searchEdit->setPlaceholderText("输入搜索关键词（支持 | 分隔多关键词）");
-        m_searchEdit->setMinimumHeight(30);
+        m_searchEdit = new QComboBox(this);
+        m_searchEdit->setEditable(true);
+        m_searchEdit->lineEdit()->setPlaceholderText("搜索关键词（| 分隔多词）");
+        m_searchEdit->setMinimumHeight(28);
+        m_searchEdit->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+        m_searchEdit->setMinimumContentsLength(10);
+        // 下拉列表中长文本用省略号截断，避免 popup 超出组件宽度
+        m_searchEdit->view()->setTextElideMode(Qt::ElideMiddle);
+        m_searchEdit->view()->installEventFilter(this);
         m_searchBtn  = new QPushButton("搜索", this);
-        m_searchBtn->setFixedWidth(60);
-        searchRow->addWidget(m_searchEdit);
+        m_searchBtn->setFixedWidth(50);
+        searchRow->addWidget(m_searchEdit, 1);
         searchRow->addWidget(m_searchBtn);
         root->addLayout(searchRow);
 
@@ -141,7 +142,7 @@ public:
         m_fieldList = new QListWidget(this);
         m_fieldList->setSelectionMode(QAbstractItemView::MultiSelection);
         m_fieldList->setVisible(false);
-        m_fieldList->setMaximumHeight(150);
+        m_fieldList->setMaximumHeight(120);
         root->addWidget(m_fieldList);
 
         // ---- 按钮行 ----
@@ -175,7 +176,7 @@ public:
         // ---- 连接 ----
         connect(m_searchBtn,  &QPushButton::clicked,
                 this, &DynamicChartManager::doSearch);
-        connect(m_searchEdit, &QLineEdit::returnPressed,
+        connect(m_searchEdit->lineEdit(), &QLineEdit::returnPressed,
                 this, &DynamicChartManager::doSearch);
         connect(m_addBtn,     &QPushButton::clicked,
                 this, &DynamicChartManager::addSelectedToChart);
@@ -217,11 +218,23 @@ private slots:
         m_hint->setVisible(false);
         m_addBtn->setEnabled(false);
 
-        QString raw = m_searchEdit->text().trimmed();
+        QString raw = m_searchEdit->currentText().trimmed();
         if (raw.isEmpty()) {
             m_resultLabel->setText("请输入搜索关键词");
             return;
         }
+
+        // 添加到搜索历史（不重复）
+        int existIdx = m_searchEdit->findText(raw);
+        if (existIdx >= 0) {
+            // 已有，移到最前面
+            m_searchEdit->removeItem(existIdx);
+        }
+        m_searchEdit->insertItem(0, raw);
+        m_searchEdit->setCurrentIndex(0);
+        // 限制历史条目数量
+        while (m_searchEdit->count() > 20)
+            m_searchEdit->removeItem(m_searchEdit->count() - 1);
 
         QStringList keywords = raw.split('|', Qt::SkipEmptyParts);
         for (auto &k : keywords) k = k.trimmed();
@@ -292,7 +305,7 @@ private slots:
 
         QRegularExpression tsRx(
             R"(\[\d+(?:\.\d+)?\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
-        const QString searchLabel = m_searchEdit->text().trimmed();
+        const QString searchLabel = m_searchEdit->currentText().trimmed();
 
         // 提取所有选中字段的数据
         QVector<double>    combinedValues;
@@ -351,12 +364,25 @@ private slots:
         rebuildGrid();
     }
 
+protected:
+    // 限制 QComboBox 下拉弹出框宽度不超过组件本身
+    bool eventFilter(QObject *obj, QEvent *e) override
+    {
+        if (obj == m_searchEdit->view() && e->type() == QEvent::Show) {
+            QWidget *popup = m_searchEdit->view()->parentWidget();
+            if (popup) {
+                popup->setFixedWidth(m_searchEdit->width());
+            }
+        }
+        return QWidget::eventFilter(obj, e);
+    }
+
 private:
     // 创建一张新卡片并注册
     ChartCard *createCard(const QString &title)
     {
         auto *card = new ChartCard(title, m_gridContainer);
-        card->setMinimumHeight(280);
+        card->setMinimumHeight(240);
         m_cards.append(card);
         connect(card, &ChartCard::closeRequested, this, [this, card](){
             m_cards.removeAll(card);
@@ -366,7 +392,7 @@ private:
         return card;
     }
 
-    // 重新排列所有卡片到网格
+    // 重新排列所有卡片（单列垂直排列，适合侧边栏窄宽度）
     void rebuildGrid()
     {
         // 先从布局中移除所有 item（不删除 widget）
@@ -378,33 +404,18 @@ private:
         const int n = m_cards.size();
         if (n == 0) return;
 
-        const int cols = (n == 1) ? 1 : 2;
-
         for (int i = 0; i < n; ++i) {
-            int row = i / cols;
-            int col = i % cols;
-
-            // 1张时设置列 span=1，居中 → 用 colspan 1 配合 setColumnStretch
-            m_gridLayout->addWidget(m_cards[i], row, col);
-            // 每张卡片高度固定
-            m_cards[i]->setMinimumHeight(280);
+            m_gridLayout->addWidget(m_cards[i], i, 0);
+            m_cards[i]->setMinimumHeight(240);
             m_cards[i]->show();
         }
 
-        // 列拉伸均等
-        for (int c = 0; c < cols; ++c)
-            m_gridLayout->setColumnStretch(c, 1);
-
-        // 奇数张时，最后一行只有左列有内容，右列留空 → 拉伸已处理，视觉上左右各半
-        // 1张时 cols=1，占满全宽
-
-        // 行拉伸：给最后一行之后加 stretch，防止卡片被撑高
-        // （留给 QScrollArea 自己处理高度）
+        m_gridLayout->setColumnStretch(0, 1);
     }
 
     const QStringList   &m_logLines;
 
-    QLineEdit   *m_searchEdit   = nullptr;
+    QComboBox   *m_searchEdit   = nullptr;
     QPushButton *m_searchBtn    = nullptr;
     QLabel      *m_resultLabel  = nullptr;
     QLabel      *m_hint         = nullptr;

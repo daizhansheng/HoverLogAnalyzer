@@ -138,14 +138,14 @@ void PressAnalyzer::clearLineColorMark(int /*lineNumber*/)
 void PressAnalyzer::clearAllColorMarks()
 {
     m_colorMarks.clear();
-    m_colorMarkHighlights.clear();
+    m_colorMarkHitData.clear();
     updateVisibleHighlights();
     searchResultView->setColorMarkPatterns({});
 }
 
 void PressAnalyzer::rebuildColorMarkSelections()
 {
-    m_colorMarkHighlights.clear();
+    m_colorMarkHitData.clear();
     m_searchViewColorHighlights.clear();
     if (m_colorMarks.isEmpty()) {
         updateVisibleHighlights();
@@ -169,6 +169,8 @@ void PressAnalyzer::rebuildColorMarkSelections()
                     pos += kw.length();
                 }
             }
+            // 按位置排序，便于后续顺序遍历 block 映射
+            std::sort(hits.begin(), hits.end());
             return hits;
         }
     );
@@ -180,23 +182,33 @@ void PressAnalyzer::rebuildColorMarkSelections()
             const auto &hits = watcher->result();
             watcher->deleteLater();
 
-            QList<QTextEdit::ExtraSelection> sels;
-            for (const auto &h : hits) {
-                int pos  = std::get<0>(h);
-                int len  = std::get<1>(h);
-                int cidx = std::get<2>(h);
-                QTextCursor c(logView->document());
-                c.setPosition(pos);
-                c.setPosition(pos + len, QTextCursor::KeepAnchor);
-                QTextEdit::ExtraSelection sel;
-                sel.cursor = c;
-                QTextCharFormat fmt;
-                fmt.setBackground(s_markColors[cidx]);
-                fmt.setForeground(Qt::white);  // 深色背景配白色文字，对比度更高
-                sel.format = fmt;
-                sels.append(sel);
+            // 顺序遍历 block 将绝对位置转换为 (blockNumber, posInBlock)
+            // 性能：O(totalBlocks + totalHits) 替代旧的 O(totalHits) 个 QTextCursor 构造
+            QTextDocument *doc = logView->document();
+            QTextBlock block = doc->begin();
+            int blockStart = 0;
+            int hitIdx = 0;
+            QVector<ColorMarkHit> hitData;
+            hitData.reserve(hits.size());
+
+            while (block.isValid() && hitIdx < hits.size()) {
+                int blockEnd = blockStart + block.length(); // block.length() 含末尾 \n
+                while (hitIdx < hits.size() && std::get<0>(hits[hitIdx]) < blockEnd) {
+                    int pos  = std::get<0>(hits[hitIdx]);
+                    int len  = std::get<1>(hits[hitIdx]);
+                    int cidx = std::get<2>(hits[hitIdx]);
+                    ColorMarkHit h;
+                    h.blockNumber = block.blockNumber();
+                    h.posInBlock  = pos - blockStart;
+                    h.length      = len;
+                    h.colorIndex  = cidx;
+                    hitData.append(h);
+                    hitIdx++;
+                }
+                blockStart = blockEnd;
+                block = block.next();
             }
-            m_colorMarkHighlights = sels;
+            m_colorMarkHitData = std::move(hitData);
             updateVisibleHighlights();
             // 同步颜色标记到查找结果窗口
             QMap<QString, QColor> markColors;
@@ -217,6 +229,29 @@ void PressAnalyzer::updateVisibleHighlights()
     int firstVisibleBlock = logView->cursorForPosition(QPoint(0, 0)).block().blockNumber();
     int lastVisibleBlock  = logView->cursorForPosition(QPoint(0, logView->viewport()->height() - 1)).block().blockNumber();
     if (lastVisibleBlock < firstVisibleBlock) lastVisibleBlock = firstVisibleBlock;
+
+    // 颜色标记高亮（仅可见范围 — 虚拟化，替代旧的全量列表）
+    if (!m_colorMarkHitData.isEmpty()) {
+        // 二分查找可见范围内的命中数据
+        auto lower = std::lower_bound(m_colorMarkHitData.constBegin(), m_colorMarkHitData.constEnd(),
+            firstVisibleBlock, [](const ColorMarkHit &h, int bn) { return h.blockNumber < bn; });
+        auto upper = std::upper_bound(lower, m_colorMarkHitData.constEnd(),
+            lastVisibleBlock, [](int bn, const ColorMarkHit &h) { return bn < h.blockNumber; });
+
+        for (auto it = lower; it != upper; ++it) {
+            QTextBlock block = doc->findBlockByNumber(it->blockNumber);
+            if (!block.isValid()) continue;
+            QTextEdit::ExtraSelection sel;
+            sel.cursor = QTextCursor(block);
+            sel.cursor.setPosition(block.position() + it->posInBlock);
+            sel.cursor.setPosition(block.position() + it->posInBlock + it->length, QTextCursor::KeepAnchor);
+            QTextCharFormat fmt;
+            fmt.setBackground(s_markColors[it->colorIndex]);
+            fmt.setForeground(Qt::white);
+            sel.format = fmt;
+            selections.push_back(sel);
+        }
+    }
 
     // 当前行灰底
     if (currentSearchIndex >= 0 && currentSearchIndex < searchResults.size()) {
@@ -277,9 +312,8 @@ void PressAnalyzer::updateVisibleHighlights()
             }
         }
     }
-    // 颜色标记高亮（全文，置于最底层，先加入）
-    QList<QTextEdit::ExtraSelection> allSelections = m_colorMarkHighlights + selections;
-    logView->setExtraSelections(allSelections);
+    // 所有高亮均限于可见区域，直接设置
+    logView->setExtraSelections(selections);
 }
 
 bool PressAnalyzer::extractZipFile(const QString &zipPath, const QString &extractDir)
@@ -360,7 +394,7 @@ bool PressAnalyzer::waitForFile(const QString &filePath, int maxWaitMs)
 
 PressAnalyzer::PressAnalyzer(QWidget *parent)
     : QMainWindow(parent), currentSearchIndex(-1),
-      fileBrowserDock(nullptr), fileBrowserTree(nullptr), fileSystemModel(nullptr), fileBrowserButton(nullptr)
+      fileBrowserTree(nullptr), fileSystemModel(nullptr), fileBrowserButton(nullptr)
 {
     // 注册跨线程 signal/slot 所需的自定义类型
     qRegisterMetaType<ParseResult>("ParseResult");
@@ -397,9 +431,15 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // 按顺序初始化各个组件
     setupMainWindow();
     setupCentralWidget();
-    setupEventDock();
+    setupFileBrowserDock();   // sidebar panel 0 = 文件浏览器
+    setupEventDock();         // sidebar panel 1 = 分析结果
+
+    // sidebar panel 2 = 动态图表（嵌入侧边栏）
+    m_chartManager = new DynamicChartManager(allLogLines, this);
+    m_chartPanelIndex = m_sideBar->addPanel(
+        SideBarIcons::dynamicChart(), "动态图表", m_chartManager, "动态图表");
+
     setupSearchDock();
-    setupFileBrowserDock();
     setupToolBar();
     setupStatusBar();
     setupStatusDock();
@@ -518,6 +558,9 @@ QAbstractButton *PressAnalyzer::makeTabCloseButton(int /*tabIndex*/)
 
 void PressAnalyzer::setupCentralWidget()
 {
+    // ---- VS Code 风格侧边栏 ----
+    m_sideBar = new VSCodeSideBar(this);
+
     // ---- 外层容器：TabBar（上）+ centralStack（下）----
     m_tabContainer = new QWidget(this);
     QVBoxLayout *tabContainerLayout = new QVBoxLayout(m_tabContainer);
@@ -555,7 +598,15 @@ void PressAnalyzer::setupCentralWidget()
     centralStack = new QStackedWidget(m_tabContainer);
     tabContainerLayout->addLayout(tabBarRow);
     tabContainerLayout->addWidget(centralStack);
-    setCentralWidget(m_tabContainer);
+
+    // ---- 将侧边栏 + 主内容区包装到 QHBoxLayout ----
+    QWidget *centralContainer = new QWidget(this);
+    QHBoxLayout *centralHLayout = new QHBoxLayout(centralContainer);
+    centralHLayout->setContentsMargins(0, 0, 0, 0);
+    centralHLayout->setSpacing(0);
+    centralHLayout->addWidget(m_sideBar);
+    centralHLayout->addWidget(m_tabContainer, 1);
+    setCentralWidget(centralContainer);
 
     // 初始化第一个标签（带字体状态初始化）
     m_tabBar->addTab("新标签");
@@ -794,12 +845,24 @@ void PressAnalyzer::setupCentralWidget()
 void PressAnalyzer::setupEventDock()
 {
     eventList = new QListWidget(this);
-    eventDock = new QDockWidget("分析结果", this);
-    eventDock->setWidget(eventList);
-    eventDock->setAllowedAreas(Qt::LeftDockWidgetArea);
-    eventDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
-    addDockWidget(Qt::LeftDockWidgetArea, eventDock);
-    eventDock->hide();
+    eventList->setStyleSheet(
+        "QListWidget {"
+        "  border: none;"
+        "  background-color: #FAFAFA;"
+        "}"
+        "QListWidget::item {"
+        "  padding: 2px 4px;"
+        "}"
+        "QListWidget::item:hover {"
+        "  background-color: #E8F0FE;"
+        "}"
+        "QListWidget::item:selected {"
+        "  background-color: #D2E3FC;"
+        "  color: #1A73E8;"
+        "}"
+    );
+    // 添加到侧边栏 panel 1 = 分析结果
+    m_sideBar->addPanel(SideBarIcons::analysisList(), "分析结果", eventList, "分析结果");
 }
 
 void PressAnalyzer::setupSearchDock()
@@ -1116,17 +1179,9 @@ void PressAnalyzer::setupFileBrowserDock()
     browserLayout->addLayout(navLayout);
     browserLayout->addWidget(fileBrowserTree, 1);
 
-    // 创建Dock - 放左侧
-    fileBrowserDock = new QDockWidget("文件浏览器", this);
-    fileBrowserDock->setWidget(browserContainer);
-    fileBrowserDock->setAllowedAreas(Qt::LeftDockWidgetArea);
-    fileBrowserDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
-    fileBrowserDock->setMinimumWidth(150);
-    addDockWidget(Qt::LeftDockWidgetArea, fileBrowserDock);
-    fileBrowserDock->hide(); // 初始隐藏
-
-    tabifyDockWidget(fileBrowserDock, eventDock);
-    eventDock->raise();
+    // 添加到侧边栏 panel 0 = 文件浏览器
+    m_fileBrowserContainer = browserContainer;
+    m_sideBar->addPanel(SideBarIcons::fileBrowser(), "文件浏览器", browserContainer, "文件浏览器");
 
     installEventFilter(this);
 
@@ -1285,7 +1340,7 @@ void PressAnalyzer::openDirectoryInBrowser(const QString &dirPath)
     fileBrowserTree->setRootIndex(fileSystemModel->index(dirPath));
 
     // 更新路径标签：传入完整路径，由 ElidedPathLabel 根据宽度自动省略
-    ElidedPathLabel *pathLabel = fileBrowserDock->findChild<ElidedPathLabel*>("fileBrowserPathLabel");
+    ElidedPathLabel *pathLabel = m_fileBrowserContainer->findChild<ElidedPathLabel*>("fileBrowserPathLabel");
     if (pathLabel) {
         pathLabel->setFullText(dirPath);
     }
@@ -1301,9 +1356,9 @@ void PressAnalyzer::openDirectoryInBrowser(const QString &dirPath)
         fileBrowserTree->collapse(childIndex);
     }
 
-    // 如果dock没有显示则显示
-    if (!fileBrowserDock->isVisible()) {
-        fileBrowserDock->show();
+    // 如果侧边栏文件浏览器面板没有显示则显示
+    if (!(m_sideBar->isPanelVisible() && m_sideBar->currentPanelIndex() == 0)) {
+        m_sideBar->showPanel(0);
     }
 }
 
@@ -1390,7 +1445,7 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
-    eventDock->hide();
+    if (m_sideBar->currentPanelIndex() == 1) m_sideBar->hidePanel();  // 隐藏分析结果面板
     heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
@@ -1404,7 +1459,7 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
     flightCount = 0;
     // 清空颜色标记
     m_colorMarks.clear();
-    m_colorMarkHighlights.clear();
+    m_colorMarkHitData.clear();
 
     // 查找 top 文件路径（单文件模式）
     auto getTopFilePath = [](const QString &selectedFilePath) -> QString {
@@ -1911,9 +1966,8 @@ void PressAnalyzer::setupMenuBar()
     actResetFonts->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_R));
 
     connect(actToggleFileBrowser, &QAction::triggered, this, [this](){
-        if (fileBrowserDock->isVisible() || eventDock->isVisible()) {
-            fileBrowserDock->hide();
-            eventDock->hide();
+        if (m_sideBar->isPanelVisible()) {
+            m_sideBar->hidePanel();
         } else {
             if (fileBrowserRootPath.isEmpty()) {
                 QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", QDir::homePath());
@@ -1921,10 +1975,7 @@ void PressAnalyzer::setupMenuBar()
                     openDirectoryInBrowser(dir);
                 }
             } else {
-                fileBrowserDock->show();
-                if (eventList->count() > 0) {
-                    eventDock->show();
-                }
+                m_sideBar->showPanel(0); // 默认显示文件浏览器
             }
         }
     });
@@ -1935,7 +1986,7 @@ void PressAnalyzer::setupMenuBar()
         statusDock->setVisible(!statusDock->isVisible());
     });
     connect(actToggleEvent, &QAction::triggered, this, [this](){
-        eventDock->setVisible(!eventDock->isVisible());
+        m_sideBar->togglePanel(1);
     });
     connect(actToggleSearchDock, &QAction::triggered, this, [this](){
         searchDock->setVisible(!searchDock->isVisible());
@@ -2462,14 +2513,12 @@ void PressAnalyzer::setupConnections()
         if (!dir.isEmpty()) {
             clearWindow();
             openDirectoryInBrowser(dir);
-            fileBrowserDock->show();
-            fileBrowserDock->raise();
+            m_sideBar->showPanel(0);
             return;
         }
 
         if (!fileBrowserRootPath.isEmpty()) {
-            fileBrowserDock->show();
-            fileBrowserDock->raise();
+            m_sideBar->showPanel(0);
         }
     });
 
@@ -2505,15 +2554,9 @@ void PressAnalyzer::setupConnections()
         statusDock->setVisible(!statusDock->isVisible());
     });
 
-    // 动态图表搜索按钮 — 单例管理窗口，已打开则 raise
+    // 动态图表搜索按钮 — 切换侧边栏动态图表面板
     connect(chartSearchButton, &QPushButton::clicked, this, [this](){
-        if (!m_chartManager) {
-            m_chartManager = new DynamicChartManager(allLogLines, this);
-            m_chartManager->setAttribute(Qt::WA_DeleteOnClose, false);
-        }
-        m_chartManager->show();
-        m_chartManager->raise();
-        m_chartManager->activateWindow();
+        m_sideBar->togglePanel(m_chartPanelIndex);
     });
     connect(heartbeatLostEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
     // 文本改变（例如跳转/选择变动）后也刷新一次可见黄色（节流 50ms）
@@ -2536,6 +2579,18 @@ void PressAnalyzer::setupConnections()
         QObject::disconnect(&t, nullptr, nullptr, nullptr);
         QObject::connect(&t, &QTimer::timeout, this, [this](){ updateVisibleHighlights(); });
         t.start();
+    });
+
+    // SideBar 外部切换按钮：状态面板（右侧 statusDock）
+    m_statusToggleIndex = m_sideBar->addExternalToggle(SideBarIcons::statusChart(), "状态面板");
+    connect(m_sideBar, &VSCodeSideBar::externalToggleClicked, this, [this](int idx) {
+        if (idx == m_statusToggleIndex) {
+            statusDock->setVisible(!statusDock->isVisible());
+        }
+    });
+    // 同步 statusDock 可见性到 SideBar 按钮状态
+    connect(statusDock, &QDockWidget::visibilityChanged, this, [this](bool visible) {
+        m_sideBar->setExternalToggleActive(m_statusToggleIndex, visible);
     });
 }
 
@@ -2833,10 +2888,9 @@ void PressAnalyzer::addEventToList(int triggerCount, int lineNumber, const QStri
     item->setBackground(bgColors[colorIndex]);
     eventList->addItem(item);
 
-    // 如果是第一个事件，显示eventDock并切换到分析结果标签页
+    // 如果是第一个事件，显示侧边栏分析结果面板
     if (eventList->count() == 1) {
-        eventDock->show();
-        eventDock->raise(); // 切换到分析结果标签页
+        m_sideBar->showPanel(1);
     }
 }
 
@@ -3383,7 +3437,7 @@ void PressAnalyzer::saveCurrentTabState()
     st.cameraTemps   = cameraTemps;
     st.allusage      = allusage;
     st.colorMarks    = m_colorMarks;
-    st.colorMarkHighlights         = m_colorMarkHighlights;
+    st.colorMarkHitData            = m_colorMarkHitData;
     st.searchViewColorHighlights   = m_searchViewColorHighlights;
     st.searchResults               = searchResults;
     st.currentSearchIndex          = currentSearchIndex;
@@ -3447,7 +3501,7 @@ void PressAnalyzer::restoreTabState(int index)
     cameraTemps      = st.cameraTemps;
     allusage         = st.allusage;
     m_colorMarks     = st.colorMarks;
-    m_colorMarkHighlights       = st.colorMarkHighlights;
+    m_colorMarkHitData          = st.colorMarkHitData;
     m_searchViewColorHighlights = st.searchViewColorHighlights;
     searchResults      = st.searchResults;
     currentSearchIndex = st.currentSearchIndex;
@@ -3474,7 +3528,7 @@ void PressAnalyzer::restoreTabState(int index)
     if (statusPathLabel) statusPathLabel->setText(st.statusPath);
     if (statusInfoLabel) statusInfoLabel->setText(st.statusInfo);
 
-    // 状态面板：仅 CE 标签才更新图表/显示
+    // 状态面板：仅 CE 标签才更新图表数据（不改变 statusDock 可见性）
     if (st.isControlEngine) {
         batteryChart->setData(batteryinfo);
         cameraTempChart->setData(cameraTemps);
@@ -3483,9 +3537,6 @@ void PressAnalyzer::restoreTabState(int index)
         usageChart->setData(allusage);
         if (titleLabel)
             titleLabel->setText(QString("心跳丢失次数:%1").arg(statusEvents.size()));
-        if (st.statusDockVisible) statusDock->show();
-    } else {
-        statusDock->hide();
     }
 
     // 刷新高亮
@@ -3512,7 +3563,7 @@ void PressAnalyzer::repopulateEventLists()
         item->setBackground(bg);
         eventList->addItem(item);
     }
-    if (!allEvents.isEmpty()) { eventDock->show(); eventDock->raise(); }
+    if (!allEvents.isEmpty()) { m_sideBar->showPanel(1); }
 
     // 相机事件列表
     cameraEventList->clear();
@@ -3786,7 +3837,18 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     cameraEventList->clear();
     heartbeatLostEventList->clear();
 
+    // 使用顺序遍历 block 替代逐个 findBlockByNumber，性能从 O(events*log(blocks)) 优化到 O(blocks)
+    QTextBlock currentBlock = logView->document()->begin();
+    int currentBlockNum = 0;
+
     for (const ParsedEventItem &ev : result.events) {
+        const int targetBlockNum = ev.lineNumber - 1;
+        // 顺序前进到目标 block（事件按行号递增排列）
+        while (currentBlockNum < targetBlockNum && currentBlock.isValid()) {
+            currentBlock = currentBlock.next();
+            currentBlockNum++;
+        }
+
         if (ev.eventCategory == "camera") {
             QListWidgetItem *item = new QListWidgetItem(ev.display);
             int startBracket = ev.display.indexOf('[');
@@ -3809,7 +3871,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             EventItem camEv;
             camEv.lineNumber = ev.lineNumber;
             camEv.display    = ev.display;
-            camEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            camEv.block      = currentBlock;
             camEv.timestamp  = ev.timestamp;
             camEv.bgColor    = bg;
             cameraEvents.push_back(camEv);
@@ -3822,7 +3884,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             EventItem stEv;
             stEv.lineNumber = ev.lineNumber;
             stEv.display    = ev.display;
-            stEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            stEv.block      = currentBlock;
             stEv.timestamp  = ev.timestamp;
             statusEvents.push_back(stEv);
 
@@ -3841,13 +3903,12 @@ void PressAnalyzer::onParseFinished(ParseResult result)
             EventItem mainEv;
             mainEv.lineNumber = ev.lineNumber;
             mainEv.display    = ev.display;
-            mainEv.block      = logView->document()->findBlockByNumber(ev.lineNumber - 1);
+            mainEv.block      = currentBlock;
             mainEv.bgColor    = bgColors[colorIndex];
             allEvents.push_back(mainEv);
 
             if (eventList->count() == 1) {
-                eventDock->show();
-                eventDock->raise();
+                m_sideBar->showPanel(1);
             }
         }
     }
@@ -3943,7 +4004,7 @@ void PressAnalyzer::loadAndAnalyzeLog()
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
-    eventDock->hide();
+    if (m_sideBar->currentPanelIndex() == 1) m_sideBar->hidePanel();  // 隐藏分析结果面板
     heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
@@ -4684,8 +4745,8 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
         return;
     }
 
-    // 如果不是control_engine_log目录，隐藏eventDock
-    eventDock->hide();
+    // 如果不是control_engine_log目录，隐藏分析结果面板
+    if (m_sideBar->currentPanelIndex() == 1) m_sideBar->hidePanel();
 
     // 禁用界面更新，提高性能
     logView->setUpdatesEnabled(false);
@@ -4699,7 +4760,7 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
     allEvents.clear();
     cameraEvents.clear();
     eventList->clear();
-    eventDock->hide(); // 清空后隐藏eventDock
+    if (m_sideBar->currentPanelIndex() == 1) m_sideBar->hidePanel();  // 清空后隐藏分析结果面板
     heartbeatLostEventList->clear();
     statusEvents.clear();
     batteryChart->clear();
@@ -4787,12 +4848,7 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
     // 如果只有一个文件，直接打开
     if (allFiles.size() == 1) {
         loadSelectedFilesInOrder(allFiles);
-        // 更新标签名（loadSelectedFilesInOrder 不走 onParseFinished）
-        if (m_tabBar && m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
-            const QString &sp = m_tabStates[m_currentTabIndex].sourcePath;
-            if (!sp.isEmpty())
-                m_tabBar->setTabText(m_currentTabIndex, QFileInfo(sp).fileName());
-        }
+        // 标签名更新已移入 loadSelectedFilesInOrder 的异步完成回调中
         return;
     }
 
@@ -4880,23 +4936,22 @@ void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
     connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     // 显示对话框
+    bool loadStarted = false;
     if (dialog.exec() == QDialog::Accepted) {
         // 按点击顺序加载文件
         if (!clickOrderFiles->isEmpty()) {
             loadSelectedFilesInOrder(*clickOrderFiles);
-            // 更新标签名（loadSelectedFilesInOrder 不走 onParseFinished）
-            if (m_tabBar && m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
-                const QString &sp = m_tabStates[m_currentTabIndex].sourcePath;
-                if (!sp.isEmpty())
-                    m_tabBar->setTabText(m_currentTabIndex, QFileInfo(sp).fileName());
-            }
+            loadStarted = true;
+            // 标签名更新已移入 loadSelectedFilesInOrder 的异步完成回调中
         }
     }
 
     delete clickOrderFiles;
 
-    // 恢复界面更新
-    logView->setUpdatesEnabled(true);
+    // 仅在未启动异步加载时恢复界面更新（异步加载在完成回调中恢复）
+    if (!loadStarted) {
+        logView->setUpdatesEnabled(true);
+    }
 }
 
 // 高亮事件行
@@ -5264,9 +5319,8 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
         }
     }
 
-    // 合并颜色标记（置于底层），再叠加搜索高亮
-    QList<QTextEdit::ExtraSelection> finalSelections = m_colorMarkHighlights + selections;
-    logView->setExtraSelections(finalSelections);
+    // updateVisibleHighlights() 会构建可见范围内的颜色标记+关键字高亮，
+    // 不再需要全量 m_colorMarkHighlights 合并
     // 同步一次可见区域黄色关键字，确保不滚动也能看到
     updateVisibleHighlights();
 }
@@ -5301,19 +5355,8 @@ void PressAnalyzer::jumpToSearchIndex(int index)
         logView->setTextCursor(cursor);
         logView->centerCursor();
 
-        // 双击后组合全局黄色与当前行灰色底（灰底先渲染，黄色在上层，不被覆盖）
-        QList<QTextEdit::ExtraSelection> combined = searchHighlights;
-        QTextEdit::ExtraSelection lineSel;
-        lineSel.cursor = QTextCursor(currentBlock);
-        lineSel.cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-        QTextCharFormat lineFmt;
-        lineFmt.setBackground(QColor(200, 200, 200));
-        lineSel.format = lineFmt;
-        combined.prepend(lineSel);
-        // 合并颜色标记（底层）+ 搜索高亮，避免颜色标记被清除
-        QList<QTextEdit::ExtraSelection> finalCombined = m_colorMarkHighlights + combined;
-        logView->setExtraSelections(finalCombined);
-        // 立刻补一次可见黄色，以免需要滚轮才出现
+        // updateVisibleHighlights() 会构建可见范围的颜色标记+关键字+当前行灰底
+        // 不再需要手动合并 m_colorMarkHighlights
         updateVisibleHighlights();
     }
 }
@@ -5588,7 +5631,7 @@ void PressAnalyzer::offerChartFromSearchResults()
         selectedKeys << item->data(Qt::UserRole).toString();
     if (selectedKeys.isEmpty()) return;
 
-    // 确保管理窗口已创建
+    // 确保管理器已创建（正常情况下初始化时已创建）
     if (!m_chartManager)
         m_chartManager = new DynamicChartManager(allLogLines, this);
 
@@ -5632,9 +5675,8 @@ void PressAnalyzer::offerChartFromSearchResults()
 
     m_chartManager->addChartDirect(cardTitle, selectedKeys,
                                    valuesPerKey, timestampsPerKey, seriesLabels);
-    m_chartManager->show();
-    m_chartManager->raise();
-    m_chartManager->activateWindow();
+    // 显示侧边栏动态图表面板
+    m_sideBar->showPanel(m_chartPanelIndex);
 }
 
 void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
@@ -5994,130 +6036,131 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
         }
     }
 
-        // 清空之前的内容
+    // 清空之前的内容
     allLogLines.clear();
     logView->clear();
-
-    // 构建文本缓冲区
-    QString textBuffer;
-    int totalLineNumber = 0;
-    int processedFiles = 0;
-
-    for (const QString &filePath : filePaths) {
-        processedFiles++;
-        // 静默：原有进度提示已移除
-
-        QFileInfo fileInfo(filePath);
-        QString extension = fileInfo.suffix().toLower();
-
-        // 添加文件分隔符
-        if (totalLineNumber > 0) {
-            textBuffer += QString("\n\n=== 文件: %1 ===\n\n").arg(fileInfo.fileName());
-        }
-
-        // 检查是否是 .hlog 二进制文件
-        if (extension == "hlog") {
-            HLogBinaryParser binaryParser;
-            QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
-
-            if (entries.isEmpty()) {
-                qWarning() << "无法解析 .hlog 文件:" << filePath;
-                continue;
-            }
-
-            // 将解析的条目添加到缓冲区
-            for (const HLogEntry &entry : entries) {
-                const QStringList lines = entry.fullText.split('\n');
-                for (const QString &l : lines) {
-                    totalLineNumber++;
-                    allLogLines << l;
-                    QString numberedLine = QString("%1 %2\n")
-                                             .arg(totalLineNumber, 6, 10, QChar(' '))
-                                             .arg(l);
-                    textBuffer += numberedLine;
-                }
-            }
-        } else {
-            // 处理文本文件
-            QFile file(filePath);
-            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                continue;
-            }
-
-            QTextStream in(&file);
-            in.setCodec("UTF-8");
-
-            // 正则表达式用于检测日志条目开始
-            static const QRegularExpression timestampPattern(R"(\[\d+\.?\d*\s+\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\])");
-            static const QRegularExpression levelFilePattern(R"(\[[IDWEF]\|[^:]+\:\d+\])");
-
-            // 分块读取文件，避免一次性加载大文件到内存
-            const int chunkSize = 1000; // 每次处理1000行
-            QStringList lines;
-            int lineCount = 0;
-            bool inMultiLineEntry = false;
-
-            while (!in.atEnd()) {
-                lines.clear();
-
-                // 读取一个块的行
-                for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
-                    QString line = in.readLine();
-                    lines.append(line);
-                    totalLineNumber++;
-                    allLogLines << line;
-                }
-
-                // 处理这个块的行
-                for (const QString &line : lines) {
-                    QString trimmedLine = line.trimmed();
-                    bool isLogEntryStart = false;
-
-                    // 检查是否是日志条目开始（包含时间戳或级别信息）
-                    if (!trimmedLine.isEmpty()) {
-                        QRegularExpressionMatch timestampMatch = timestampPattern.match(trimmedLine);
-                        QRegularExpressionMatch levelMatch = levelFilePattern.match(trimmedLine);
-                        isLogEntryStart = timestampMatch.hasMatch() || levelMatch.hasMatch();
-                    }
-
-                    // 确保每一行都有连续的行号，无论是否是多行日志
-                    int currentLineNumber = totalLineNumber - lines.size() + lineCount + 1;
-
-                    if (trimmedLine.isEmpty()) {
-                        inMultiLineEntry = false;  // 空行结束多行条目
-                    } else if (trimmedLine.startsWith('[') && timestampPattern.match(trimmedLine).hasMatch()) {
-                        // 新的日志条目开始
-                        inMultiLineEntry = true;
-                    }
-
-                    QString numberedLine = QString("%1 %2\n")
-                                         .arg(currentLineNumber, 6, 10, QChar(' '))
-                                         .arg(line);
-                    textBuffer += numberedLine;
-                    lineCount++;
-                }
-
-                // 处理Qt事件，保持界面响应
-                QApplication::processEvents();
-            }
-
-            file.close();
-        }
-    }
-
-    // 一次性设置所有内容
-    logView->setPlainText(textBuffer);
-    // setPlainText 内部调用 document->clear()，会重置 defaultFont，需要重新应用
     logView->setFont(currentLogFont);
+    logView->setUpdatesEnabled(false);
 
-    // 更新状态栏
-    // 静默
+    // 显示进度条
+    if (m_progressBar) { m_progressBar->show(); m_progressBar->setValue(0); }
 
-    // 设置窗口标题
-    setWindowTitle(QString("日志查看器 - %1 个文件").arg(filePaths.size()));
+    // ---- 后台线程执行文件 I/O 和缓冲区构建 ----
+    struct GenericLoadResult {
+        QStringList logLines;
+        QString     textBuffer;
+        int         fileCount;
+    };
 
-    // 解析完成后恢复更新
-    logView->setUpdatesEnabled(true);
+    const qint64 reserveSize = totalSize;
+    QStringList filesCopy = filePaths;   // 拷贝一份，lambda 捕获值
+
+    QFuture<GenericLoadResult> future = QtConcurrent::run(
+        [filesCopy, reserveSize]() -> GenericLoadResult {
+            GenericLoadResult r;
+            r.fileCount = filesCopy.size();
+            r.textBuffer.reserve(reserveSize + reserveSize / 10);
+            r.logLines.reserve(reserveSize / 60);
+
+            int totalLineNumber = 0;
+
+            for (const QString &filePath : filesCopy) {
+                QFileInfo fileInfo(filePath);
+                QString extension = fileInfo.suffix().toLower();
+
+                // 添加文件分隔符
+                if (totalLineNumber > 0) {
+                    r.textBuffer += QString("\n\n=== 文件: %1 ===\n\n").arg(fileInfo.fileName());
+                }
+
+                // 检查是否是 .hlog 二进制文件
+                if (extension == "hlog") {
+                    HLogBinaryParser binaryParser;
+                    QList<HLogEntry> entries = binaryParser.parseFromFile(filePath);
+
+                    if (entries.isEmpty()) {
+                        qWarning() << "无法解析 .hlog 文件:" << filePath;
+                        continue;
+                    }
+
+                    // 将解析的条目添加到缓冲区
+                    for (const HLogEntry &entry : entries) {
+                        const QStringList lines = entry.fullText.split('\n');
+                        for (const QString &l : lines) {
+                            totalLineNumber++;
+                            r.logLines << l;
+                            r.textBuffer += QString("%1 %2\n")
+                                              .arg(totalLineNumber, 6, 10, QChar(' '))
+                                              .arg(l);
+                        }
+                    }
+                } else {
+                    // 处理文本文件
+                    QFile file(filePath);
+                    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                        continue;
+                    }
+
+                    QTextStream in(&file);
+                    in.setCodec("UTF-8");
+
+                    // 分块读取文件
+                    const int chunkSize = 4000;  // 加大块大小，减少循环开销
+                    QStringList lines;
+                    int lineCount = 0;
+
+                    while (!in.atEnd()) {
+                        lines.clear();
+
+                        // 读取一个块的行
+                        for (int i = 0; i < chunkSize && !in.atEnd(); ++i) {
+                            QString line = in.readLine();
+                            lines.append(line);
+                            totalLineNumber++;
+                            r.logLines << line;
+                        }
+
+                        // 处理这个块的行（每行统一添加行号前缀）
+                        for (const QString &line : lines) {
+                            int currentLineNumber = totalLineNumber - lines.size() + lineCount + 1;
+                            r.textBuffer += QString("%1 %2\n")
+                                             .arg(currentLineNumber, 6, 10, QChar(' '))
+                                             .arg(line);
+                            lineCount++;
+                        }
+                    }
+
+                    file.close();
+                }
+            }
+            return r;
+        }
+    );
+
+    auto *watcher = new QFutureWatcher<GenericLoadResult>(this);
+    connect(watcher, &QFutureWatcher<GenericLoadResult>::finished, this,
+        [this, watcher]() {
+            GenericLoadResult result = watcher->result();
+            watcher->deleteLater();
+
+            allLogLines = std::move(result.logLines);
+            logView->setPlainText(result.textBuffer);
+            logView->setFont(currentLogFont);
+
+            setWindowTitle(QString("日志查看器 - %1 个文件").arg(result.fileCount));
+
+            // 更新标签名
+            if (m_tabBar && m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+                const QString &sp = m_tabStates[m_currentTabIndex].sourcePath;
+                if (!sp.isEmpty())
+                    m_tabBar->setTabText(m_currentTabIndex, QFileInfo(sp).fileName());
+            }
+
+            if (m_progressBar) m_progressBar->hide();
+            logView->setUpdatesEnabled(true);
+        }
+    );
+    watcher->setFuture(future);
 }
 
 void PressAnalyzer::applyButtonStyles()

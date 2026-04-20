@@ -84,6 +84,7 @@ set(PROJECT_SOURCES
     ChartSearchDialog.h
     ChartViewportMixin.h
     DockToggleButton.h
+    VSCodeSideBar.h
     DynamicChartWidget.h
     DynamicChartWindow.h
     DynamicChartManager.h
