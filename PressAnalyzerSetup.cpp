@@ -75,7 +75,8 @@ void PressAnalyzer::setupCentralWidget()
     );
     // 在 setStyleSheet 之后锁定 ElideNone，防止被 style change 重置
     QFont tabFont = m_tabBar->font();
-    tabFont.setPointSize(12);
+    // Tab 字体大小平台适配：macOS=12pt，Windows=10pt
+    tabFont.setPointSize(platformFontSize(12, 10));
     m_tabBar->setFont(tabFont);
     m_tabBar->setElideMode(Qt::ElideNone);
 
@@ -568,11 +569,17 @@ void PressAnalyzer::setupFileBrowserDock()
     fileBrowserTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     // 设置样式 - 移除箭头图标
+    // 文件浏览器字体平台适配：macOS=12px/11px，Windows 用 pt 单位以适应系统 DPI
     fileBrowserTree->setStyleSheet(
+        QString(
         "QTreeView {"
         "  border: none;"
         "  background-color: #FAFAFA;"
+#if defined(Q_OS_WIN)
+        "  font-size: 9pt;"
+#else
         "  font-size: 12px;"
+#endif
         "  show-decoration-selected: 0;"
         "}"
         "QTreeView::item {"
@@ -592,7 +599,11 @@ void PressAnalyzer::setupFileBrowserDock()
         "  border-bottom: 1px solid #D0D0D0;"
         "  padding: 4px 6px;"
         "  font-weight: bold;"
+#if defined(Q_OS_WIN)
+        "  font-size: 8pt;"
+#else
         "  font-size: 11px;"
+#endif
         "}"
         "QTreeView::branch {"
         "  background: transparent;"
@@ -607,6 +618,7 @@ void PressAnalyzer::setupFileBrowserDock()
         "  border-image: none;"
         "  background: transparent;"
         "}"
+        )
     );
 
     // 创建容器布局（带路径栏和导航按钮）
@@ -623,7 +635,7 @@ void PressAnalyzer::setupFileBrowserDock()
     QPushButton *goUpButton = new QPushButton(this);
     goUpButton->setIcon(QIcon(":/icons/icons/dir-arrow.png"));
     goUpButton->setToolTip("返回上级目录");
-    goUpButton->setFixedSize(28, 28);
+    goUpButton->setFixedSize(platformPx(28), platformPx(28));
     goUpButton->setStyleSheet(
         "QPushButton{"
         "  background-color:#E3F2FD;"
@@ -641,7 +653,11 @@ void PressAnalyzer::setupFileBrowserDock()
     pathLabel->setStyleSheet(
         "QLabel {"
         "  color: #666666;"
+#if defined(Q_OS_WIN)
+        "  font-size: 8pt;"
+#else
         "  font-size: 11px;"
+#endif
         "  padding: 2px 4px;"
         "  background-color: #F8F8F8;"
         "  border: 1px solid #E0E0E0;"
@@ -652,7 +668,7 @@ void PressAnalyzer::setupFileBrowserDock()
     QPushButton *chooseDirButton = new QPushButton(this);
     chooseDirButton->setIcon(QIcon(":/icons/icons/analytics_ce.png"));
     chooseDirButton->setToolTip("智能解析Control Engine日志");
-    chooseDirButton->setFixedSize(28, 28);
+    chooseDirButton->setFixedSize(platformPx(28), platformPx(28));
     chooseDirButton->setStyleSheet(
         "QPushButton{"
         "  background-color:#E8F5E8;"
@@ -832,12 +848,12 @@ void PressAnalyzer::setupToolBar()
     analyzeControlButton = new QPushButton(this);
     analyzeControlButton->setIcon(QIcon(":/icons/icons/analysis.png"));
     analyzeControlButton->setToolTip("分析Control Engine日志(专用)");
-    analyzeControlButton->setIconSize(QSize(20, 20));
+    analyzeControlButton->setIconSize(platformSize(20, 20));
 
     clearButton = new QPushButton(this);
     clearButton->setIcon(QIcon(":/icons/icons/clear.png"));
     clearButton->setToolTip("清除窗口");
-    clearButton->setIconSize(QSize(20, 20));
+    clearButton->setIconSize(platformSize(20, 20));
 
     newWindowButton = new QPushButton(this);
     QIcon windowIcon(":/icons/icons/window-new.png");
@@ -847,22 +863,22 @@ void PressAnalyzer::setupToolBar()
         newWindowButton->setIcon(windowIcon);
     }
     newWindowButton->setToolTip("新建窗口");
-    newWindowButton->setIconSize(QSize(20, 20));
+    newWindowButton->setIconSize(platformSize(20, 20));
 
     searchAllButton = new QPushButton(this);
     searchAllButton->setIcon(QIcon(":/icons/icons/search.png"));
     searchAllButton->setToolTip("搜索");
-    searchAllButton->setIconSize(QSize(20, 20));
+    searchAllButton->setIconSize(platformSize(20, 20));
 
     searchPrevButton = new QPushButton(this);
     searchPrevButton->setIcon(QIcon(":/icons/icons/arrow-up.png"));
     searchPrevButton->setToolTip("向前搜索");
-    searchPrevButton->setIconSize(QSize(20, 20));
+    searchPrevButton->setIconSize(platformSize(20, 20));
 
     searchNextButton = new QPushButton(this);
     searchNextButton->setIcon(QIcon(":/icons/icons/arrow-down.png"));
     searchNextButton->setToolTip("向后搜索");
-    searchNextButton->setIconSize(QSize(20, 20));
+    searchNextButton->setIconSize(platformSize(20, 20));
 
     // 创建搜索下拉（可编辑），不点下拉也可直接输入
     searchCombo = new SearchComboBox(this);
@@ -904,9 +920,8 @@ void PressAnalyzer::setupToolBar()
         searchEdit->setMinimumWidth(50); // 与下拉框一致的最小宽度基线
         searchEdit->setPlaceholderText("输入搜索内容... ");
         // 直接设置控件字体，避免某些平台样式表对字体的忽略
-        QFont seFont("Menlo", 11);
-        seFont.setStyleHint(QFont::Monospace);
-        seFont.setFixedPitch(true);
+        // macOS: Menlo, Windows: Consolas, Linux: DejaVu Sans Mono
+        QFont seFont = platformMonoFont(11);
         searchEdit->setFont(seFont);
         // 同步设置给 QComboBox 本体，确保高度与布局计算一致
         searchCombo->setFont(seFont);
@@ -916,13 +931,13 @@ void PressAnalyzer::setupToolBar()
     fileBrowserButton = new QPushButton(this);
     fileBrowserButton->setIcon(QIcon(":/icons/icons/folder.png"));
     fileBrowserButton->setToolTip("文件浏览器");
-    fileBrowserButton->setIconSize(QSize(20, 20));
+    fileBrowserButton->setIconSize(platformSize(20, 20));
 
     // 动态图表搜索按钮
     chartSearchButton = new QPushButton(this);
     chartSearchButton->setIcon(QIcon(":/icons/icons/motion-graphics.png"));
     chartSearchButton->setToolTip("动态图表搜索");
-    chartSearchButton->setIconSize(QSize(20, 20));
+    chartSearchButton->setIconSize(platformSize(20, 20));
 
     // 工具栏按钮顺序: 文件浏览器|分析ControlEngine|新开窗口|清除窗口
     toolBar->addWidget(fileBrowserButton);
@@ -1081,7 +1096,7 @@ void PressAnalyzer::setupStatusDock()
     statusButton = new QPushButton(this);
     statusButton->setIcon(QIcon(":/icons/icons/chart.png"));
     statusButton->setToolTip("状态面板");
-    statusButton->setIconSize(QSize(20, 20));
+    statusButton->setIconSize(platformSize(20, 20));
     toolBar->addWidget(statusButton);
     toolBar->addWidget(chartSearchButton);
 
@@ -1095,6 +1110,7 @@ void PressAnalyzer::setupStatusDock()
                           const QString &pressed,
                           const QString &fg = QString("#1F2D3D")){
         if (!button) return;
+        const int btnMin = platformPx(28);
         button->setFlat(false);
         button->setStyleSheet(
             QString(
@@ -1103,8 +1119,8 @@ void PressAnalyzer::setupStatusDock()
                 "  border:1px solid #CCCCCC;"
                 "  border-radius:4px;"
                 "  padding:4px;"
-                "  min-width:28px;"
-                "  min-height:28px;"
+                "  min-width:%4px;"
+                "  min-height:%4px;"
                 "}"
                 "QPushButton:hover{"
                 "  background-color:%2;"
@@ -1112,7 +1128,7 @@ void PressAnalyzer::setupStatusDock()
                 "QPushButton:pressed{"
                 "  background-color:%3;"
                 "}"
-            ).arg(bg, hover, pressed)
+            ).arg(bg, hover, pressed, QString::number(btnMin))
         );
     };
     styleButton(statusButton, themeIndigo.bg, themeIndigo.hover, themeIndigo.pressed, themeIndigo.fg);
@@ -1636,6 +1652,8 @@ void PressAnalyzer::applyButtonStyles()
                           const QString &pressed,
                           const QString &fg = QString("#1F2D3D")){
         if (!button) return;
+        // 按钮最小尺寸平台适配：Windows 放大以匹配视觉效果
+        const int btnMin = platformPx(28);
         button->setFlat(false);
         button->setStyleSheet(
             QString(
@@ -1644,8 +1662,8 @@ void PressAnalyzer::applyButtonStyles()
                 "  border:1px solid #CCCCCC;"
                 "  border-radius:4px;"
                 "  padding:4px;"
-                "  min-width:28px;"
-                "  min-height:28px;"
+                "  min-width:%4px;"
+                "  min-height:%4px;"
                 "}"
                 "QPushButton:hover{"
                 "  background-color:%2;"
@@ -1653,7 +1671,7 @@ void PressAnalyzer::applyButtonStyles()
                 "QPushButton:pressed{"
                 "  background-color:%3;"
                 "}"
-            ).arg(bg, hover, pressed)
+            ).arg(bg, hover, pressed, QString::number(btnMin))
         );
     };
 

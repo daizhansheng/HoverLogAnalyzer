@@ -7,6 +7,15 @@
 #include <QBrush>
 #include <QString>
 
+// 图表字体辅助：Windows 使用 Segoe UI，macOS/Linux 使用 Arial
+inline QString chartFontFamily() {
+#if defined(Q_OS_WIN)
+    return "Segoe UI";
+#else
+    return "Arial";
+#endif
+}
+
 class ChartStyleManager {
 public:
     // 统一的颜色主题
@@ -23,12 +32,12 @@ public:
         QColor border = QColor(189, 195, 199);     // 边框颜色
     };
 
-    // 统一的字体设置
+    // 统一的字体设置（自动适配平台：Windows=Segoe UI, macOS/Linux=Arial）
     struct FontTheme {
-        QFont title = QFont("Arial", 12, QFont::Bold);
-        QFont axis = QFont("Arial", 9);
-        QFont label = QFont("Arial", 8);
-        QFont tooltip = QFont("Arial", 9);
+        QFont title = QFont(chartFontFamily(), 12, QFont::Bold);
+        QFont axis = QFont(chartFontFamily(), 9);
+        QFont label = QFont(chartFontFamily(), 8);
+        QFont tooltip = QFont(chartFontFamily(), 9);
     };
 
     // 统一的布局参数
@@ -153,21 +162,12 @@ public:
             "  border: 1px solid %2;"
             "  border-radius: 4px;"
             "  padding: 5px;"
-            "  font-family: 'Arial';"
+            "  font-family: '%4';"
             "  font-size: 10px;"
-            "}"
-            "QListWidget::item {"
-            "  padding: 2px;"
-            "  border-bottom: 1px solid %3;"
-            "}"
-            "QListWidget::item:selected {"
-            "  background-color: %4;"
-            "  color: white;"
-            "}"
         ).arg(colorTheme.background.name(),
               colorTheme.border.name(),
               QColor(236, 240, 241).name(),
-              colorTheme.accent.name());
+              chartFontFamily());
     }
 
 private:

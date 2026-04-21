@@ -21,6 +21,7 @@
 #include <QRegularExpression>
 #include <algorithm>
 #include "DynamicChartWidget.h"
+#include "PressAnalyzer.h"
 
 // ============================================================
 // ChartCard
@@ -49,7 +50,7 @@ public:
 
         // ---- 标题栏 ----
         auto *titleBar = new QWidget(this);
-        titleBar->setFixedHeight(28);
+        titleBar->setFixedHeight(platformPx(28));
         titleBar->setStyleSheet(
             "background:#EDF2FF;"
             "border-bottom:1px solid #d0d0d0;"
@@ -61,11 +62,15 @@ public:
         titleLayout->setSpacing(4);
 
         m_titleLabel = new QLabel(title, titleBar);
+#if defined(Q_OS_WIN)
+        m_titleLabel->setStyleSheet("font-size:9pt; font-weight:bold; color:#1F2D3D; background:transparent;");
+#else
         m_titleLabel->setStyleSheet("font-size:12px; font-weight:bold; color:#1F2D3D; background:transparent;");
+#endif
         titleLayout->addWidget(m_titleLabel, 1);
 
         auto *closeBtn = new QPushButton("✕", titleBar);
-        closeBtn->setFixedSize(20, 20);
+        closeBtn->setFixedSize(platformPx(20), platformPx(20));
         closeBtn->setStyleSheet(
             "QPushButton { background:transparent; border:none; color:#666; font-size:11px; }"
             "QPushButton:hover { background:#fce; color:#c00; border-radius:3px; }"
@@ -125,7 +130,7 @@ public:
         m_searchEdit->view()->setTextElideMode(Qt::ElideMiddle);
         m_searchEdit->view()->installEventFilter(this);
         m_searchBtn  = new QPushButton("搜索", this);
-        m_searchBtn->setFixedWidth(50);
+        m_searchBtn->setFixedWidth(platformPx(50));
         searchRow->addWidget(m_searchEdit, 1);
         searchRow->addWidget(m_searchBtn);
         root->addLayout(searchRow);

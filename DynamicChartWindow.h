@@ -16,6 +16,7 @@
 #include <QRegularExpression>
 #include <algorithm>
 #include "DynamicChartWidget.h"
+#include "PressAnalyzer.h"
 
 // ============================================================
 // DynamicChartWindow
@@ -53,9 +54,9 @@ public:
         auto *searchRow = new QHBoxLayout;
         m_searchEdit = new QLineEdit(this);
         m_searchEdit->setPlaceholderText("输入搜索关键词（支持 | 分隔多关键词）");
-        m_searchEdit->setMinimumHeight(30);
+        m_searchEdit->setMinimumHeight(platformPx(30));
         m_searchBtn  = new QPushButton("搜索", this);
-        m_searchBtn->setFixedWidth(60);
+        m_searchBtn->setFixedWidth(platformPx(60));
         searchRow->addWidget(m_searchEdit);
         searchRow->addWidget(m_searchBtn);
         root->addLayout(searchRow);

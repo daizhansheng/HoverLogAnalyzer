@@ -29,10 +29,18 @@ int main(int argc, char *argv[])
     pal.setColor(QPalette::HighlightedText, Qt::white);
     a.setPalette(pal);
     a.setWindowIcon(QIcon(":/new/image/logo.icns"));
+    // 全局字体：macOS 使用 Courier New（等宽兜底），Windows 使用 Segoe UI（系统原生UI字体）
+#if defined(Q_OS_WIN)
+    QFont font("Segoe UI");
+    font.setStyleHint(QFont::SansSerif);
+    font.setPointSize(10);
+    font.setWeight(QFont::Normal);
+#else
     QFont font("Courier New");
-    font.setStyleHint(QFont::Monospace); // 等宽
-    font.setPointSize(11);                // 字体稍大，可根据需求调整
+    font.setStyleHint(QFont::Monospace);
+    font.setPointSize(11);
     font.setWeight(QFont::Medium);
+#endif
     a.setFont(font);
     PressAnalyzer w;
     w.show();

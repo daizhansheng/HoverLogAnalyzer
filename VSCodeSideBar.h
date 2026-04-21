@@ -17,6 +17,27 @@
 #include <QSet>
 
 // ============================================================
+// 平台像素尺寸辅助（仅在 VSCodeSideBar.h 内使用）
+// macOS Retina 物理密度高，同等逻辑像素视觉偏大；
+// Windows 普通屏需要放大约 1.3x 才有相近视觉效果。
+// ============================================================
+namespace SideBarPlatform {
+#if defined(Q_OS_WIN)
+    static constexpr int kActivityBarWidth  = 52;   // macOS: 44
+    static constexpr int kButtonSize        = 48;   // macOS: 40
+    static constexpr int kIconSize          = 28;   // macOS: 22
+    static constexpr int kPanelMinWidth     = 180;  // macOS: 150
+    static constexpr int kPanelDefaultWidth = 300;  // macOS: 280
+#else
+    static constexpr int kActivityBarWidth  = 44;
+    static constexpr int kButtonSize        = 40;
+    static constexpr int kIconSize          = 22;
+    static constexpr int kPanelMinWidth     = 150;
+    static constexpr int kPanelDefaultWidth = 280;
+#endif
+} // namespace SideBarPlatform
+
+// ============================================================
 // SideBarIcons — 程序化生成侧边栏图标（避免与工具栏图标冲突）
 // ============================================================
 namespace SideBarIcons {
@@ -134,8 +155,8 @@ public:
         setToolTip(tooltip);
         setCheckable(true);
         setAutoExclusive(false);   // 手动管理互斥
-        setIconSize(QSize(22, 22));
-        setFixedSize(40, 40);
+        setIconSize(QSize(SideBarPlatform::kIconSize, SideBarPlatform::kIconSize));
+        setFixedSize(SideBarPlatform::kButtonSize, SideBarPlatform::kButtonSize);
         setCursor(Qt::PointingHandCursor);
         updateStyle(false);
     }
@@ -184,7 +205,7 @@ class ActivityBar : public QWidget {
     Q_OBJECT
 public:
     explicit ActivityBar(QWidget *parent = nullptr) : QWidget(parent) {
-        setFixedWidth(44);
+        setFixedWidth(SideBarPlatform::kActivityBarWidth);
         m_layout = new QVBoxLayout(this);
         m_layout->setContentsMargins(2, 6, 2, 6);
         m_layout->setSpacing(2);
@@ -326,7 +347,11 @@ public:
             "  background-color: #F3F3F3;"
             "  border-bottom: 1px solid #E0E0E0;"
             "  padding-left: 10px;"
+#if defined(Q_OS_WIN)
+            "  font-size: 11px;"    // Windows Segoe UI 在 12px 下偏大
+#else
             "  font-size: 12px;"
+#endif
             "  font-weight: bold;"
             "  color: #333333;"
             "}"
@@ -336,7 +361,7 @@ public:
         m_layout->addWidget(m_titleLabel);
         m_layout->addWidget(m_stack, 1);
 
-        setMinimumWidth(150);
+        setMinimumWidth(SideBarPlatform::kPanelMinWidth);
         setStyleSheet(
             "SidePanel {"
             "  border-right: 1px solid #E0E0E0;"
@@ -400,7 +425,7 @@ public:
         m_sidePanel->setVisible(false);
         m_resizeHandle->setVisible(false);
         m_currentPanelIndex = -1;
-        m_panelWidth = 280;
+        m_panelWidth = SideBarPlatform::kPanelDefaultWidth;
 
         connect(m_activityBar, &ActivityBar::buttonClicked, this, &VSCodeSideBar::onButtonClicked);
 

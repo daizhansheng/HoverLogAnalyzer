@@ -10,6 +10,66 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QFontMetrics>
+#include <QFont>
+
+// ============================================================
+// 平台字体辅助函数
+// ============================================================
+
+// 等宽字体：macOS=Menlo, Windows=Consolas, Linux=DejaVu Sans Mono
+inline QFont platformMonoFont(int pointSize) {
+#if defined(Q_OS_WIN)
+    QFont f("Consolas", pointSize);
+#elif defined(Q_OS_MAC)
+    QFont f("Menlo", pointSize);
+#else
+    QFont f("DejaVu Sans Mono", pointSize);
+#endif
+    f.setStyleHint(QFont::Monospace);
+    f.setFixedPitch(true);
+    return f;
+}
+
+// UI 界面字体：macOS=系统默认, Windows=Segoe UI, Linux=系统默认
+inline QFont platformUiFont(int pointSize, bool bold = false) {
+#if defined(Q_OS_WIN)
+    QFont f("Segoe UI", pointSize);
+#elif defined(Q_OS_MAC)
+    QFont f(".AppleSystemUIFont", pointSize);
+#else
+    QFont f("Sans Serif", pointSize);
+#endif
+    if (bold) f.setBold(true);
+    return f;
+}
+
+// 字体尺寸平台适配：直接指定各平台的 pt 值
+// 用法：platformFontSize(12, 10) → macOS=12pt, Windows=10pt
+inline int platformFontSize(int macSize, int winSize = -1) {
+#if defined(Q_OS_WIN)
+    return (winSize > 0) ? winSize : qMax(8, macSize - 1);
+#else
+    (void)winSize;
+    return macSize;
+#endif
+}
+
+// 像素尺寸缩放：macOS Retina 屏物理像素密度高，
+// 同样的逻辑像素在 Windows 普通屏上视觉偏小，需适当放大
+// 例：macOS 上 22px 图标 → Windows 上用 28px 才有相同视觉大小
+inline int platformPx(int macPx) {
+#if defined(Q_OS_WIN)
+    // Windows 1x DPI 下放大约 1.3x 以匹配 macOS Retina 的视觉效果
+    return qRound(macPx * 1.3);
+#else
+    return macPx;
+#endif
+}
+
+// 方便构造平台适配的 QSize
+inline QSize platformSize(int macW, int macH) {
+    return QSize(platformPx(macW), platformPx(macH));
+}
 
 // 根据可用宽度自动省略路径，从左侧省略以保留末尾目录名
 class ElidedPathLabel : public QLabel {

@@ -113,10 +113,8 @@ void PressAnalyzer::setEventFont()
 
 void PressAnalyzer::resetAllFonts()
 {
-    // 重置日志字体
-    currentLogFont = QFont("Menlo", 11);
-    currentLogFont.setStyleHint(QFont::Monospace);
-    currentLogFont.setFixedPitch(true);
+    // 重置日志字体：macOS=Menlo, Windows=Consolas, Linux=DejaVu Sans Mono
+    currentLogFont = platformMonoFont(11);
     logFontPointSize = 11;
     // 重置共享字体
     s_sharedLogFont = currentLogFont;
@@ -133,8 +131,14 @@ void PressAnalyzer::resetAllFonts()
         searchCombo->setFont(currentLogFont);
     }
 
-    // 重置事件列表字体
-    currentEventFont = QFont("Courier New", 11);
+    // 重置事件列表字体：macOS=Courier New 11pt，Windows=Segoe UI 9pt
+    currentEventFont = QFont(
+#if defined(Q_OS_WIN)
+        "Segoe UI", 9
+#else
+        "Courier New", 11
+#endif
+    );
     if (eventList) {
         eventList->setFont(currentEventFont);
     }
@@ -145,13 +149,10 @@ void PressAnalyzer::resetAllFonts()
         heartbeatLostEventList->setFont(currentEventFont);
     }
 
-    // 重置图表字体
-    currentChartFont = QFont("Arial", 12);
+    // 重置图表字体：FontTheme 默认构造已根据平台自动选择字体（Windows=Segoe UI, macOS/Linux=Arial）
     ChartStyleManager::FontTheme fontTheme;
-    fontTheme.title = QFont("Arial", 12, QFont::Bold);
-    fontTheme.axis = QFont("Arial", 9);
-    fontTheme.label = QFont("Arial", 8);
-    fontTheme.tooltip = QFont("Arial", 9);
+    currentChartFont = fontTheme.title;
+    currentChartFont.setPointSize(12);
 
     ChartStyleManager::setFontTheme(fontTheme);
 

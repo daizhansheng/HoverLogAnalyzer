@@ -39,13 +39,18 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // 清除历史保存的 logFont，确保每次启动都用 Menlo 11pt
     settings.remove("fonts/logFont");
 
-    // 日志字体固定使用 Menlo 11pt，不从 QSettings 读取（避免历史设置污染默认值）
-    currentLogFont = QFont("Menlo", 11);
-    currentLogFont.setStyleHint(QFont::Monospace);
-    currentLogFont.setFixedPitch(true);
+    // 日志字体固定使用平台等宽字体 11pt，不从 QSettings 读取（避免历史设置污染默认值）
+    // macOS: Menlo, Windows: Consolas, Linux: DejaVu Sans Mono
+    currentLogFont = platformMonoFont(11);
 
-    // 加载事件列表字体
-    currentEventFont = QFont("Courier New", 11);
+    // 加载事件列表字体：macOS=Courier New 11pt，Windows=Segoe UI 9pt（更协调）
+    currentEventFont = QFont(
+#if defined(Q_OS_WIN)
+        "Segoe UI", 9
+#else
+        "Courier New", 11
+#endif
+    );
     if (settings.contains("fonts/eventFont")) {
         currentEventFont = settings.value("fonts/eventFont").value<QFont>();
     }
