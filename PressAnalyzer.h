@@ -3,8 +3,12 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
 #include <QListWidget>
 #include <QPlainTextEdit>
+#include "LogView.h"
 #include <QPushButton>
 #include <QLineEdit>
 #include <QComboBox>
@@ -266,6 +270,10 @@ struct TabState {
     QList<int>               searchResults;
     int                      currentSearchIndex    = -1;
     QList<QTextEdit::ExtraSelection> searchHighlights;
+    QStringList              searchResultLines;    // searchResultView 的显示内容（行号|文本）
+    QString                  searchKeyword;        // 上次搜索的关键字（用于恢复高亮 pattern）
+    bool                     searchDockVisible     = false; // 搜索结果面板是否可见
+    QVector<QPair<QRegExp, QColor>> searchPatterns; // searchResultView 的高亮 patterns
 
     // 统计
     int                      triggerCount          = 0;
@@ -288,6 +296,8 @@ struct TabState {
     QString                  statusPath;
     QString                  statusInfo;
     QString                  sourcePath;           // 来源路径（用于标签名推断）
+    bool                     modified              = false; // 是否有未保存的改动
+    bool                     hasLinePrefix         = false; // 内容是否含7字符行号前缀（解析器加载）
 };
 
 class PressAnalyzer : public QMainWindow
@@ -299,6 +309,8 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 private slots:
     // 文件操作
@@ -306,6 +318,7 @@ private slots:
     void loadAndAnalyzeLogs();
     void loadAndMergeLogs();  // 新增：通用目录打开和log合并功能
     void saveEventListToFile();
+    void saveCurrentFile();
     void clearWindow();
 
     // 事件列表操作
@@ -415,10 +428,12 @@ private:
     void saveCurrentTabState();
     void restoreTabState(int index);
     void openInNewTab(const QString &path);
+    void openNewEmptyTab();
     void closeTab(int index);
     void detachTabToNewWindow(int index);
     void loadPathSmart(const QString &path);
     QString tabLabelForPath(const QString &path) const;
+    void markTabModified(bool modified); // 在当前标签名上加/去 * 号
     void repopulateEventLists();
     QAbstractButton *makeTabCloseButton(int tabIndex);
 
@@ -471,7 +486,7 @@ private:
     QPushButton *clearSearchButton;
     QPushButton *closeSearchButton;
     // ==================== 中心控件 ====================
-    QPlainTextEdit *logView;
+    LogView *logView;
     QStackedWidget *centralStack;   // 0=logView, 1=dbViewerWidget
     // ==================== 状态栏控件 ====================
     QStatusBar *statusBar;          // 状态栏
@@ -497,7 +512,8 @@ private:
     QList<EventItem> cameraEvents;
     EventTimelineWidget *eventTimeline = nullptr;  // 事件时间轴
     // ==================== status ====================
-    QDockWidget *statusDock;
+    QWidget     *statusDock        = nullptr;   // 独立浮动窗口（原 QDockWidget）
+    QWidget     *statusFloatWin    = nullptr;   // 同 statusDock，别名保持兼容
     QListWidget *heartbeatLostEventList;
     QPushButton *statusButton;   // 工具栏按钮（状态面板，含 camera 信息）
     QList<EventItem> statusEvents;
@@ -532,9 +548,10 @@ private:
     QString currentDbPath;
 
      // ==================== 动态图表 ====================
-     QPushButton          *chartSearchButton  = nullptr;   // 工具栏：切换侧边栏动态图表面板
-     DynamicChartManager  *m_chartManager     = nullptr;   // 嵌入侧边栏的图表管理器
-     int                   m_chartPanelIndex  = -1;        // SideBar 中动态图表面板的索引
+     QPushButton          *chartSearchButton  = nullptr;   // 工具栏：切换动态图表浮动窗口
+     DynamicChartManager  *m_chartManager     = nullptr;   // 动态图表管理器
+     int                   m_chartPanelIndex  = -1;        // SideBar 中动态图表切换按钮的索引
+     QWidget              *m_chartFloatWin    = nullptr;   // 动态图表独立浮动窗口
 
     // 文本缩放：当前字体大小
     int logFontPointSize;
@@ -572,9 +589,11 @@ private:
     // ==================== 多标签页 ====================
     ColoredTabBar   *m_tabBar           = nullptr;
     QWidget         *m_tabContainer     = nullptr;
+    QPushButton     *m_newTabButton     = nullptr;  // Tab 栏右侧的 "+" 按钮
     QVector<TabState> m_tabStates;                // 每个标签的状态快照
     int              m_currentTabIndex  = 0;      // 当前激活标签索引
     int              m_parseGeneration  = 0;      // 解析代次（防止旧线程污染新标签）
+    bool             m_loadingFile      = false;  // 加载文件中，屏蔽 contentsChanged 触发的 modified 标记
 
     // ==================== VS Code 风格侧边栏 ====================
     VSCodeSideBar   *m_sideBar              = nullptr;

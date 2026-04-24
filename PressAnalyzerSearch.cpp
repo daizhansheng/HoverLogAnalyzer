@@ -15,6 +15,7 @@
 #include <QFontMetrics>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QWindow>
 
 // 按 '|' 分割，但忽略位于方括号 [] 内部的 '|'（例如 "[I|Captain]" 视为一个整体）
 static QStringList splitByPipeOutsideBrackets(const QString &text)
@@ -650,6 +651,18 @@ void PressAnalyzer::offerChartFromSearchResults()
 
     m_chartManager->addChartDirect(cardTitle, selectedKeys,
                                    valuesPerKey, timestampsPerKey, seriesLabels);
-    // 显示侧边栏动态图表面板
-    m_sideBar->showPanel(m_chartPanelIndex);
+    // 显示动态图表浮动窗口（定位到主窗口所在屏幕）
+    if (m_chartFloatWin) {
+        if (!m_chartFloatWin->isVisible()) {
+            QRect ref = geometry();
+            QScreen *scr = windowHandle() ? windowHandle()->screen() : QGuiApplication::primaryScreen();
+            QRect avail = scr ? scr->availableGeometry() : ref;
+            int wx = qBound(avail.left(), ref.left() + 60, avail.right()  - m_chartFloatWin->width());
+            int wy = qBound(avail.top(),  ref.top()  + 40, avail.bottom() - m_chartFloatWin->height());
+            m_chartFloatWin->move(wx, wy);
+        }
+        m_chartFloatWin->show();
+        m_chartFloatWin->raise();
+        m_chartFloatWin->activateWindow();
+    }
 }

@@ -67,10 +67,23 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     setupFileBrowserDock();   // sidebar panel 0 = 文件浏览器
     setupEventDock();         // sidebar panel 1 = 分析结果
 
-    // sidebar panel 2 = 动态图表（嵌入侧边栏）
+    // 动态图表：改为独立浮动窗口，侧边栏用外部切换按钮
     m_chartManager = new DynamicChartManager(allLogLines, this);
-    m_chartPanelIndex = m_sideBar->addPanel(
-        SideBarIcons::dynamicChart(), "动态图表", m_chartManager, "动态图表");
+
+    // 创建动态图表浮动窗口
+    // parent=this：与主窗口绑定屏幕归属，避免首次 show 跑到主屏
+    m_chartFloatWin = new QWidget(this,
+        Qt::Window | Qt::Tool | Qt::WindowTitleHint |
+        Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
+    m_chartFloatWin->setWindowTitle("动态图表");
+    m_chartFloatWin->setAttribute(Qt::WA_DeleteOnClose, false);
+    m_chartFloatWin->resize(900, 650);
+    {
+        QVBoxLayout *lay = new QVBoxLayout(m_chartFloatWin);
+        lay->setContentsMargins(0, 0, 0, 0);
+        lay->addWidget(m_chartManager);
+    }
+    // 侧边栏按钮在 setupConnections 中注册（确保在状态面板按钮之后添加，使其位于下方）
 
     setupSearchDock();
     setupToolBar();
@@ -95,6 +108,30 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
 
 bool PressAnalyzer::eventFilter(QObject *obj, QEvent *event)
 {
+    if (obj == logView) {
+        if (event->type() == QEvent::DragEnter) {
+            auto *de = static_cast<QDragEnterEvent*>(event);
+            if (de->mimeData()->hasUrls()) { de->acceptProposedAction(); return true; }
+        } else if (event->type() == QEvent::Drop) {
+            auto *de = static_cast<QDropEvent*>(event);
+            dropEvent(de);
+            return true;
+        }
+    }
+
+    // 同步浮动窗口可见性到侧边栏按钮激活状态
+    if (obj == statusFloatWin) {
+        if (event->type() == QEvent::Show)
+            m_sideBar->setExternalToggleActive(m_statusToggleIndex, true);
+        else if (event->type() == QEvent::Hide)
+            m_sideBar->setExternalToggleActive(m_statusToggleIndex, false);
+    } else if (obj == m_chartFloatWin) {
+        if (event->type() == QEvent::Show)
+            m_sideBar->setExternalToggleActive(m_chartPanelIndex, true);
+        else if (event->type() == QEvent::Hide)
+            m_sideBar->setExternalToggleActive(m_chartPanelIndex, false);
+    }
+
     if (obj == searchEdit) {
         if (event->type() == QEvent::FocusIn) {
             // 获得焦点时显示提示，但延迟一点避免干扰用户

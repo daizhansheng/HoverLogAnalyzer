@@ -174,10 +174,9 @@ void PressAnalyzer::analyzeLogLine(const QString &line,
     lineNumber++;
     allLogLines << line;
 
-    textBuffer.reserve(textBuffer.size() + line.size() + 16);
-    textBuffer.append(QString("%1 %2\n")
-                          .arg(lineNumber, 6, 10, QChar(' '))
-                          .arg(line));
+    textBuffer.reserve(textBuffer.size() + line.size() + 2);
+    textBuffer.append(line);
+    textBuffer.append('\n');
 
     // ==================== 预编译正则表达式 ====================
     static const QRegularExpression rePressPower(R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*\])");

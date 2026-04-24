@@ -121,11 +121,10 @@ void LogParserWorker::analyzeLogLine(const QString &line,
     lineNumber++;
     result.allLogLines << line;
 
-    // 带行号前缀的文本（用于 setPlainText）
-    result.textBuffer.reserve(result.textBuffer.size() + line.size() + 16);
-    result.textBuffer.append(QString("%1 %2\n")
-                                 .arg(lineNumber, 6, 10, QChar(' '))
-                                 .arg(line));
+    // 原始日志文本（用于 setPlainText，行号由 LogView 独立行号栏显示）
+    result.textBuffer.reserve(result.textBuffer.size() + line.size() + 2);
+    result.textBuffer.append(line);
+    result.textBuffer.append('\n');
 
     // ==================== 预编译正则（static，仅初始化一次）====================
     static const QRegularExpression rePressPower(

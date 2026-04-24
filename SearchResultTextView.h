@@ -36,6 +36,10 @@ public:
         applyHighlighting();
     }
 
+    const QVector<QPair<QRegExp, QColor>> &patterns() const {
+        return patternList;
+    }
+
     // 颜色标记：keyword->color，独立于正则搜索高亮，深色背景+白色前景
     void setColorMarkPatterns(const QMap<QString, QColor> &marks) {
         colorMarkList = marks;

@@ -110,8 +110,10 @@ void PressAnalyzer::saveCurrentTabState()
     fresh->setDocumentLayout(new QPlainTextDocumentLayout(fresh));  // QPlainTextEdit 要求此 layout
     // 显式设置新文档默认字体为 currentLogFont，避免使用 QApplication 默认字体
     fresh->setDefaultFont(currentLogFont);
+    m_loadingFile = true;
     logView->setDocument(fresh);
-    new LogNumberHighlighter(fresh, 7);
+    m_loadingFile = false;
+    new LogNumberHighlighter(fresh, 0);
     logView->setFont(currentLogFont);
     logView->document()->setDefaultFont(currentLogFont);  // 双重保障
 
@@ -130,6 +132,16 @@ void PressAnalyzer::saveCurrentTabState()
     st.searchResults               = searchResults;
     st.currentSearchIndex          = currentSearchIndex;
     st.searchHighlights            = searchHighlights;
+    // 保存搜索结果面板内容，以便切回该标签时恢复
+    st.searchResultLines = searchResultView
+        ? searchResultView->toPlainText().split('\n', Qt::KeepEmptyParts)
+        : QStringList();
+    // 移除末尾因 split 产生的空行（join("\n") 末尾不带 \n，split 不会多出空项；但防御性清理）
+    while (!st.searchResultLines.isEmpty() && st.searchResultLines.last().isEmpty())
+        st.searchResultLines.removeLast();
+    st.searchPatterns     = searchResultView ? searchResultView->patterns() : QVector<QPair<QRegExp,QColor>>();
+    st.searchKeyword      = searchEdit ? searchEdit->text().trimmed() : QString();
+    st.searchDockVisible  = searchDock && !searchDock->isHidden() && !searchResults.isEmpty();
     st.triggerCount  = triggerCount;
     st.flightCount   = flightCount;
     st.sn            = sn;
@@ -153,7 +165,9 @@ void PressAnalyzer::restoreTabState(int index)
     // 文档还原：如果该标签有存储的文档，换入 logView
     if (st.document) {
         QTextDocument *old = logView->document();
+        m_loadingFile = true;
         logView->setDocument(st.document);
+        m_loadingFile = false;
         st.document = nullptr;
         // 不 delete old：old 的 parent=this，由 PressAnalyzer 在关闭时统一销毁。
         // 直接 delete 可能触发 LogNumberHighlighter 的 pending QTimer 事件，
@@ -198,6 +212,27 @@ void PressAnalyzer::restoreTabState(int index)
     flightCount  = st.flightCount;
     sn           = st.sn;
     m_pendingTopLogs = st.pendingTopLogs;
+
+    // 恢复搜索结果面板内容
+    if (searchResultView) {
+        if (!st.searchResultLines.isEmpty()) {
+            // 先恢复 patterns，再设置文本（setResultsText 内部会调用 applyHighlighting）
+            searchResultView->setPatterns(st.searchPatterns);
+            searchResultView->setResultsText(st.searchResultLines);
+            if (searchDock) {
+                searchDock->setWindowTitle(QString("查找结果 - %1 命中").arg(searchResults.size()));
+                searchDock->show();
+            }
+            searchResultView->show();
+        } else {
+            searchResultView->setPatterns({});
+            searchResultView->clearResults();
+            if (searchDock && !st.searchDockVisible) searchDock->hide();
+        }
+    }
+    // 恢复搜索框关键字（不触发新搜索）
+    if (searchEdit && !st.searchKeyword.isEmpty())
+        searchEdit->setText(st.searchKeyword);
 
     // 重建事件列表控件
     repopulateEventLists();
@@ -371,12 +406,78 @@ void PressAnalyzer::openInNewTab(const QString &path)
     }
 }
 
-// 关闭指定索引的标签页。若只剩一个标签则仅清空内容而不关闭。
+// 打开一个空白新标签（无文件）
+void PressAnalyzer::openNewEmptyTab()
+{
+    // 保存当前标签
+    saveCurrentTabState();
+
+    TabState newState;
+    newState.logFont       = currentLogFont;
+    newState.logFontPtSize = logFontPointSize;
+    m_tabStates.append(newState);
+    int newIdx = m_tabStates.size() - 1;
+
+    m_tabBar->blockSignals(true);
+    m_tabBar->addTab("新标签");
+    m_tabBar->setCurrentIndex(newIdx);
+    m_tabBar->setTabButton(newIdx, QTabBar::RightSide, makeTabCloseButton(newIdx));
+    m_tabBar->setTabColor(newIdx, tabColorForIndex(newIdx));
+    m_tabBar->blockSignals(false);
+
+    m_currentTabIndex = newIdx;
+
+    // 清空 UI 到初始状态
+    allLogLines.clear();
+    allEvents.clear();
+    cameraEvents.clear();
+    statusEvents.clear();
+    searchResults.clear();
+    currentSearchIndex = -1;
+    searchHighlights.clear();
+    if (searchResultView) searchResultView->clearResults();
+    if (searchDock) searchDock->hide();
+    if (searchEdit) searchEdit->clear();
+    eventList->clear();
+    cameraEventList->clear();
+    heartbeatLostEventList->clear();
+    setWindowTitle("日志分析工具");
+    if (statusPathLabel) statusPathLabel->setText(QString());
+    if (statusInfoLabel) statusInfoLabel->setText(QString());
+}
+
+// 关闭指定索引的标签页。若只剩一个标签则新建空标签而不关闭窗口。
 void PressAnalyzer::closeTab(int index)
 {
     if (m_tabStates.size() == 1) {
-        // 最后一个标签：关闭窗口退出
-        close();
+        // 最后一个标签：清空内容，重置为空白标签
+        m_tabBar->setTabText(0, "新标签");
+
+        // 清空当前文档
+        logView->clear();
+
+        // 重置所有状态
+        allLogLines.clear();
+        allEvents.clear();
+        cameraEvents.clear();
+        statusEvents.clear();
+        searchResults.clear();
+        currentSearchIndex = -1;
+        searchHighlights.clear();
+        if (searchResultView) searchResultView->clearResults();
+        if (searchDock) searchDock->hide();
+        if (searchEdit) searchEdit->clear();
+        eventList->clear();
+        cameraEventList->clear();
+        heartbeatLostEventList->clear();
+        setWindowTitle("日志分析工具");
+        if (statusPathLabel) statusPathLabel->setText(QString());
+        if (statusInfoLabel) statusInfoLabel->setText(QString());
+
+        // 重置 TabState
+        m_tabStates[0] = TabState();
+        m_tabStates[0].logFont       = currentLogFont;
+        m_tabStates[0].logFontPtSize = logFontPointSize;
         return;
     }
 
@@ -512,7 +613,25 @@ void PressAnalyzer::onParseFinished(ParseResult result)
 
     // -------- 先 setPlainText，再给 EventItem.block 赋值 --------
     logView->setUpdatesEnabled(false);
+    // 关键：Qt 的 QPlainTextEdit::setPlainText 会“跨越 clear 保留 cursor 的 charFormat”
+    //（内部会先保存 charFormatForInsertion，doc->clear() 之后再把它应用回去），
+    // 所以如果用户上一次点击时光标停在被 highlightLine 染红的行，重新解析进入此路径
+    // 时整个新文档会继承那个红底 charFormat。这里在 setPlainText 之前把 cursor 的
+    // charFormat 显式重置为默认，避免污染。
+    {
+        QTextCursor cur = logView->textCursor();
+        cur.setCharFormat(QTextCharFormat());
+        cur.setBlockCharFormat(QTextCharFormat());
+        logView->setTextCursor(cur);
+        logView->setCurrentCharFormat(QTextCharFormat());
+    }
+    m_loadingFile = true;
     logView->setPlainText(result.textBuffer);
+    m_loadingFile = false;
+    markTabModified(false);
+    // 行号已由 LogView 独立行号栏显示，正文不再嵌入数字前缀
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        m_tabStates[m_currentTabIndex].hasLinePrefix = false;
     // setPlainText 内部调用 document->clear()，会重置 defaultFont，需要重新应用
     logView->setFont(currentLogFont);
     logView->document()->setDefaultFont(currentLogFont);  // 显式同步文档默认字体
@@ -603,6 +722,9 @@ void PressAnalyzer::onParseFinished(ParseResult result)
 
     // -------- 高亮与 UI 更新 --------
     highlightAllEvents();
+    // 高亮过程通过 setCharFormat 改变了文档状态，这里把“已修改”位归零，
+    // 使得用户真正编辑时 modificationChanged(true) 才会触发
+    logView->document()->setModified(false);
     logView->setUpdatesEnabled(true);
 
     // -------- 填充事件时间轴 --------
@@ -725,4 +847,22 @@ void PressAnalyzer::loadAndAnalyzeLog()
     m_parseThread = new QThread();
     ++m_parseGeneration;
     startBackgroundParse(m_parseWorker, m_parseThread, m_parseGeneration);
+}
+
+void PressAnalyzer::markTabModified(bool mod)
+{
+    if (m_currentTabIndex < 0 || m_currentTabIndex >= m_tabStates.size()) return;
+    TabState &ts = m_tabStates[m_currentTabIndex];
+    if (ts.modified == mod) return;
+    ts.modified = mod;
+
+    if (!m_tabBar) return;
+    QString label = m_tabBar->tabText(m_currentTabIndex);
+    if (mod) {
+        if (!label.startsWith("* "))
+            m_tabBar->setTabText(m_currentTabIndex, "* " + label);
+    } else {
+        if (label.startsWith("* "))
+            m_tabBar->setTabText(m_currentTabIndex, label.mid(2));
+    }
 }

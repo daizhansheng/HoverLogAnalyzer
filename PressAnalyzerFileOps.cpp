@@ -1,6 +1,9 @@
 // PressAnalyzerFileOps.cpp - File loading and operations
 #include "PressAnalyzer.h"
 
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
 #include <QFileDialog>
 #include <QFile>
 #include <QDir>
@@ -337,11 +340,16 @@ QString PressAnalyzer::findControlEngineAnalysisRoot(const QString &basePath) co
         return QString();
     }
 
+    // 单个文件不做 control_engine_log 搜索，直接返回空
+    if (baseInfo.isFile()) {
+        return QString();
+    }
+
     if (baseInfo.isDir() && baseInfo.fileName() == "control_engine_log") {
         return baseInfo.absolutePath();
     }
 
-    const QDir rootDir(baseInfo.isDir() ? baseInfo.absoluteFilePath() : baseInfo.absolutePath());
+    const QDir rootDir(baseInfo.absoluteFilePath());
     QDirIterator it(rootDir.absolutePath(),
                     QDir::Dirs | QDir::NoDotAndDotDot,
                     QDirIterator::Subdirectories);
@@ -733,6 +741,53 @@ void PressAnalyzer::onEventClicked(QListWidgetItem *item)
 }
 
 // 保存结果列表
+void PressAnalyzer::saveCurrentFile()
+{
+    // 取当前标签的源文件路径
+    QString filePath;
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+        filePath = m_tabStates[m_currentTabIndex].sourcePath;
+
+    if (filePath.isEmpty()) {
+        // 没有关联文件，弹出另存为对话框
+        filePath = QFileDialog::getSaveFileName(this, "保存文件", "", "所有文件 (*)");
+        if (filePath.isEmpty()) return;
+        if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+            m_tabStates[m_currentTabIndex].sourcePath = filePath;
+        if (m_tabBar && m_currentTabIndex >= 0)
+            m_tabBar->setTabText(m_currentTabIndex, QFileInfo(filePath).fileName());
+    }
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "保存失败", QString("无法写入文件：%1").arg(filePath));
+        return;
+    }
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+
+    // 如果内容含7字符行号前缀（由解析器加载），保存时去掉前缀还原原始内容
+    bool stripPrefix = (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+                       && m_tabStates[m_currentTabIndex].hasLinePrefix;
+    if (stripPrefix) {
+        const QString text = logView->toPlainText();
+        for (const QStringRef &line : text.splitRef('\n')) {
+            // 每行前7个字符是行号前缀（6位数字+1空格），去掉后写入
+            if (line.length() >= 7)
+                out << line.mid(7) << '\n';
+            else
+                out << line << '\n';
+        }
+    } else {
+        out << logView->toPlainText();
+    }
+    file.close();
+
+    if (statusPathLabel) statusPathLabel->setText(QString("已保存：%1").arg(filePath));
+    logView->document()->setModified(false);
+    markTabModified(false);
+}
+
 void PressAnalyzer::saveEventListToFile()
 {
     if (allEvents.isEmpty()) {
@@ -770,6 +825,14 @@ void PressAnalyzer::clearWindow()
     // clear() 内部调用 document()->clear()，会重置 defaultFont，需要重新应用
     logView->setFont(currentLogFont);
     logView->document()->setDefaultFont(currentLogFont);  // 显式同步文档默认字体
+    // 重置 cursor currentCharFormat：避免残留的红底格式污染下一次解析
+    {
+        QTextCursor cur = logView->textCursor();
+        cur.setCharFormat(QTextCharFormat());
+        cur.setBlockCharFormat(QTextCharFormat());
+        logView->setTextCursor(cur);
+        logView->setCurrentCharFormat(QTextCharFormat());
+    }
     searchResultView->clearResults();
     // clearResults() 内部调用 clear()，同样需要重新应用字体
     searchResultView->setFont(currentLogFont);
@@ -884,6 +947,17 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
     logView->clear();
     // clear() 内部调用 document()->clear()，会重置 defaultFont，需要重新应用
     logView->setFont(currentLogFont);
+    // 关键：clear() 不会重置 textCursor 的 currentCharFormat。
+    // 若用户上一次点击时光标停在被 highlightLine 染红的行，
+    // 后续 appendPlainText 会用这个 cursor 的 charFormat 作为新 block 的格式，
+    // 导致整段新日志全部变红。这里显式把当前输入格式重置为默认。
+    {
+        QTextCursor cur = logView->textCursor();
+        cur.setCharFormat(QTextCharFormat());
+        cur.setBlockCharFormat(QTextCharFormat());
+        logView->setTextCursor(cur);
+        logView->setCurrentCharFormat(QTextCharFormat());
+    }
 
     // 使用QPlainTextEdit的append方法，避免内存问题
     int totalLineNumber = 0;
@@ -917,10 +991,7 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
                 for (const QString &l : lines) {
                     totalLineNumber++;
                     allLogLines << l;
-                    QString numberedLine = QString("%1 %2")
-                                             .arg(totalLineNumber, 6, 10, QChar(' '))
-                                             .arg(l);
-                    logView->appendPlainText(numberedLine);
+                    logView->appendPlainText(l);
                 }
             }
         } else {
@@ -967,25 +1038,18 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
                     }
 
                     if (isLogEntryStart) {
-                        // 新的日志条目开始，添加行号
+                        // 新的日志条目开始
                         inMultiLineEntry = true;
-                        QString numberedLine = QString("%1 %2")
-                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
-                                                 .arg(line);
-                        logView->appendPlainText(numberedLine);
+                        logView->appendPlainText(line);
                     } else if (inMultiLineEntry && !trimmedLine.isEmpty()) {
-                        // 多行日志的后续行，添加8个空格而不是行号
-                        QString indentedLine = QString("        %1").arg(line);  // 8个空格
-                        logView->appendPlainText(indentedLine);
+                        // 多行日志的后续行
+                        logView->appendPlainText(line);
                     } else {
                         // 空行或独立行，正常处理
                         if (trimmedLine.isEmpty()) {
                             inMultiLineEntry = false;  // 空行结束多行条目
                         }
-                        QString numberedLine = QString("%1 %2")
-                                                 .arg(totalLineNumber - lines.size() + lineCount + 1, 6, 10, QChar(' '))
-                                                 .arg(line);
-                        logView->appendPlainText(numberedLine);
+                        logView->appendPlainText(line);
                     }
                     lineCount++;
                 }
@@ -1038,6 +1102,15 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
     allLogLines.clear();
     logView->clear();
     logView->setFont(currentLogFont);
+    // 同 loadSelectedFiles：重置 cursor currentCharFormat，避免上一次
+    // 染红的光标位置污染新 append 的内容
+    {
+        QTextCursor cur = logView->textCursor();
+        cur.setCharFormat(QTextCharFormat());
+        cur.setBlockCharFormat(QTextCharFormat());
+        logView->setTextCursor(cur);
+        logView->setCurrentCharFormat(QTextCharFormat());
+    }
     logView->setUpdatesEnabled(false);
 
     // 显示进度条
@@ -1087,9 +1160,8 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
                         for (const QString &l : lines) {
                             totalLineNumber++;
                             r.logLines << l;
-                            r.textBuffer += QString("%1 %2\n")
-                                              .arg(totalLineNumber, 6, 10, QChar(' '))
-                                              .arg(l);
+                            r.textBuffer += l;
+                            r.textBuffer += '\n';
                         }
                     }
                 } else {
@@ -1118,12 +1190,10 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
                             r.logLines << line;
                         }
 
-                        // 处理这个块的行（每行统一添加行号前缀）
+                        // 处理这个块的行
                         for (const QString &line : lines) {
-                            int currentLineNumber = totalLineNumber - lines.size() + lineCount + 1;
-                            r.textBuffer += QString("%1 %2\n")
-                                             .arg(currentLineNumber, 6, 10, QChar(' '))
-                                             .arg(line);
+                            r.textBuffer += line;
+                            r.textBuffer += '\n';
                             lineCount++;
                         }
                     }
@@ -1142,7 +1212,25 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
             watcher->deleteLater();
 
             allLogLines = std::move(result.logLines);
+            // Qt 的 setPlainText 会保留 cursor 的 charFormat（见 onParseFinished 同类注释）。
+            // 必须在 setPlainText 之前重置，否则上一次停在红色行上的光标会让
+            // 整个新文档继承红底格式。
+            {
+                QTextCursor cur = logView->textCursor();
+                cur.setCharFormat(QTextCharFormat());
+                cur.setBlockCharFormat(QTextCharFormat());
+                logView->setTextCursor(cur);
+                logView->setCurrentCharFormat(QTextCharFormat());
+            }
+            m_loadingFile = true;
             logView->setPlainText(result.textBuffer);
+            m_loadingFile = false;
+            // 加载完成后立即把脏位归零；后续用户真正编辑时
+            // modificationChanged(true) 才会触发 markTabModified
+            logView->document()->setModified(false);
+            markTabModified(false);
+            if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+                m_tabStates[m_currentTabIndex].hasLinePrefix = false;
             logView->setFont(currentLogFont);
 
             setWindowTitle(QString("日志查看器 - %1 个文件").arg(result.fileCount));
@@ -1159,4 +1247,51 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
         }
     );
     watcher->setFuture(future);
+}
+
+// ---- 拖放文件直接打开 ----
+
+void PressAnalyzer::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    } else {
+        event->ignore();
+    }
+}
+
+void PressAnalyzer::dropEvent(QDropEvent *event)
+{
+    const QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) return;
+
+    // 支持的文件扩展名（小写）
+    static const QSet<QString> kTextSuffixes = {
+        "log", "txt", "hlog", "csv", "ulg",
+        "c", "cpp", "cc", "cxx",
+        "h", "hpp", "hxx",
+        "py", "js", "ts", "java", "kt",
+        "json", "xml", "yaml", "yml", "toml", "ini", "conf",
+        "md", "sh", "bash", "zsh", "bat", "cmake"
+    };
+
+    // 每个拖入的文件/目录：当前标签为空则复用，否则新建标签
+    for (const QUrl &url : urls) {
+        if (!url.isLocalFile()) continue;
+        QString path = url.toLocalFile();
+        QFileInfo fi(path);
+
+        // 目录或已知文本后缀或无后缀 → 打开
+        if (fi.isDir() || kTextSuffixes.contains(fi.suffix().toLower()) || fi.suffix().isEmpty()) {
+            bool currentTabEmpty = (m_currentTabIndex >= 0 &&
+                                    m_currentTabIndex < m_tabStates.size() &&
+                                    m_tabStates[m_currentTabIndex].sourcePath.isEmpty());
+            if (currentTabEmpty) {
+                loadPathSmart(path);
+            } else {
+                openInNewTab(path);
+            }
+        }
+    }
+    event->acceptProposedAction();
 }

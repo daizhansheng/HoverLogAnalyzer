@@ -32,6 +32,7 @@
 #include <QScrollBar>
 #include <QProgressBar>
 #include <QFontDialog>
+#include <QWindow>
 #include "LogNumberHighlighter.h"
 
 void PressAnalyzer::setupMainWindow()
@@ -42,6 +43,9 @@ void PressAnalyzer::setupMainWindow()
 
     setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowTabbedDocks);
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::South);
+
+    // 支持拖放文件直接打开
+    setAcceptDrops(true);
 
     // 撤销自定义居中标题栏
 }
@@ -85,6 +89,36 @@ void PressAnalyzer::setupCentralWidget()
     tabBarRow->setContentsMargins(0, 0, 0, 0);
     tabBarRow->setSpacing(0);
     tabBarRow->addWidget(m_tabBar);
+
+    // "+" 新建标签按钮
+    m_newTabButton = new QPushButton("+", m_tabContainer);
+    m_newTabButton->setFixedSize(28, 28);
+    m_newTabButton->setFlat(true);
+    m_newTabButton->setCursor(Qt::ArrowCursor);
+    m_newTabButton->setFocusPolicy(Qt::NoFocus);
+    m_newTabButton->setToolTip("新建标签");
+    m_newTabButton->setStyleSheet(
+        "QPushButton {"
+        "  border-radius: 5px;"
+        "  background-color: transparent;"
+        "  border: none;"
+        "  color: #666666;"
+        "  font-size: 18px;"
+        "  font-weight: bold;"
+        "  padding: 0px;"
+        "  margin-left: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "  background-color: rgba(0,0,0,0.10);"
+        "  color: #222222;"
+        "}"
+        "QPushButton:pressed {"
+        "  background-color: rgba(0,0,0,0.18);"
+        "}"
+    );
+    connect(m_newTabButton, &QPushButton::clicked, this, &PressAnalyzer::openNewEmptyTab);
+    tabBarRow->addWidget(m_newTabButton);
+
     tabBarRow->addStretch(1);
 
     centralStack = new QStackedWidget(m_tabContainer);
@@ -135,10 +169,16 @@ void PressAnalyzer::setupCentralWidget()
     });
 
     // Page 0: 日志视图
-    logView = new QPlainTextEdit(this);
+    logView = new LogView(this);
     centralStack->addWidget(logView);  // index 0
 
-    new LogNumberHighlighter(logView->document(), 7);
+    // 禁用 logView 自带的拖放（URL 会被直接插入文本），由主窗口统一处理
+    logView->setAcceptDrops(false);
+    logView->installEventFilter(this);
+
+    // 行号已由 LogView 的独立行号栏绘制；正文中不再嵌入数字前缀，
+    // 这里 skip=0 让高亮器照常给日志正文中的数字着色。
+    new LogNumberHighlighter(logView->document(), 0);
 
     // 使用 currentLogFont（在构造函数中已初始化），避免与硬编码字体不一致
     logView->setFont(currentLogFont);
@@ -1229,7 +1269,7 @@ void PressAnalyzer::setupMenuBar()
     actAnalyzeControlLog->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
 
     fileMenu->addSeparator();
-    QAction *actSave = fileMenu->addAction("保存分析结果");
+    QAction *actSave = fileMenu->addAction("保存文件");
     actSave->setShortcut(QKeySequence::Save);
     QAction *actClear = fileMenu->addAction("清除窗口");
     QAction *actClose = fileMenu->addAction("关闭窗口");
@@ -1244,7 +1284,7 @@ void PressAnalyzer::setupMenuBar()
 
     connect(actOpenDir, &QAction::triggered, this, &PressAnalyzer::loadAndMergeLogs);
     connect(actAnalyzeControlLog, &QAction::triggered, this, &PressAnalyzer::loadAndAnalyzeLogs);
-    connect(actSave, &QAction::triggered, this, &PressAnalyzer::saveEventListToFile);
+    connect(actSave, &QAction::triggered, this, &PressAnalyzer::saveCurrentFile);
     connect(actClear, &QAction::triggered, this, &PressAnalyzer::clearWindow);
     connect(actClose, &QAction::triggered, this, &QMainWindow::close);
 
@@ -1533,15 +1573,47 @@ void PressAnalyzer::setupUsageContainer()
     mainSplitter->setStretchFactor(0, 1);  // 左边拉伸因子
     mainSplitter->setStretchFactor(1, 1);  // 右边拉伸因子，完全均分
 
-    statusDock = new QDockWidget("状态面板", this);
-    statusDock->setWidget(mainSplitter);
-    statusDock->setAllowedAreas(Qt::RightDockWidgetArea);
-    addDockWidget(Qt::RightDockWidgetArea, statusDock);
-    statusDock->hide();
+    // ---- 独立浮动窗口（替代 QDockWidget）----
+    // 以主窗口 this 作为逻辑父窗口（配合 Qt::Window 仍是独立顶层窗口），
+    // 这样 Qt 能把浮动窗口的屏幕归属绑定到主窗口所在的屏幕，
+    // 避免首次 show 时被 OS 默认放到主屏。
+    statusFloatWin = new QWidget(this,
+        Qt::Window | Qt::Tool | Qt::WindowTitleHint |
+        Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
+    statusFloatWin->setWindowTitle("状态面板");
+    statusFloatWin->setAttribute(Qt::WA_DeleteOnClose, false);  // 关闭时隐藏，不销毁
+    statusFloatWin->resize(900, 700);
+
+    // 用 QScrollArea 包裹 mainSplitter，使内容可滚动
+    QScrollArea *statusScroll = new QScrollArea(statusFloatWin);
+    statusScroll->setWidgetResizable(true);
+    statusScroll->setWidget(mainSplitter);
+    statusScroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    statusScroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    QVBoxLayout *floatLayout = new QVBoxLayout(statusFloatWin);
+    floatLayout->setContentsMargins(0, 0, 0, 0);
+    floatLayout->addWidget(statusScroll);
+
+    // 让关闭按钮只隐藏窗口
+    connect(new QShortcut(QKeySequence(Qt::Key_Escape), statusFloatWin),
+            &QShortcut::activated, statusFloatWin, &QWidget::hide);
+
+    statusDock = statusFloatWin;  // 保持 statusDock 指针别名兼容旧代码
 }
 
 void PressAnalyzer::setupConnections()
 {
+    // 编辑内容变化时标记当前标签为已修改
+    // 使用 QTextDocument::modificationChanged(bool) 而非 textChanged：
+    // 该信号只在“脏/干净”状态真正翻转时发出一次，不会被加载期间的
+    // 格式高亮（highlightAllEvents 等）误触发。加载流程末尾调用
+    // logView->document()->setModified(false) 即可把状态归零。
+    connect(logView, &QPlainTextEdit::modificationChanged, this, [this](bool mod){
+        if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
+            markTabModified(mod);
+    });
+
     // 文件操作连接 - 始终在当前窗口操作
     connect(analyzeControlButton, &QPushButton::clicked, this, &PressAnalyzer::loadAndAnalyzeLogs);
     connect(clearButton, &QPushButton::clicked, this, &PressAnalyzer::clearWindow);
@@ -1590,14 +1662,52 @@ void PressAnalyzer::setupConnections()
     connect(eventTimeline, &EventTimelineWidget::jumpToLine,
             this, &PressAnalyzer::onTimelineJumpToLine);
 
-    // 状态面板连接：仅切换右侧状态面板的显示/隐藏，不影响左侧 dock
-    connect(statusButton, &QPushButton::clicked, this, [this](){
-        statusDock->setVisible(!statusDock->isVisible());
+    // 状态面板连接：切换浮动窗口显隐
+    // 辅助 lambda：将浮动窗口定位到主窗口所在屏幕，并确保不超出边界
+    auto showFloatWin = [this](QWidget *win, bool preferRight) {
+        QRect ref = geometry();
+        QScreen *scr = windowHandle() ? windowHandle()->screen() : QGuiApplication::primaryScreen();
+        QRect avail = scr ? scr->availableGeometry() : QRect(0, 0, 1920, 1080);
+
+        int wx, wy;
+        if (preferRight) {
+            wx = ref.right() + 10;
+            wy = ref.top();
+            if (wx + win->width() > avail.right())
+                wx = ref.center().x() - win->width() / 2;
+        } else {
+            wx = ref.left() + 60;
+            wy = ref.top() + 40;
+        }
+        wx = qBound(avail.left(), wx, avail.right()  - win->width());
+        wy = qBound(avail.top(),  wy, avail.bottom() - win->height());
+
+        // 关键：先创建 native handle 并把窗口显式绑定到目标屏幕，
+        // 否则首次 show 时 OS 可能把窗口放到主屏，move() 之后才纠正，
+        // 视觉上就成了“总在主屏弹出再跳过来”。
+        win->createWinId();
+        if (scr && win->windowHandle())
+            win->windowHandle()->setScreen(scr);
+        // 用 setGeometry 一次性给定位置+尺寸，比 move() 更可靠
+        win->setGeometry(wx, wy, win->width(), win->height());
+        win->show();
+        win->raise();
+        win->activateWindow();
+    };
+
+    connect(statusButton, &QPushButton::clicked, this, [this, showFloatWin](){
+        if (statusFloatWin->isVisible())
+            statusFloatWin->hide();
+        else
+            showFloatWin(statusFloatWin, true);
     });
 
-    // 动态图表搜索按钮 — 切换侧边栏动态图表面板
-    connect(chartSearchButton, &QPushButton::clicked, this, [this](){
-        m_sideBar->togglePanel(m_chartPanelIndex);
+    // 动态图表搜索按钮 — 切换动态图表浮动窗口
+    connect(chartSearchButton, &QPushButton::clicked, this, [this, showFloatWin](){
+        if (m_chartFloatWin->isVisible())
+            m_chartFloatWin->hide();
+        else
+            showFloatWin(m_chartFloatWin, false);
     });
     connect(heartbeatLostEventList, &QListWidget::itemClicked, this, &PressAnalyzer::onStatusEventClicked);
     // 文本改变（例如跳转/选择变动）后也刷新一次可见黄色（节流 50ms）
@@ -1622,17 +1732,25 @@ void PressAnalyzer::setupConnections()
         t.start();
     });
 
-    // SideBar 外部切换按钮：状态面板（右侧 statusDock）
+    // SideBar 外部切换按钮：先添加状态面板（上），再添加动态图表（下）
     m_statusToggleIndex = m_sideBar->addExternalToggle(SideBarIcons::statusChart(), "状态面板");
-    connect(m_sideBar, &VSCodeSideBar::externalToggleClicked, this, [this](int idx) {
+    m_chartPanelIndex   = m_sideBar->addExternalToggle(SideBarIcons::dynamicChart(), "动态图表");
+    connect(m_sideBar, &VSCodeSideBar::externalToggleClicked, this, [this, showFloatWin](int idx) {
         if (idx == m_statusToggleIndex) {
-            statusDock->setVisible(!statusDock->isVisible());
+            if (statusFloatWin->isVisible())
+                statusFloatWin->hide();
+            else
+                showFloatWin(statusFloatWin, true);
+        } else if (idx == m_chartPanelIndex) {
+            if (m_chartFloatWin->isVisible())
+                m_chartFloatWin->hide();
+            else
+                showFloatWin(m_chartFloatWin, false);
         }
     });
-    // 同步 statusDock 可见性到 SideBar 按钮状态
-    connect(statusDock, &QDockWidget::visibilityChanged, this, [this](bool visible) {
-        m_sideBar->setExternalToggleActive(m_statusToggleIndex, visible);
-    });
+    // 同步浮动窗口可见性到 SideBar 按钮激活状态
+    statusFloatWin->installEventFilter(this);
+    m_chartFloatWin->installEventFilter(this);
 }
 
 void PressAnalyzer::applyButtonStyles()

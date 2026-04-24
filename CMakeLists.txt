@@ -100,6 +100,7 @@ set(PROJECT_SOURCES
     EventTimelineWidget.h
     FlightAnimationWidget.h
     LogNumberHighlighter.h
+    LogView.h
     ModuleUsageChart.h
     SearchResultHighlighter.h
     SearchResultTextView.h
