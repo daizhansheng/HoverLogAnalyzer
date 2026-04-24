@@ -20,8 +20,8 @@
 #include <QSet>
 #include <QRegularExpression>
 #include <algorithm>
-#include "DynamicChartWidget.h"
 #include "PressAnalyzer.h"
+#include "DynamicChartWidget.h"
 
 // ============================================================
 // ChartCard
@@ -72,8 +72,10 @@ public:
         auto *closeBtn = new QPushButton("✕", titleBar);
         closeBtn->setFixedSize(platformPx(20), platformPx(20));
         closeBtn->setStyleSheet(
-            "QPushButton { background:transparent; border:none; color:#666; font-size:11px; }"
+            QString(
+            "QPushButton { background:transparent; border:none; color:#666; font-size:%1px; }"
             "QPushButton:hover { background:#fce; color:#c00; border-radius:3px; }"
+            ).arg(stylePx(11))
         );
         connect(closeBtn, &QPushButton::clicked, this, [this](){ emit closeRequested(); });
         titleLayout->addWidget(closeBtn);

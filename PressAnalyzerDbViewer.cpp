@@ -45,7 +45,7 @@ void PressAnalyzer::setupDbViewerDock()
 
     QLabel *dbPathLabel = new QLabel("未打开数据库");
     dbPathLabel->setObjectName("dbPathLabel");
-    dbPathLabel->setStyleSheet("color: #444; font-size: 12px; font-weight: bold;");
+    dbPathLabel->setStyleSheet(QString("color: #444; font-size: %1px; font-weight: bold;").arg(stylePx(12)));
     dbPathLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     dbPathLabel->setWordWrap(false);
     dbPathLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -81,9 +81,11 @@ void PressAnalyzer::setupDbViewerDock()
     closeDbBtn->setFixedWidth(90);
     closeDbBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     closeDbBtn->setStyleSheet(
-        "QPushButton { background:#888; color:white; border:none; border-radius:3px; padding:3px 8px; font-size:12px; }"
+        QString(
+        "QPushButton { background:#888; color:white; border:none; border-radius:3px; padding:3px 8px; font-size:%1px; }"
         "QPushButton:hover { background:#999; }"
         "QPushButton:pressed { background:#777; }"
+        ).arg(stylePx(12))
     );
 
     topLayout->addWidget(dbPathLabel);
@@ -100,8 +102,10 @@ void PressAnalyzer::setupDbViewerDock()
     dbTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     dbTableView->horizontalHeader()->setStretchLastSection(true);
     dbTableView->setStyleSheet(
-        "QTableView { border: 1px solid #ddd; font-size: 12px; }"
+        QString(
+        "QTableView { border: 1px solid #ddd; font-size: %1px; }"
         "QHeaderView::section { background: #f0f0f0; border: 1px solid #ccc; padding: 3px; font-weight: bold; }"
+        ).arg(stylePx(12))
     );
     dbTableView->setSortingEnabled(true);
 
@@ -174,7 +178,7 @@ void PressAnalyzer::setupDbViewerDock()
 
     QLabel *rowCountLabel = new QLabel("行数: 0");
     rowCountLabel->setObjectName("dbRowCountLabel");
-    rowCountLabel->setStyleSheet("color:#666; font-size:11px; padding:2px;");
+    rowCountLabel->setStyleSheet(QString("color:#666; font-size:%1px; padding:2px;").arg(stylePx(11)));
 
     mainLayout->addWidget(dbTableView, 1);
     mainLayout->addWidget(rowCountLabel);
@@ -247,10 +251,12 @@ void PressAnalyzer::openDatabaseFile(const QString &filePath)
             btn->setFixedHeight(22);
             btn->setCheckable(true);
             btn->setStyleSheet(
+                QString(
                 "QPushButton { padding: 2px 10px; border: 1px solid #ccc; border-radius: 3px;"
-                "  background: #fff; font-size: 12px; }"
+                "  background: #fff; font-size: %1px; }"
                 "QPushButton:hover { background: #e8f0fe; }"
                 "QPushButton:checked { background: #4A90D9; color: white; border-color: #4A90D9; }"
+                ).arg(stylePx(12))
             );
             connect(btn, &QPushButton::clicked, this, [this, tbl, btnBar](bool){
                 // 取消其他按钮选中

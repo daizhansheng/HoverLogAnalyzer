@@ -79,8 +79,8 @@ void PressAnalyzer::setupCentralWidget()
     );
     // 在 setStyleSheet 之后锁定 ElideNone，防止被 style change 重置
     QFont tabFont = m_tabBar->font();
-    // Tab 字体大小平台适配：macOS=12pt，Windows=10pt
-    tabFont.setPointSize(platformFontSize(12, 10));
+    // Tab 字体大小平台适配：macOS=12pt，Windows=9pt（与全局 Segoe UI 字号一致）
+    tabFont.setPointSize(platformFontSize(12, 9));
     m_tabBar->setFont(tabFont);
     m_tabBar->setElideMode(Qt::ElideNone);
 
@@ -98,12 +98,13 @@ void PressAnalyzer::setupCentralWidget()
     m_newTabButton->setFocusPolicy(Qt::NoFocus);
     m_newTabButton->setToolTip("新建标签");
     m_newTabButton->setStyleSheet(
+        QString(
         "QPushButton {"
         "  border-radius: 5px;"
         "  background-color: transparent;"
         "  border: none;"
         "  color: #666666;"
-        "  font-size: 18px;"
+        "  font-size: %1px;"
         "  font-weight: bold;"
         "  padding: 0px;"
         "  margin-left: 4px;"
@@ -115,6 +116,7 @@ void PressAnalyzer::setupCentralWidget()
         "QPushButton:pressed {"
         "  background-color: rgba(0,0,0,0.18);"
         "}"
+        ).arg(stylePx(18))
     );
     connect(m_newTabButton, &QPushButton::clicked, this, &PressAnalyzer::openNewEmptyTab);
     tabBarRow->addWidget(m_newTabButton);
@@ -192,9 +194,9 @@ void PressAnalyzer::setupCentralWidget()
     connect(logView, &QPlainTextEdit::customContextMenuRequested, this, [this](const QPoint &pos){
         QMenu *menu = new QMenu(logView);
         // 统一菜单行高（一级菜单无图标，宽度按文字自适应）
-        const QString menuQss =
+        const QString menuQss = QString(
             "QMenu {"
-            "  font-size: 13px;"
+            "  font-size: %1px;"
             "  padding: 4px 0px;"
             "}"
             "QMenu::item {"
@@ -209,7 +211,7 @@ void PressAnalyzer::setupCentralWidget()
             "  height: 1px;"
             "  background: #DDDDDD;"
             "  margin: 3px 8px;"
-            "}";
+            "}").arg(stylePx(13));
         menu->setStyleSheet(menuQss);
 
         // ---- 标准编辑操作（中文） ----
@@ -245,9 +247,9 @@ void PressAnalyzer::setupCentralWidget()
         connect(actSelectAll, &QAction::triggered, logView, &QPlainTextEdit::selectAll);
 
         // ---- 颜色标记子菜单（QWidgetAction 自定义布局，完全控制色块大小和间距） ----
-        const QString subMenuQss =
+        const QString subMenuQss = QString(
             "QMenu {"
-            "  font-size: 13px;"
+            "  font-size: %1px;"
             "  padding: 2px 0px;"
             "}"
             "QMenu::item {"
@@ -260,7 +262,7 @@ void PressAnalyzer::setupCentralWidget()
             "  height: 1px;"
             "  background: #DDDDDD;"
             "  margin: 2px 6px;"
-            "}";
+            "}").arg(stylePx(13));
         QMenu *markMenu = menu->addMenu("颜色标记");
         markMenu->setStyleSheet(subMenuQss);
         markMenu->setMinimumWidth(120);
@@ -298,7 +300,7 @@ void PressAnalyzer::setupCentralWidget()
             colorBox->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
             QLabel *textLabel = new QLabel(infos[i].name);
-            textLabel->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            textLabel->setStyleSheet("font-size: " + QString::number(stylePx(13)) + "px; color: #1A1A1A; background: transparent;");
             textLabel->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
             hl->addWidget(colorBox);
@@ -328,7 +330,7 @@ void PressAnalyzer::setupCentralWidget()
             QHBoxLayout *hl = new QHBoxLayout(rowClearSel);
             hl->setContentsMargins(6, 0, 12, 0);
             QLabel *lbl = new QLabel("清除选择标记");
-            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setStyleSheet("font-size: " + QString::number(stylePx(13)) + "px; color: #1A1A1A; background: transparent;");
             lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
             hl->addWidget(lbl);
             hl->addStretch();
@@ -354,7 +356,7 @@ void PressAnalyzer::setupCentralWidget()
             QHBoxLayout *hl = new QHBoxLayout(rowClearAll);
             hl->setContentsMargins(6, 0, 12, 0);
             QLabel *lbl = new QLabel("清除全部标记");
-            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setStyleSheet("font-size: " + QString::number(stylePx(13)) + "px; color: #1A1A1A; background: transparent;");
             lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
             hl->addWidget(lbl);
             hl->addStretch();
@@ -436,9 +438,9 @@ void PressAnalyzer::setupSearchDock()
     searchResultView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(searchResultView, &SearchResultTextView::customContextMenuRequested, this, [=](const QPoint &pos){
         QMenu *menu = new QMenu(searchResultView);
-        const QString menuQss =
+        const QString menuQss = QString(
             "QMenu {"
-            "  font-size: 13px;"
+            "  font-size: %1px;"
             "  padding: 4px 0px;"
             "}"
             "QMenu::item {"
@@ -453,7 +455,7 @@ void PressAnalyzer::setupSearchDock()
             "  height: 1px;"
             "  background: #DDDDDD;"
             "  margin: 3px 8px;"
-            "}";
+            "}").arg(stylePx(13));
         menu->setStyleSheet(menuQss);
 
         QAction *actCopy = menu->addAction("拷贝");
@@ -468,11 +470,11 @@ void PressAnalyzer::setupSearchDock()
 
         // ---- 颜色标记子菜单 ----
         menu->addSeparator();
-        const QString subMenuQss2 =
-            "QMenu { font-size: 13px; padding: 2px 0px; }"
+        const QString subMenuQss2 = QString(
+            "QMenu { font-size: %1px; padding: 2px 0px; }"
             "QMenu::item { padding: 0px 0px 0px 0px; }"
             "QMenu::item:selected { background-color: transparent; }"
-            "QMenu::separator { height: 1px; background: #DDDDDD; margin: 2px 6px; }";
+            "QMenu::separator { height: 1px; background: #DDDDDD; margin: 2px 6px; }").arg(stylePx(13));
         QMenu *markMenu2 = menu->addMenu("颜色标记");
         markMenu2->setStyleSheet(subMenuQss2);
         markMenu2->setMinimumWidth(120);
@@ -504,7 +506,7 @@ void PressAnalyzer::setupSearchDock()
             ).arg(infos2[i].color.name()));
             colorBox->setAttribute(Qt::WA_TransparentForMouseEvents, true);
             QLabel *textLabel = new QLabel(infos2[i].name);
-            textLabel->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            textLabel->setStyleSheet("font-size: " + QString::number(stylePx(13)) + "px; color: #1A1A1A; background: transparent;");
             textLabel->setAttribute(Qt::WA_TransparentForMouseEvents, true);
             hl->addWidget(colorBox);
             hl->addWidget(textLabel);
@@ -530,7 +532,7 @@ void PressAnalyzer::setupSearchDock()
             QHBoxLayout *hl = new QHBoxLayout(rowClearSel2);
             hl->setContentsMargins(6, 0, 12, 0);
             QLabel *lbl = new QLabel("清除选择标记");
-            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setStyleSheet("font-size: " + QString::number(stylePx(13)) + "px; color: #1A1A1A; background: transparent;");
             lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
             hl->addWidget(lbl); hl->addStretch();
         }
@@ -553,7 +555,7 @@ void PressAnalyzer::setupSearchDock()
             QHBoxLayout *hl = new QHBoxLayout(rowClearAll2);
             hl->setContentsMargins(6, 0, 12, 0);
             QLabel *lbl = new QLabel("清除全部标记");
-            lbl->setStyleSheet("font-size: 13px; color: #1A1A1A; background: transparent;");
+            lbl->setStyleSheet("font-size: " + QString::number(stylePx(13)) + "px; color: #1A1A1A; background: transparent;");
             lbl->setAttribute(Qt::WA_TransparentForMouseEvents, true);
             hl->addWidget(lbl); hl->addStretch();
         }
@@ -769,9 +771,9 @@ void PressAnalyzer::setupFileBrowserDock()
         QString filePath = fileSystemModel->filePath(index);
         QFileInfo info(filePath);
 
-        const QString fileBrowserMenuQss =
+        const QString fileBrowserMenuQss = QString(
             "QMenu {"
-            "  font-size: 13px;"
+            "  font-size: %1px;"
             "  padding: 4px 0px;"
             "  min-width: 160px;"
             "}"
@@ -787,7 +789,7 @@ void PressAnalyzer::setupFileBrowserDock()
             "  height: 1px;"
             "  background: #DDDDDD;"
             "  margin: 3px 8px;"
-            "}";
+            "}").arg(stylePx(13));
         QMenu menu;
         menu.setStyleSheet(fileBrowserMenuQss);
         if (info.isDir()) {
@@ -1513,9 +1515,10 @@ void PressAnalyzer::setupUsageContainer()
 
         // 应用统一的复选框样式
         cb->setStyleSheet(
+            QString(
             "QCheckBox {"
-            "  font-family: 'Arial';"
-            "  font-size: 10px;"
+            "  font-family: '%1';"
+            "  font-size: %2px;"
             "  padding: 2px;"
             "  border-radius: 3px;"
             "}"
@@ -1525,6 +1528,7 @@ void PressAnalyzer::setupUsageContainer()
             "QCheckBox:hover {"
             "  background-color: #ecf0f1;"
             "}"
+            ).arg(chartFontFamily()).arg(stylePx(10))
         );
 
         // 设置字体颜色为对应曲线颜色

@@ -1,5 +1,6 @@
 // PressAnalyzer.cpp - Core: constructor, destructor, event filter, static data
 #include "PressAnalyzer.h"
+#include "ChartStyleManager.h"
 #include <QCompleter>
 #include <QSettings>
 #include <QTimer>
@@ -43,7 +44,7 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
     // macOS: Menlo, Windows: Consolas, Linux: DejaVu Sans Mono
     currentLogFont = platformMonoFont(11);
 
-    // 加载事件列表字体：macOS=Courier New 11pt，Windows=Segoe UI 9pt（更协调）
+    // 加载事件列表字体：macOS=Courier New 11pt，Windows=Segoe UI 9pt（与全局 UI 字号一致，避免列表比周围大）
     currentEventFont = QFont(
 #if defined(Q_OS_WIN)
         "Segoe UI", 9
@@ -55,8 +56,8 @@ PressAnalyzer::PressAnalyzer(QWidget *parent)
         currentEventFont = settings.value("fonts/eventFont").value<QFont>();
     }
 
-    // 加载图表字体
-    currentChartFont = QFont("Arial", 12);
+    // 加载图表字体（Windows=Segoe UI，macOS/Linux=Arial，与 ChartStyleManager::chartFontFamily() 保持一致）
+    currentChartFont = QFont(chartFontFamily(), 12);
     if (settings.contains("fonts/chartFont")) {
         currentChartFont = settings.value("fonts/chartFont").value<QFont>();
     }

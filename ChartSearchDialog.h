@@ -16,8 +16,8 @@
 #include <QRegularExpression>
 #include <QDockWidget>
 #include <algorithm>
-#include "DynamicChartWidget.h"
 #include "PressAnalyzer.h"
+#include "DynamicChartWidget.h"
 
 // ============================================================
 // ChartSearchDialog

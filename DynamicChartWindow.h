@@ -15,8 +15,8 @@
 #include <QSet>
 #include <QRegularExpression>
 #include <algorithm>
-#include "DynamicChartWidget.h"
 #include "PressAnalyzer.h"
+#include "DynamicChartWidget.h"
 
 // ============================================================
 // DynamicChartWindow

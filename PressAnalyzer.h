@@ -75,6 +75,18 @@ inline QSize platformSize(int macW, int macH) {
     return QSize(platformPx(macW), platformPx(macH));
 }
 
+// stylesheet 中 font-size 的平台适配：
+// Windows 上的 Segoe UI 在同等 px 下视觉比 macOS 的系统/等宽字体大一圈，
+// 统一缩小 1px（最小 9）以让整体观感一致。
+// 用法：QString("font-size: %1px;").arg(stylePx(13))  →  mac=13, Win=12
+inline int stylePx(int macPx) {
+#if defined(Q_OS_WIN)
+    return qMax(9, macPx - 1);
+#else
+    return macPx;
+#endif
+}
+
 // 根据可用宽度自动省略路径，从左侧省略以保留末尾目录名
 class ElidedPathLabel : public QLabel {
 public:

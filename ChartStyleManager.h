@@ -142,20 +142,34 @@ public:
 
     // 获取标题样式
     static QString getTitleStyle() {
+        const int sz =
+#if defined(Q_OS_WIN)
+            13
+#else
+            14
+#endif
+        ;
         return QString(
             "QLabel {"
             "  color: %1;"
             "  font-weight: bold;"
-            "  font-size: 14px;"
+            "  font-size: %3px;"
             "  padding: 5px;"
             "  background-color: %2;"
             "  border-radius: 4px;"
             "}"
-        ).arg(colorTheme.primary.name(), colorTheme.background.name());
+        ).arg(colorTheme.primary.name(), colorTheme.background.name()).arg(sz);
     }
 
     // 获取事件列表样式
     static QString getEventListStyle() {
+        const int sz =
+#if defined(Q_OS_WIN)
+            9
+#else
+            10
+#endif
+        ;
         return QString(
             "QListWidget {"
             "  background-color: %1;"
@@ -163,11 +177,11 @@ public:
             "  border-radius: 4px;"
             "  padding: 5px;"
             "  font-family: '%4';"
-            "  font-size: 10px;"
+            "  font-size: %5px;"
         ).arg(colorTheme.background.name(),
               colorTheme.border.name(),
               QColor(236, 240, 241).name(),
-              chartFontFamily());
+              chartFontFamily()).arg(sz);
     }
 
 private:

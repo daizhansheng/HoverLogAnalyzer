@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN)
     QFont font("Segoe UI");
     font.setStyleHint(QFont::SansSerif);
-    font.setPointSize(10);
+    font.setPointSize(9);   // Windows 标准 UI 字号（Explorer/Settings 同此），10pt 在多数 Windows 屏上视觉偏大
     font.setWeight(QFont::Normal);
 #else
     QFont font("Courier New");

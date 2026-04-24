@@ -381,7 +381,7 @@ public:
         // 勾选框
         auto *cb = new QCheckBox(name, row);
         cb->setChecked(true);
-        cb->setStyleSheet("font-size:11px;");
+        cb->setStyleSheet(QString("font-size:%1px;").arg(stylePx(11)));
         connect(cb, &QCheckBox::toggled, this, [this, idx](bool checked) {
             if (idx < m_series.size()) {
                 m_series[idx].visible = checked;

@@ -27,12 +27,13 @@ QAbstractButton *PressAnalyzer::makeTabCloseButton(int /*tabIndex*/)
     btn->setCursor(Qt::ArrowCursor);
     btn->setFocusPolicy(Qt::NoFocus);
     btn->setStyleSheet(
+        QString(
         "QPushButton {"
         "  border-radius: 7px;"
         "  background-color: rgba(0,0,0,0);"
         "  border: none;"
         "  color: #999999;"
-        "  font-size: 11px;"
+        "  font-size: %1px;"
         "  font-weight: bold;"
         "  padding: 0px;"
         "}"
@@ -40,6 +41,7 @@ QAbstractButton *PressAnalyzer::makeTabCloseButton(int /*tabIndex*/)
         "  background-color: #FF5F57;"
         "  color: white;"
         "}"
+        ).arg(stylePx(11))
     );
     btn->setText("\xC3\x97");  // UTF-8 ×
     connect(btn, &QPushButton::clicked, this, [this, btn]() {
