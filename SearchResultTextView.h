@@ -9,7 +9,9 @@
 #include <QTextOption>
 #include <QVector>
 #include <QPair>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QRegularExpressionMatchIterator>
 #include <QMap>
 #include <QMouseEvent>
 
@@ -31,12 +33,14 @@ public:
         selectedRow = -1;
     }
 
-    void setPatterns(const QVector<QPair<QRegExp, QColor>> &patterns) {
+    using Pattern = QPair<QRegularExpression, QColor>;
+
+    void setPatterns(const QVector<Pattern> &patterns) {
         patternList = patterns;
         applyHighlighting();
     }
 
-    const QVector<QPair<QRegExp, QColor>> &patterns() const {
+    const QVector<Pattern> &patterns() const {
         return patternList;
     }
 
@@ -102,18 +106,21 @@ private:
             const QString lineText = block.text();
             // 1. 正则搜索高亮（浅色背景+黑色前景）
             for (const auto &p : patternList) {
-                int pos = 0;
-                while ((pos = p.first.indexIn(lineText, pos)) != -1) {
+                if (!p.first.isValid() || p.first.pattern().isEmpty()) continue;
+                auto it = p.first.globalMatch(lineText);
+                while (it.hasNext()) {
+                    const auto m = it.next();
+                    const int len = m.capturedLength();
+                    if (len <= 0) continue;
                     QTextEdit::ExtraSelection sel;
                     sel.cursor = QTextCursor(block);
-                    sel.cursor.setPosition(block.position() + pos);
-                    sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, p.first.cap(0).length());
+                    sel.cursor.setPosition(block.position() + m.capturedStart());
+                    sel.cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, len);
                     QTextCharFormat fmt;
                     fmt.setBackground(p.second);
                     fmt.setForeground(Qt::black);
                     sel.format = fmt;
                     selections.push_back(sel);
-                    pos += qMax(1, p.first.cap(0).length());
                 }
             }
             // 2. 颜色标记高亮（深色背景+白色前景，覆盖在搜索高亮之上）
@@ -156,7 +163,7 @@ private:
     }
 
 private:
-    QVector<QPair<QRegExp, QColor>> patternList;
+    QVector<Pattern> patternList;
     QMap<QString, QColor> colorMarkList;
     int selectedRow;
 };

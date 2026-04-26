@@ -6,6 +6,15 @@
 
 // ==================== 字体设置功能 ====================
 
+// 触发所有图表的重绘。新增/移除图表时只需在此处统一改动，避免散落多处。
+void PressAnalyzer::updateAllCharts()
+{
+    if (batteryChart)    batteryChart->update();
+    if (socChart)        socChart->update();
+    if (usageChart)      usageChart->update();
+    if (cameraTempChart) cameraTempChart->update();
+}
+
 void PressAnalyzer::setLogFont()
 {
     bool ok;
@@ -34,9 +43,6 @@ void PressAnalyzer::setLogFont()
             searchCombo->setFont(font);
         }
 
-        // 保存字体设置（日志字体不持久化，启动始终使用 Menlo 11pt）
-        // settings.setValue("fonts/logFont", font);
-
         QMessageBox::information(this, "字体设置", "日志字体已更新！");
     }
 }
@@ -59,18 +65,7 @@ void PressAnalyzer::setChartFont()
         ChartStyleManager::setFontTheme(fontTheme);
 
         // 触发图表重绘
-        if (batteryChart) {
-            batteryChart->update();
-        }
-        if (socChart) {
-            socChart->update();
-        }
-        if (usageChart) {
-            usageChart->update();
-        }
-        if (cameraTempChart) {
-            cameraTempChart->update();
-        }
+        updateAllCharts();
 
         // 保存字体设置
         QSettings settings("ZZTools", "HoverLogAnalyzer");
@@ -157,18 +152,7 @@ void PressAnalyzer::resetAllFonts()
     ChartStyleManager::setFontTheme(fontTheme);
 
     // 触发图表重绘
-    if (batteryChart) {
-        batteryChart->update();
-    }
-    if (socChart) {
-        socChart->update();
-    }
-    if (usageChart) {
-        usageChart->update();
-    }
-    if (cameraTempChart) {
-        cameraTempChart->update();
-    }
+    updateAllCharts();
 
     // 清除保存的字体设置
     QSettings settings("ZZTools", "HoverLogAnalyzer");
@@ -214,16 +198,5 @@ void PressAnalyzer::applySavedFonts()
     ChartStyleManager::setFontTheme(fontTheme);
 
     // 触发图表重绘
-    if (batteryChart) {
-        batteryChart->update();
-    }
-    if (socChart) {
-        socChart->update();
-    }
-    if (usageChart) {
-        usageChart->update();
-    }
-    if (cameraTempChart) {
-        cameraTempChart->update();
-    }
+    updateAllCharts();
 }

@@ -1,5 +1,6 @@
 // PressAnalyzerHighlight.cpp - Color marking and highlight functions
 #include "PressAnalyzer.h"
+#include "SearchColorPalette.h"
 
 #include <QtConcurrent/QtConcurrent>
 #include <QFuture>
@@ -165,25 +166,11 @@ void PressAnalyzer::updateVisibleHighlights()
     QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
     for (int i = 0; i < keys.size(); ++i) keys[i] = keys[i].trimmed();
 
-    // 颜色池与搜索结果区域保持一致：第1个黄色、第2个绿色、其余按池循环
-    QVector<QColor> colorPool = {
-        QColor(255, 182, 193), // light pink
-        QColor(173, 216, 230), // light blue
-        QColor(144, 238, 144), // light green
-        QColor(255, 255, 150), // light yellow
-        QColor(255, 160, 122), // light salmon
-        QColor(255, 228, 181), // moccasin
-        QColor(221, 160, 221), // plum
-        QColor(176, 224, 230), // powder blue
-        QColor(152, 251, 152), // pale green
-        QColor(240, 230, 140)  // khaki
-    };
+    // 颜色池与搜索结果区域保持一致（统一来源 SearchColorPalette.h）
     QVector<QColor> colors;
     colors.reserve(keys.size());
     for (int i = 0; i < keys.size(); ++i) {
-        if (i == 0) colors.append(Qt::yellow);
-        else if (i == 1) colors.append(Qt::green);
-        else colors.append(colorPool[(i - 2) % colorPool.size()]);
+        colors.append(SearchPalette::colorForIndex(i));
     }
 
     for (int ln = firstVisibleBlock; ln <= lastVisibleBlock; ++ln) {

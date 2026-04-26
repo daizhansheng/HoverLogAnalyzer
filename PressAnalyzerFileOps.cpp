@@ -1,5 +1,6 @@
 // PressAnalyzerFileOps.cpp - File loading and operations
 #include "PressAnalyzer.h"
+#include "ParseProgressDialog.h"
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -882,41 +883,36 @@ void PressAnalyzer::loadSelectedFiles(const QStringList &filePaths)
 
     // 对文件进行排序（按数字顺序）
     QStringList sortedFiles = filePaths;
+    // 两个正则只差扩展名顺序，合并为一个即可（字母序不变）。静态构造避免每次比较都编译。
+    static const QRegularExpression kFileNameRx(
+        QStringLiteral("(.+?)(?:\\.(\\d+))?\\.(log|ulg|csv)$"));
     std::sort(sortedFiles.begin(), sortedFiles.end(), [](const QString &a, const QString &b) {
-        QString fileNameA = QFileInfo(a).fileName();
-        QString fileNameB = QFileInfo(b).fileName();
+        const QString fileNameA = QFileInfo(a).fileName();
+        const QString fileNameB = QFileInfo(b).fileName();
 
-        // 提取基础名称、扩展名和数字
-        QString baseNameA, baseNameB, extA, extB;
+        QString baseNameA, baseNameB;
         int numA = -1, numB = -1;
 
-        // 解析文件名 A
-        QRegExp rxA("(.+?)(\\.(\\d+))?\\.(log|ulg|csv)$");
-        if (rxA.indexIn(fileNameA) != -1) {
-            baseNameA = rxA.cap(1);
-            extA = rxA.cap(4);
-            if (!rxA.cap(3).isEmpty()) {
-                numA = rxA.cap(3).toInt();
-            }
+        const auto mA = kFileNameRx.match(fileNameA);
+        if (mA.hasMatch()) {
+            baseNameA = mA.captured(1);
+            const QString numStr = mA.captured(2);
+            if (!numStr.isEmpty()) numA = numStr.toInt();
         }
 
-        // 解析文件名 B
-        QRegExp rxB("(.+?)(\\.(\\d+))?\\.(log|csv|ulg)$");
-        if (rxB.indexIn(fileNameB) != -1) {
-            baseNameB = rxB.cap(1);
-            extB = rxB.cap(4);
-            if (!rxB.cap(3).isEmpty()) {
-                numB = rxB.cap(3).toInt();
-            }
+        const auto mB = kFileNameRx.match(fileNameB);
+        if (mB.hasMatch()) {
+            baseNameB = mB.captured(1);
+            const QString numStr = mB.captured(2);
+            if (!numStr.isEmpty()) numB = numStr.toInt();
         }
 
         // 如果基础名称相同，按数字排序
         if (baseNameA == baseNameB) {
-            // 按数字排序
-            if (numA == -1 && numB == -1) return false; // 都是无数字后缀，保持原顺序
-            if (numA == -1) return true;  // A无数字后缀，排在前面
-            if (numB == -1) return false; // B无数字后缀，排在后面
-            return numA < numB; // 按数字排序
+            if (numA == -1 && numB == -1) return false;
+            if (numA == -1) return true;
+            if (numB == -1) return false;
+            return numA < numB;
         }
 
         // 基础名称不同，按字母排序
@@ -1113,8 +1109,11 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
     }
     logView->setUpdatesEnabled(false);
 
-    // 显示进度条
-    if (m_progressBar) { m_progressBar->show(); m_progressBar->setValue(0); }
+    // 显示独立进度窗口
+    if (!m_parseProgressDialog) m_parseProgressDialog = new ParseProgressDialog(this);
+    m_parseProgressDialog->setProgress(0, tr("开始合并加载日志..."));
+    m_parseProgressDialog->show();
+    m_parseProgressDialog->raise();
 
     // ---- 后台线程执行文件 I/O 和缓冲区构建 ----
     struct GenericLoadResult {
@@ -1242,7 +1241,10 @@ void PressAnalyzer::loadSelectedFilesInOrder(const QStringList &filePaths)
                     m_tabBar->setTabText(m_currentTabIndex, QFileInfo(sp).fileName());
             }
 
-            if (m_progressBar) m_progressBar->hide();
+            if (m_parseProgressDialog) {
+                m_parseProgressDialog->markFinished(tr("加载完成"));
+                m_parseProgressDialog->close();
+            }
             logView->setUpdatesEnabled(true);
         }
     );

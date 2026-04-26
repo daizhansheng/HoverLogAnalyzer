@@ -15,7 +15,10 @@
 #include <QStyle>
 #include <QApplication>
 #include <QProgressBar>
+#include <QStatusBar>
 #include "LogNumberHighlighter.h"
+#include "MultiLanguageSyntaxHighlighter.h"
+#include "ParseProgressDialog.h"
 #include "HLogBinaryParser.h"
 #include "LogParserWorker.h"
 
@@ -62,6 +65,15 @@ void PressAnalyzer::startBackgroundParse(LogParserWorker *worker,
                                           QThread *thread,
                                           int generation)
 {
+    // 启动前打开独立的进度窗口（懒创建，重复使用同一实例）
+    if (!m_parseProgressDialog) {
+        m_parseProgressDialog = new ParseProgressDialog(this);
+    }
+    m_parseProgressDialog->setProgress(0, tr("准备开始解析..."));
+    m_parseProgressDialog->show();
+    m_parseProgressDialog->raise();
+    m_parseProgressDialog->activateWindow();
+
     worker->moveToThread(thread);
     QObject::connect(thread,  &QThread::started,
                      worker,  &LogParserWorker::run);
@@ -115,7 +127,9 @@ void PressAnalyzer::saveCurrentTabState()
     m_loadingFile = true;
     logView->setDocument(fresh);
     m_loadingFile = false;
-    new LogNumberHighlighter(fresh, 0);
+    // 新 tab 文档挂多语言高亮器（默认 Log 模式：数字 + 级别关键字），
+    // 更新成员指针以便 loadFileToLogView 按扩展名切换 mode
+    m_codeHighlighter = new MultiLanguageSyntaxHighlighter(fresh);
     logView->setFont(currentLogFont);
     logView->document()->setDefaultFont(currentLogFont);  // 双重保障
 
@@ -141,7 +155,7 @@ void PressAnalyzer::saveCurrentTabState()
     // 移除末尾因 split 产生的空行（join("\n") 末尾不带 \n，split 不会多出空项；但防御性清理）
     while (!st.searchResultLines.isEmpty() && st.searchResultLines.last().isEmpty())
         st.searchResultLines.removeLast();
-    st.searchPatterns     = searchResultView ? searchResultView->patterns() : QVector<QPair<QRegExp,QColor>>();
+    st.searchPatterns     = searchResultView ? searchResultView->patterns() : QVector<QPair<QRegularExpression,QColor>>();
     st.searchKeyword      = searchEdit ? searchEdit->text().trimmed() : QString();
     st.searchDockVisible  = searchDock && !searchDock->isHidden() && !searchResults.isEmpty();
     st.triggerCount  = triggerCount;
@@ -575,11 +589,10 @@ void PressAnalyzer::detachTabToNewWindow(int index)
 // ============================================================
 void PressAnalyzer::onParseProgress(int percent, const QString &statusText)
 {
-    if (m_progressBar) {
-        m_progressBar->show();
-        m_progressBar->setValue(percent);
+    // 进度统一推送到独立窗口；m_progressBar / 状态栏文案不再使用
+    if (m_parseProgressDialog) {
+        m_parseProgressDialog->setProgress(percent, statusText);
     }
-    // statusPathLabel 保持显示路径，不用进度文字覆盖
 }
 
 // ============================================================
@@ -591,15 +604,25 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     m_parseThread = nullptr;
     m_parseWorker = nullptr;
 
-    if (m_progressBar) m_progressBar->hide();
+    // 进度条和状态栏：在 GUI 后处理阶段继续显示，到流程结束才清空
+    auto reportStage = [this](const QString &text) {
+        // 阶段反馈推到独立进度窗口（保留进度条数值不变，仅刷新阶段文案）
+        if (m_parseProgressDialog) m_parseProgressDialog->setProgress(-1, text);
+        // 强制 paint 一次，让用户立刻看到当前阶段
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents, 5);
+    };
+    if (m_parseProgressDialog) {
+        m_parseProgressDialog->show();
+        m_parseProgressDialog->setProgress(-1, tr("解析完成，正在加载到界面..."));
+    }
 
-    // -------- 同步解析结果到成员变量 --------
-    allLogLines    = result.allLogLines;
+    // -------- 同步解析结果到成员变量（用 std::move 避免 100MB 级别的隐式共享 detach 拷贝）--------
+    allLogLines    = std::move(result.allLogLines);
     triggerCount   = result.triggerCount;
     flightCount    = result.flightCount;
-    batteryinfo    = result.batteryinfo;
-    cameraTemps    = result.cameraTemps;
-    soctmp         = result.soctmp;
+    batteryinfo    = std::move(result.batteryinfo);
+    cameraTemps    = std::move(result.cameraTemps);
+    soctmp         = std::move(result.soctmp);
     if (!result.sn.isEmpty()) {
         sn = result.sn;
         if (statusInfoLabel) {
@@ -628,7 +651,20 @@ void PressAnalyzer::onParseFinished(ParseResult result)
         logView->setCurrentCharFormat(QTextCharFormat());
     }
     m_loadingFile = true;
-    logView->setPlainText(result.textBuffer);
+    reportStage(tr("加载文本到视图（%1 行）...").arg(allLogLines.size()));
+    // 关键优化：setPlainText 期间临时卸载语法高亮器，避免对每一个 block（可能 100 万行）反复
+    // 触发 highlightBlock + 多正则匹配。setPlainText 完成后再绑回去，让 QSyntaxHighlighter
+    // 自身的延迟机制只对当前可视区域立刻高亮，剩余 block 滚动到时再处理。
+    QTextDocument *prevHlDoc = nullptr;
+    if (m_codeHighlighter) {
+        prevHlDoc = m_codeHighlighter->document();
+        m_codeHighlighter->setDocument(nullptr);
+    }
+    // 一次性把所有行 join 成大文本，避免 worker 端额外维护一份 textBuffer（节省 ~100MB 内存 + 一次大拷贝）
+    logView->setPlainText(allLogLines.join(QLatin1Char('\n')));
+    if (m_codeHighlighter && prevHlDoc) {
+        m_codeHighlighter->setDocument(logView->document());
+    }
     m_loadingFile = false;
     markTabModified(false);
     // 行号已由 LogView 独立行号栏显示，正文不再嵌入数字前缀
@@ -645,6 +681,23 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     eventList->clear();
     cameraEventList->clear();
     heartbeatLostEventList->clear();
+
+    // 大批量 addItem 时关闭三个列表的更新与排序，结束后再统一刷新（10K+ 事件时差异显著）
+    eventList->setUpdatesEnabled(false);
+    cameraEventList->setUpdatesEnabled(false);
+    heartbeatLostEventList->setUpdatesEnabled(false);
+    reportStage(tr("填充事件列表（共 %1 条事件）...").arg(result.events.size()));
+    // 提前 reserve，避免 QList 反复扩容
+    allEvents.reserve(result.events.size());
+    cameraEvents.reserve(result.events.size() / 4 + 1);
+    statusEvents.reserve(result.events.size() / 8 + 1);
+
+    // main 事件配色表抽到循环外（原先每条事件都重新构造一次 QList）
+    static const QList<QColor> kMainBgColors = {
+        QColor("#FFCCCC"), QColor("#CCE5FF"), QColor("#CCFFCC"),
+        QColor("#FFF2CC"), QColor("#E5CCFF"), QColor("#FFCCE5"),
+        QColor("#CCE5FF"), QColor("#CCFFE5"), QColor("#FFE5CC"), QColor("#CCFFFF")
+    };
 
     // 使用顺序遍历 block 替代逐个 findBlockByNumber，性能从 O(events*log(blocks)) 优化到 O(blocks)
     QTextBlock currentBlock = logView->document()->begin();
@@ -699,21 +752,16 @@ void PressAnalyzer::onParseFinished(ParseResult result)
 
         } else {
             // "main" 事件 — 直接填充，确保 block 在 setPlainText 之后赋值
-            QList<QColor> bgColors = {
-                QColor("#FFCCCC"), QColor("#CCE5FF"), QColor("#CCFFCC"),
-                QColor("#FFF2CC"), QColor("#E5CCFF"), QColor("#FFCCE5"),
-                QColor("#CCE5FF"), QColor("#CCFFE5"), QColor("#FFE5CC"), QColor("#CCFFFF")
-            };
-            int colorIndex = ev.triggerCount % bgColors.size();
+            int colorIndex = ev.triggerCount % kMainBgColors.size();
             QListWidgetItem *item = new QListWidgetItem(ev.display);
-            item->setBackground(bgColors[colorIndex]);
+            item->setBackground(kMainBgColors[colorIndex]);
             eventList->addItem(item);
 
             EventItem mainEv;
             mainEv.lineNumber = ev.lineNumber;
             mainEv.display    = ev.display;
             mainEv.block      = currentBlock;
-            mainEv.bgColor    = bgColors[colorIndex];
+            mainEv.bgColor    = kMainBgColors[colorIndex];
             allEvents.push_back(mainEv);
 
             if (eventList->count() == 1) {
@@ -722,7 +770,13 @@ void PressAnalyzer::onParseFinished(ParseResult result)
         }
     }
 
+    // 三个列表批量 addItem 完毕，恢复绘制
+    eventList->setUpdatesEnabled(true);
+    cameraEventList->setUpdatesEnabled(true);
+    heartbeatLostEventList->setUpdatesEnabled(true);
+
     // -------- 高亮与 UI 更新 --------
+    reportStage(tr("应用事件高亮..."));
     highlightAllEvents();
     // 高亮过程通过 setCharFormat 改变了文档状态，这里把“已修改”位归零，
     // 使得用户真正编辑时 modificationChanged(true) 才会触发
@@ -769,6 +823,7 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     bool isCE = (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size())
                     ? m_tabStates[m_currentTabIndex].isControlEngine : false;
     if (isCE) {
+        reportStage(tr("绘制图表（电池/温度/SOC）..."));
         batteryChart->setData(batteryinfo);
         cameraTempChart->setData(cameraTemps);
         socChart->clear();
@@ -792,10 +847,18 @@ void PressAnalyzer::onParseFinished(ParseResult result)
     }
 
     // 解析 top_log（这些文件通常较小，同步即可）
+    if (!m_pendingTopLogs.isEmpty())
+        reportStage(tr("解析 top_log..."));
     for (const QString &fp : m_pendingTopLogs)
         parseTopFile(fp);
     if (isCE) usageChart->setData(allusage);
     m_pendingTopLogs.clear();
+
+    // 全部完成：标记进度窗口为完成状态并自动关闭
+    if (m_parseProgressDialog) {
+        m_parseProgressDialog->markFinished(tr("全部完成"));
+        m_parseProgressDialog->close();
+    }
 
     // statusPathLabel intentionally left unchanged — path was set before parsing started
 }

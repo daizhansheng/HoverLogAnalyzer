@@ -15,6 +15,7 @@
 #include <QLabel>
 #include <QFontMetrics>
 #include <QFont>
+#include <QRegularExpression>
 
 // ============================================================
 // 平台字体辅助函数
@@ -285,7 +286,7 @@ struct TabState {
     QStringList              searchResultLines;    // searchResultView 的显示内容（行号|文本）
     QString                  searchKeyword;        // 上次搜索的关键字（用于恢复高亮 pattern）
     bool                     searchDockVisible     = false; // 搜索结果面板是否可见
-    QVector<QPair<QRegExp, QColor>> searchPatterns; // searchResultView 的高亮 patterns
+    QVector<QPair<QRegularExpression, QColor>> searchPatterns; // searchResultView 的高亮 patterns
 
     // 统计
     int                      triggerCount          = 0;
@@ -474,6 +475,11 @@ private:
     // 搜索结果键值对提取并加入动态图表（由 searchAll 调用）
     void offerChartFromSearchResults();
 private:
+    // 触发所有图表重绘（新增/移除图表时只需在此处统一改动）
+    void updateAllCharts();
+    // 当前 logView 文档上的多语言语法高亮器（按文件扩展名切换 mode）
+    class MultiLanguageSyntaxHighlighter *m_codeHighlighter = nullptr;
+
     // ==================== 工具栏控件 ====================
     QPushButton *analyzeControlButton;  // 专用分析按钮
     QPushButton *clearButton;
@@ -511,6 +517,7 @@ private:
 
     QList<int> searchResults;
     int currentSearchIndex;
+    bool searchInProgress = false;        // 防止 processEvents 期间重入
     QList<QTextEdit::ExtraSelection> searchHighlights; // 全局搜索高亮，黄色
 
     int triggerCount;
@@ -595,7 +602,8 @@ private:
     // ==================== 后台解析线程 ====================
     QThread         *m_parseThread  = nullptr;
     LogParserWorker *m_parseWorker  = nullptr;
-    QProgressBar    *m_progressBar  = nullptr;   // 状态栏进度条
+    QProgressBar    *m_progressBar  = nullptr;   // 状态栏进度条（已弃用：进度改在独立窗口显示）
+    class ParseProgressDialog *m_parseProgressDialog = nullptr; // 独立解析进度窗口
     QStringList      m_pendingTopLogs;            // 等待解析的 top_log 列表
 
     // ==================== 多标签页 ====================

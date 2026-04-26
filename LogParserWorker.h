@@ -22,8 +22,7 @@ struct ParsedEventItem {
 };
 
 struct ParseResult {
-    QStringList allLogLines;       // 全部日志行（原始，不含行号前缀）
-    QString     textBuffer;        // 带行号前缀的完整文本，直接 setPlainText
+    QStringList allLogLines;       // 全部日志行（原始，不含行号前缀）。GUI 用 join('\n') 一次性灌入 setPlainText，避免重复存储。
     QList<ParsedEventItem> events; // 所有类型事件
     QVector<BatteryTimeInfo> batteryinfo;
     QVector<SocTempInfo>     soctmp;

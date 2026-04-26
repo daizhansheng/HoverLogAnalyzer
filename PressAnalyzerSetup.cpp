@@ -34,6 +34,7 @@
 #include <QFontDialog>
 #include <QWindow>
 #include "LogNumberHighlighter.h"
+#include "MultiLanguageSyntaxHighlighter.h"
 
 void PressAnalyzer::setupMainWindow()
 {
@@ -46,10 +47,7 @@ void PressAnalyzer::setupMainWindow()
 
     // 支持拖放文件直接打开
     setAcceptDrops(true);
-
-    // 撤销自定义居中标题栏
 }
-// 撤销自定义更新接口，保持系统默认标题行为
 
 void PressAnalyzer::setupCentralWidget()
 {
@@ -66,7 +64,7 @@ void PressAnalyzer::setupCentralWidget()
     // 强制 Fusion 风格，绕过 macOS 原生样式对 tab 宽度的限制
     m_tabBar->setStyle(QStyleFactory::create("Fusion"));
     m_tabBar->setTabsClosable(false);
-    m_tabBar->setMovable(false);
+    m_tabBar->setMovable(true);  // 允许标签拖动重排
     m_tabBar->setExpanding(false);
     m_tabBar->setContextMenuPolicy(Qt::CustomContextMenu);
     // 不在 stylesheet 中设置 font-size / font-weight，
@@ -178,9 +176,10 @@ void PressAnalyzer::setupCentralWidget()
     logView->setAcceptDrops(false);
     logView->installEventFilter(this);
 
-    // 行号已由 LogView 的独立行号栏绘制；正文中不再嵌入数字前缀，
-    // 这里 skip=0 让高亮器照常给日志正文中的数字着色。
-    new LogNumberHighlighter(logView->document(), 0);
+    // 行号已由 LogView 的独立行号栏绘制；正文中不再嵌入数字前缀。
+    // 使用 MultiLanguageSyntaxHighlighter，默认 Log 模式保留数字高亮 +
+    // 额外的日志级别配色（ERROR/WARN/INFO）；打开代码文件时再切 mode。
+    m_codeHighlighter = new MultiLanguageSyntaxHighlighter(logView->document());
 
     // 使用 currentLogFont（在构造函数中已初始化），避免与硬编码字体不一致
     logView->setFont(currentLogFont);
@@ -961,6 +960,7 @@ void PressAnalyzer::setupToolBar()
     if (searchEdit) {
         searchEdit->setMinimumWidth(50); // 与下拉框一致的最小宽度基线
         searchEdit->setPlaceholderText("输入搜索内容... ");
+        searchEdit->setClearButtonEnabled(true);  // 右侧清除按钮
         // 直接设置控件字体，避免某些平台样式表对字体的忽略
         // macOS: Menlo, Windows: Consolas, Linux: DejaVu Sans Mono
         QFont seFont = platformMonoFont(11);
@@ -1116,13 +1116,9 @@ void PressAnalyzer::setupStatusBar()
     statusPathLabel->setText("就绪");
     statusBar->addWidget(statusPathLabel, 1); // 左侧可变信息：路径/进度
 
-    // 解析进度条（默认隐藏，解析时显示）
-    m_progressBar = new QProgressBar(this);
-    m_progressBar->setRange(0, 100);
-    m_progressBar->setTextVisible(true);
-    m_progressBar->setFixedWidth(160);
-    m_progressBar->hide();
-    statusBar->addWidget(m_progressBar);
+    // 解析进度改用独立窗口（ParseProgressDialog），不再嵌入状态栏。
+    // 这里仍保留 m_progressBar 指针为 nullptr，旧代码路径用 if (m_progressBar) 防御。
+    m_progressBar = nullptr;
 
     statusInfoLabel = new QLabel(this);
     statusInfoLabel->setText("");

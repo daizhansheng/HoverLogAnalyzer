@@ -16,6 +16,9 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QWindow>
+#include <QApplication>
+#include <QStatusBar>
+#include <QScopeGuard>
 
 // 按 '|' 分割，但忽略位于方括号 [] 内部的 '|'（例如 "[I|Captain]" 视为一个整体）
 static QStringList splitByPipeOutsideBrackets(const QString &text)
@@ -46,6 +49,18 @@ static QStringList splitByPipeOutsideBrackets(const QString &text)
     QString trimmed = current.trimmed();
     if (!trimmed.isEmpty()) parts.append(trimmed);
     return parts;
+}
+
+// 共享的颜色池见 SearchColorPalette.h —— 此文件改为薄包装，与 highlight 模块同源
+#include "SearchColorPalette.h"
+
+static inline QColor searchColorForIndex(int idx) { return SearchPalette::colorForIndex(idx); }
+
+// 多关键字归一化空格用的正则，全局共享避免重复编译
+static const QRegularExpression &whitespaceRx()
+{
+    static const QRegularExpression rx(QStringLiteral("\\s+"));
+    return rx;
 }
 
 void PressAnalyzer::addSearchHistory(const QString &text)
@@ -303,6 +318,11 @@ QString escapeRegExp(const QString &text) {
 
 void PressAnalyzer::searchAll()
 {
+    // 重入保护：长搜索中 processEvents 可能再次触发本函数
+    if (searchInProgress) return;
+    searchInProgress = true;
+    auto guard = qScopeGuard([this]{ searchInProgress = false; });
+
     searchResults.clear();
     currentSearchIndex = -1;
     searchResultView->clearResults();
@@ -315,47 +335,26 @@ void PressAnalyzer::searchAll()
     QStringList parts = splitByPipeOutsideBrackets(text);
     QStringList rawKeys;
     QStringList normKeys;
+    rawKeys.reserve(parts.size());
+    normKeys.reserve(parts.size());
+    const QRegularExpression &wsRx = whitespaceRx();
     for (const QString &part : parts) {
         QString k = part.trimmed();
         if (!k.isEmpty()) {
             rawKeys.append(k);
             QString nk = k;
-            nk.replace(QRegularExpression("\\s+"), " ");
+            nk.replace(wsRx, " ");
             normKeys.append(nk);
         }
     }
 
-    // 仅对可见区域做黄色高亮（避免整篇文档重绘），但结果列表不再截断
-    bool isHeavy = true;
-
-    // 准备颜色池，前两个关键字固定颜色，其余随机亮色
-    QVector<QColor> colorPool = {
-        QColor(255, 182, 193), // light pink
-        QColor(173, 216, 230), // light blue
-        QColor(144, 238, 144), // light green
-        QColor(255, 255, 150), // light yellow
-        QColor(255, 160, 122), // light salmon
-        QColor(255, 228, 181), // moccasin
-        QColor(221, 160, 221), // plum
-        QColor(176, 224, 230), // powder blue
-        QColor(152, 251, 152), // pale green
-        QColor(240, 230, 140)  // khaki
-    };
-
-    QVector<QPair<QRegExp, QColor>> patterns;
+    QVector<QPair<QRegularExpression, QColor>> patterns;
+    patterns.reserve(rawKeys.size());
     for (int i = 0; i < rawKeys.size(); ++i) {
         // 构建正则用于结果列表着色（仍按字面匹配）
-        QRegExp rx(QRegExp::escape(rawKeys[i]), Qt::CaseInsensitive);
-
-        QColor color;
-        if (i == 0)
-            color = Qt::yellow;
-        else if (i == 1)
-            color = Qt::green;
-        else
-            color = colorPool[(i - 2) % colorPool.size()];
-
-        patterns.append(qMakePair(rx, color));
+        QRegularExpression rx(QRegularExpression::escape(rawKeys[i]),
+                              QRegularExpression::CaseInsensitiveOption);
+        patterns.append(qMakePair(rx, searchColorForIndex(i)));
     }
 
     // 设置高亮（SearchResultTextView 内部使用 ExtraSelection 实现）
@@ -363,7 +362,12 @@ void PressAnalyzer::searchAll()
 
     // 遍历日志行，匹配关键字（使用 QString::indexOf 快路径，避免正则开销），并构建 logView 全局黄色高亮（重负载时跳过全量构建）
     QStringList resultLines;
-    for (int i = 0; i < allLogLines.size(); ++i) {
+    const int total = allLogLines.size();
+    resultLines.reserve(qMin(total, 100000));
+    // 大文件分块处理：每 chunkSize 行让 UI 喘息一次，避免界面冻结
+    constexpr int kChunkSize = 20000;
+    QStatusBar *sb = QMainWindow::statusBar();
+    for (int i = 0; i < total; ++i) {
         bool matched = false;
         const QString &lineRef = allLogLines[i];
         // 先尝试原始关键字
@@ -373,7 +377,7 @@ void PressAnalyzer::searchAll()
         // 若未匹配，再用"归一空格"的方式
         if (!matched) {
             QString ln = lineRef;
-            ln.replace(QRegularExpression("\\s+"), " ");
+            ln.replace(wsRx, " ");
             for (const QString &k : normKeys) {
                 if (ln.indexOf(k, 0, Qt::CaseInsensitive) != -1) { matched = true; break; }
             }
@@ -389,7 +393,17 @@ void PressAnalyzer::searchAll()
 
             // 重负载：不构建全局黄色，交给可见区域增量高亮
         }
+
+        // 分块刷新：报告进度并放行 UI 事件（>20K 行才做，避免小文件抖动）
+        if (total > kChunkSize && (i & (kChunkSize - 1)) == kChunkSize - 1) {
+            if (sb) {
+                sb->showMessage(tr("正在搜索 %1 / %2 行（已命中 %3 条）...")
+                                .arg(i + 1).arg(total).arg(searchResults.size()));
+            }
+            QApplication::processEvents(QEventLoop::ExcludeUserInputEvents, 5);
+        }
     }
+    if (sb) sb->clearMessage();
 
     if (searchResults.isEmpty()) {
         searchResultView->hide();
@@ -424,35 +438,18 @@ void PressAnalyzer::highlightSearchResults(int currentIndex /* = -1 */)
     // 仅在可见区域应用轻量高亮，避免整篇文档重绘
     QList<QTextEdit::ExtraSelection> selections = searchHighlights; // 先带上全局黄色高亮
     // ---------------- 2. 生成关键字颜色 ----------------
-    QStringList keys = searchEdit->text().trimmed().split('|', Qt::SkipEmptyParts);
-
-    // 准备颜色池，前两个关键字固定颜色，其余按顺序使用
-    QVector<QColor> colorPool = {
-        QColor(255, 182, 193), // light pink
-        QColor(173, 216, 230), // light blue
-        QColor(144, 238, 144), // light green
-        QColor(255, 255, 150), // light yellow
-        QColor(255, 160, 122), // light salmon
-        QColor(255, 228, 181), // moccasin
-        QColor(221, 160, 221), // plum
-        QColor(176, 224, 230), // powder blue
-        QColor(152, 251, 152), // pale green
-        QColor(240, 230, 140)  // khaki
-    };
+    // 与 searchAll() 保持一致，使用同样的分割（方括号内的 '|' 不分割）
+    const QStringList keys = splitByPipeOutsideBrackets(searchEdit->text().trimmed());
 
     QVector<QColor> colors;
+    colors.reserve(keys.size());
     for (int i = 0; i < keys.size(); ++i) {
-        if (i == 0)
-            colors.append(Qt::yellow);
-        else if (i == 1)
-            colors.append(Qt::green);
-        else
-            colors.append(colorPool[(i - 2) % colorPool.size()]);
+        colors.append(searchColorForIndex(i));
     }
 
     // 只高亮当前索引所在行，其他行延迟到滚动时再做
     if (currentIndex >= 0 && currentIndex < searchResults.size()) {
-        int lineNumber = searchResults[currentIndex];
+        const int lineNumber = searchResults[currentIndex];
         QTextBlock block = doc->findBlockByNumber(lineNumber);
         if (block.isValid()) {
             // 整行浅灰底，帮助用户定位跳转行

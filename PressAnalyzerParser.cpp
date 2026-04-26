@@ -451,19 +451,21 @@ void PressAnalyzer::analyzeLogLine(const QString &line,
 
     // ==================== Camera 温度 ====================
     if (line.contains("camera temp", Qt::CaseInsensitive)) {
-        QRegExp rxTimestamp("\\[(\\d+(?:\\.\\d+)?)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
+        static const QRegularExpression rxTimestamp(
+            R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
         QDateTime ts;
-        if (rxTimestamp.indexIn(line) != -1) {
-            QString dtStr = rxTimestamp.cap(2);
-            QString tsStr = rxTimestamp.cap(1);
-            
+        QRegularExpressionMatch tsMatch = rxTimestamp.match(line);
+        if (tsMatch.hasMatch()) {
+            QString tsStr = tsMatch.captured(1);
+            QString dtStr = tsMatch.captured(2);
+
         // 解析日期和时间
         QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
         QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
-        
+
         // 创建本地时间（日志中的时间是北京时间）
         ts = QDateTime(date, time, Qt::LocalTime);
-            
+
             // 提取毫秒部分
             int dotPos = tsStr.indexOf('.');
             int msecs = 0;
@@ -481,14 +483,20 @@ void PressAnalyzer::analyzeLogLine(const QString &line,
 
         int tempVal = 0;
         bool found = false;
-        QRegExp rxTempBoth("soc\\s+temp\\s+and\\s+camera\\s+temp\\s+(\\-?\\d+)\\s*:\\s*(\\-?\\d+)", Qt::CaseInsensitive);
-        if (rxTempBoth.indexIn(line) != -1) {
-            tempVal = rxTempBoth.cap(2).toInt();
+        static const QRegularExpression rxTempBoth(
+            R"(soc\s+temp\s+and\s+camera\s+temp\s+(-?\d+)\s*:\s*(-?\d+))",
+            QRegularExpression::CaseInsensitiveOption);
+        QRegularExpressionMatch mBoth = rxTempBoth.match(line);
+        if (mBoth.hasMatch()) {
+            tempVal = mBoth.captured(2).toInt();
             found = true;
         } else {
-            QRegExp rxTemp("camera\\s+temp:?\\s*(\\-?\\d+)", Qt::CaseInsensitive);
-            if (rxTemp.indexIn(line) != -1) {
-                tempVal = rxTemp.cap(1).toInt();
+            static const QRegularExpression rxTemp(
+                R"(camera\s+temp:?\s*(-?\d+))",
+                QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch mOne = rxTemp.match(line);
+            if (mOne.hasMatch()) {
+                tempVal = mOne.captured(1).toInt();
                 found = true;
             }
         }
@@ -508,9 +516,10 @@ void PressAnalyzer::parseCameraStatus(int lineNumber, const QString &line)
 {
     auto bitToStr = [](int bit) { return bit ? "ON" : "OFF"; };
 
-    QRegExp rx("The last five bits of\\s*([01]{5})");
-    if (rx.indexIn(line) != -1) {
-        QString bitsStr = rx.cap(1);
+    static const QRegularExpression rx(R"(The last five bits of\s*([01]{5}))");
+    QRegularExpressionMatch m = rx.match(line);
+    if (m.hasMatch()) {
+        QString bitsStr = m.captured(1);
         bool ok = false;
         int last_five_bits = bitsStr.toInt(&ok, 2);
         if (!ok) return;
@@ -626,10 +635,12 @@ void PressAnalyzer::parseStatusBattery(int lineNumber, const QString &line)
     if (line.contains("battery info", Qt::CaseInsensitive)) {
         BatteryTimeInfo timeinfo;
         // 提取时间戳和日期时间
-        QRegExp rxTimestamp("\\[(\\d+(?:\\.\\d+)?)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\].*");
-        if (rxTimestamp.indexIn(line) != -1) {
-            QString tsStr = rxTimestamp.cap(1);   // 9733.000
-            QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
+        static const QRegularExpression rxTimestamp(
+            R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+        QRegularExpressionMatch tm = rxTimestamp.match(line);
+        if (tm.hasMatch()) {
+            QString tsStr = tm.captured(1);   // 9733.000
+            QString dtStr = tm.captured(2);   // 2025-08-08 13:22:57
 
             // 解析日期和时间
             QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
@@ -704,15 +715,17 @@ void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
     SocTempInfo info;
 
     // 提取时间戳和日期时间
-    QRegExp rxTimestamp("\\[(\\d+(?:\\.\\d+)?)\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]");
-    if (rxTimestamp.indexIn(line) != -1) {
-        QString tsStr = rxTimestamp.cap(1);   // 9733 或 9733.000
-        QString dtStr = rxTimestamp.cap(2);   // 2025-08-08 13:22:57
+    static const QRegularExpression rxTimestamp(
+        R"(\[(\d+(?:\.\d+)?)\s+(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\])");
+    QRegularExpressionMatch tm = rxTimestamp.match(line);
+    if (tm.hasMatch()) {
+        QString tsStr = tm.captured(1);   // 9733 或 9733.000
+        QString dtStr = tm.captured(2);   // 2025-08-08 13:22:57
 
         // 解析日期和时间
         QDate date = QDate::fromString(dtStr.left(10), "yyyy-MM-dd");
         QTime time = QTime::fromString(dtStr.mid(11), "HH:mm:ss");
-        
+
         // 创建本地时间（日志中的时间是北京时间）
         info.timestamp = QDateTime(date, time, Qt::LocalTime);
 
@@ -732,15 +745,17 @@ void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
     }
 
     // 提取 max temp
-    QRegExp rxMax("get soc max temp\\s*[:=]\\s*(\\d+)");
-    if (rxMax.indexIn(line) != -1) {
-        info.maxTemp = rxMax.cap(1).toInt();
+    static const QRegularExpression rxMax(R"(get soc max temp\s*[:=]\s*(\d+))");
+    QRegularExpressionMatch mMax = rxMax.match(line);
+    if (mMax.hasMatch()) {
+        info.maxTemp = mMax.captured(1).toInt();
     }
 
     // 提取 core temp
-    QRegExp rxCore("core temp\\s*[:=]\\s*([0-9:]+)");
-    if (rxCore.indexIn(line) != -1) {
-        QStringList temps = rxCore.cap(1).split(":");
+    static const QRegularExpression rxCore(R"(core temp\s*[:=]\s*([0-9:]+))");
+    QRegularExpressionMatch mCore = rxCore.match(line);
+    if (mCore.hasMatch()) {
+        QStringList temps = mCore.captured(1).split(":");
         for (const QString &t : temps) {
             info.coreTemps.append(t.toInt());
         }
@@ -754,9 +769,10 @@ void PressAnalyzer::parseStatusSocTemp(int lineNumber, const QString &line)
 
 // 将 "top - 14:03:27 ..." 这一行提取时间
 QDateTime PressAnalyzer::parseTopTime(const QString &line) {
-    QRegExp rx("top - (\\d{2}:\\d{2}:\\d{2})");
-    if (rx.indexIn(line) != -1) {
-        QString timeStr = rx.cap(1);
+    static const QRegularExpression rx(R"(top - (\d{2}:\d{2}:\d{2}))");
+    QRegularExpressionMatch m = rx.match(line);
+    if (m.hasMatch()) {
+        QString timeStr = m.captured(1);
         QTime t = QTime::fromString(timeStr, "HH:mm:ss");
         // 使用当天日期，设置为本地时间（北京时间）
         return QDateTime(QDate::currentDate(), t, Qt::LocalTime);
@@ -791,7 +807,8 @@ void PressAnalyzer::parseTopFile(const QString &filePath) {
             continue;
         }
 
-        QStringList parts = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+        static const QRegularExpression rxWs(R"(\s+)");
+        QStringList parts = line.split(rxWs, Qt::SkipEmptyParts);
         if (parts.size() < 12) continue;
 
         QString moduleName = parts.last();

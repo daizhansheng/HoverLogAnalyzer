@@ -3,24 +3,30 @@
 
 #include <QStyledItemDelegate>
 #include <QPainter>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QRegularExpressionMatchIterator>
 #include <QVector>
 #include <QPair>
+#include <QFontMetrics>
+#include <algorithm>
 
 class SearchResultHighlighter : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit SearchResultHighlighter(const QVector<QPair<QRegExp, QColor>> &patterns,
+    using Pattern = QPair<QRegularExpression, QColor>;
+
+    explicit SearchResultHighlighter(const QVector<Pattern> &patterns,
                                QObject *parent = nullptr)
         : QStyledItemDelegate(parent), patternList(patterns) {}
 
-    void setPatterns(const QVector<QPair<QRegExp, QColor>> &patterns) {
+    void setPatterns(const QVector<Pattern> &patterns) {
         patternList = patterns;
     }
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const override {
-        QString text = index.data(Qt::DisplayRole).toString();
+        const QString text = index.data(Qt::DisplayRole).toString();
 
         painter->save();
 
@@ -29,53 +35,52 @@ public:
                           (option.state & QStyle::State_Selected) ? option.palette.highlight() : option.palette.base());
 
         painter->setFont(option.font);
-        QFontMetrics fm(option.font);
-        QRect rect = option.rect;
+        const QFontMetrics fm(option.font);
+        const QRect rect = option.rect;
         int x = rect.x() + 2; // 左边距
-        int y = rect.y() + fm.ascent() + (rect.height() - fm.height()) / 2;
+        const int y = rect.y() + fm.ascent() + (rect.height() - fm.height()) / 2;
+
+        // 预计算该行所有匹配段（pos, len, color），按 pos 排序后线性绘制，
+        // 避免原实现每步都遍历所有 pattern 导致 O(N*M*K) 复杂度。
+        struct Seg { int pos; int len; QColor color; };
+        QVector<Seg> segs;
+        segs.reserve(16);
+        for (const auto &p : patternList) {
+            if (!p.first.isValid() || p.first.pattern().isEmpty()) continue;
+            auto it = p.first.globalMatch(text);
+            while (it.hasNext()) {
+                const auto m = it.next();
+                const int len = m.capturedLength();
+                if (len <= 0) continue;
+                segs.push_back({ m.capturedStart(), len, p.second });
+            }
+        }
+        std::sort(segs.begin(), segs.end(), [](const Seg &a, const Seg &b){ return a.pos < b.pos; });
 
         int lastPos = 0;
-
-        while (lastPos < text.length()) {
-            int nearestPos = text.length();
-            QColor color;
-            int matchLen = 0;
-
-            // 找出当前剩余文本中最先匹配的关键字
-            for (auto &p : patternList) {
-                int pPos = p.first.indexIn(text, lastPos);
-                if (pPos != -1 && pPos < nearestPos) {
-                    nearestPos = pPos;
-                    color = p.second;
-                    matchLen = p.first.cap(0).length();
-                }
-            }
-
-            // 绘制普通文本
-            if (nearestPos > lastPos) {
-                QString before = text.mid(lastPos, nearestPos - lastPos);
+        for (const Seg &s : segs) {
+            if (s.pos < lastPos) continue; // 忽略与已绘制段重叠的匹配
+            if (s.pos > lastPos) {
+                const QString before = text.mid(lastPos, s.pos - lastPos);
                 painter->drawText(x, y, before);
                 x += fm.horizontalAdvance(before);
             }
-
-            // 绘制匹配关键字
-            if (nearestPos < text.length()) {
-                QString match = text.mid(nearestPos, matchLen);
-                QRect matchRect(x, rect.y(), fm.horizontalAdvance(match), rect.height());
-                painter->fillRect(matchRect, color);   // 高亮颜色
-                painter->drawText(x, y, match);
-                x += fm.horizontalAdvance(match);
-                lastPos = nearestPos + matchLen;
-            } else {
-                break;
-            }
+            const QString match = text.mid(s.pos, s.len);
+            const QRect matchRect(x, rect.y(), fm.horizontalAdvance(match), rect.height());
+            painter->fillRect(matchRect, s.color);
+            painter->drawText(x, y, match);
+            x += fm.horizontalAdvance(match);
+            lastPos = s.pos + s.len;
+        }
+        if (lastPos < text.length()) {
+            painter->drawText(x, y, text.mid(lastPos));
         }
 
         painter->restore();
     }
 
 private:
-    QVector<QPair<QRegExp, QColor>> patternList;
+    QVector<Pattern> patternList;
 };
 
 #endif // SEARCHRESULTHIGHLIGHTER_H

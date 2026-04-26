@@ -1,5 +1,6 @@
 // PressAnalyzerFileBrowser.cpp - File browser functions
 #include "PressAnalyzer.h"
+#include "MultiLanguageSyntaxHighlighter.h"
 
 #include <QFile>
 #include <QDir>
@@ -188,6 +189,11 @@ void PressAnalyzer::loadFileToLogView(const QString &filePath)
 {
     // 切换到日志视图页
     centralStack->setCurrentIndex(0);
+
+    // 按扩展名切换语法高亮模式（.json/.xml/.cpp/.py/.sh/.yaml/.ini ... 自适应配色）
+    if (m_codeHighlighter) {
+        m_codeHighlighter->setMode(MultiLanguageSyntaxHighlighter::modeForFile(filePath));
+    }
 
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(filePath));
 

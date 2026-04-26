@@ -39,6 +39,18 @@ void LogParserWorker::run()
         return;
     }
 
+    // 估算总行数避免 QStringList/QList 反复扩容（按文件大小 / 80 字节每行的经验值）
+    qint64 totalBytes = 0;
+    for (const QString &fp : m_filePaths) totalBytes += QFileInfo(fp).size();
+    const int estLines = int(qMin<qint64>(totalBytes / 80, 5'000'000)); // 上限 500 万行兜底
+    if (estLines > 0) {
+        result.allLogLines.reserve(estLines);
+        result.events.reserve(estLines / 200 + 64);          // 事件行约占 0.5%
+        result.batteryinfo.reserve(estLines / 500 + 16);
+        result.soctmp.reserve(estLines / 500 + 16);
+        result.cameraTemps.reserve(estLines / 200 + 16);
+    }
+
     int lineNumber = 0;
     QDateTime currentTakeoffTime;
     bool inRecvException = false;
@@ -46,15 +58,21 @@ void LogParserWorker::run()
 
     for (int i = 0; i < total; ++i) {
         const QString &fp = m_filePaths[i];
+        const QString fname = QFileInfo(fp).fileName();
+        // 每个文件起始：上报"开始读取"
         emit progressChanged(i * 100 / total,
-                             QString("解析 %1/%2: %3")
-                                 .arg(i + 1).arg(total)
-                                 .arg(QFileInfo(fp).fileName()));
+                             QString("解析 %1/%2: %3").arg(i + 1).arg(total).arg(fname));
 
+        const int linesBefore = lineNumber;
         if (!analyzeSourceFile(fp, lineNumber, currentTakeoffTime,
                                inRecvException, recvExceptionLines, result)) {
             emit parseError(QString("无法解析文件: %1").arg(fp));
         }
+        // 单文件结束：把"该文件累计行数"补一条进度，让大文件中途也有刷新
+        const int linesInFile = lineNumber - linesBefore;
+        emit progressChanged((i + 1) * 100 / total,
+                             QString("已完成 %1/%2: %3 (%4 行)")
+                                 .arg(i + 1).arg(total).arg(fname).arg(linesInFile));
     }
 
     result.triggerCount = m_triggerCount;
@@ -100,10 +118,24 @@ bool LogParserWorker::analyzeSourceFile(const QString &filePath,
     QTextStream in(&file);
     in.setCodec("UTF-8");
 
+    // 大文件中途也定期上报进度，避免单个 10MB+ 文件期间进度条长时间不动
+    const qint64 fileBytes = QFileInfo(filePath).size();
+    const QString fname = QFileInfo(filePath).fileName();
+    int lastReportedLines = lineNumber;
+    constexpr int kReportEveryLines = 50000;
+
     while (!in.atEnd()) {
         const QString line = in.readLine();
         analyzeLogLine(line, lineNumber, currentTakeoffTime,
                        inRecvException, recvExceptionLines, result);
+        if (lineNumber - lastReportedLines >= kReportEveryLines) {
+            lastReportedLines = lineNumber;
+            const qint64 pos = in.device() ? in.device()->pos() : 0;
+            const int filePct = (fileBytes > 0) ? int(pos * 100 / fileBytes) : 0;
+            emit progressChanged(-1,  // -1 表示"内部进度"，由 GUI 决定是否更新百分比
+                                 QString("正在读取 %1 (%2行, 约 %3%)")
+                                     .arg(fname).arg(lineNumber).arg(filePct));
+        }
     }
     return true;
 }
@@ -121,10 +153,7 @@ void LogParserWorker::analyzeLogLine(const QString &line,
     lineNumber++;
     result.allLogLines << line;
 
-    // 原始日志文本（用于 setPlainText，行号由 LogView 独立行号栏显示）
-    result.textBuffer.reserve(result.textBuffer.size() + line.size() + 2);
-    result.textBuffer.append(line);
-    result.textBuffer.append('\n');
+    // 不再单独维护 textBuffer：GUI 端用 allLogLines.join('\n') 一次性构造，避免双倍内存与拷贝
 
     // ==================== 预编译正则（static，仅初始化一次）====================
     static const QRegularExpression rePressPower(
