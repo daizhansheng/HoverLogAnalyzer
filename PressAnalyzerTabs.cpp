@@ -178,6 +178,23 @@ void PressAnalyzer::restoreTabState(int index)
     if (index < 0 || index >= m_tabStates.size()) return;
     TabState &st = m_tabStates[index];
 
+    // DB 标签：切换到 DB 视图并重新打开数据库（dbViewerWidget 是单例，跨标签复用）
+    if (st.isDbTab && !st.dbPath.isEmpty()) {
+        if (currentDbPath != st.dbPath) {
+            openDatabaseFile(st.dbPath);
+        } else {
+            centralStack->setCurrentIndex(1);
+        }
+        setWindowTitle(st.windowTitle.isEmpty() ? "日志分析工具" : st.windowTitle);
+        if (statusPathLabel) statusPathLabel->setText(st.dbPath);
+        return;
+    }
+
+    // 切换回日志视图（从 DB 标签切到普通标签时需要切回 index 0）
+    if (centralStack && centralStack->currentIndex() != 0) {
+        centralStack->setCurrentIndex(0);
+    }
+
     // 文档还原：如果该标签有存储的文档，换入 logView
     if (st.document) {
         QTextDocument *old = logView->document();
@@ -386,6 +403,16 @@ QString PressAnalyzer::tabLabelForPath(const QString &path) const
 // 在新标签页中智能解析指定路径（文件 or 目录）。
 void PressAnalyzer::openInNewTab(const QString &path)
 {
+    // DB 文件：路由到专用的 DB 新标签函数
+    {
+        QFileInfo fiPath(path);
+        const QString suf = fiPath.suffix().toLower();
+        if (fiPath.isFile() && (suf == "db" || suf == "sqlite" || suf == "sqlite3")) {
+            openDatabaseInNewTab(path);
+            return;
+        }
+    }
+
     // 1. 保存当前标签
     saveCurrentTabState();
 
@@ -555,6 +582,38 @@ void PressAnalyzer::loadPathSmart(const QString &path)
             loadFileToLogView(path);
         else
             loadMergeLogsFromPath(path, false);
+    }
+}
+
+// 外部入口（QFileOpenEvent / argv）：根据后缀分发到正确的打开路径
+void PressAnalyzer::dispatchOpenPath(const QString &path)
+{
+    if (path.isEmpty()) return;
+    QFileInfo fi(path);
+    if (!fi.exists()) return;
+
+    // 提到前台
+    show();
+    raise();
+    activateWindow();
+
+    if (fi.isFile()) {
+        const QString suf = fi.suffix().toLower();
+        if (suf == "db" || suf == "sqlite" || suf == "sqlite3") {
+            openDatabaseInNewTab(fi.absoluteFilePath());
+            return;
+        }
+    }
+
+    // 非 DB：当前标签为空则复用，否则新建标签
+    bool currentTabEmpty = (m_currentTabIndex >= 0 &&
+                            m_currentTabIndex < m_tabStates.size() &&
+                            !m_tabStates[m_currentTabIndex].isDbTab &&
+                            m_tabStates[m_currentTabIndex].sourcePath.isEmpty());
+    if (currentTabEmpty) {
+        loadPathSmart(fi.absoluteFilePath());
+    } else {
+        openInNewTab(fi.absoluteFilePath());
     }
 }
 

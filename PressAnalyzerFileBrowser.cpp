@@ -176,8 +176,8 @@ void PressAnalyzer::openFileFromBrowser(const QString &filePath, bool enterExtra
         if (statusPathLabel) statusPathLabel->setText(filePath);
         loadFileToLogView(filePath);
     } else if (suffix == "db" || suffix == "sqlite" || suffix == "sqlite3") {
-        // SQLite 数据库：在 DB 查看器中打开
-        openDatabaseFile(filePath);
+        // SQLite 数据库：在新标签页中打开
+        openDatabaseInNewTab(filePath);
     } else {
         // 其他文件类型（无扩展名等）：当作文本文件直接打开
         if (statusPathLabel) statusPathLabel->setText(filePath);

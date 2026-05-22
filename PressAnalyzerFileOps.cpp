@@ -375,8 +375,9 @@ void PressAnalyzer::loadAndMergeLogs()
 
 void PressAnalyzer::loadMergeLogsFromPath(const QString &path, bool navigate)
 {
-    // 执行智能分析前先清除窗口内容，避免上次分析结果的干扰
-    clearWindow();
+    // 执行智能分析前先清除"当前 tab"内容，避免上次分析结果的干扰
+    // 注意：必须只清当前 tab，而非 clearWindow() 关全部，否则会误关其它 tab
+    clearCurrentTabContent();
 
     // 显示用户选择的通用目录路径（后续过程保持静默，不覆盖）
     if (statusPathLabel) statusPathLabel->setText(QString("%1").arg(path));
@@ -813,10 +814,10 @@ void PressAnalyzer::saveEventListToFile()
     QMessageBox::information(this, "提示", "飞机Log分析结果已保存");
 }
 
-// 清空
-void PressAnalyzer::clearWindow()
+// 仅清空当前 tab 的 UI 与数据状态（不动其它 tab）。供解析前预清理使用。
+void PressAnalyzer::clearCurrentTabContent()
 {
-    // 切换回日志视图页
+    // 切换回日志视图页（关闭可能正在显示的 DB 视图）
     centralStack->setCurrentIndex(0);
 
     allEvents.clear();
@@ -852,9 +853,9 @@ void PressAnalyzer::clearWindow()
     statusDock->hide();
     batteryinfo.clear();
     soctmp.clear();
-    logView->moveCursor(QTextCursor::Start);   // 光标移到开头
+    logView->moveCursor(QTextCursor::Start);
     QTextCursor cursor = logView->textCursor();
-    cursor.clearSelection();                    // 取消选中
+    cursor.clearSelection();
     logView->setTextCursor(cursor);
     allusage.clear();
     if (usageChart) usageChart->setData(allusage);
@@ -862,15 +863,70 @@ void PressAnalyzer::clearWindow()
     if (statusInfoLabel) statusInfoLabel->setText("");
     setWindowTitle("日志分析工具");
 
-    // 重置当前标签页的 isControlEngine 标记
+    // 重置当前标签的 CE/DB 标志与 sourcePath
     if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
         m_tabStates[m_currentTabIndex].isControlEngine = false;
+        m_tabStates[m_currentTabIndex].isDbTab         = false;
+        m_tabStates[m_currentTabIndex].dbPath.clear();
         m_tabStates[m_currentTabIndex].sourcePath.clear();
     }
     if (m_tabBar && m_currentTabIndex >= 0)
         m_tabBar->setTabText(m_currentTabIndex, "新标签");
+}
 
-    // 重置全局按钮点击状态，下次点击任何文件按钮都会在当前窗口显示
+// 清空：关闭所有标签页，恢复到最初始的单个空白标签状态
+void PressAnalyzer::clearWindow()
+{
+    // 关闭数据库连接
+    if (currentDb.isOpen()) {
+        currentDb.close();
+    }
+    QString dbConn = "dbviewer_conn";
+    if (QSqlDatabase::contains(dbConn)) {
+        QSqlDatabase::removeDatabase(dbConn);
+    }
+    currentDbPath.clear();
+    if (dbTableModel) {
+        if (dbTableView) dbTableView->setModel(nullptr);
+        delete dbTableModel;
+        dbTableModel = nullptr;
+    }
+
+    // 释放非激活标签持有的文档（激活标签的文档由 logView 管理，下面会 clear）
+    if (m_tabBar) {
+        m_tabBar->blockSignals(true);
+        for (int i = m_tabStates.size() - 1; i >= 0; --i) {
+            if (i != m_currentTabIndex && m_tabStates[i].document) {
+                delete m_tabStates[i].document;
+                m_tabStates[i].document = nullptr;
+            }
+        }
+        // 移除除第 0 个之外的所有 tab（同步移除颜色映射）
+        while (m_tabBar->count() > 1) {
+            int last = m_tabBar->count() - 1;
+            m_tabBar->removeTab(last);
+            m_tabBar->shiftColorsAfterRemove(last);
+        }
+        m_tabBar->setTabColor(0, tabColorForIndex(0));
+        m_tabBar->setTabText(0, "新标签");
+        m_tabBar->setCurrentIndex(0);
+        m_tabBar->blockSignals(false);
+    }
+
+    // 重置 m_tabStates 到单个初始 TabState
+    m_tabStates.clear();
+    {
+        TabState initState;
+        initState.logFont       = currentLogFont;
+        initState.logFontPtSize = logFontPointSize;
+        m_tabStates.append(initState);
+    }
+    m_currentTabIndex = 0;
+
+    // 清空当前（唯一）tab 的内容
+    clearCurrentTabContent();
+
+    // 重置全局按钮点击状态
     anyFileButtonClicked = false;
 }
 
@@ -1282,9 +1338,16 @@ void PressAnalyzer::dropEvent(QDropEvent *event)
         if (!url.isLocalFile()) continue;
         QString path = url.toLocalFile();
         QFileInfo fi(path);
+        const QString suffix = fi.suffix().toLower();
+
+        // DB 文件：始终在新标签页中打开（保留任意当前标签内容）
+        if (fi.isFile() && (suffix == "db" || suffix == "sqlite" || suffix == "sqlite3")) {
+            openDatabaseInNewTab(path);
+            continue;
+        }
 
         // 目录或已知文本后缀或无后缀 → 打开
-        if (fi.isDir() || kTextSuffixes.contains(fi.suffix().toLower()) || fi.suffix().isEmpty()) {
+        if (fi.isDir() || kTextSuffixes.contains(suffix) || suffix.isEmpty()) {
             bool currentTabEmpty = (m_currentTabIndex >= 0 &&
                                     m_currentTabIndex < m_tabStates.size() &&
                                     m_tabStates[m_currentTabIndex].sourcePath.isEmpty());

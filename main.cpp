@@ -2,6 +2,9 @@
 
 #include <QApplication>
 #include <QPalette>
+#include <QFileInfo>
+#include <QFileOpenEvent>
+#include <QTimer>
 #ifdef Q_OS_MAC
 #include <QMenu>
 #include <QAction>
@@ -10,6 +13,25 @@
 #include <QIcon>
 #include <QWindow>
 #endif
+
+// 应用级事件过滤器：捕获 macOS Finder 双击文件触发的 QFileOpenEvent
+class FileOpenFilter : public QObject {
+public:
+    explicit FileOpenFilter(QObject *parent = nullptr) : QObject(parent) {}
+    PressAnalyzer *mainWindow = nullptr;
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override {
+        if (event->type() == QEvent::FileOpen) {
+            QFileOpenEvent *foe = static_cast<QFileOpenEvent*>(event);
+            QString path = foe->file();
+            if (!path.isEmpty() && mainWindow) {
+                mainWindow->dispatchOpenPath(path);
+            }
+            return true;
+        }
+        return QObject::eventFilter(obj, event);
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +66,26 @@ int main(int argc, char *argv[])
     a.setFont(font);
     PressAnalyzer w;
     w.show();
+
+    // 安装 macOS QFileOpenEvent 过滤器（Finder 双击 → 通过 Apple Event 投递）
+    FileOpenFilter *foFilter = new FileOpenFilter(&a);
+    foFilter->mainWindow = &w;
+    a.installEventFilter(foFilter);
+
+    // 命令行参数：Windows / Linux 文件关联通过 argv 传入文件路径
+    // 启动后稍延迟分发，确保主窗口的 setup 全部完成
+    QStringList pendingArgs;
+    for (int i = 1; i < argc; ++i) {
+        QString arg = QString::fromLocal8Bit(argv[i]);
+        if (!arg.startsWith('-') && QFileInfo::exists(arg)) {
+            pendingArgs << QFileInfo(arg).absoluteFilePath();
+        }
+    }
+    if (!pendingArgs.isEmpty()) {
+        QTimer::singleShot(0, &w, [&w, pendingArgs]() {
+            for (const QString &p : pendingArgs) w.dispatchOpenPath(p);
+        });
+    }
 
 #ifdef Q_OS_MAC
     // 在 macOS 的 Dock 栏右键菜单中显示应用打开的窗口

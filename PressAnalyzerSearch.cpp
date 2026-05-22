@@ -95,32 +95,28 @@ void PressAnalyzer::updateCompleterWithSmartHints()
     if (!c) return;
 
     // 智能提示策略：
-    // 1. 固定提示词总是放在前面
-    // 2. 然后显示匹配的历史记录
+    // 1. 固定提示词总是放在前面（全部保留，不参与限额裁剪）
+    // 2. 然后显示匹配的历史记录（仅对历史部分限额）
     QString currentText = searchEdit->text();
 
     QStringList hints;
 
-    // 1. 首先添加固定提示词（总是显示）
+    // 1. 首先添加固定提示词（总是显示且不被裁剪）
     hints.append(fixedHints);
 
-    // 2. 然后添加匹配的历史记录
+    // 2. 然后添加匹配的历史记录（最多 20 条，避免历史无限膨胀）
+    QStringList historyPart;
     if (currentText.isEmpty()) {
-        // 空搜索框：显示所有历史记录
-        hints.append(historyHints);
+        historyPart = historyHints;
     } else {
-        // 正在输入：只显示匹配的历史记录
         for (const QString &history : historyHints) {
             if (history.contains(currentText, Qt::CaseInsensitive)) {
-                hints.append(history);
+                historyPart.append(history);
             }
         }
     }
-
-    // 限制提示数量，避免过多
-    if (hints.size() > 20) {
-        hints = hints.mid(0, 20);
-    }
+    if (historyPart.size() > 20) historyPart = historyPart.mid(0, 20);
+    hints.append(historyPart);
 
     // 更新completer
     QStringListModel *model = qobject_cast<QStringListModel*>(c->model());
@@ -272,22 +268,16 @@ void PressAnalyzer::showSearchHints()
 {
     if (!searchEdit || !searchEdit->completer()) return;
 
-    // 智能显示提示：优先显示历史记录，然后是固定提示
+    // 智能显示提示：固定（含 pinned）始终全部显示，再追加最近 10 条历史
     QStringList hints;
 
-    // 添加最近使用的历史记录（最多显示10个）
+    // 1. 固定提示词全部显示（不受数量裁剪影响，避免 pinned 被滚动删除）
+    hints.append(fixedHints);
+
+    // 2. 追加最近使用的历史记录（最多 10 个）
     int historyCount = qMin(10, historyHints.size());
     for (int i = 0; i < historyCount; ++i) {
         hints.append(historyHints[i]);
-    }
-
-    // 添加固定提示（如果历史记录不够10个）
-    int remaining = 10 - hints.size();
-    if (remaining > 0) {
-        int fixedCount = qMin(remaining, fixedHints.size());
-        for (int i = 0; i < fixedCount; ++i) {
-            hints.append(fixedHints[i]);
-        }
     }
 
     // 更新completer

@@ -292,6 +292,58 @@ void PressAnalyzer::openDatabaseFile(const QString &filePath)
     // 切换到 DB 查看器页面
     centralStack->setCurrentIndex(1);
     if (statusPathLabel) statusPathLabel->setText(filePath);
+
+    // 标记当前标签为 DB 标签，并更新标签名为 db 文件名
+    if (m_currentTabIndex >= 0 && m_currentTabIndex < m_tabStates.size()) {
+        m_tabStates[m_currentTabIndex].isDbTab    = true;
+        m_tabStates[m_currentTabIndex].dbPath     = filePath;
+        m_tabStates[m_currentTabIndex].sourcePath = filePath;
+    }
+    if (m_tabBar && m_currentTabIndex >= 0)
+        m_tabBar->setTabText(m_currentTabIndex, QFileInfo(filePath).fileName());
+}
+
+// 在新标签页中打开数据库文件
+void PressAnalyzer::openDatabaseInNewTab(const QString &filePath)
+{
+    if (filePath.isEmpty()) return;
+
+    // 当前标签为空白且不是 DB 标签 → 直接复用，不创建新 tab
+    bool currentEmpty = (m_currentTabIndex >= 0 &&
+                         m_currentTabIndex < m_tabStates.size() &&
+                         !m_tabStates[m_currentTabIndex].isDbTab &&
+                         m_tabStates[m_currentTabIndex].sourcePath.isEmpty() &&
+                         allLogLines.isEmpty());
+    if (currentEmpty) {
+        openDatabaseFile(filePath);
+        return;
+    }
+
+    // 1. 保存当前标签状态
+    saveCurrentTabState();
+
+    // 2. 创建新的 TabState
+    TabState newState;
+    newState.sourcePath    = filePath;
+    newState.isDbTab       = true;
+    newState.dbPath        = filePath;
+    newState.logFont       = currentLogFont;
+    newState.logFontPtSize = logFontPointSize;
+    m_tabStates.append(newState);
+    int newIdx = m_tabStates.size() - 1;
+
+    // 3. 添加并切换 tab（阻断信号避免触发 currentChanged）
+    m_tabBar->blockSignals(true);
+    m_tabBar->addTab(QFileInfo(filePath).fileName());
+    m_tabBar->setCurrentIndex(newIdx);
+    m_tabBar->setTabButton(newIdx, QTabBar::RightSide, makeTabCloseButton(newIdx));
+    m_tabBar->setTabColor(newIdx, tabColorForIndex(newIdx));
+    m_tabBar->blockSignals(false);
+
+    m_currentTabIndex = newIdx;
+
+    // 4. 在新标签中打开数据库（openDatabaseFile 内部会切换到 DB 视图并标记 isDbTab）
+    openDatabaseFile(filePath);
 }
 
 void PressAnalyzer::loadDbTable(const QString &tableName)

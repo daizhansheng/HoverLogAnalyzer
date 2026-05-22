@@ -311,6 +311,10 @@ struct TabState {
     QString                  sourcePath;           // 来源路径（用于标签名推断）
     bool                     modified              = false; // 是否有未保存的改动
     bool                     hasLinePrefix         = false; // 内容是否含7字符行号前缀（解析器加载）
+
+    // DB 标签：当此标签是数据库查看器时使用
+    bool                     isDbTab               = false;
+    QString                  dbPath;               // 该标签关联的 .db/.sqlite 文件路径
 };
 
 class PressAnalyzer : public QMainWindow
@@ -333,6 +337,12 @@ private slots:
     void saveEventListToFile();
     void saveCurrentFile();
     void clearWindow();
+
+private:
+    // 仅清空当前 tab 的内容（不关闭其它 tab，供解析前重置使用）
+    void clearCurrentTabContent();
+
+private slots:
 
     // 事件列表操作
     void addEventToList(int triggerCount, int lineNumber, const QString &display);
@@ -471,10 +481,16 @@ private:
     // DB Viewer
     void setupDbViewerDock();
     void openDatabaseFile(const QString &filePath);
+    void openDatabaseInNewTab(const QString &filePath);
     void loadDbTable(const QString &tableName);
+
+public:
+    // 外部入口：根据后缀分发文件/目录到合适的打开路径（DB → 新 tab DB；其它 → 智能解析）
+    void dispatchOpenPath(const QString &path);
+
+private:
     // 搜索结果键值对提取并加入动态图表（由 searchAll 调用）
     void offerChartFromSearchResults();
-private:
     // 触发所有图表重绘（新增/移除图表时只需在此处统一改动）
     void updateAllCharts();
     // 当前 logView 文档上的多语言语法高亮器（按文件扩展名切换 mode）

@@ -121,100 +121,25 @@ bool HLogBinaryParser::parseNextRawEntry(QIODevice *device, RawEntry &entry)
 {
     entry = RawEntry{};
 
-    // 读取 type_id (4 bytes)
     QByteArray typeIdData = device->read(4);
-    if (typeIdData.size() != 4) {
-        return false;
-    }
+    if (typeIdData.size() != 4) return false;
     entry.type_id = *reinterpret_cast<const uint32_t*>(typeIdData.constData());
 
-    // 读取 size (4 bytes)
     QByteArray sizeData = device->read(4);
-    if (sizeData.size() != 4) {
-        return false;
-    }
+    if (sizeData.size() != 4) return false;
     entry.size = *reinterpret_cast<const uint32_t*>(sizeData.constData());
 
-    // 读取 monotonic_raw_timestamp_ms (8 bytes)
-    QByteArray timestampData = device->read(8);
-    if (timestampData.size() != 8) {
-        return false;
-    }
-    entry.monotonic_raw_timestamp_ms = *reinterpret_cast<const uint64_t*>(timestampData.constData());
+    QByteArray monotonicData = device->read(8);
+    if (monotonicData.size() != 8) return false;
+    entry.monotonic_raw_timestamp_ms = *reinterpret_cast<const uint64_t*>(monotonicData.constData());
 
-    auto looksLikeMagicPayload = [](const QByteArray &bytes, int offset) -> bool {
-        if (bytes.size() < offset + 2) {
-            return false;
-        }
-        const uint8_t version = static_cast<uint8_t>(bytes[offset]);
-        const uint8_t flags = static_cast<uint8_t>(bytes[offset + 1]);
-        return version > 0 && version <= 8 && flags <= 0x3F;
-    };
+    QByteArray walltimeData = device->read(8);
+    if (walltimeData.size() != 8) return false;
+    entry.utc_walltime_timestamp_ms = *reinterpret_cast<const uint64_t*>(walltimeData.constData());
+    entry.has_utc_walltime_timestamp = true;
 
-    if (entry_layout_ == EntryLayout::Unknown &&
-        entry.type_id == ENTRY_TYPE_ID_MAGIC_NUMBER &&
-        entry.size == 2) {
-        const QByteArray sniff = device->peek(10);
-        const bool legacyPayloadValid = looksLikeMagicPayload(sniff, 0);
-        const bool walltimePayloadValid = looksLikeMagicPayload(sniff, 8);
-        if (!legacyPayloadValid && walltimePayloadValid) {
-            entry_layout_ = EntryLayout::WithWalltime;
-        } else if (legacyPayloadValid && !walltimePayloadValid) {
-            entry_layout_ = EntryLayout::Legacy;
-        }
-    }
-
-    if (entry_layout_ != EntryLayout::Legacy && device->bytesAvailable() >= static_cast<qint64>(sizeof(uint64_t))) {
-        const qint64 payloadPos = device->pos();
-        QByteArray walltimeData = device->read(sizeof(uint64_t));
-        if (walltimeData.size() == static_cast<int>(sizeof(uint64_t))) {
-            const uint64_t candidateWalltime = *reinterpret_cast<const uint64_t*>(walltimeData.constData());
-            const qint64 remainingAfterWalltime = device->bytesAvailable();
-            const bool looksLikeWalltime = candidateWalltime > 1000000000000ULL;
-            const bool hasEnoughPayload = remainingAfterWalltime >= static_cast<qint64>(entry.size);
-
-            if ((entry_layout_ == EntryLayout::WithWalltime || looksLikeWalltime) && hasEnoughPayload) {
-                entry_layout_ = EntryLayout::WithWalltime;
-                entry.utc_walltime_timestamp_ms = candidateWalltime;
-                entry.has_utc_walltime_timestamp = true;
-            } else {
-                if (entry_layout_ == EntryLayout::Unknown) {
-                    entry_layout_ = EntryLayout::Legacy;
-                }
-                if (!device->seek(payloadPos)) {
-                    return false;
-                }
-            }
-        } else {
-            if (!device->seek(payloadPos)) {
-                return false;
-            }
-        }
-    }
-
-    if (entry_layout_ == EntryLayout::WithWalltime &&
-        !entry.has_utc_walltime_timestamp &&
-        diff_from_utc_to_monotonic_ms_ != 0) {
-        entry.utc_walltime_timestamp_ms = entry.monotonic_raw_timestamp_ms + diff_from_utc_to_monotonic_ms_;
-        entry.has_utc_walltime_timestamp = true;
-    }
-
-    // 读取 data
     entry.data = device->read(entry.size);
-    if (entry.data.size() != static_cast<int>(entry.size)) {
-        return false;
-    }
-
-    if (entry.has_utc_walltime_timestamp && entry.utc_walltime_timestamp_ms < 946684800000ULL) {
-        const QByteArray futureBytes = device->peek(sizeof(uint64_t) + static_cast<int>(entry.size));
-        for (int i = 0; i + static_cast<int>(sizeof(uint64_t)) <= futureBytes.size(); ++i) {
-            const uint64_t candidate = *reinterpret_cast<const uint64_t*>(futureBytes.constData() + i);
-            if (candidate >= 946684800000ULL) {
-                entry.utc_walltime_timestamp_ms = candidate;
-                break;
-            }
-        }
-    }
+    if (entry.data.size() != static_cast<int>(entry.size)) return false;
 
     return true;
 }

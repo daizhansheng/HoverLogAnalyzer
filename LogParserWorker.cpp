@@ -206,7 +206,21 @@ void LogParserWorker::analyzeLogLine(const QString &line,
         if (m.hasMatch()) {
             int src = m.captured(1).toInt();
             m_modeText = m.captured(2);
-            if (m_version == "H151") {
+            if(m_version == "H161"){
+                switch (src) {
+                case 0: triggerText = "NONE"; break;
+                case 1: triggerText = "APP"; break;
+                case 2: triggerText = "VOICE"; break;
+                case 3: triggerText = "THROW"; break;
+                case 4: triggerText = "RC102"; break;
+                case 5: triggerText = "RC100"; break;
+                case 6: triggerText = "PALM"; break;
+                case 9: triggerText = "ROPE"; break;
+                case 10: triggerText = "BOARD"; break;
+                case 11: triggerText = "MCU"; break;
+                default: triggerText = "UNKNOWN"; break;
+                }
+            }else if (m_version == "H151") {
                 switch (src) {
                 case 0: triggerText = "NONE"; break;
                 case 1: triggerText = "APP"; break;

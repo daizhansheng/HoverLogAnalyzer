@@ -838,12 +838,15 @@ void PressAnalyzer::setupFileBrowserDock()
                 openInNewTab(filePath);
             }
         } else {
-            QAction *actOpen   = menu.addAction("打开文件");
-            QAction *actDelete = menu.addAction("删除文件");
-            QAction *actRename = menu.addAction("重命名文件");
+            QAction *actOpen        = menu.addAction("打开文件");
+            QAction *actOpenNewTab  = menu.addAction("在新标签页中打开");
+            QAction *actDelete      = menu.addAction("删除文件");
+            QAction *actRename      = menu.addAction("重命名文件");
             QAction *chosen = menu.exec(fileBrowserTree->mapToGlobal(pos));
             if (chosen == actOpen) {
                 openFileFromBrowser(filePath);
+            } else if (chosen == actOpenNewTab) {
+                openInNewTab(filePath);
             } else if (chosen == actDelete) {
                 QMessageBox::StandardButton reply =
                     QMessageBox::question(this, "确认删除",
@@ -996,10 +999,7 @@ void PressAnalyzer::setupToolBar()
     // 设置搜索提示与下拉项目
     // 初始化固定提示词（内置）
     baseFixedHints.clear();
-    baseFixedHints << "[rpc] Req:"
-                   << "otaReportEvent"
-                   << "MediaRequest_MediaRequestType_"
-                   << "GET_MEDIA_FILE media_file_transfer_request";
+    baseFixedHints << "[rpc] Req:";
     loadPinnedHints();
     rebuildFixedHints();
     setupSearchCompleter();
@@ -1624,7 +1624,7 @@ void PressAnalyzer::setupConnections()
         const QString dir = QFileDialog::getExistingDirectory(this, "选择浏览目录", initialDir);
 
         if (!dir.isEmpty()) {
-            clearWindow();
+            clearCurrentTabContent();
             openDirectoryInBrowser(dir);
             m_sideBar->showPanel(0);
             return;

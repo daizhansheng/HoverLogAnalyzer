@@ -26,5 +26,49 @@
   <!-- 强制使用 Aqua 外观（浅色），不随系统深浅色切换 -->
   <key>NSRequiresAquaSystemAppearance</key>
   <true/>
+
+  <!-- 文件类型关联：注册为 .db / .sqlite / .sqlite3 / .log / .hlog 的可打开应用 -->
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>SQLite Database</string>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>db</string>
+        <string>sqlite</string>
+        <string>sqlite3</string>
+      </array>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>public.database</string>
+        <string>public.data</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>Log File</string>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>log</string>
+        <string>hlog</string>
+      </array>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>public.log</string>
+        <string>public.plain-text</string>
+      </array>
+    </dict>
+  </array>
 </dict>
 </plist>
+</content>
+</invoke>
